@@ -73,6 +73,9 @@ class MapViewController: BaseLocationViewController, MKMapViewDelegate, UpdateCo
         // Set map view delegate
         self.mapView.delegate = self
         
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: MapViewController viewDidLoad. Call to beginLocationTracking()")
+
         // begin tracking
         self.beginLocationTracking()
 

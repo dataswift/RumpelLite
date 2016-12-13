@@ -46,6 +46,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // if app was closed by iOS (low mem, etc), then receives a location update, and respawns your app, letting it know it respawned due to a location service
         if launchOptions?[UIApplicationLaunchOptionsKey.location] != nil {
             startUpdatingLocation()
+            
+            // DEBUG-LOGGING
+            NSLog("DEBUG-LOGGING: AppDelegate launchOptions UIApplicationLaunchOptionsKey.location")
+
             return true
         }
         
@@ -98,6 +102,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         UIApplication.shared.scheduleLocalNotification(localNotification)
         
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: AppDelegate applicationDidEnterBackground")
         
     }
     
@@ -118,11 +124,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             NSLog("Delegate stopUpdatingLocation");
         }
         
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: AppDelegate applicationDidBecomeActive")
+        
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: AppDelegate applicationWillTerminate")
     }
     
     /*
@@ -167,6 +177,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     {
         // get location
         let latestLocation: CLLocation = locations[locations.count - 1]
+        
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: AppDelegate. Location with no filtering. Lat: %f, Lng: %f, Acc: %f", latestLocation.coordinate.latitude, latestLocation.coordinate.longitude, latestLocation.horizontalAccuracy)
+        NSLog("DEBUG-LOGGING: AppDelegate. Desired Accuracy: %f", locationManager.desiredAccuracy)
+
         
         // test that the horizontal accuracy does not indicate an invalid measurement
         if (latestLocation.horizontalAccuracy < 0)
@@ -228,8 +243,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         {
             manager.startUpdatingLocation()
             NSLog("Delegate startUpdatingLocation");
+            
+            // DEBUG-LOGGING
+            NSLog("DEBUG-LOGGING: AppDelegate startUpdatingLocation")
+
+        }else{
+            // DEBUG-LOGGING
+            NSLog("DEBUG-LOGGING: AppDelegate startUpdatingLocation. Cannot get manager reference")
         }
         
+    }
+    
+    func locationManager(_ manager: CLLocationManager,
+                         didFailWithError error: Error)
+    {
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: AppDelegate locationManager didFailWithError: %@", error.localizedDescription)
     }
     
 }

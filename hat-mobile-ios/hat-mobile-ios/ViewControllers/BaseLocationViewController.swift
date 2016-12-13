@@ -34,7 +34,7 @@ class BaseLocationViewController: BaseViewController, CLLocationManagerDelegate 
         locationManager.allowsBackgroundLocationUpdates = true
         locationManager.requestAlwaysAuthorization()
         locationManager.pausesLocationUpdatesAutomatically = false
-        locationManager.activityType = CLActivityType.other /* see https://developer.apple.com/reference/corelocation/clactivitytype */
+        locationManager.activityType = CLActivityType.fitness /* see https://developer.apple.com/reference/corelocation/clactivitytype */
         return locationManager
     }()
     
@@ -45,8 +45,13 @@ class BaseLocationViewController: BaseViewController, CLLocationManagerDelegate 
         if let manager:CLLocationManager = locationManager
         {
             manager.startUpdatingLocation()
-            NSLog("BaseLocation startUpdatingLocation");
+            NSLog("BaseLocationViewController startUpdatingLocation");
             
+            // DEBUG-LOGGING
+            NSLog("DEBUG-LOGGING: BaseLocationViewController startUpdatingLocation")
+        }else{
+            // DEBUG-LOGGING
+            NSLog("DEBUG-LOGGING: BaseLocationViewController startUpdatingLocation. Cannot get manager reference")
         }
     }
     
@@ -65,6 +70,12 @@ class BaseLocationViewController: BaseViewController, CLLocationManagerDelegate 
         // get last location
         let latestLocation: CLLocation = locations[locations.count - 1]
         
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: BaseLocationViewController. Location with no filtering. Lat: %f, Lng: %f, Acc: %f", latestLocation.coordinate.latitude, latestLocation.coordinate.longitude, latestLocation.horizontalAccuracy)
+        NSLog("DEBUG-LOGGING: BaseLocationViewController. Desired Accuracy: %f", locationManager.desiredAccuracy)
+
+        let count: Int = RealmHelper.AddData(Double(latestLocation.coordinate.latitude), longitude: Double(latestLocation.coordinate.longitude), accuracy: Double(latestLocation.horizontalAccuracy))
+        
         // test that the horizontal accuracy does not indicate an invalid measurement
         if (latestLocation.horizontalAccuracy < 0)
         {
@@ -75,25 +86,31 @@ class BaseLocationViewController: BaseViewController, CLLocationManagerDelegate 
         // check we have a measurement that meets our requirements,
         if (latestLocation.horizontalAccuracy <= locationManager.desiredAccuracy) {
             // add data
-            let count = RealmHelper.AddData(Double(latestLocation.coordinate.latitude), longitude: Double(latestLocation.coordinate.longitude), accuracy: Double(latestLocation.horizontalAccuracy))
+           // let count: Int = RealmHelper.AddData(Double(latestLocation.coordinate.latitude), longitude: Double(latestLocation.coordinate.longitude), accuracy: Double(latestLocation.horizontalAccuracy))
             
             //   while in foreground only
             if UIApplication.shared.applicationState == .active {
                 
+                // DEBUG-LOGGING
+                NSLog("DEBUG-LOGGING: BaseLocationViewController. Active. Added to Realm. Count: %d", count)
+
                 if (self.updateCountDelegate != nil) {
                     self.updateCountDelegate?.onUpdateCount(count)
                 }
             } else {
-                //NSLog("App is backgrounded. New count is %i", count)
+                // DEBUG-LOGGING
+                NSLog("DEBUG-LOGGING: BaseLocationViewController. Not Active. Added to Realm. Count: %d", count)
             }
         }
         
     }
     
-    /*func locationManager(manager: CLLocationManager!, didFailWithError error: NSError!) {
-     
-     
-     }*/
+    func locationManager(_ manager: CLLocationManager,
+                                  didFailWithError error: Error)
+    {
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: BaseLocationViewController locationManager didFailWithError: %@", error.localizedDescription)
+    }
     
     /**
      Stop any location updates.e.g.logout
@@ -106,6 +123,8 @@ class BaseLocationViewController: BaseViewController, CLLocationManagerDelegate 
             manager.stopUpdatingLocation()
             NSLog("BaseLocation stopUpdatingLocation");
             
+            // DEBUG-LOGGING
+            NSLog("DEBUG-LOGGING: BaseLocationViewController stopUpdatingLocation")
         }
     }
     
@@ -168,6 +187,10 @@ class BaseLocationViewController: BaseViewController, CLLocationManagerDelegate 
     
     
     override func didReceiveMemoryWarning() {
+        
+        // DEBUG-LOGGING
+        NSLog("DEBUG-LOGGING: BaseLocationViewController didReceiveMemoryWarning")
+        
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }

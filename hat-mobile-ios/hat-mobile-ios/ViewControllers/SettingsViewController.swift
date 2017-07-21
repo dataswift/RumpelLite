@@ -67,17 +67,17 @@ internal class SettingsViewController: UIViewController {
             if result == "true" {
                 
                 self.locationSwitchOutlet.isOn = true
-                self.locationTrackingLabel.text = "location upload to HAT enabled"
+                self.locationTrackingLabel.text = "Location upload to HAT enabled"
             } else {
                 
                 self.locationSwitchOutlet.isOn = false
-                self.locationTrackingLabel.text = "location upload to HAT disabled"
+                self.locationTrackingLabel.text = "Location upload to HAT disabled"
             }
         } else {
             
             _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setTrue)
             self.locationSwitchOutlet.isOn = true
-            self.locationTrackingLabel.text = "location upload to HAT enabled"
+            self.locationTrackingLabel.text = "Location upload to HAT enabled"
         }
     }
     

@@ -75,6 +75,37 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             failureCallBack()
             _ = CrashLoggerHelper.dataPlugErrorLog(error: error)
         })
+        
+       self.checkFacebookPlugIfExpired()
+    }
+    
+    private func checkFacebookPlugIfExpired() {
+        
+        func appTokenReceived(appToken: String, usersToken: String?) {
+            
+            func setUpNotificationOnExpiry(date: String) {
+                
+                if let date = HATFormatterHelper.formatStringToDate(string: date) {
+                    
+                    let notification = UILocalNotification()
+                    notification.fireDate = date
+                    notification.alertBody = "Facebook Data Plug expired!"
+                    notification.alertAction = "Please enable it!"
+                    notification.soundName = UILocalNotificationDefaultSoundName
+                    UIApplication.shared.scheduleLocalNotification(notification)
+                }
+            }
+            
+            HATDataPlugsService.checkSocialPlugExpiry(succesfulCallBack: setUpNotificationOnExpiry, failCallBack: {(error) -> Void in
+                
+                _ = CrashLoggerHelper.dataPlugErrorLog(error: error)
+            })(appToken)
+        }
+        
+        HATService.getApplicationTokenFor(serviceName: "Facebbok", userDomain: self.userDomain, token: self.userToken, resource: "https://social-plug.hubofallthings.com", succesfulCallBack: appTokenReceived, failCallBack: {error in
+            
+            _ = CrashLoggerHelper.JSONParsingErrorLog(error: error)
+        })
     }
     
     override func didReceiveMemoryWarning() {
@@ -100,6 +131,7 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         
         // check that safari is not nil, if it's not hide it
         self.safariVC?.dismissSafari(animated: true, completion: nil)
+        self.checkFacebookPlugIfExpired()
     }
     
     // MARK: - Check if data plugs are active

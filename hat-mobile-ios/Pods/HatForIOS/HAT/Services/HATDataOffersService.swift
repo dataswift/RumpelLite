@@ -106,4 +106,40 @@ public class HATDataOffersService: NSObject {
             }
         })
     }
+    
+    // MARK: - Redeem offer
+    
+    public class func redeemOffer(appToken: String, succesfulCallBack: @escaping (String, String?) -> Void, failCallBack: @escaping (DataPlugError) -> Void) {
+        
+        let url = "https://databuyer.hubat.net/api/v1/user/redeem/cash"
+        
+        HATNetworkHelper.asynchronousRequest(
+            url,
+            method: .get,
+            encoding: Alamofire.URLEncoding.default,
+            contentType: ContentType.JSON,
+            parameters: ["X-Auth-Token": appToken],
+            headers: [:],
+            completion: { (response: HATNetworkHelper.ResultType) -> Void in
+                
+                switch response {
+                    
+                case .error(let error, let statusCode):
+                    
+                    let message = NSLocalizedString("Server responded with error", comment: "")
+                    failCallBack(.generalError(message, statusCode, error))
+                case .isSuccess(let isSuccess, let statusCode, let result, let token):
+                    
+                    if statusCode == 200 && isSuccess {
+                        
+                        let dictionaryResponse = result.dictionaryValue
+                        if let message = dictionaryResponse["message"]?.stringValue {
+                            
+                            succesfulCallBack(message, token)
+                        }
+                    }
+                }
+            }
+        )
+    }
 }

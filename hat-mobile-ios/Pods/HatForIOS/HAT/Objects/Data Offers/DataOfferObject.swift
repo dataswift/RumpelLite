@@ -21,6 +21,7 @@ public struct DataOfferObject {
     public struct Fields {
         
         static let dataOfferID: String = "id"
+        static let offerCategory: String = "category"
         static let createdDate: String = "created"
         static let offerTitle: String = "title"
         static let shortDescription: String = "shortDescription"
@@ -46,6 +47,7 @@ public struct DataOfferObject {
     public var shortDescription: String = ""
     public var longDescription: String = ""
     public var illustrationURL: String = ""
+    public var offerCategory: String = ""
     
     public var created: Int = -1
     public var offerStarts: Int = -1
@@ -57,7 +59,7 @@ public struct DataOfferObject {
     
     public var requiredDataDefinition: [DataOfferRequiredDataDefinitionObject] = []
     
-    public var reward: DataOfferRewarsObject = DataOfferRewarsObject()
+    public var reward: DataOfferRewardsObject = DataOfferRewardsObject()
     
     public var owner: DataOfferOwnerObject = DataOfferOwnerObject()
     
@@ -79,6 +81,7 @@ public struct DataOfferObject {
         shortDescription = ""
         longDescription = ""
         illustrationURL = ""
+        offerCategory = ""
         
         created = -1
         offerStarts = -1
@@ -90,7 +93,7 @@ public struct DataOfferObject {
         
         requiredDataDefinition = []
         
-        reward = DataOfferRewarsObject()
+        reward = DataOfferRewardsObject()
         
         owner = DataOfferOwnerObject()
         
@@ -114,6 +117,11 @@ public struct DataOfferObject {
         if let tempCreated = dictionary[DataOfferObject.Fields.createdDate]?.int {
             
             created = tempCreated
+        }
+        
+        if let tempCategory = dictionary[DataOfferObject.Fields.offerCategory]?.string {
+            
+            offerCategory = tempCategory
         }
         
         if let tempTitle = dictionary[DataOfferObject.Fields.offerTitle]?.string {
@@ -184,7 +192,7 @@ public struct DataOfferObject {
         
         if let tempReward = dictionary[DataOfferObject.Fields.reward]?.dictionary {
             
-            reward = DataOfferRewarsObject(dictionary: tempReward)
+            reward = DataOfferRewardsObject(dictionary: tempReward)
         }
         
         if let tempOwner = dictionary[DataOfferObject.Fields.owner]?.dictionary {

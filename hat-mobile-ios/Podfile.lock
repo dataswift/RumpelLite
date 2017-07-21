@@ -1,9 +1,9 @@
 PODS:
   - Alamofire (4.5.0)
   - BEMCheckBox (1.4.1)
-  - Crashlytics (3.8.4):
+  - Crashlytics (3.8.5):
     - Fabric (~> 1.6.3)
-  - Fabric (1.6.11)
+  - Fabric (1.6.12)
   - FBAnnotationClusteringSwift (2.0)
   - HatForIOS (0.0.1):
     - Alamofire
@@ -62,14 +62,14 @@ CHECKOUT OPTIONS:
     :commit: cc3b6524156f8e0d8653688423fba2fdf0944bc8
     :git: https://github.com/ribl/FBAnnotationClusteringSwift/
   HatForIOS:
-    :commit: 589a6fe8adb8276be26382769f812b988e7ab60b
+    :commit: 92412f093c9c14c72b89cd55097223006d40962f
     :git: https://github.com/whiteshadow-gr/HatForIOS.git
 
 SPEC CHECKSUMS:
   Alamofire: f28cdffd29de33a7bfa022cbd63ae95a27fae140
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
-  Crashlytics: 79e236942ca1e7fc641df1feb9a275360a78ab6a
-  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
+  Crashlytics: dfbae35ef22ca189240d230ad501feea4ee85d2d
+  Fabric: f050464eac45a2ce5a8e6e6a07e977c0df32fe28
   FBAnnotationClusteringSwift: 0698ddcee46d1c28f14336909b2b0af4906b213f
   HatForIOS: 741a6aa226fb96e93042b6b31d5429b89671f49e
   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5

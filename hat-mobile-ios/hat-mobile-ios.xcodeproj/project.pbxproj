@@ -103,6 +103,7 @@
 		605EE03E1E93EB3500B265F6 /* CrashLoggerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */; };
 		606435DB1E1B196F001A5D14 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606435DA1E1B196F001A5D14 /* DateExtension.swift */; };
 		606528D31DDA037400026EA6 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606528D21DDA037400026EA6 /* JSONHelper.swift */; };
+		606B559F1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */; };
 		607C107B1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */; };
 		607C107D1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */; };
 		607DC4551E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */; };
@@ -277,6 +278,7 @@
 		605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashLoggerHelper.swift; sourceTree = "<group>"; };
 		606435DA1E1B196F001A5D14 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		606528D21DDA037400026EA6 /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
+		606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataOffersSummaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingTileCollectionViewCell.swift; sourceTree = "<group>"; };
 		607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAHATInfoViewController.swift; sourceTree = "<group>"; };
 		607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScreenWithProgressRingViewController.swift; sourceTree = "<group>"; };
@@ -659,6 +661,7 @@
 			isa = PBXGroup;
 			children = (
 				60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */,
+				606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */,
 				60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */,
 				601142781E5F967D00A9D982 /* HomeCollectionViewCell.swift */,
 				603926D31E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift */,
@@ -1238,6 +1241,7 @@
 				602CB4461E8BAF3B00903F33 /* UIAlertControllerExtension.swift in Sources */,
 				606435DB1E1B196F001A5D14 /* DateExtension.swift in Sources */,
 				603D55C41E69ADBB00CCEBEB /* NSAttributedStringExtension.swift in Sources */,
+				606B559F1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift in Sources */,
 				600015561EAE63CD000A084F /* ResetPasswordTableViewCell.swift in Sources */,
 				B56E2FAC1D23DED900546C7E /* DataSyncDelegate.swift in Sources */,
 				60494AD81EB9C2A2005D5C85 /* MailHelper.swift in Sources */,

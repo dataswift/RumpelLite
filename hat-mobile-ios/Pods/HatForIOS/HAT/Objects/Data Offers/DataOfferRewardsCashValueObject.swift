@@ -14,24 +14,22 @@ import SwiftyJSON
 
 // MARK: Struct
 
-public struct DataOfferRewarsObject {
-    
+public struct DataOfferRewardsCashValueObject {
+
     // MARK: - JSON Fields
     
     public struct Fields {
         
         static let rewardType: String = "rewardType"
-        static let rewardVendor: String = "vendor"
-        static let vendorURL: String = "vendorUrl"
-        static let rewardValue: String = "value"
+        static let currency: String = "currency"
+        static let value: String = "value"
     }
     
     // MARK: - Variables
     
     public var rewardType: String = ""
-    public var vendor: String = ""
-    public var vendorURL: String = ""
-    public var value: String = ""
+    public var value: Int = 0
+    public var currency: String = ""
     
     // MARK: - Initialiser
     
@@ -41,9 +39,8 @@ public struct DataOfferRewarsObject {
     public init() {
         
         rewardType = ""
-        vendor = ""
-        vendorURL = ""
-        value = ""
+        value = 0
+        currency = ""
     }
     
     /**
@@ -51,24 +48,19 @@ public struct DataOfferRewarsObject {
      */
     public init(dictionary: Dictionary<String, JSON>) {
         
-        if let tempRewardType = dictionary[DataOfferRewarsObject.Fields.rewardType]?.string {
+        if let tempRewardType = dictionary[DataOfferRewardsCashValueObject.Fields.rewardType]?.string {
             
             rewardType = tempRewardType
         }
         
-        if let tempVendor = dictionary[DataOfferRewarsObject.Fields.rewardVendor]?.string {
-            
-            vendor = tempVendor
-        }
-        
-        if let tempVendorUrl = dictionary[DataOfferRewarsObject.Fields.vendorURL]?.string {
-            
-            vendorURL = tempVendorUrl
-        }
-        
-        if let tempValue = dictionary[DataOfferRewarsObject.Fields.rewardValue]?.string {
+        if let tempValue = dictionary[DataOfferRewardsCashValueObject.Fields.value]?.int {
             
             value = tempValue
+        }
+        
+        if let tempCurrency = dictionary[DataOfferRewardsCashValueObject.Fields.currency]?.string {
+            
+            currency = tempCurrency
         }
     }
 }

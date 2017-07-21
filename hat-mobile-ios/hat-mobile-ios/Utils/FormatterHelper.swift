@@ -143,5 +143,20 @@ internal struct FormatterHelper {
         
         return formatter.date(from: dateString)
     }
+    
+    // MARK: - Format number to local number
+    
+    /**
+     Formats number to user's local number lingo
+     
+     - parameter number: An NSNumber number to convert to string
+     - returns: An optional String. The convertion can fail and return nil
+     */
+    static func formatNumber(number: NSNumber) -> String? {
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter.string(from: number)
+    }
 
 }

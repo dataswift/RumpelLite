@@ -159,9 +159,9 @@ extension UIView {
      - parameter xPoint: The x Point to start drawing the line
      - parameter yPoint: The y Point to start drawing the line
      */
-    func addLine(color: UIColor = .lightGray, view: UIView, xPoint: CGFloat, yPoint: CGFloat) {
+    func addLine(color: UIColor = .lightGray, view: UIView, xPoint: CGFloat, yPoint: CGFloat, lineName: String) {
         
-        _ = view.layer.sublayers?.filter({ $0.name == Constants.UIViewLayerNames.line }).map({ $0.removeFromSuperlayer() })
+        _ = view.layer.sublayers?.filter({ $0.name == lineName }).map({ $0.removeFromSuperlayer() })
         
         let path = CGMutablePath()
         path.move(to: CGPoint(x: xPoint, y: yPoint + 10))

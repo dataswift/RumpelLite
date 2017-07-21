@@ -23,7 +23,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
     
     @IBOutlet private weak var piiExplainedLabel: UILabel!
     @IBOutlet private weak var imageView: UIImageView!
-
+    @IBOutlet private weak var offerDurationLabel: UILabel!
     @IBOutlet private weak var titleLabel: UILabel!
     @IBOutlet private weak var detailsLabel: UILabel!
     @IBOutlet private weak var offersRemainingLabel: UILabel!
@@ -107,12 +107,20 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             
             if receivedOffer!.isPΙIRequested {
                 
-                self.ppiEnabledLabel.text = "PII ENABLED"
+                self.ppiEnabledLabel.text = "PII REQUESTED"
                 self.piiExplainedLabel.text = "PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
             } else {
                 
-                self.ppiEnabledLabel.text = "PII DISABLED"
+                self.ppiEnabledLabel.text = "PII NOT REQUESTED"
                 self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
+            }
+            
+            if self.receivedOffer?.collectsDataFor == 1 {
+                
+                self.offerDurationLabel.text = "1 DAY DURATION"
+            } else {
+                
+                self.offerDurationLabel.text = String(describing: self.receivedOffer?.collectsDataFor) + "DAYS DURATION"
             }
         }
         
@@ -128,7 +136,8 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         navigationController?.hidesBarsOnSwipe = false
         
         let view = self.stackView.arrangedSubviews[1]
-        view.addLine(view: self.infoView, xPoint: self.infoView.bounds.midX, yPoint: 0)
+        view.addLine(view: self.infoView, xPoint: self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line)
+        view.addLine(view: self.infoView, xPoint: 2 * self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line2)
         view.drawTicketView()
     }
     
@@ -140,8 +149,9 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         
         let view = self.stackView.arrangedSubviews[1]
+        view.addLine(view: self.infoView, xPoint: self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line)
+        view.addLine(view: self.infoView, xPoint: 2 * self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line2)
         view.drawTicketView()
-        view.addLine(view: self.infoView, xPoint: self.infoView.bounds.midX, yPoint: 0)
     }
     
     // MARK: - Format Text

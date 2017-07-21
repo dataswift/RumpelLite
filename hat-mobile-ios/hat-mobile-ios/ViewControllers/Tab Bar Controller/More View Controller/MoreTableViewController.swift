@@ -42,6 +42,8 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        self.navigationController?.navigationBar.isOpaque = true
+        self.navigationController?.navigationBar.isTranslucent = true
     }
 
     override func didReceiveMemoryWarning() {

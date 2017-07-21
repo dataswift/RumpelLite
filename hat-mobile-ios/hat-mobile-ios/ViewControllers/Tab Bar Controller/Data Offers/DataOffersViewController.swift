@@ -21,18 +21,20 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     private var offers: [DataOfferObject] = []
     private var filteredOffers: [DataOfferObject] = []
     
+    private var appToken: String?
     private var filterBy: Int = 0
     
     // MARK: - IBOutlets
     
     @IBOutlet private weak var collectionView: UICollectionView!
     
-    @IBOutlet private weak var availableDataOffersView: UIView!
     @IBOutlet private weak var availableOffersLabel: UILabel!
     @IBOutlet private weak var redeemedOffersLabel: UILabel!
-    @IBOutlet private weak var rejectedOffersLabel: UILabel!
+    @IBOutlet private weak var summaryLabel: UILabel!
+    
+    @IBOutlet private weak var availableDataOffersView: UIView!
     @IBOutlet private weak var redeemedDataOffersView: UIView!
-    @IBOutlet private weak var rejectedDataOffersView: UIView!
+    @IBOutlet private weak var summaryDataOffersView: UIView!
     @IBOutlet private weak var selectionIndicatorView: UIView!
     
     // MARK: - View controller functions
@@ -44,15 +46,13 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
-        self.collectionView.reloadData()
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
         
         self.availableDataOffersView.addGestureRecognizer(tapGesture)
         self.redeemedDataOffersView.addGestureRecognizer(tapGesture1)
-        self.rejectedDataOffersView.addGestureRecognizer(tapGesture2)
+        self.summaryDataOffersView.addGestureRecognizer(tapGesture2)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -71,6 +71,8 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 
                 print(error)
             }
+            
+            self.appToken = appToken
             HATDataOffersService.getAvailableDataOffers(applicationToken: appToken, succesfulCallBack: fetchedOffers, failCallBack: failedToFetchOffers)
         }
         
@@ -86,7 +88,6 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         
         var offersAvailable = 0
         var offersClaimed = 0
-        var offersRejected = 0
         
         _ = self.offers.map({
             if $0.claim.claimStatus == "" {
@@ -95,15 +96,12 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             } else if $0.claim.claimStatus == "claimed" {
                 
                 offersClaimed += 1
-            } else {
-                
-                offersRejected += 1
             }
         })
         
         self.availableOffersLabel.text = String(describing: offersAvailable)
         self.redeemedOffersLabel.text = String(describing: offersClaimed)
-        self.rejectedOffersLabel.text = String(describing: offersRejected)
+        self.summaryLabel.text = "$"
     }
     
     private func filterOffers(filterBy: Int) {
@@ -115,9 +113,6 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 
                 tempArray.append($0)
             } else if filterBy == 1 && $0.claim.claimStatus == "claimed" {
-                
-                tempArray.append($0)
-            } else if filterBy == 2 && $0.claim.claimStatus == "rejected" {
                 
                 tempArray.append($0)
             }
@@ -138,7 +133,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 self.selectionIndicatorView.frame = CGRect(x: self.redeemedDataOffersView.frame.origin.x, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
             } else {
                 
-                self.selectionIndicatorView.frame = CGRect(x: self.rejectedDataOffersView.frame.origin.x, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
+                self.selectionIndicatorView.frame = CGRect(x: self.summaryDataOffersView.frame.origin.x, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
             }
             
             self.filterBy = index
@@ -180,9 +175,11 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         
         let translation = scrollView.panGestureRecognizer.translation(in: scrollView.superview!)
         if translation.y < 0 {
+            
             // swipes from top to bottom of screen -> down
             self.navigationController?.setNavigationBarHidden(true, animated: true)
         } else {
+            
             // swipes from bottom to top of screen -> up
             self.navigationController?.setNavigationBarHidden(false, animated: true)
         }
@@ -207,20 +204,25 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.offerCell, for: indexPath) as? DataOffersCollectionViewCell {
+        if self.filterBy != 2 {
             
-            if indexPath.row == 3 {
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.offerCell, for: indexPath) as? DataOffersCollectionViewCell {
                 
-                print("now")
+                return cell.setUpCell(
+                    cell: cell,
+                    dataOffer: filteredOffers[indexPath.row],
+                    completion: { [weak self] image in
+                        
+                        self?.filteredOffers[indexPath.row].image = image
+                    }
+                )
             }
-            return cell.setUpCell(
-                cell: cell,
-                dataOffer: filteredOffers[indexPath.row],
-                completion: { [weak self] image in
+        } else {
             
-                    self?.filteredOffers[indexPath.row].image = image
-                }
-            )
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.summaryOfferCell, for: indexPath) as? DataOffersSummaryCollectionViewCell {
+                
+                return cell.setUpCell(cell: cell, index: indexPath.row, dataOffers: self.offers)
+            }
         }
         
         return collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.offerCell, for: indexPath)
@@ -228,10 +230,20 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: self.collectionView.frame.width, height: 340)
+        if self.filterBy == 2 {
+            
+            return CGSize(width: self.collectionView.frame.width - 40, height: 180)
+        }
+        
+        return CGSize(width: self.collectionView.frame.width - 40, height: 340)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        if self.filterBy == 2 {
+            
+            return 3
+        }
         
         return filteredOffers.count
     }
@@ -244,25 +256,61 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
 
     // MARK: - Navigation
 
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-        
-        if segue.destination is DataOfferDetailsViewController {
+        if segue.destination is DataOfferDetailsViewController && segue.identifier == Constants.Segue.offerToOfferDetailsSegue {
             
             navigationController?.isNavigationBarHidden = false
-
-            weak var destinationVC = segue.destination as? DataOfferDetailsViewController
             
-            if segue.identifier == Constants.Segue.offerToOfferDetailsSegue {
+            if self.filterBy == 2 {
                 
-                if let cell = sender as? UICollectionViewCell {
+                if let cell = sender as? DataOffersSummaryCollectionViewCell {
                     
                     let cellIndexPath = self.collectionView.indexPath(for: cell)
-                    destinationVC?.receivedOffer = self.filteredOffers[(cellIndexPath?.row)!]
+                    if cellIndexPath?.row == 1 {
+                        
+                        func requestMoney() {
+                            
+                            func success(message: String, newUserToken: String?) {
+                                
+                                self.createClassicOKAlertWith(
+                                    alertMessage: "Request sent",
+                                    alertTitle: "Successful Request",
+                                    okTitle: "OK",
+                                    proceedCompletion: {}
+                                )
+                            }
+                            
+                            func error(error: DataPlugError) {
+                                
+                                self.createClassicOKAlertWith(
+                                    alertMessage: "Please try again later",
+                                    alertTitle: "An error has occured",
+                                    okTitle: "OK",
+                                    proceedCompletion: {})
+                            }
+                            
+                            HATDataOffersService.redeemOffer(
+                                appToken: self.appToken!,
+                                succesfulCallBack: success,
+                                failCallBack: error)
+                        }
+                        
+                        self.createClassicAlertWith(
+                            alertMessage: "If your cash balance is at least £20, you can use the button below to transfer your balance to your PayPal account",
+                            alertTitle: "Request Transfer",
+                            cancelTitle: "Cancel",
+                            proceedTitle: "Request Transfer",
+                            proceedCompletion: requestMoney,
+                            cancelCompletion: {})
+                    }
                 }
+            } else if let cell = sender as? UICollectionViewCell {
+                
+                weak var destinationVC = segue.destination as? DataOfferDetailsViewController
+
+                let cellIndexPath = self.collectionView.indexPath(for: cell)
+                destinationVC?.receivedOffer = self.filteredOffers[(cellIndexPath?.row)!]
             }
         }
     }

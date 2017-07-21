@@ -107,6 +107,7 @@ internal class Constants {
         static let homeHeader: String = "homeHeader"
         static let socialCell: String = "socialCell"
         static let offerCell: String = "offerCell"
+        static let summaryOfferCell: String = "summaryOfferCell"
         static let dataStoreCell: String = "DataStoreCell"
         static let nameCell: String = "nameCell"
         static let dataStoreNameCell: String = "dataStoreNameCell"
@@ -247,6 +248,7 @@ internal class Constants {
         
         static let dashedLine: String = "DashedTopLine"
         static let line: String = "Line"
+        static let line2: String = "Line2"
     }
      
     /**
@@ -353,7 +355,6 @@ internal class Constants {
         static let gpsOutlinedImage: String = "gps outlined"
         static let socialFeedImage: String = "SocialFeed"
         static let photoViewerImage: String = "Photo Viewer"
-        
         static let profileImage: String = "Profile"
         static let dataStoreImage: String = "Data store"
         static let individualImage: String = "Individual"
@@ -373,6 +374,9 @@ internal class Constants {
         static let tealDevicesImage: String = "TealDevices"
         static let tealImage: String = "Teal Image"
         static let addLocation: String = "Add Location"
+        static let cashOffersImage: String = "Cash Offers"
+        static let serviceOffersImage: String = "Service Offers"
+        static let voucherOffersImage: String = "Voucher Offers"
     }
     
     // MARK: - Data Plug

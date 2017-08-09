@@ -18,23 +18,41 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - Variables
     
+    /// All the offers available
     private var offers: [DataOfferObject] = []
+    /// Filtered offers, used to feed the table view with data we want to show
     private var filteredOffers: [DataOfferObject] = []
     
+    /// A view to show that app is loading, fetching data plugs
+    private var loadingView: UIView = UIView()
+    
+    /// DataBuyer app token
     private var appToken: String?
+    
+    /// The filter index, based on the selectionIndicatorView
     private var filterBy: Int = 0
+    
+    var specificMerchant: String = ""
     
     // MARK: - IBOutlets
     
+    /// An IBOutlet for handling the UICollectionView
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    /// An IBOutlet for handling the available offers label in the selectionIndicatorView
     @IBOutlet private weak var availableOffersLabel: UILabel!
+    /// An IBOutlet for handling the redeemed offers label in the selectionIndicatorView
     @IBOutlet private weak var redeemedOffersLabel: UILabel!
+    /// An IBOutlet for handling the summary label in the selectionIndicatorView
     @IBOutlet private weak var summaryLabel: UILabel!
     
+    /// An IBOutlet for handling the available offers UIView in the selectionIndicatorView
     @IBOutlet private weak var availableDataOffersView: UIView!
+    /// An IBOutlet for handling the redeemed offers UIView in the selectionIndicatorView
     @IBOutlet private weak var redeemedDataOffersView: UIView!
+    /// An IBOutlet for handling summary UIView in the selectionIndicatorView
     @IBOutlet private weak var summaryDataOffersView: UIView!
+    /// An IBOutlet for handling the selectionIndicatorView UIView
     @IBOutlet private weak var selectionIndicatorView: UIView!
     
     // MARK: - View controller functions
@@ -46,6 +64,37 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
         
+        self.addGestures()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        self.getOffers()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        navigationController?.navigationBar.setBackgroundImage(UIImage(named: Constants.ImageNames.tealImage), for: .any, barMetrics: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        navigationController?.navigationBar.isTranslucent = false
+    }
+
+    override func didReceiveMemoryWarning() {
+        
+        super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - Add gestures
+    
+    /**
+     Adds the gestures to the 3 UIViews in the selectionIndicatorView
+     */
+    private func addGestures() {
+        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
@@ -55,35 +104,90 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         self.summaryDataOffersView.addGestureRecognizer(tapGesture2)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
+    // MARK: - Get offers
+    
+    /**
+     Gets offers from HAT
+     */
+    private func getOffers() {
         
-        super.viewWillAppear(animated)
-        
-        func applicationTokenReceived(_ appToken: String, renewedToken: String?) {
+        func merchantsReceived(merchants: [String], newUserToken: String?) {
             
-            func fetchedOffers(_ dataOffers: [DataOfferObject], renewedToken: String?) {
+            func applicationTokenReceived(_ appToken: String, renewedToken: String?) {
                 
-                self.showOffers(dataOffers)
-                _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedToken)
+                func fetchedOffers(_ dataOffers: [DataOfferObject], renewedToken: String?) {
+                    
+                    // remove the loading screen from the view
+                    self.loadingView.removeFromSuperview()
+                    self.showOffers(dataOffers)
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedToken)
+                }
+                
+                func failedToFetchOffers(error: DataPlugError) {
+                    
+                    // remove the loading screen from the view
+                    self.loadingView.removeFromSuperview()
+                    CrashLoggerHelper.dataPlugErrorLog(error: error)
+                }
+                
+                self.appToken = appToken
+
+                if specificMerchant == "" {
+                    
+                    HATDataOffersService.getAvailableDataOffers(
+                        applicationToken: appToken,
+                        merchants: merchants,
+                        succesfulCallBack: fetchedOffers,
+                        failCallBack: failedToFetchOffers)
+                } else {
+                    
+                    HATDataOffersService.getAvailableDataOffers(
+                        applicationToken: appToken,
+                        merchants: [specificMerchant],
+                        succesfulCallBack: fetchedOffers,
+                        failCallBack: failedToFetchOffers)
+                }
+                
             }
             
-            func failedToFetchOffers(error: DataPlugError) {
+            func failedToFetchApplicationToken(error: JSONParsingError) {
                 
-                print(error)
+                // remove the loading screen from the view
+                self.loadingView.removeFromSuperview()
+                CrashLoggerHelper.JSONParsingErrorLog(error: error)
             }
             
-            self.appToken = appToken
-            HATDataOffersService.getAvailableDataOffers(applicationToken: appToken, succesfulCallBack: fetchedOffers, failCallBack: failedToFetchOffers)
+            HATService.getApplicationTokenFor(
+                serviceName: Constants.ApplicationToken.DataBuyer.name,
+                userDomain: self.userDomain,
+                token: self.userToken,
+                resource: Constants.ApplicationToken.DataBuyer.source,
+                succesfulCallBack: applicationTokenReceived,
+                failCallBack: failedToFetchApplicationToken)
         }
         
-        func failedToFetchApplicationToken(error: JSONParsingError) {
-            
-            print(error)
-        }
+        // create loading pop up screen
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: self.view.frame.midX - 70, y: self.view.bounds.midY - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Getting data offers...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATService.getApplicationTokenFor(serviceName: "DataBuyer", userDomain: self.userDomain, token: self.userToken, resource: "https://databuyer.hubofallthings.com/", succesfulCallBack: applicationTokenReceived, failCallBack: failedToFetchApplicationToken)
+        HATDataOffersService.getMerchants(
+            userToken: userToken,
+            userDomain: userDomain,
+            succesfulCallBack: merchantsReceived,
+            failCallBack: { error in CrashLoggerHelper.dataPlugErrorLog(error: error) })
     }
     
+    // MARK: - Count offers
+    
+    /**
+     Counts downloaded offers
+     */
     private func countOffers() {
         
         var offersAvailable = 0
@@ -93,7 +197,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             if $0.claim.claimStatus == "" {
                 
                 offersAvailable += 1
-            } else if $0.claim.claimStatus == "claimed" {
+            } else if $0.claim.claimStatus != ""{
                 
                 offersClaimed += 1
             }
@@ -104,6 +208,13 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         self.summaryLabel.text = "$"
     }
     
+    // MARK: - Filter offers
+    
+    /**
+     Filters the offers based on the index of the selectionIndicatorView
+     
+     - parameter filterBy: The index of the selectionIndicatorView
+     */
     private func filterOffers(filterBy: Int) {
         
         var tempArray: [DataOfferObject] = []
@@ -112,7 +223,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             if filterBy == 0 && $0.claim.claimStatus == "" {
                 
                 tempArray.append($0)
-            } else if filterBy == 1 && $0.claim.claimStatus == "claimed" {
+            } else if filterBy == 1 && $0.claim.claimStatus != "" {
                 
                 tempArray.append($0)
             }
@@ -121,6 +232,11 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         self.filteredOffers = tempArray
     }
     
+    /**
+     Filters the offers based on the index of the selectionIndicatorView
+     
+     - parameter gesture: The UITapGestureRecognizer that triggered this method
+     */
     func filterCollectionView(gesture: UITapGestureRecognizer) {
         
         func animation(index: Int) {
@@ -148,28 +264,11 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 
                 animation(index: (gesture.view?.tag)!)
             },
-            completion: { result in
-
-                print(result)
-            }
+            completion: { _ in return }
         )
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        super.viewDidAppear(animated)
-        
-        self.navigationController?.hidesBarsOnSwipe = true
-        
-        navigationController?.navigationBar.setBackgroundImage(UIImage(named: Constants.ImageNames.tealImage), for: .any, barMetrics: .default)
-        navigationController?.navigationBar.shadowImage = UIImage()
-        navigationController?.navigationBar.isTranslucent = false
-    }
-
-    override func didReceiveMemoryWarning() {
-        
-        super.didReceiveMemoryWarning()
-    }
+    // MARK: - UIScrollView methods
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
@@ -250,8 +349,30 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        let cell = collectionView.cellForItem(at: indexPath)
-        self.performSegue(withIdentifier: Constants.Segue.offerToOfferDetailsSegue, sender: cell)
+        func continueOnOffer() {
+            
+            if self.filterBy != 2 {
+                
+                let cell = collectionView.cellForItem(at: indexPath)
+                self.performSegue(withIdentifier: Constants.Segue.offerToOfferDetailsSegue, sender: cell)
+            }
+            
+            KeychainHelper.setKeychainValue(key: "DataOfferPopUp", value: "true")
+        }
+        
+        let result = KeychainHelper.getKeychainValue(key: "DataOfferPopUp")
+            
+        if result != "true" {
+            
+            self.createClassicOKAlertWith(
+                alertMessage: "We are beta testing data offers from databuyers at databuyer.hubat.net. These offers are not real ones but its fun to test - do give us feedback at contact@hatdex.org",
+                alertTitle: "Heads Up!",
+                okTitle: "Got it!",
+                proceedCompletion: continueOnOffer)
+        } else {
+            
+            continueOnOffer()
+        }
     }
 
     // MARK: - Navigation

@@ -53,8 +53,8 @@ internal class LearnMoreObject {
         
         if pageNumber == 0 {
             
-            title = "The HAT is your own data store"
-            info = "Υour words, information, photos, music; everything on the Internet that is personal to you, is your data\n\nClaim your data, safely use and share it on demand, everywhere you go \n\nHave control and privacy"
+            title = "The HAT is your private 'microserver' data account"
+            info = "Your words, information, photos, music; everything on the Internet that is personal to you, is your data\n\nClaim your data, safely use and share it on demand, everywhere you go \n\nHave control and privacy"
             image = UIImage(named: Constants.ImageNames.dataStoreImage)!
         } else if pageNumber == 1 {
             

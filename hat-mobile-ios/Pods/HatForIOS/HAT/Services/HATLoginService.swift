@@ -14,10 +14,10 @@ import Alamofire
 import JWTDecode
 import SwiftyRSA
 
-// MARK: Class
+// MARK: Struct
 
 /// The login service class
-public class HATLoginService: NSObject {
+public struct HATLoginService {
 
     // MARK: - Verify domain
 
@@ -27,7 +27,7 @@ public class HATLoginService: NSObject {
      - parameter domain: The formated doamain
      - returns: Bool, true if the domain matches what we expect and false otherwise
      */
-    public class func verifyDomain(_ domain: String) -> Bool {
+    public static func verifyDomain(_ domain: String) -> Bool {
 
         if domain == "hubofallthings.net" || domain == "bheard.org" || domain == "hubat.net" {
 
@@ -44,7 +44,7 @@ public class HATLoginService: NSObject {
      - parameter successfulVerification: The function to execute on successful verification
      - parameter failedVerification: The function to execute on failed verification
      */
-    public class func formatAndVerifyDomain(userHATDomain: String, successfulVerification: @escaping (String) -> Void, failedVerification: @escaping (String) -> Void) {
+    public static func formatAndVerifyDomain(userHATDomain: String, successfulVerification: @escaping (String) -> Void, failedVerification: @escaping (String) -> Void) {
 
         // trim values
         let hatDomain = userHATDomain.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
@@ -87,7 +87,7 @@ public class HATLoginService: NSObject {
      - parameter url: The url to connect
      - parameter success: A function to execute after finishing
      */
-    public class func loginToHATAuthorization(userDomain: String, url: NSURL, success: ((String?) -> Void)?, failed: ((AuthenicationError) -> Void)?) {
+    public static func loginToHATAuthorization(userDomain: String, url: NSURL, success: ((String?) -> Void)?, failed: ((AuthenicationError) -> Void)?) {
 
         // get token out
         if let token = HATNetworkHelper.getQueryStringParameter(url: url.absoluteString, param: Auth.TokenParamName) {

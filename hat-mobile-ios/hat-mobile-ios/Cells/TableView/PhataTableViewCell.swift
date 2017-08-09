@@ -57,14 +57,6 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         
-        if row >= self.dataSourceForPickerView.count - 1 {
-            
-            let selectedRow = self.getRowForItemInDataSource(item: self.textField.text)
-            if pickerView.numberOfRows(inComponent: component) >= selectedRow {
-                
-                pickerView.selectRow(selectedRow, inComponent: component, animated: true)
-            }
-        }
         return dataSourceForPickerView[row]
     }
     
@@ -135,6 +127,7 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      Searches and returns the position of a string in the data source of the picker view
      
      - parameter item: The item we are looking for
+     
      - returns: 0 if not found else the index of the string in the array
      */
     private func getRowForItemInDataSource(item: String?) -> Int {
@@ -193,7 +186,13 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      */
     func setTextToTextField(text: String) {
         
-        self.textField.text = text
+        if self.textField != nil {
+            
+            self.textField.text = text
+        } else if self.textView != nil {
+            
+            self.textView.text = text
+        }
     }
     
     // MARK: - Set switch value
@@ -277,6 +276,20 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      */
     func setTextColorInTextField(color: UIColor) {
         
-        self.textField.textColor = color
+        if self.textField != nil {
+            
+            self.textField.textColor = color
+        } else if self.textView != nil {
+            
+            self.textView.textColor = color
+        }
+    }
+    
+    // MARK: - Make textview link clickable
+    
+    func enableLink(string: String) {
+        
+        self.textView.text = string
+        self.textView.textColor = .teal
     }
 }

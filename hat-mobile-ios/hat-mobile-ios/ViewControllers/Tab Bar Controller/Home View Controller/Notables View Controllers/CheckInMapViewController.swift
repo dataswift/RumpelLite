@@ -107,6 +107,29 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
             self.zoomToCoordinates(coordinates)
         }
         
+        self.checkLocationServiceStatus()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        
+        super.viewWillDisappear(animated)
+        
+        // resume locations to previous state, enabled or disabled
+        UpdateLocations.shared.resumeLocationServices()
+    }
+
+    override func didReceiveMemoryWarning() {
+        
+        super.didReceiveMemoryWarning()
+    }
+    
+    // MARK: - Check Location Service Status
+    
+    /**
+     <#Function Details#>
+     */
+    private func checkLocationServiceStatus() {
+        
         let result = UpdateLocations.checkAuthorisation()
         
         if result.0 {
@@ -131,28 +154,14 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
         }
     }
     
-    override func viewWillDisappear(_ animated: Bool) {
-        
-        super.viewWillDisappear(animated)
-        
-        // resume locations to previous state, enabled or disabled
-        UpdateLocations.shared.resumeLocationServices()
-    }
-
-    override func didReceiveMemoryWarning() {
-        
-        super.didReceiveMemoryWarning()
-    }
+    // MARK: - Remove pins From map
     
-    // MARK: - Search
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+    /**
+     Removes pins from map
+     */
+    func removePinsFromMap() {
         
-        // resign first responder and dismiss it
-        searchBar.resignFirstResponder()
-        dismiss(animated: true, completion: nil)
-        
-        // if any annotation are on map delete hem
+        // if any annotation are on map delete them
         if !self.mapView.annotations.isEmpty {
             
             for annotation in self.mapView.annotations {
@@ -160,37 +169,69 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
                 self.mapView.removeAnnotation(annotation)
             }
         }
+    }
+    
+    // MARK: - Search
+    
+    /**
+     Searches map for entered text
+     
+     - parameter text: The text to search in the map
+     */
+    func searchMap(text: String?) {
         
         // set up a local search request based on current region and the text the user entered on the search bar
         let localSearchRequest = MKLocalSearchRequest()
-        localSearchRequest.naturalLanguageQuery = searchBar.text
+        localSearchRequest.naturalLanguageQuery = text
         localSearchRequest.region = self.mapView.region
         
         // init the search request
         let localSearch = MKLocalSearch(request: localSearchRequest)
-        localSearch.start { (localSearchResponse, _) -> Void in
+        localSearch.start { (localSearchResponse, error) -> Void in
             
-            // if no response show an alert
-            if localSearchResponse == nil {
-                
-                self.createClassicOKAlertWith(alertMessage: "Place Not Found", alertTitle: "", okTitle: "OK", proceedCompletion: {})
-                return
-            }
-            
-            // for each item add annotation
-            for mapItem in (localSearchResponse?.mapItems)! {
-                
-                // set up the pin annotation
-                let pointAnnotation = MKPointAnnotation()
-                pointAnnotation.title = mapItem.placemark.title
-                pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
-                
-                // show the annotation on map
-                let pinAnnotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: nil)
-                self.mapView.centerCoordinate = pointAnnotation.coordinate
-                self.mapView.addAnnotation(pinAnnotationView.annotation!)
-            }
+            self.updateMapBasedOnSearch(localSearchResponse: localSearchResponse, error: error)
         }
+    }
+    
+    /**
+     Updates map according to the search
+     
+     - parameter localSearchResponse: The searchResponse from the search
+     - parameter error: The error from the search
+     */
+    func updateMapBasedOnSearch(localSearchResponse: MKLocalSearchResponse?, error: Error?) {
+        
+        // if no response show an alert
+        if localSearchResponse == nil {
+            
+            self.createClassicOKAlertWith(alertMessage: "Place Not Found", alertTitle: "", okTitle: "OK", proceedCompletion: {})
+            return
+        }
+        
+        // for each item add annotation
+        for mapItem in (localSearchResponse?.mapItems)! {
+            
+            // set up the pin annotation
+            let pointAnnotation = MKPointAnnotation()
+            pointAnnotation.title = mapItem.placemark.title
+            pointAnnotation.coordinate = CLLocationCoordinate2D(latitude: mapItem.placemark.coordinate.latitude, longitude: mapItem.placemark.coordinate.longitude)
+            
+            // show the annotation on map
+            let pinAnnotationView = MKPinAnnotationView(annotation: pointAnnotation, reuseIdentifier: nil)
+            self.mapView.centerCoordinate = pointAnnotation.coordinate
+            self.mapView.addAnnotation(pinAnnotationView.annotation!)
+        }
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        // resign first responder and dismiss it
+        searchBar.resignFirstResponder()
+        dismiss(animated: true, completion: nil)
+        
+        self.removePinsFromMap()
+        
+        self.searchMap(text: searchBar.text)
     }
     
     // MARK: - Protocol's function
@@ -208,12 +249,7 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
             // get the last onee
             let lastLocation = locations.last
             
-            if self.accuracy == nil {
-                
-                self.latitude = lastLocation?.coordinate.latitude
-                self.longitude = lastLocation?.coordinate.longitude
-                self.accuracy = lastLocation?.horizontalAccuracy
-            } else if self.accuracy! > Double((lastLocation?.horizontalAccuracy)!) {
+            if self.accuracy == nil || self.accuracy! > Double((lastLocation?.horizontalAccuracy)!) {
                 
                 self.latitude = lastLocation?.coordinate.latitude
                 self.longitude = lastLocation?.coordinate.longitude
@@ -222,7 +258,6 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
             
             // reverse geocode from the coordinates to get address etc.
             CLGeocoder().reverseGeocodeLocation(lastLocation!, completionHandler: {[weak self](placemarks, error) -> Void in
-                print(lastLocation!)
                 
                 if let weakSelf = self {
                     
@@ -239,8 +274,6 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
                             
                             weakSelf.zoomToCoordinates((placemarks?[0].location?.coordinate)!)
                         }
-                        //                    let pm = placemarks?[0]
-                        //                    print(placemarks)
                     } else {
                         
                         print("Problem with the data received from geocoder")

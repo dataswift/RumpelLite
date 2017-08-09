@@ -23,6 +23,8 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     private let sections: [[String]] = [["PHATA"], ["Email Address", "Mobile Number", "Address"], ["Full Name", "Picture"], ["Emergency Contact"], ["About"], ["Social Links"]]
     /// The headers of the table view
     private let headers: [String] = ["PHATA", "Contact Info", "Profile", "Emergency Contact", "About", "Social Links"]
+    /// The footers of the table view
+    private let footers: [String] = ["PHATA stands for Personal HAT Address. Your PHATA page is your public profile, and you can customise exactly which parts of it you want to display, or keep private.", "", "", "", "HATs are distributed systems and being private also means no one will know if you have a problem. If you have an issue with your HAT or this dashboard, please report it here", ""]
     
     /// User's profile passed on from previous view controller
     var profile: HATProfileObject?
@@ -139,6 +141,16 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         
         return self.headers[section]
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        if section < self.footers.count {
+            
+            return self.footers[section]
+        }
+        
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

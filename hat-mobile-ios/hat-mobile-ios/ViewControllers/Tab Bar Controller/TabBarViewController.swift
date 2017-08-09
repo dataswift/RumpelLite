@@ -50,8 +50,8 @@ internal class TabBarViewController: UITabBarController {
         let yesAction = {() -> Void in
             
             // delete keys from keychain
-            _ = KeychainHelper.clearKeychainKey(key: "UserToken")
-            _ = KeychainHelper.setKeychainValue(key: "logedIn", value: "false")
+            KeychainHelper.clearKeychainKey(key: Constants.Keychain.userToken)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
             
             // reset the stack to avoid allowing back
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
@@ -67,6 +67,12 @@ internal class TabBarViewController: UITabBarController {
             }
         }
         
-        viewController.createClassicAlertWith(alertMessage: NSLocalizedString("logout_message_label", comment:  "logout message"), alertTitle: NSLocalizedString("logout_label", comment:  "logout"), cancelTitle: NSLocalizedString("no_label", comment:  "no"), proceedTitle: NSLocalizedString("yes_label", comment:  "yes"), proceedCompletion: yesAction, cancelCompletion: {})
+        viewController.createClassicAlertWith(
+            alertMessage: NSLocalizedString("logout_message_label", comment:  "logout message"),
+            alertTitle: NSLocalizedString("logout_label", comment:  "logout"),
+            cancelTitle: NSLocalizedString("no_label", comment:  "no"),
+            proceedTitle: NSLocalizedString("yes_label", comment:  "yes"),
+            proceedCompletion: yesAction,
+            cancelCompletion: {})
     }
 }

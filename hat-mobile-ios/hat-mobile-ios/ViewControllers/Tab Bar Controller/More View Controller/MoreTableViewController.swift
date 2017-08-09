@@ -20,11 +20,9 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["PHATA Page"], ["Storage Info", "Change Password"], ["Show Data", "Location Settings"], [/*"Release Notes",*/ "Rumpel Terms of Service", "HAT Terms of Service"], ["Report Problem"], ["Log Out", "Version"]]
+    private let sections: [[String]] = [["Data Debits"], ["Past Notifications"], ["Storage Info", "Change Password"], ["Show Data", "Location Settings"], [/*"Release Notes",*/ "Rumpel Terms of Service", "HAT Terms of Service"], ["Report Problem"], ["Log Out", "Version"]]
     /// The headers of the table view
-    private let headers: [String] = ["PHATA Page", "HAT", "Location", "About", "", ""]
-    /// The footers of the table view
-    private let footers: [String] = ["PHATA stands for Personal HAT Address. Your PHATA page is your public profile, and you can customise exactly which parts of it you want to display, or keep private.", "", "", "", "HATs are distributed systems and being private also means no one will know if you have a problem. If you have an issue with your HAT or this dashboard, please report it here", ""]
+    private let headers: [String] = ["Data Debits", "Notifications", "HAT", "Location", "About", "", ""]
     
     /// The file url, used to show the pdf file for terms of service
     private var fileURL: String?
@@ -74,14 +72,23 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
         
         if indexPath.section == 0 {
             
-            self.performSegue(withIdentifier: Constants.Segue.phataSegue, sender: self)
+            if indexPath.row == 0 {
+                
+                self.performSegue(withIdentifier: "dataStoreToDataDebitsSegue", sender: self)
+            }
         } else if indexPath.section == 1 {
+            
+            if indexPath.row == 0 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.notificationsSegue, sender: self)
+            }
+        } else if indexPath.section == 2 {
             
             if indexPath.row == 1 {
                 
                 self.performSegue(withIdentifier: Constants.Segue.moreToResetPasswordSegue, sender: self)
             }
-        } else if indexPath.section == 2 {
+        } else if indexPath.section == 3 {
             
             if self.sections[indexPath.section][indexPath.row] == "Show Data" {
                 
@@ -90,7 +97,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                 
                 self.performSegue(withIdentifier: Constants.Segue.locationsSettingsSegue, sender: self)
             }
-        } else if indexPath.section == 3 {
+        } else if indexPath.section == 4 {
             
             if self.sections[indexPath.section][indexPath.row] == "Rumpel Terms of Service" {
                 
@@ -101,7 +108,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                 self.fileURL = (Bundle.main.url(forResource: "2.1 HATTermsofService v1.0", withExtension: "pdf", subdirectory: nil, localization: nil)?.absoluteString)!
                 self.performSegue(withIdentifier: Constants.Segue.moreToTermsSegue, sender: self)
             }
-        } else if indexPath.section == 4 {
+        } else if indexPath.section == 5 {
             
             if self.sections[indexPath.section][indexPath.row] == "Report Problem" {
                 
@@ -110,7 +117,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                 
                 TabBarViewController.logoutUser(from: self)
             }
-        } else if indexPath.section == 5 {
+        } else if indexPath.section == 6 {
             
             if self.sections[indexPath.section][indexPath.row] == "Log Out" {
                 
@@ -131,16 +138,6 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
         return nil
     }
     
-    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        
-        if section < self.footers.count {
-            
-            return self.footers[section]
-        }
-        
-        return nil
-    }
-    
     // MARK: - Update cell
     
     /**
@@ -155,13 +152,13 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
         
         cell.textLabel?.text = self.sections[indexPath.section][indexPath.row]
 
-        if indexPath.section == 0 {
+        if indexPath.section == 0 || indexPath.section == 1 {
             
             cell.accessoryType = .disclosureIndicator
             
             cell.textLabel?.textColor = .black
             cell.isUserInteractionEnabled = true
-        } else if indexPath.section == 1 {
+        } else if indexPath.section == 2 {
             
             cell.textLabel?.textColor = .black
             
@@ -175,22 +172,20 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                 cell.isUserInteractionEnabled = false
                 cell.textLabel?.text = "Getting storage info..."
                 
-                HATService.getSystemStatus(userDomain: userDomain, authToken: userToken, completion: self.updateSystemStatusLabel(cell: cell), failCallBack: {error in
+                HATService.getSystemStatus(
+                    userDomain: userDomain,
+                    authToken: userToken,
+                    completion: self.updateSystemStatusLabel(cell: cell),
+                    failCallBack: {error in
                     
-                    cell.textLabel?.text = "Unable to get storage info"
-                    CrashLoggerHelper.JSONParsingErrorLogWithoutAlert(error: error)
-                })
+                        cell.textLabel?.text = "Unable to get storage info"
+                        CrashLoggerHelper.JSONParsingErrorLogWithoutAlert(error: error)
+                    }
+                )
             } else if self.sections[indexPath.section][indexPath.row] == "Change Password" {
                 
                 cell.accessoryType = .disclosureIndicator
             }
-        } else if indexPath.section == 2 {
-            
-            cell.textLabel?.textColor = .black
-            
-            cell.accessoryType = .disclosureIndicator
-            
-            cell.isUserInteractionEnabled = true
         } else if indexPath.section == 3 {
             
             cell.textLabel?.textColor = .black
@@ -200,6 +195,13 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
             cell.isUserInteractionEnabled = true
         } else if indexPath.section == 4 {
             
+            cell.textLabel?.textColor = .black
+            
+            cell.accessoryType = .disclosureIndicator
+            
+            cell.isUserInteractionEnabled = true
+        } else if indexPath.section == 5 {
+            
             cell.accessoryType = .none
             cell.isUserInteractionEnabled = true
             
@@ -207,7 +209,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                 
                 cell.textLabel?.textColor = .teal
             }
-        } else if indexPath.section == 5 {
+        } else if indexPath.section == 6 {
             
             cell.accessoryType = .none
             
@@ -261,7 +263,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
             }
             
             // refresh user token
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
         }
     }
 

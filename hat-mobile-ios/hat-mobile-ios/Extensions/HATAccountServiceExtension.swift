@@ -24,7 +24,7 @@ extension HATAccountService {
      
      - returns: UserHATDomainAlias
      */
-    class func theUserHATDomain() -> Constants.UserHATDomainAlias {
+    static func theUserHATDomain() -> Constants.UserHATDomainAlias {
         
         if let hatDomain = KeychainHelper.getKeychainValue(key: Constants.Keychain.hatDomainKey) {
             
@@ -39,7 +39,7 @@ extension HATAccountService {
      
      - returns: The token as a string
      */
-    class func getUsersTokenFromKeychain() -> String {
+    static func getUsersTokenFromKeychain() -> String {
         
         // check if the token has been saved in the keychain and return it. Else return an empty string
         if let token = KeychainHelper.getKeychainValue(key: "UserToken") {
@@ -60,7 +60,7 @@ extension HATAccountService {
      - parameter tokenValidCallBack: A function to execute if the token is valid
      - parameter errorCallBack: A function to execute when something has gone wrong
      */
-    class func checkIfTokenExpired(token: String, expiredCallBack: () -> Void, tokenValidCallBack: (String?) -> Void, errorCallBack: (String, String, String, @escaping () -> Void) -> Void) {
+    static func checkIfTokenExpired(token: String, expiredCallBack: () -> Void, tokenValidCallBack: (String?) -> Void, errorCallBack: (String, String, String, @escaping () -> Void) -> Void) {
         
         do {
             
@@ -88,7 +88,7 @@ extension HATAccountService {
      
      - returns: Bool, true if the domain matches what we expect and false otherwise
      */
-    class func verifyDomain(_ domain: String) -> Bool {
+    static func verifyDomain(_ domain: String) -> Bool {
         
         if domain == "hubofallthings.net" || domain == "warwickhat.net" || domain == "hubat.net" {
             

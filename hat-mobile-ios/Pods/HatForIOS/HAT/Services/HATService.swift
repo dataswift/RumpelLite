@@ -12,10 +12,10 @@
 
 import Alamofire
 
-// MARK: Class
+// MARK: Struct
 
 /// A class about the methods concerning the HAT
-public class HATService: NSObject {
+public struct HATService {
 
     // MARK: - Application Token
 
@@ -27,7 +27,7 @@ public class HATService: NSObject {
      - parameter succesfulCallBack: A function to call if everything is ok
      - parameter failCallBack: A function to call if fail
      */
-    public class func getApplicationTokenFor(serviceName: String, userDomain: String, token: String, resource: String, succesfulCallBack: @escaping (String, String?) -> Void, failCallBack: @escaping (JSONParsingError) -> Void) {
+    public static func getApplicationTokenFor(serviceName: String, userDomain: String, token: String, resource: String, succesfulCallBack: @escaping (String, String?) -> Void, failCallBack: @escaping (JSONParsingError) -> Void) {
 
         // setup parameters and headers
         let parameters = ["name": serviceName, "resource": resource]
@@ -65,7 +65,7 @@ public class HATService: NSObject {
     /**
      Fetches the available HAT providers
      */
-    public class func getAvailableHATProviders(succesfulCallBack: @escaping ([HATProviderObject], String?) -> Void, failCallBack: @escaping (JSONParsingError) -> Void) {
+    public static func getAvailableHATProviders(succesfulCallBack: @escaping ([HATProviderObject], String?) -> Void, failCallBack: @escaping (JSONParsingError) -> Void) {
 
         let url = "https://hatters.hubofallthings.com/api/products/hat"
 
@@ -105,7 +105,7 @@ public class HATService: NSObject {
     /**
      Fetches the available HAT providers
      */
-    public class func getSystemStatus(userDomain: String, authToken: String, completion: @escaping ([HATSystemStatusObject], String?) -> Void, failCallBack: @escaping (JSONParsingError) -> Void) {
+    public static func getSystemStatus(userDomain: String, authToken: String, completion: @escaping ([HATSystemStatusObject], String?) -> Void, failCallBack: @escaping (JSONParsingError) -> Void) {
 
         let url = "https://" + userDomain + "/api/v2/system/status"
         let headers = ["X-Auth-Token": authToken]

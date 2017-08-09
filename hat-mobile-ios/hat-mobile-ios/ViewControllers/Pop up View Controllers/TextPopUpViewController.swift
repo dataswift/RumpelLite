@@ -22,12 +22,51 @@ internal class TextPopUpViewController: UIViewController {
     /// The text to show on the pop up
     var textToShow: String = ""
     
+    /// The type of service offer currently shown
+    var typeOfService: String = ""
+    
+    /// The url to redirect to
+    var url: String?
+    
+    /// The voucher to show to user
+    var voucher: [String]?
+    
     // MARK: - IBOutlets
     
     /// An IBOutlet for controlling the UILabel in order to show the text
     @IBOutlet private weak var textLabel: UILabel!
     
+    /// An IBOutlet for controlling the UIButton in order to launch safari
+    @IBOutlet private weak var actionButton: UIButton!
+    
     // MARK: - IBActions
+    
+    /**
+     Executed when the action button has been tapped. Uses clipboard to copy the text and launch safari
+     
+     - parameter sender: The object that called this method
+     */
+    @IBAction func actionButtonAction(_ sender: Any) {
+        
+        UIPasteboard.general.string = textToShow
+        
+        if typeOfService == "Service" {
+            
+            if let url = URL(string: textToShow) {
+                
+                UIApplication.shared.openURL(url)
+            }
+        } else if typeOfService == "Voucher" {
+            
+            if let unwrappedURL = url {
+                
+                if let tempURL = URL(string: unwrappedURL) {
+                    
+                    UIApplication.shared.openURL(tempURL)
+                }
+            }
+        }
+    }
     
     /**
      Executed when the cancel button has been tapped
@@ -79,13 +118,27 @@ internal class TextPopUpViewController: UIViewController {
      
      - returns: An optional instance of TextPopUpViewController ready to present from a view controller
      */
-    class func customInit(stringToShow: String, from storyBoard: UIStoryboard) -> TextPopUpViewController? {
+    class func customInit(stringToShow: String, isButtonHidden: Bool, from storyBoard: UIStoryboard) -> TextPopUpViewController? {
         
         let textPopUpViewController = storyBoard.instantiateViewController(withIdentifier: "textPopUpViewController") as? TextPopUpViewController
         textPopUpViewController?.textToShow = stringToShow
         textPopUpViewController?.view.alpha = 0.7
+        textPopUpViewController?.actionButton.isHidden = isButtonHidden
         
         return textPopUpViewController
+    }
+    
+    // MARK: - Change action button title
+    
+    /**
+     Changes the title's button
+     
+     - parameter title: The text to set as title in the button
+     */
+    func changeButtonTitle(_ title: String) {
+        
+        self.actionButton.setTitle(title, for: .normal)
+        self.actionButton.addBorderToButton(width: 1, color: .white)
     }
 
 }

@@ -63,6 +63,23 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         
         let newCell = self.initCellToNil(cell: cell)
         
+        self.updateCellUI(newCell: newCell, note: note, indexPath: indexPath)
+        
+        self.updateCellData(newCell: newCell, note: note, indexPath: indexPath)
+        
+        // return the cell
+        return newCell
+    }
+    
+    /**
+     Updates the cell UI
+     
+     - parameter newCell: The cell to set up
+     - parameter note: The model that holds our data
+     - parameter indexPath: The index path of the cell
+     */
+    private func updateCellUI(newCell: NotablesTableViewCell, note: HATNotesData, indexPath: IndexPath) {
+        
         if let url = URL(string: note.data.photoData.link) {
             
             if note.data.photoData.image != nil {
@@ -88,6 +105,16 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
             newCell.sharedOn.append("location")
             self.sharedOn = newCell.sharedOn
         }
+    }
+    
+    /**
+     Updates cell data
+     
+     - parameter newCell: The cell to set up
+     - parameter note: The model that holds our data
+     - parameter indexPath: The index path of the cell
+     */
+    private func updateCellData(newCell: NotablesTableViewCell, note: HATNotesData, indexPath: IndexPath) {
         
         // get the notes data
         let notablesData = note.data
@@ -95,7 +122,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         let authorData = notablesData.authorData
         // get the created date
         let date = FormatterHelper.formatDateStringToUsersDefinedDate(date: note.data.createdTime, dateStyle: .short, timeStyle: .short)
-                
+        
         // create this zebra like color based on the index of the cell
         if indexPath.row % 2 == 1 {
             
@@ -109,9 +136,6 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         
         // flip the view to appear from right to left
         newCell.collectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
-        
-        // return the cell
-        return newCell
     }
     
     // MARK: - Download attached image
@@ -129,10 +153,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         
         cell.attachedImage.image = UIImage(named: Constants.ImageNames.placeholderImage)
         
-        cell.ringProgressBar.isHidden = false
-        cell.ringProgressBar.ringRadius = 10
-        cell.ringProgressBar.ringLineWidth = 4
-        cell.ringProgressBar.ringColor = .white
+        self.initRingProgressBar(cell: cell)
         
         cell.attachedImage.downloadedFrom(
             url: url,
@@ -157,6 +178,21 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
                 weakSelf.notesDelegate?.updateNote(tempNote, at: row)
             }
         )
+    }
+    
+    // MARK: - Init ringProgressView
+    
+    /**
+     Inits the ringProgressView to default values
+     
+     - parameter cell: The cell to init the ringProgressBar
+     */
+    private func initRingProgressBar(cell: NotablesTableViewCell) {
+        
+        cell.ringProgressBar.isHidden = false
+        cell.ringProgressBar.ringRadius = 10
+        cell.ringProgressBar.ringLineWidth = 4
+        cell.ringProgressBar.ringColor = .white
     }
     
     // MARK: - CollectionView datasource methods

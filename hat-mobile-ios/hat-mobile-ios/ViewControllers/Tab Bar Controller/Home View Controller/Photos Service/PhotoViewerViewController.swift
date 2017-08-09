@@ -220,7 +220,13 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
             
             cell?.cropImage()
 
-            self?.files[indexPath.row].image = image
+            if let weakSelf = self {
+                
+                if indexPath.row <= weakSelf.files.count {
+                    
+                    weakSelf.files[indexPath.row].image = image
+                }
+            }
         }))!
     }
     

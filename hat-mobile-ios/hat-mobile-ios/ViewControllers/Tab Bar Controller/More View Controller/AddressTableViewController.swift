@@ -48,7 +48,14 @@ internal class AddressTableViewController: UITableViewController, UserCredential
         
         self.view.addSubview(self.darkView)
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Updating profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         for index in self.headers.indices {
             
@@ -102,8 +109,12 @@ internal class AddressTableViewController: UITableViewController, UserCredential
                     self.loadingView.removeFromSuperview()
                     self.darkView.removeFromSuperview()
                     
-                    self.createClassicOKAlertWith(alertMessage: "There was an error posting profile", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                    self.createClassicOKAlertWith(
+                        alertMessage: "There was an error posting profile",
+                        alertTitle: "Error",
+                        okTitle: "OK",
+                        proceedCompletion: {})
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
                 }
             )
         }
@@ -119,9 +130,13 @@ internal class AddressTableViewController: UITableViewController, UserCredential
                 self.loadingView.removeFromSuperview()
                 self.darkView.removeFromSuperview()
                 
-                self.createClassicOKAlertWith(alertMessage: "There was an error checking if it's possible to post the data", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
+                self.createClassicOKAlertWith(
+                    alertMessage: "There was an error checking if it's possible to post the data",
+                    alertTitle: "Error",
+                    okTitle: "OK",
+                    proceedCompletion: {})
                 
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                CrashLoggerHelper.hatTableErrorLog(error: error)
             }
         )
     }
@@ -233,10 +248,16 @@ internal class AddressTableViewController: UITableViewController, UserCredential
             
             if country.lowercased().hasPrefix(text.lowercased()) {
                 
-                let partOne = text.createTextAttributes(foregroundColor: .black, strokeColor: .black, font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
+                let partOne = text.createTextAttributes(
+                    foregroundColor: .black,
+                    strokeColor: .black,
+                    font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
                 
                 let replacedText = country.lowercased().replacingOccurrences(of: text.lowercased(), with: "")
-                let partTwo = replacedText.createTextAttributes(foregroundColor: .gray, strokeColor: .gray, font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
+                let partTwo = replacedText.createTextAttributes(
+                    foregroundColor: .gray,
+                    strokeColor: .gray,
+                    font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
                 textField.attributedText = partOne.combineWith(attributedText: partTwo)
                 
                 if let newPosition = textField.position(from: textField.beginningOfDocument, offset: cursorPosition) {

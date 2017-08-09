@@ -19,7 +19,7 @@ target 'hat-mobile-ios' do
     pod 'zxcvbn-ios'
     pod 'HatForIOS', :git => 'https://github.com/whiteshadow-gr/HatForIOS.git'
     pod 'SwiftLint'
-    
+    pod 'MarkdownView'
 end
 
 target 'hat-mobile-iosTests' do
@@ -38,6 +38,7 @@ target 'hat-mobile-iosTests' do
     pod 'BEMCheckBox'
     pod 'HatForIOS', :git => 'https://github.com/whiteshadow-gr/HatForIOS.git'
     pod 'Mockingjay'
+    pod 'MarkdownView'
 end
 
 target 'hat-mobile-iosUITests' do

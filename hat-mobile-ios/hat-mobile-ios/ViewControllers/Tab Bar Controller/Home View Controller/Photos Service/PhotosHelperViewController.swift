@@ -118,7 +118,7 @@ internal class PhotosHelperViewController: UIViewController, UIImagePickerContro
     
     // MARK: - Image picker methods
     
-    func handleUploadImage(info: [String : Any], completion: @escaping (FileUploadObject) -> Void, callingViewController: UIViewController, fromReference: PhotosHelperViewController) {
+    func handleUploadImage(info: [String : Any], name: String = "", tags: [String] = ["iphone", "viewer", "photo"], completion: @escaping (FileUploadObject) -> Void, callingViewController: UIViewController, fromReference: PhotosHelperViewController) {
         
         callingViewController.view.addSubview(fromReference.view)
         callingViewController.view.bringSubview(toFront: fromReference.view)
@@ -132,15 +132,20 @@ internal class PhotosHelperViewController: UIViewController, UIImagePickerContro
                 token: self.userToken,
                 userDomain: self.userDomain,
                 fileToUpload: image,
-                tags: ["iphone", "viewer", "photo"],
+                tags: tags,
+                name: name,
                 progressUpdater: {progress in
                     
                     let endPoint = self.loadingScr?.getRingEndPoint()
                     self.loadingScr?.updateView(completion: progress, animateFrom: Float((endPoint)!), removePreviousRingLayer: false)
-            },
+                },
                 completion: {[weak self] (file, renewedUserToken) in
                     
                     self?.removeProgressRing()
+                    
+                    fromReference.view.removeFromSuperview()
+                    fromReference.willMove(toParentViewController: callingViewController)
+                    fromReference.removeViewController()
                     
                     completion(file)
                     
@@ -152,6 +157,10 @@ internal class PhotosHelperViewController: UIViewController, UIImagePickerContro
                     if self != nil {
                         
                         self?.removeProgressRing()
+                        
+                        fromReference.view.removeFromSuperview()
+                        fromReference.willMove(toParentViewController: callingViewController)
+                        fromReference.removeViewController()
                         
                         self!.createClassicOKAlertWith(alertMessage: "There was an error with the uploading of the file, please try again later", alertTitle: "Upload failed", okTitle: "OK", proceedCompletion: {})
                         

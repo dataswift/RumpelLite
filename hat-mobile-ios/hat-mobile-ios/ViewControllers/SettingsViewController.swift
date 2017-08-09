@@ -41,15 +41,14 @@ internal class SettingsViewController: UIViewController {
         
         if self.locationSwitchOutlet.isOn {
             
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setTrue)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setTrue)
             self.locationTrackingLabel.text = "Location upload to HAT enabled"
         } else {
             
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setFalse)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setFalse)
             self.locationTrackingLabel.text = "Location upload to HAT disabled"
         }
         
-//        locationUpdate.setUpLocationObject(locationUpdate, delegate: UpdateLocations.shared)
         locationUpdate.resumeLocationServices()
     }
     
@@ -75,7 +74,7 @@ internal class SettingsViewController: UIViewController {
             }
         } else {
             
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setTrue)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setTrue)
             self.locationSwitchOutlet.isOn = true
             self.locationTrackingLabel.text = "Location upload to HAT enabled"
         }

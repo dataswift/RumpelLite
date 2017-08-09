@@ -11,6 +11,7 @@
  */
 
 import HatForIOS
+import SwiftyJSON
 
 // MARK: Class
 
@@ -32,7 +33,8 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     /// A dark view covering the collection view cell
     private var darkView: UIView = UIView()
     
-    private var images: [FileUploadObject] = []
+    /// The image file received from the HAT containing info about the current profile picture and the selected pictures
+    private var image: ProfileImageObject = ProfileImageObject()
     
     /// The selected image file to view full screen
     private var selectedFileToView: FileUploadObject?
@@ -70,6 +72,11 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         }
     }
     
+    /**
+     Presents a pop up with the possible ways of adding pictures
+     
+     - parameter sender: The object that calls this function
+     */
     @IBAction func addImageButtonAction(_ sender: Any) {
         
         let alertController = UIAlertController(title: "Select options", message: "Select from where to upload image", preferredStyle: .actionSheet)
@@ -117,29 +124,40 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         
         self.view.addSubview(self.darkView)
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Updating profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
+            
+            func profilePosted() {
+                
+                self.loadingView.removeFromSuperview()
+                self.darkView.removeFromSuperview()
+                
+                _ = self.navigationController?.popViewController(animated: true)
+            }
             
             HATPhataService.postProfile(
                 userDomain: userDomain,
                 userToken: userToken,
                 hatProfile: self.profile!,
-                successCallBack: {
-                
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                errorCallback: {error in
-                    
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
+                successCallBack: profilePosted,
+                errorCallback: error
             )
+        }
+        
+        func error(error: HATTableError) {
+            
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
         }
         
         HATAccountService.checkHatTableExistsForUploading(
@@ -148,15 +166,10 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             sourceName: Constants.HATTableName.Profile.source,
             authToken: userToken,
             successCallback: tableExists,
-            errorCallback: {[weak self] _ in
-            
-                if let weakSelf = self {
-                    
-                    weakSelf.loadingView.removeFromSuperview()
-                    weakSelf.darkView.removeFromSuperview()
-                }
-            }
+            errorCallback: error
         )
+        
+        self.setAsProfile()
     }
     
     // MARK: - View controller methods
@@ -169,6 +182,7 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         let removeAction = UIAlertAction(title: "Remove profile photo", style: .default, handler: { [unowned self] (_) -> Void in
             
             self.imageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
+            self.image.profileImage = nil
         })
         
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
@@ -186,9 +200,7 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             
         case .began:
             
-            guard let selectedIndexPath = self.collectionView.indexPathForItem(at: gesture.location(in: self.collectionView)) else {
-                break
-            }
+            guard let selectedIndexPath = self.collectionView.indexPathForItem(at: gesture.location(in: self.collectionView)) else { break }
             self.collectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
         case .changed:
             
@@ -206,7 +218,9 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         
         super.viewDidLoad()
         
+        photoPicker.delegate = self
         self.imageView.isUserInteractionEnabled = true
+        
         let recogniser = UITapGestureRecognizer()
         recogniser.addTarget(self, action: #selector(profileImageTapped))
         self.imageView.addGestureRecognizer(recogniser)
@@ -227,33 +241,7 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             self.imageView.layer.cornerRadius = self.imageView.frame.size.width / 2
         }
         
-        func failed(error: HATError) {
-            
-            // log error
-            _ = CrashLoggerHelper.hatErrorLog(error: error)
-            self.collectionView.isHidden = true
-        }
-        
-        func success(filesReceived: [FileUploadObject], newToken: String?) {
-            
-            for file in filesReceived {
-                
-                if file.tags.contains("photo") {
-                    
-                    self.images.append(file)
-                }
-            }
-            
-            self.collectionView.reloadData()
-        }
-        
-        // search for available files on hat
-        HATFileService.searchFiles(userDomain: userDomain, token: userToken, successCallback: success, errorCallBack: failed)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        
-        super.viewDidAppear(animated)
+        self.getProfileImages()
     }
 
     override func didReceiveMemoryWarning() {
@@ -270,7 +258,7 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return self.images.count
+        return self.image.selectedImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -285,45 +273,91 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         
-        let tempItem = self.images[sourceIndexPath.row]
+        let tempItem = self.image.selectedImages[sourceIndexPath.row]
         
-        self.images.remove(at: sourceIndexPath.row)
-        self.images.insert(tempItem, at: destinationIndexPath.row)
+        self.image.selectedImages.remove(at: sourceIndexPath.row)
+        self.image.selectedImages.insert(tempItem, at: destinationIndexPath.row)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.Segue.profilePictureCell, for: indexPath) as? PhotosCollectionViewCell
         
-        return (cell?.setUpCell(userDomain: userDomain, userToken: userToken, files: self.images, indexPath: indexPath, completion: { [weak self] image in
+        return (cell?.setUpCell(
+            userDomain: userDomain,
+            userToken: userToken,
+            files: self.image.selectedImages,
+            indexPath: indexPath,
+            completion: { [weak self] image in
             
-            cell?.cropImage()
-            
-            self?.images[indexPath.row].image = image
-        }))!
+                cell?.cropImage()
+                
+                self?.image.selectedImages[indexPath.row].image = image
+            })
+        )!
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        self.selectedFileToView = self.images[indexPath.row]
+        self.selectedFileToView = self.image.selectedImages[indexPath.row]
         self.performSegue(withIdentifier: Constants.Segue.profilePhotoToFullScreenPhotoSegue, sender: self)
     }
     
     // MARK: - Image picker methods
     
     func didFinishWithError(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        
+        print("error")
+    }
+    
+    func makeFilePublic(file: FileUploadObject, completion: @escaping (FileUploadObject) -> Void, failed: @escaping (HATError) -> Void) {
+        
+        func makeFilePublicSuccess(result: Bool) {
+            
+            var tempFile = file
+            tempFile.contentPublic = result
+            
+            completion(tempFile)
+        }
+        
+        func makeFilePublicFailed(error: HATError) {
+            
+            CrashLoggerHelper.hatErrorLog(error: error)
+        }
+        
+        HATFileService.makeFilePublic(
+            fileID: file.fileID,
+            token: userToken,
+            userDomain: userDomain,
+            successCallback: makeFilePublicSuccess,
+            errorCallBack: makeFilePublicFailed)
     }
     
     func didChooseImageWithInfo(_ info: [String : Any]) {
         
         func addFileToImages(file: FileUploadObject) {
             
-            self.images.append(file)
+            self.makeFilePublic(
+                file: file,
+                completion: { [weak self] file in
             
-            self.collectionView.isHidden = false
+                    self?.image.selectedImages.append(file)
+                    self?.collectionView.backgroundColor? = .white
+                    self?.reloadCollectionView()
+                    
+                    self?.setAsProfile()
+                },
+                failed: { _ in return }
+            )
         }
         
-        photoPicker.handleUploadImage(info: info, completion: addFileToImages, callingViewController: self, fromReference: self.photoPicker)
+        photoPicker.handleUploadImage(
+            info: info,
+            name: String.random(length: 20),
+            tags: ["iphone", "photo", "profile", "rumpel"],
+            completion: addFileToImages,
+            callingViewController: self,
+            fromReference: self.photoPicker)
     }
     
     // MARK: - Navigation
@@ -353,24 +387,158 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     func setImageAsProfileImage(image: UIImage) {
         
         self.imageView.image = image
+        self.imageView.cropImage(width: self.imageView.frame.width, height: self.imageView.frame.height)
     }
     
     func setImageAsProfileImage(file: FileUploadObject) {
         
-        func updateProfileImage() {
+        func execute(_ file: FileUploadObject) {
             
-        }
-        
-        if file.image != nil {
-            
-            self.imageView.image = file.image
-            updateProfileImage()
-        } else {
-            
-            if let imageURL: URL = URL(string: Constants.HATEndpoints.fileInfoURL(fileID: file.fileID, userDomain: userDomain)) {
+            if file.image != nil {
                 
-                self.imageView.downloadedFrom(url: imageURL, userToken: userToken, progressUpdater: nil, completion: updateProfileImage)
+                self.imageView.image = file.image
+                self.imageView.cropImage(width: self.imageView.frame.width, height: self.imageView.frame.height)
+                
+                self.image.profileImage = file
+                self.reloadCollectionView()
+                
+                self.setAsProfile()
+            } else {
+                
+                if let imageURL: URL = URL(string: Constants.HATEndpoints.fileInfoURL(fileID: file.fileID, userDomain: userDomain)) {
+                    
+                    self.imageView.downloadedFrom(
+                        url: imageURL,
+                        userToken: userToken,
+                        progressUpdater: nil,
+                        completion: { [weak self] in
+                            
+                            self?.image.profileImage = file
+                            self?.reloadCollectionView()
+                            
+                            self?.setAsProfile()
+                        }
+                    )
+                }
             }
         }
+        
+        if !file.contentPublic {
+            
+            self.makeFilePublic(
+                file: file,
+                completion: { file in
+                    
+                    execute(file)
+                },
+                failed: { _ in return }
+            )
+        } else {
+            
+            execute(file)
+        }
     }
+    
+    func setSelectedFiles(files: [FileUploadObject]) {
+        
+        for file in files {
+            
+            self.setImageAsProfileImage(file: file)
+        }
+    }
+    
+    func setSelectedImages(images: [UIImage]) {
+        
+        print("yeah")
+    }
+    
+    func deleteImage(file: FileUploadObject) {
+        
+    }
+    
+    func setAsProfile() {
+        
+        func valueCreated(result: JSON, renewedUserToken: String?) {
+            
+            print(result)
+        }
+        
+        func failed(error: HATTableError) {
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+        
+        for (index, file) in self.image.selectedImages.enumerated() {
+            
+            self.image.selectedImages[index].contentURL = Constants.HATEndpoints.fileInfoURL(fileID: file.fileID, userDomain: userDomain)
+        }
+        
+        let parameters = self.image.toJSON()
+        
+        HATAccountService.createTableValuev2(
+            token: userToken,
+            userDomain: userDomain,
+            source: Constants.HATTableName.ProfileImage.source,
+            dataPath: Constants.HATTableName.ProfileImage.name,
+            parameters: parameters,
+            successCallback: valueCreated,
+            errorCallback: failed)
+    }
+    
+    private func reloadCollectionView() {
+        
+        DispatchQueue.main.async {
+            
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func getProfileImages() {
+        
+        func success(json: [JSON], newToken: String?) {
+            
+            if !json.isEmpty {
+
+                if let dict = (json[0].dictionary)?["data"]?.dictionary {
+                    
+                    self.image = ProfileImageObject(dictionary: dict)
+                    if self.image.profileImage != nil {
+                        
+                        if let url = URL(string: self.image.profileImage!.contentURL) {
+                            
+                            self.imageView.downloadedFrom(
+                                url: url,
+                                userToken: userToken,
+                                progressUpdater: nil,
+                                completion: {
+                                    
+                                    self.imageView.cropImage(width: self.imageView.frame.width, height: self.imageView.frame.height)
+                                }
+                            )
+                        }
+                    }
+                    self.collectionView.backgroundColor? = .white
+                    self.reloadCollectionView()
+                }
+            } else {
+                
+                self.collectionView.backgroundColor? = .clear
+            }
+        }
+        
+        func failed(error: HATTableError) {
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+    
+        HATAccountService.getHatTableValuesv2(
+            token: userToken,
+            userDomain: userDomain,
+            source: Constants.HATTableName.ProfileImage.source,
+            scope: Constants.HATTableName.ProfileImage.name,
+            parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
+            successCallback: success,
+            errorCallback: failed)
+    }
+    
 }

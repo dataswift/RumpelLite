@@ -13,10 +13,10 @@
 import Alamofire
 import SwiftyJSON
 
-// MARK: Class
+// MARK: Struct
 
 /// The facebook data plug service class
-public class HATFacebookService: NSObject {
+public struct HATFacebookService {
 
     // MARK: - Check facebook plug
 
@@ -27,7 +27,7 @@ public class HATFacebookService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    public class func fetchProfileFacebookPhoto(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
+    public static func fetchProfileFacebookPhoto(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
 
         HATAccountService.checkHatTableExists(userDomain: userDomain,
                                               tableName: "profile_picture",
@@ -44,7 +44,7 @@ public class HATFacebookService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    public class func fetchProfileFacebookPhotoV2(authToken: String, userDomain: String, parameters: Dictionary<String, String>, successCallback: @escaping (_ array: [HATFacebookProfileImageObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func fetchProfileFacebookPhotoV2(authToken: String, userDomain: String, parameters: Dictionary<String, String>, successCallback: @escaping (_ array: [HATFacebookProfileImageObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
 
         func sendObjectBack(jsonArray: [JSON], token: String?) {
 
@@ -70,7 +70,7 @@ public class HATFacebookService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    public class func facebookDataPlug(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
+    public static func facebookDataPlug(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
 
         HATAccountService.checkHatTableExists(userDomain: userDomain,
                                               tableName: Facebook.tableName,
@@ -87,7 +87,7 @@ public class HATFacebookService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    public class func getFacebookData(authToken: String, userDomain: String, parameters: Dictionary<String, String>, successCallback: @escaping (_ array: [HATFacebookSocialFeedObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getFacebookData(authToken: String, userDomain: String, parameters: Dictionary<String, String>, successCallback: @escaping (_ array: [HATFacebookSocialFeedObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
 
         func sendObjectBack(jsonArray: [JSON], token: String?) {
 
@@ -111,7 +111,7 @@ public class HATFacebookService: NSObject {
      - parameter successful: An @escaping (Void) -> Void method executed on a successful response
      - parameter failed: An @escaping (Void) -> Void) method executed on a failed response
      */
-    public class func isFacebookDataPlugActive(token: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
+    public static func isFacebookDataPlugActive(token: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
 
         // construct the url, set parameters and headers for the request
         let url = Facebook.statusURL
@@ -152,7 +152,7 @@ public class HATFacebookService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    private class func getPosts(token: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) -> (_ tableID: NSNumber, _ token: String?) -> Void {
+    private static func getPosts(token: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) -> (_ tableID: NSNumber, _ token: String?) -> Void {
 
         return {(tableID: NSNumber, returnedToken: String?) -> Void in
 
@@ -168,7 +168,7 @@ public class HATFacebookService: NSObject {
      - parameter successful: An @escaping (String) -> Void method executed on a successful response
      - parameter failed: An @escaping (Void) -> Void) method executed on a failed response
      */
-    public class func getAppTokenForFacebook(token: String, userDomain: String, successful: @escaping (String, String?) -> Void, failed: @escaping (JSONParsingError) -> Void) {
+    public static func getAppTokenForFacebook(token: String, userDomain: String, successful: @escaping (String, String?) -> Void, failed: @escaping (JSONParsingError) -> Void) {
 
         HATService.getApplicationTokenFor(serviceName: Facebook.serviceName, userDomain: userDomain, token: token, resource: Facebook.dataPlugURL, succesfulCallBack: successful, failCallBack: failed)
     }
@@ -181,7 +181,7 @@ public class HATFacebookService: NSObject {
      - parameter array: The JSON array
      - returns: An array of FacebookSocialFeedObject
      */
-    public class func removeDuplicatesFrom(array: [JSON]) -> [HATFacebookSocialFeedObject] {
+    public static func removeDuplicatesFrom(array: [JSON]) -> [HATFacebookSocialFeedObject] {
 
         // the array to return
         var arrayToReturn: [HATFacebookSocialFeedObject] = []
@@ -218,7 +218,7 @@ public class HATFacebookService: NSObject {
      - parameter array: The FacebookSocialFeedObject array
      - returns: An array of FacebookSocialFeedObject
      */
-    public class func removeDuplicatesFrom(array: [HATFacebookSocialFeedObject]) -> [HATFacebookSocialFeedObject] {
+    public static func removeDuplicatesFrom(array: [HATFacebookSocialFeedObject]) -> [HATFacebookSocialFeedObject] {
 
         // the array to return
         var arrayToReturn: [HATFacebookSocialFeedObject] = []

@@ -123,11 +123,11 @@ public struct FileUploadObject: Comparable {
         }
         if let tempDateCreated = dict["dateCreated"]?.intValue {
 
-            dateCreated = HATFormatterHelper.formatStringToDate(string: String(tempDateCreated))
+            dateCreated = Date(timeIntervalSince1970: TimeInterval(tempDateCreated))
         }
         if let tempLastUpdate = dict["lastUpdated"]?.intValue {
 
-            lastUpdated = HATFormatterHelper.formatStringToDate(string: String(tempLastUpdate))
+            lastUpdated = Date(timeIntervalSince1970: TimeInterval(tempLastUpdate))
         }
         if let tempContentURL = dict["contentUrl"]?.stringValue {
 

@@ -60,11 +60,87 @@ internal class HomeScreenObject: NSObject {
      */
     class func setUpTilesForHomeScreen() -> [HomeScreenObject] {
         
-        let notables = HomeScreenObject(name: "Notes", description: "Take notes, write lists or create life logs", image: UIImage(named: Constants.ImageNames.notesImage)!)
-        let locations = HomeScreenObject(name: "Locations", description: "Track your movements over the day or week", image: UIImage(named: Constants.ImageNames.gpsOutlinedImage)!)
-        let socialData = HomeScreenObject(name: "Social Data", description: "Social media posts stored in your HAT", image: UIImage(named: Constants.ImageNames.socialFeedImage)!)
-        let chat = HomeScreenObject(name: "Photo Viewer", description: "Show the images you have uploaded in your HAT", image: UIImage(named: Constants.ImageNames.photoViewerImage)!)
+        let topSecret = HomeScreenObject(
+            name: "Top Secret Logs",
+            description: "Notes to self",
+            image: UIImage(named: Constants.ImageNames.notesImage)!)
+        let geoMe = HomeScreenObject(
+            name: "GEOME",
+            description: "My locations in time",
+            image: UIImage(named: Constants.ImageNames.gpsOutlinedImage)!)
+        let myStory = HomeScreenObject(
+            name: "My Story",
+            description: "My digital life, all mashed-up",
+            image: UIImage(named: Constants.ImageNames.socialFeedImage)!)
+        let photoView = HomeScreenObject(
+            name: "Photo Viewer",
+            description: "Show the images you have uploaded in your HAT",
+            image: UIImage(named: Constants.ImageNames.photoViewerImage)!)
+        let socialMediaControl = HomeScreenObject(
+            name: "Social Media Control",
+            description: "Share only what I want, for as long as I want",
+            image: UIImage(named: Constants.ImageNames.socialMediaControl)!)
+        let meDigital = HomeScreenObject(
+            name: "The calling card",
+            description: "My PHATA public profile",
+            image: UIImage(named: Constants.ImageNames.callingCard)!)
+        let allThatIsMine = HomeScreenObject(
+            name: "Total Recall",
+            description: "Information I always need in my data store",
+            image: UIImage(named: Constants.ImageNames.recall)!)
+        let beMoji = HomeScreenObject(
+            name: "BeMoji",
+            description: "Broadcast my mood, when tap on it, title change to Emoji",
+            image: UIImage(named: Constants.ImageNames.bemoji)!)
+        let makeMeDoIt = HomeScreenObject(
+            name: "Gimme",
+            description: "Grab back more of me with data plugs",
+            image: UIImage(named: Constants.ImageNames.gimme)!)
+        let doeet = HomeScreenObject(
+            name: "Do-eet",
+            description: "Do stuff. Get rewards",
+            image: UIImage(named: Constants.ImageNames.doImage)!)
+        let watcheet = HomeScreenObject(
+            name: "Watch-eet",
+            description: "Watch stuff. Get rewards",
+            image: UIImage(named: Constants.ImageNames.watch)!)
+        let readeet = HomeScreenObject(
+            name: "read-eet",
+            description: "No fake news",
+            image: UIImage(named: Constants.ImageNames.read)!)
+        let sso = HomeScreenObject(
+            name: "SSO",
+            description: "Sign on to websites. Check which ones here.",
+            image: UIImage(named: Constants.ImageNames.sso)!)
+        let findYourForm = HomeScreenObject(
+            name: "Find your Form",
+            description: "No more form filling. Check-in to Hotels, Spas, places",
+            image: UIImage(named: Constants.ImageNames.news)!)
+        let goDeep = HomeScreenObject(
+            name: "Go deep",
+            description: "Check out our partner apps, built on the HAT",
+            image: UIImage(named: Constants.ImageNames.goDeep)!)
+        let madhatters = HomeScreenObject(
+            name: "MadHATTERs",
+            description: "Tech news with a HAT perspective",
+            image: UIImage(named: Constants.ImageNames.community)!)
+        let hatCommunity = HomeScreenObject(
+            name: "HAT",
+            description: "What's new",
+            image: UIImage(named: Constants.ImageNames.hatLogo)!)
+        let goodLoop = HomeScreenObject(
+            name: "Featured App",
+            description: "Ads for Good by GoodLoop",
+            image: UIImage(named: Constants.ImageNames.featured)!)
+        let ideas = HomeScreenObject(
+            name: "Ideas",
+            description: "Contribute ideas that will make HAT better",
+            image: UIImage(named: Constants.ImageNames.ideas)!)
+        let hatters = HomeScreenObject(
+            name: "HATTERS",
+            description: "Community notice board",
+            image: UIImage(named: Constants.ImageNames.hatters)!)
         
-        return [notables, locations, socialData, chat]
+        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, beMoji, makeMeDoIt, doeet, watcheet, readeet, sso, findYourForm, goDeep, madhatters, hatCommunity, photoView, goodLoop, ideas, hatters]
     }
 }

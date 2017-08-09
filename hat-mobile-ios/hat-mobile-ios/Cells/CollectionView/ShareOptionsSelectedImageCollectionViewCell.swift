@@ -64,39 +64,62 @@ internal class ShareOptionsSelectedImageCollectionViewCell: UICollectionViewCell
             } else if let url = URL(string: imageLink) {
                 
                 self.selectedImage.image = UIImage(named: Constants.ImageNames.placeholderImage)
-                self.ringProgressCircle.isHidden = false
-                self.ringProgressCircle.ringRadius = 10
-                self.ringProgressCircle.ringLineWidth = 4
-                self.ringProgressCircle.ringColor = .white
+                self.initRingProgressCircle()
                 
-                self.selectedImage.downloadedFrom(
-                    url: url,
-                    userToken: userToken,
-                    progressUpdater: { [weak self] progress in
-                        
-                        if self != nil {
-                            
-                            let completion = Float(progress)
-                            self!.ringProgressCircle.updateCircle(end: CGFloat(completion), animate: Float((self!.ringProgressCircle.endPoint)), removePreviousLayer: false)
-                        }
-                    },
-                    completion: { [weak self] in
-                        
-                        if let weakSelf = self {
-                            
-                            weakSelf.ringProgressCircle.isHidden = true
-                            
-                            if !imagesToUpload.isEmpty && weakSelf.selectedImage.image != nil {
-                                
-                                completion(weakSelf.selectedImage.image!)
-                                weakSelf.selectedImage.cropImage(width: weakSelf.frame.width, height: weakSelf.frame.height)
-                            }
-                        }
-                    }
-                )
+                self.downloadImageFrom(url: url, imagesToUpload: imagesToUpload, completion: completion)
             }
         }
         
         return self
+    }
+    
+    // MARK: - Init ringProgressView
+    
+    /**
+     Inits the ringProgressView to default values
+     */
+    private func initRingProgressCircle() {
+        
+        self.ringProgressCircle.isHidden = false
+        self.ringProgressCircle.ringRadius = 10
+        self.ringProgressCircle.ringLineWidth = 4
+        self.ringProgressCircle.ringColor = .white
+    }
+    
+    // MARK: - Download Image
+    
+    /**
+     Downloads the image from the specified URL
+     
+     - parameter imageURL: The url to download the image from
+     - parameter imagesToUpload: An array of UIImage objects
+     - parameter completion: A function to execute on completion returning the UIImage
+     */
+    private func downloadImageFrom(url: URL, imagesToUpload: [UIImage], completion: @escaping (UIImage) -> Void) {
+        
+        self.selectedImage.downloadedFrom(
+            url: url,
+            userToken: userToken,
+            progressUpdater: { [weak self] progress in
+                
+                if self != nil {
+                    
+                    self!.ringProgressCircle.updateCircle(end: CGFloat(progress), animate: Float((self!.ringProgressCircle.endPoint)), removePreviousLayer: false)
+                }
+            },
+            completion: { [weak self] in
+                
+                if let weakSelf = self {
+                    
+                    weakSelf.ringProgressCircle.isHidden = true
+                    
+                    if !imagesToUpload.isEmpty && weakSelf.selectedImage.image != nil {
+                        
+                        completion(weakSelf.selectedImage.image!)
+                        weakSelf.selectedImage.cropImage(width: weakSelf.frame.width, height: weakSelf.frame.height)
+                    }
+                }
+            }
+        )
     }
 }

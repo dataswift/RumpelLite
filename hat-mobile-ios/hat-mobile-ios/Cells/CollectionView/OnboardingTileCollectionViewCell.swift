@@ -125,7 +125,7 @@ internal class OnboardingTileCollectionViewCell: UICollectionViewCell, UserCrede
     // MARK: - Decide background color
     
     /**
-     Decides the colof of the cell based on the index path and the device orientation
+     Decides the color of the cell based on the index path and the device orientation
      
      - parameter indexPath: The index path of the cell
      - parameter orientation: The device current orientation

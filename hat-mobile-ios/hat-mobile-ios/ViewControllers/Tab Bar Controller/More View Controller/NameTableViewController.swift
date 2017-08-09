@@ -46,7 +46,14 @@ internal class NameTableViewController: UITableViewController, UserCredentialsPr
         
         self.view.addSubview(self.darkView)
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Updating profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         for index in self.headers.indices {
             
@@ -108,7 +115,7 @@ internal class NameTableViewController: UITableViewController, UserCredentialsPr
                     self.loadingView.removeFromSuperview()
                     self.darkView.removeFromSuperview()
                     
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
                 }
             )
         }
@@ -161,12 +168,12 @@ internal class NameTableViewController: UITableViewController, UserCredentialsPr
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath) as? PhataTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.nameCell, for: indexPath) as? PhataTableViewCell {
             
             return self.setUpCell(cell: cell, indexPath: indexPath)
         }
         
-        return tableView.dequeueReusableCell(withIdentifier: "nameCell", for: indexPath)
+        return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.nameCell, for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

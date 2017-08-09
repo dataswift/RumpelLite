@@ -33,35 +33,40 @@ internal class Constants {
     /**
      The request fields for data points
      
-     - Latitude: latitude
-     - Longitude: longitude
-     - Accuracy: accuracy
-     - Timestamp: timestamp
+     - latitude: latitude
+     - longitude: longitude
+     - accuracy: accuracy
+     - timestamp: timestamp
      - allValues: An array of all the above values
      */
     enum RequestFields: String {
         
-        /// Requesting Latitude
         case latitude
-        /// Requesting Longitude
         case longitude
-        /// Requesting Accuracy
         case accuracy
-        /// Requesting Timestamp
         case timestamp
         
-        /// Requesting all of RequestFields values in an array
         static let allValues: [RequestFields] = [latitude, longitude, accuracy, timestamp]
     }
     
     // MARK: - Structs
     
     /**
-     The possible notification names, stored in convenience in one place
+     The possible notification names, stored for convenience in one place
      
-     - reauthorised: reauthorised
+     - reauthorised: reauthorisedUser
      - dataPlug: dataPlugMessage
-     - hideNewbie: hideNewbiePageViewContoller
+     - hideGetAHATPopUp: hideView
+     - hatProviders: hatProviders
+     - hideInfoHATProvider: hideInfoHATProvider
+     - enablePageControll: enablePageControll
+     - disablePageControll: disablePageControll
+     - hideCapabilitiesPageViewContoller: hideCapabilitiesPageViewContoller
+     - hideLearnMore: HideLearnMore
+     - hideDataServicesInfo: hideDataServicesInfo
+     - networkMessage: NetworkMessage
+     - goToSettings: goToSettings
+     - reloadTable: reloadTable
      */
     struct NotificationNames {
         
@@ -81,11 +86,12 @@ internal class Constants {
     }
     
     /**
-     The possible notification names, stored in convenience in one place
+     The possible font names, stored for convenience in one place
      
-     - reauthorised: reauthorised
-     - dataPlug: dataPlugMessage
-     - hideNewbie: hideNewbiePageViewContoller
+     - openSansCondensedLight: OpenSans-CondensedLight
+     - openSans: OpenSans
+     - openSansBold: OpenSans-Bold
+     - ssGlyphishFilled: SSGlyphish-Filled
      */
     struct FontNames {
         
@@ -99,23 +105,59 @@ internal class Constants {
      The possible reuse identifiers of the cells
      
      - dataplug: dataPlugCell
+     - onboardingTile: onboardingTile
+     - homeHeader: homeHeader
+     - socialCell: socialCell
+     - offerCell: offerCell
+     - summaryOfferCell: summaryOfferCell
+     - dataStoreCell: DataStoreCell
+     - dataStoreInfoCell: dataStoreInfoCell
+     - nameCell: nameCell
+     - dataStoreNameCell: dataStoreNameCell
+     - profileInfoCell: profileInfoCell
+     - dataStoreNationalityCell: dataStoreNationalityCell
+     - dataStoreRelationshipCell: dataStoreRelationshipCell
+     - dataStoreEducationCell: dataStoreEducationCell
+     - dataStoreContactInfoCell: dataStoreContactInfoCell
+     - homeScreenCell: homeScreenCell
+     - cellDataWithImage: cellDataWithImage
+     - cellData: cellData
+     - addedImageCell: addedImageCell
+     - photosCell: photosCell
+     - imageSocialFeedCell: imageSocialFeedCell
+     - statusSocialFeedCell: statusSocialFeedCell
+     - aboutCell: aboutCell
+     - addressCell: addressCell
+     - emailCell: emailCell
+     - emergencyContactCell: emergencyContactCell
+     - optionsCell: optionsCell
+     - phataSettingsCell: phataSettingsCell
+     - phataCell: phataCell
+     - phoneCell: phoneCell
+     - resetPasswordCell: resetPasswordCell
+     - socialLinksCell: socialLinksCell
      */
     struct CellReuseIDs {
         
         static let dataplug: String = "dataPlugCell"
+        static let priorities: String = "prioritiesCell"
+        static let interests: String = "interestsCell"
         static let onboardingTile: String = "onboardingTile"
         static let homeHeader: String = "homeHeader"
         static let socialCell: String = "socialCell"
         static let offerCell: String = "offerCell"
         static let summaryOfferCell: String = "summaryOfferCell"
         static let dataStoreCell: String = "DataStoreCell"
+        static let dataStoreInfoCell: String = "dataStoreInfoCell"
         static let nameCell: String = "nameCell"
         static let dataStoreNameCell: String = "dataStoreNameCell"
         static let profileInfoCell: String = "profileInfoCell"
-        static let dataStoreNationalityCell: String = "dataStoreNationalityCell"
+        static let dataStoreEmploymentCell: String = "dataStoreEmploymentCell"
         static let dataStoreRelationshipCell: String = "dataStoreRelationshipCell"
         static let dataStoreEducationCell: String = "dataStoreEducationCell"
+        static let dataStoreContactInfoCell: String = "dataStoreContactInfoCell"
         static let homeScreenCell: String = "homeScreenCell"
+        static let notificationsCell: String = "notificationsCell"
         static let cellDataWithImage: String = "cellDataWithImage"
         static let cellData: String = "cellData"
         static let addedImageCell: String = "addedImageCell"
@@ -132,29 +174,126 @@ internal class Constants {
         static let phoneCell: String = "phoneCell"
         static let resetPasswordCell: String = "resetPasswordCell"
         static let socialLinksCell: String = "socialLinksCell"
+        static let dataStoreUKSpecificInfoCell: String = "dataStoreUKSpecificInfoCell"
+        static let forDataOffersCell: String = "forDataOffersCell"
+        static let dietaryHabitsCell: String = "dietaryHabitsCell"
     }
     
+    /**
+     The possible table names on HAT
+     
+     - Profile: Profile struct
+     - Location: Location struct
+     */
     struct HATTableName {
         
+        /**
+         The Profile table
+         
+         - name: profile, the name of the table
+         - source: rumpel, the source of the table
+         */
         struct Profile {
             
             static let name: String = "profile"
             static let source: String = "rumpel"
         }
         
+        /**
+         The Location table
+         
+         - name: locations, the name of the table
+         - source: iphone, the source of the table
+         */
         struct Location {
             
             static let name: String = "locations"
             static let source: String = "iphone"
         }
+        
+        /**
+         The Profile Image table
+         
+         - name: profileimage, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct ProfileImage {
+            
+            static let name: String = "profileimage"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The UK Specific info profile table
+         
+         - name: profile/ukSpecificInfo, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct UKSpecificInfo {
+            
+            static let name: String = "profile/ukspecificinfo"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The profile info table
+         
+         - name: profile/profileinfo, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct ProfileInfo {
+            
+            static let name: String = "profile/profileinfo"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The employment status profile table
+         
+         - name: profile/employmentStatus, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct EmploymentStatus {
+            
+            static let name: String = "profile/employmentstatus"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The living info profile table
+         
+         - name: profile/employmentStatus, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct LivingInfo {
+            
+            static let name: String = "profile/livinginfo"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The dietary priorities of the user
+         
+         - name: priorities/dietary, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct DietaryAnswers {
+            
+            static let name: String = "priorities/dietary"
+            static let source: String = "rumpel"
+        }
     }
     
     /**
      Date formats
+     
+     - utc: the utc representation format (yyyy-MM-dd'T'HH:mm:ssZ)
+     - gmt: the gmt representation format (yyyy-MM-dd'T'HH:mm:ssZZZZZ)
+     - posix: the posix representation format (yyyy-MM-dd'T'HH:mm:ss.SSSZ)
+     - alternative: an alternative representation used when else fails (E MMM dd HH:mm:ss Z yyyy)
      */
     struct DateFormats {
         
-        /// UTC format
         static let utc: String = "yyyy-MM-dd'T'HH:mm:ssZ"
         static let gmt: String = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
         static let posix: String = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
@@ -163,10 +302,13 @@ internal class Constants {
     
     /**
      Time zone formats
+     
+     - utc: the UTC representation format
+     - gmt: the GMT representation format
+     - posix: the en_US_POSIX representation format
      */
     struct TimeZone {
         
-        /// UTC format
         static let utc: String = "UTC"
         static let gmt: String = "GMT"
         static let posix: String = "en_US_POSIX"
@@ -174,44 +316,60 @@ internal class Constants {
     
     /**
      DataPoint Block size
+     
+     - maxBlockSize: Max block size
      */
     struct DataPointBlockSize {
         
-        /// Max block size
         static let maxBlockSize: Int = 100
     }
     
     /**
      DataPoint purge data
+     
+     - olderThan: Representing days, 7
      */
     struct PurgeData {
         
-        /// Older than 7 days
         static let olderThan: Double = 7
     }
     
     /**
      Authentication struct
+     
+     - urlScheme: The name of the declared in the bundle identifier (rumpellocationtrackerapp)
+     - serviceName: The name of the service (RumpelLite)
+     - localAuthHost: The name of the local authentication host, can be anything (rumpellocationtrackerapphost)
+     - notificationHandlerName: The notification handler name, can be anything (rumpellocationtrackerappnotificationhandler)
+     - tokenParamName: The token name, QS parameter (token)
      */
     struct Auth {
         
-        /// The name of the declared in the bundle identifier
         static let urlScheme: String = "rumpellocationtrackerapp"
-        /// The name of the service, RumpelLite
         static let serviceName: String = "RumpelLite"
-        /// The name of the local authentication host, can be anything
         static let localAuthHost: String = "rumpellocationtrackerapphost"
-        /// The notification handler name, can be anything
         static let notificationHandlerName: String = "rumpellocationtrackerappnotificationhandler"
-        /// The token name, QS parameter
         static let tokenParamName: String = "token"
     }
     
     /**
      Keychain struct
+     
+     - Values: A struct holding the possible keychain values
+     - hatDomainKey: The key used: user_hat_domain
+     - trackDeviceKey: The key used: trackDevice
+     - userToken: The key used: UserToken
+     - logedIn: The key used: logedIn
      */
     struct Keychain {
         
+        /**
+         Keychain struct
+         
+         - setTrue: The key used: true
+         - setFalse: The key used: false
+         - expired: The key used: expired
+         */
         struct Values {
             
             static let setTrue: String = "true"
@@ -219,7 +377,6 @@ internal class Constants {
             static let expired: String = "expired"
         }
         
-        /// the HAT domain key
         static let hatDomainKey: String = "user_hat_domain"
         static let trackDeviceKey: String = "trackDevice"
         static let userToken: String = "UserToken"
@@ -228,15 +385,23 @@ internal class Constants {
     
     /**
      The content types available
+     
+     - json: application/json
+     - text: text/plain
      */
     struct ContentType {
         
-        /// JSON content
         static let json: String = "application/json"
-        /// Text content
         static let text: String = "text/plain"
     }
     
+    /**
+     The headers available
+     
+     - accept: Accept
+     - contentType: Content-Type
+     - authToken: X-Auth-Token
+     */
     struct Headers {
         
         static let accept: String = "Accept"
@@ -244,6 +409,13 @@ internal class Constants {
         static let authToken: String = "X-Auth-Token"
     }
     
+    /**
+     The content types available
+     
+     - dashedLine: Key: DashedTopLine
+     - line: Key: line
+     - line2: Key: line2
+     */
     struct UIViewLayerNames {
         
         static let dashedLine: String = "DashedTopLine"
@@ -253,39 +425,42 @@ internal class Constants {
      
     /**
      HAT credintials for location tracking
+     
+     - dashedLine: hat username used for location data plug, location
+     - hatPassword: hat password used for location data plug, MYl06ati0n
+     - marketsquareDataPlugID: market data plug id used for location data plug, c532e122-db4a-44b8-9eaf-18989f214262
+     - marketsquareAccessToken: market access token used for location data plug
      */
     struct HATDataPlugCredentials {
         
-        /// hat username used for location data plug
         static let hatUsername: String = "location"
-        /// hat password used for location data plug
         static let hatPassword: String = "MYl06ati0n"
-        /// market data plug id used for location data plug
         static let marketsquareDataPlugID: String = "c532e122-db4a-44b8-9eaf-18989f214262"
-        /// market access token used for location data plug
         static let marketsquareAccessToken: MarketAccessTokenAlias = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxLVZyaHVrWFh1bm9LRVwvd3p2Vmh4bm5FakdxVHc2RCs3WVZoMnBLYTdIRjJXbHdUV29MQWR3K0tEdzZrTCtkQjI2eHdEbE5sdERqTmRtRlwvVWtWM1A2ODF3TXBPSUxZbFVPaHI1WnErTT0iLCJkYXRhcGx1ZyI6ImM1MzJlMTIyLWRiNGEtNDRiOC05ZWFmLTE4OTg5ZjIxNDI2MiIsImlzcyI6ImhhdC1tYXJrZXQiLCJleHAiOjE1MTU2MDQ3NzUsImlhdCI6MTQ4NDg0NjM3NSwianRpIjoiZTBlMjIwY2VmNTMwMjllZmQ3ZDFkZWQxOTQzYzdlZWE5NWVjNWEwNGI4ZjA1MjU1MzEwNDgzYTk1N2VmYTQzZWZiMzQ5MGRhZThmMTY0M2ViOGNhNGVlOGZkNzI3ZDBiZDBhZGQyZTgzZWZkNmY4NjM2NWJiMjllYjY2NzQ3MWVhMjgwMmQ4ZTdkZWIxMzlhZDUzY2UwYzQ1ZTgxZmVmMGVjZTI5NWRkNTU0N2I2ODQzZmRiZTZlNjJmZTU1YzczYzAyYjA4MDAzM2FlMzQyMWUxZWJlMGFhOTgzNmE4MGNjZjQ0YmIxY2E1NmQ0ZjM4NWJkMzg1ZDY4ZmY0ZTIwMyJ9.bPTryrVhFa2uAMSZ6A5-Vvca7muEf8RrWoiire7K7ko"
     }
         
     /**
      The user's preferences, settings
+     
+     - userNewDefaultAccuracy: User's new default accuracy
+     - userDefaultAccuracy: User's old default accuracy
+     - mapLocationAccuracy: User's map accuracy
+     - mapLocationDistance: User's map distance
+     - mapLocationDeferredDistance: User's map deferred distance
+     - mapLocationDeferredTimeout: User's map deferred timeout
+     - successfulSyncCount: Successful sync count
+     - successfulSyncDate: Successful sync date
      */
     struct Preferences {
 
-        /// User's default accuracy
         static let userNewDefaultAccuracy: String = "shared_user_new_default_accuracy"
         static let userDefaultAccuracy: String = "UserNewDefaultAccuracy"
-        /// User's map accuracy
         static let mapLocationAccuracy: String = "shared_map_location_accuracy"
-        /// User's map distance
         static let mapLocationDistance: String = "shared_map_location_distance"
-        /// User's map deferred distance
         static let mapLocationDeferredDistance: String = "shared_map_location_deferred_distance"
-        /// User's map deferred timeout
         static let mapLocationDeferredTimeout: String = "shared_map_location_deferred_timeout"
         
-        /// Successful sync count
         static let successfulSyncCount: String = "shared_successful_sync_count"
-        /// Successful sync date
         static let successfulSyncDate: String = "shared_successful_sync_date"
     }
     
@@ -377,6 +552,29 @@ internal class Constants {
         static let cashOffersImage: String = "Cash Offers"
         static let serviceOffersImage: String = "Service Offers"
         static let voucherOffersImage: String = "Voucher Offers"
+        static let bemoji: String = "bemoji"
+        static let callingCard: String = "callingCard"
+        static let doImage: String = "do"
+        static let gimme: String = "gimme"
+        static let match: String = "match"
+        static let read: String = "read"
+        static let recall: String = "recall"
+        static let socialMediaControl: String = "socialMediaControl"
+        static let watch: String = "watch"
+        static let cirle: String = "Circle"
+        static let circleFilled: String = "Full Circle"
+        static let sso: String = "SSO"
+        static let goDeep: String = "goDeep"
+        static let community: String = "Community"
+        static let news: String = "News"
+        static let hatLogo: String = "HAT App Logo"
+        static let featured: String = "Featured"
+        static let savy: String = "Savy"
+        static let shapeInfluence: String = "ShapeInfluence"
+        static let podsense: String = "Podsense"
+        static let hospify: String = "Hospify"
+        static let hatters: String = "Hatters"
+        static let ideas: String = "Ideas"
     }
     
     // MARK: - Data Plug
@@ -387,12 +585,12 @@ internal class Constants {
         
         static func twitterDataPlugServiceURL(userDomain: String, socialServiceURL: String) -> String {
             
-            return "https://" + userDomain + "/hatlogin?name=Twitter&redirect=" + socialServiceURL + "/authenticate/hat"
+            return "https://\(userDomain)/hatlogin?name=Twitter&redirect=\(socialServiceURL)/authenticate/hat"
         }
         
         static func facebookDataPlugServiceURL(userDomain: String, socialServiceURL: String) -> String {
             
-            return "https://" + userDomain + "/hatlogin?name=Facebook&redirect=" + socialServiceURL.replacingOccurrences(of: "dataplug", with: "hat/authenticate")
+            return "https://\(userDomain)/hatlogin?name=Facebook&redirect=\(socialServiceURL.replacingOccurrences(of: "dataplug", with: "hat/authenticate"))"
         }
     }
     
@@ -426,6 +624,24 @@ internal class Constants {
             static let name: String = "MarketSquare"
             static let source: String = "https://marketsquare.hubofallthings.com"
         }
+        
+        struct Rumpel {
+            
+            static let name: String = "Rumpel"
+            static let source: String = "https://rumpel.hubofallthings.com"
+        }
+        
+        struct Facebook {
+            
+            static let name: String = "Facebook"
+            static let source: String = "https://social-plug.hubofallthings.com"
+        }
+        
+        struct DataBuyer {
+            
+            static let name: String = "DataBuyer"
+            static let source: String = "https://databuyer.hubofallthings.com/"
+        }
     }
     
     // MARK: - Segue
@@ -433,6 +649,8 @@ internal class Constants {
     struct Segue {
         
         static let stripeSegue: String = "stripeSegue"
+        static let prioritiesSegue: String = "prioritiesSegue"
+        static let interestsSegue: String = "interestsSegue"
         static let termsSegue: String = "termsSegue"
         static let completePurchaseSegue: String = "completePurchaseSegue"
         static let offerToOfferDetailsSegue: String = "offerToOfferDetailsSegue"
@@ -455,6 +673,8 @@ internal class Constants {
         static let createNoteToHATPhotosSegue: String = "createNoteToHATPhotosSegue"
         static let fullScreenPhotoViewerSegue: String = "fullScreenPhotoViewerSegue"
         static let phataSegue: String = "phataSegue"
+        static let notificationDetailsSegue: String = "notificationsToNotificationDetailsSegue"
+        static let notificationsSegue: String = "moreToNotificationsSegue"
         static let moreToResetPasswordSegue: String = "moreToResetPasswordSegue"
         static let dataSegue: String = "dataSegue"
         static let locationsSettingsSegue: String = "locationsSettingsSegue"
@@ -473,6 +693,15 @@ internal class Constants {
         static let phataToAboutSegue: String = "phataToAboutSegue"
         static let phataToSocialLinksSegue: String = "phataToSocialLinksSegue"
         static let phataToProfileInfoSegue: String = "phataToProfileInfoSegue"
+        static let dataStoreToForDataOffersInfoSegue: String = "dataStoreToForDataOffersInfoSegue"
+        static let dataStoreToUKSpecificSegue: String = "dataStoreToUKSpecificSegue"
+        static let dataStoreToEmploymentStatusSegue: String = "dataStoreToEmploymentStatusSegue"
+        static let dietaryHabitsSegue: String = "dietaryHabitsSegue"
+        static let homeToEditNoteSegue: String = "homeToEditNoteSegue"
+        static let homeToDataStore: String = "homeToDataStore"
+        static let homeToDataPlugs: String = "homeToDataPlugs"
+        static let homeToDataOffers: String = "homeToDataOffers"
+        static let homeToGoDeepSegue: String = "homeToGoDeepSegue"
     }
     
     // MARK: - HAT Endpoints
@@ -486,23 +715,24 @@ internal class Constants {
         
         static func hatLoginURL(userDomain: String) -> String {
             
-            return "https://" + userDomain + "/hatlogin?name=" + Constants.Auth.serviceName + "&redirect=" +
-                Constants.Auth.urlScheme + "://" + Constants.Auth.localAuthHost
+            return "https://\(userDomain)/hatlogin?name=\(Constants.Auth.serviceName)&redirect=\(Constants.Auth.urlScheme)://\(Constants.Auth.localAuthHost)"
         }
         
         static func fileInfoURL(fileID: String, userDomain: String) -> String {
             
-            return "https://" + userDomain + "/api/v2/files/content/" + fileID
+            return "https://\(userDomain)/api/v2/files/content/\(fileID)"
         }
         
         /**
          Should be performed before each data post request as token lifetime is short.
          
+         - parameter userDomain: The user's domain
+         
          - returns: UserHATAccessTokenURLAlias
          */
         static func theUserHATAccessTokenURL(userDomain: String) -> Constants.UserHATAccessTokenURLAlias {
             
-            return "https://" + userDomain + "/users/access_token?username=" + Constants.HATDataPlugCredentials.hatUsername + "&password=" + Constants.HATDataPlugCredentials.hatPassword
+            return "https://\(userDomain)/users/access_token?username=\(Constants.HATDataPlugCredentials.hatUsername)&password=\(Constants.HATDataPlugCredentials.hatPassword)"
         }
         
         /**
@@ -510,44 +740,50 @@ internal class Constants {
          
          - parameter tableName: The table name
          - parameter sourceName: The source name
+         - parameter userDomain: The user's domain
          
          - returns: String
          */
         static func theUserHATCheckIfTableExistsURL(tableName: String, sourceName: String, userDomain: String) -> String {
             
-            return "https://" + userDomain + "/data/table?name=" + tableName + "&source=" + sourceName
+            return "https://\(userDomain)/data/table?name=\(tableName)&source=\(sourceName)"
         }
         
         /**
          Constructs the URL in order to create new table. Should be performed only if there isn’t an existing data source already.
          
+         - parameter userDomain: The user's domain
+         
          - returns: String
          */
         static func theConfigureNewDataSourceURL(userDomain: String) -> String {
             
-            return "https://" + userDomain + "/data/table"
+            return "https://\(userDomain)/data/table"
         }
         
         /**
          Constructs the URL to get a field from a table
          
          - parameter fieldID: The fieldID number
+         - parameter userDomain: The user's domain
          
          - returns: String
          */
         static func theGetFieldInformationUsingTableIDURL(_ fieldID: Int, userDomain: String) -> String {
             
-            return "https://" + userDomain + "/data/table/" + String(fieldID)
+            return "https://\(userDomain)/data/table/\(String(fieldID))"
         }
         
         /**
          Constructs the URL to post data to HAT
          
+         - parameter userDomain: The user's domain
+         
          - returns: String
          */
         static func thePOSTDataToHATURL(userDomain: String) -> String {
             
-            return "https://" + userDomain + "/data/record/values"
+            return "https://\(userDomain)/data/record/values"
         }
     }
 }

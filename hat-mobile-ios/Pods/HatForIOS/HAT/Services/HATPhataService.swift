@@ -13,9 +13,9 @@
 import Alamofire
 import SwiftyJSON
 
-// MARK: Class
+// MARK: Struct
 
-public class HATPhataService: NSObject {
+public struct HATPhataService {
 
     // MARK: - Get Phata
 
@@ -27,7 +27,7 @@ public class HATPhataService: NSObject {
      - parameter successCallback: A function to call on success
      - parameter failCallback: A fuction to call on fail
      */
-    public class func getProfileFromHAT(userDomain: String, userToken: String, successCallback: @escaping (HATProfileObject) -> Void, failCallback: @escaping (HATTableError) -> Void) {
+    public static func getProfileFromHAT(userDomain: String, userToken: String, successCallback: @escaping (HATProfileObject) -> Void, failCallback: @escaping (HATTableError) -> Void) {
 
         func tableFound (tableID: NSNumber, newToken: String?) {
 
@@ -79,7 +79,7 @@ public class HATPhataService: NSObject {
      - parameter successCallBack: A Function to execute on success
      - parameter errorCallback: A Function to execute on error
      */
-    public class func postProfile(userDomain: String, userToken: String, hatProfile: HATProfileObject, successCallBack: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func postProfile(userDomain: String, userToken: String, hatProfile: HATProfileObject, successCallBack: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
 
         func posting(resultJSON: Dictionary<String, Any>, token: String?) {
 

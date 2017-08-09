@@ -25,6 +25,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     /// An IBOutlet for handling the collection view
     @IBOutlet private weak var collectionView: UICollectionView!
+    @IBOutlet private weak var showAllNotes: UIButton!
     
     // MARK: - Variables
     
@@ -57,7 +58,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     }
     
     /// A String to filter the social feed by, Twitter, Facebook and All
-    private var filterBy: String = "All"
+    var filterBy: String = "All"
     
     /// A Bool to determine if twitter is available
     private var isTwitterAvailable: Bool = false
@@ -100,6 +101,11 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
 
     // MARK: - IBActions
     
+    @IBAction func showAllNotesAction(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: "socialFeedToNotesSegue", sender: self)
+    }
+    
     /**
      Shows a pop up with the available settings
      
@@ -117,7 +123,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         super.viewDidLoad()
         
         // view controller title
-        self.title = "Social Data"
+        self.title = "Social Data"  
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -862,7 +868,6 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                     
                     weakSelf.emptyCollectionViewLabel.text = text
                 }
-                
             }
         }
     }

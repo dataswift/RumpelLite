@@ -111,10 +111,9 @@ extension UIImageView {
             
             if let unwrapImage = newImage, let unwrapCGImage = unwrapImage.cgImage {
                 
-                let imageRef = unwrapCGImage.cropping(to: rect)
-                if imageRef != nil {
+                if let imageRef = unwrapCGImage.cropping(to: rect) {
                     
-                    let croppedImage: UIImage = UIImage(cgImage: imageRef!)
+                    let croppedImage: UIImage = UIImage(cgImage: imageRef)
                     self.image = croppedImage
                 }
             }

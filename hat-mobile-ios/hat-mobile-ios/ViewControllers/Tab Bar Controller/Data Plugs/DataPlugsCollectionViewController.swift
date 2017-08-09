@@ -23,6 +23,9 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
     /// An array with the available data plugs
     private var dataPlugs: [HATDataPlugObject] = []
     
+    private var selectedlPlug: String = ""
+    private var plugURL: String = ""
+    
     /// A view to show that app is loading, fetching data plugs
     private var loadingView: UIView = UIView()
     
@@ -36,7 +39,11 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         super.viewDidLoad()
         
         // add notification observer for response from server
-        NotificationCenter.default.addObserver(self, selector: #selector(showAlertForDataPlug), name: Notification.Name(Constants.NotificationNames.dataPlug), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(showAlertForDataPlug),
+            name: Notification.Name(Constants.NotificationNames.dataPlug),
+            object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -45,7 +52,26 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         
         self.dataPlugs.removeAll()
         self.collectionView?.reloadData()
-                
+        self.getDataPlugs()
+    }
+    
+    override func didReceiveMemoryWarning() {
+        
+        super.didReceiveMemoryWarning()
+    }
+    
+    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
+        
+        self.collectionView?.reloadData()
+    }
+    
+    // MARK: - Get Plugs
+    
+    /**
+     Gets available data plugs
+     */
+    private func getDataPlugs() {
+        
         /// method to execute on a successful callback
         func successfullCallBack(data: [HATDataPlugObject], renewedUserToken: String?) {
             
@@ -56,29 +82,40 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             self.checkDataPlugsIfActive()
             
             // refresh user token
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
         }
         
         /// method to execute on a failed callback
-        func failureCallBack() {
+        func failureCallBack(error: DataPlugError) {
             
             // remove the loading screen from the view
             self.loadingView.removeFromSuperview()
+            CrashLoggerHelper.dataPlugErrorLog(error: error)
         }
         
         // create loading pop up screen
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.collectionView?.frame.midX)! - 70, y: (self.collectionView?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Getting data plugs...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.collectionView?.frame.midX)! - 70, y: (self.collectionView?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Getting data plugs...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         // get available data plugs from server
-        HATDataPlugsService.getAvailableDataPlugs(succesfulCallBack: successfullCallBack, failCallBack: {(error) -> Void in
+        HATDataPlugsService.getAvailableDataPlugs(
+            succesfulCallBack: successfullCallBack,
+            failCallBack: failureCallBack)
         
-            failureCallBack()
-            _ = CrashLoggerHelper.dataPlugErrorLog(error: error)
-        })
-        
-       self.checkFacebookPlugIfExpired()
+        self.checkFacebookPlugIfExpired()
     }
     
+    // MARK: - Check facebook if expired
+    
+    /**
+     Checks facebook plug if expired and sets up a notification
+     */
     private func checkFacebookPlugIfExpired() {
         
         func appTokenReceived(appToken: String, usersToken: String?) {
@@ -96,27 +133,26 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
                 }
             }
             
-            HATDataPlugsService.checkSocialPlugExpiry(succesfulCallBack: setUpNotificationOnExpiry, failCallBack: {(error) -> Void in
+            HATDataPlugsService.checkSocialPlugExpiry(
+                succesfulCallBack: setUpNotificationOnExpiry,
+                failCallBack: {(error) -> Void in
                 
-                _ = CrashLoggerHelper.dataPlugErrorLog(error: error)
-            })(appToken)
+                    CrashLoggerHelper.dataPlugErrorLog(error: error)
+                }
+            )(appToken)
         }
         
-        HATService.getApplicationTokenFor(serviceName: "Facebbok", userDomain: self.userDomain, token: self.userToken, resource: "https://social-plug.hubofallthings.com", succesfulCallBack: appTokenReceived, failCallBack: {error in
+        HATService.getApplicationTokenFor(
+            serviceName: Constants.ApplicationToken.Facebook.name,
+            userDomain: self.userDomain,
+            token: self.userToken,
+            resource: Constants.ApplicationToken.Facebook.source,
+            succesfulCallBack: appTokenReceived,
+            failCallBack: {error in
             
-            _ = CrashLoggerHelper.JSONParsingErrorLog(error: error)
-        })
-    }
-    
-    override func didReceiveMemoryWarning() {
-        
-        super.didReceiveMemoryWarning()
-    }
-    
-    override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
-        
-        // reload collection view
-        self.collectionView?.reloadData()
+                CrashLoggerHelper.JSONParsingErrorLog(error: error)
+            }
+        )
     }
     
     // MARK: - Notification observer method
@@ -184,11 +220,15 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let url = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].name, socialServiceURL: self.dataPlugs[indexPath.row].url) {
+        if indexPath.row == 0 {
             
-            // open safari view controller
-            self.safariVC = SFSafariViewController.openInSafari(url: url, on: self, animated: true, completion: nil)
+            selectedlPlug = "facebook"
+        } else {
+            
+            selectedlPlug = "twitter"
         }
+        plugURL = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].name, socialServiceURL: self.dataPlugs[indexPath.row].url)!
+        self.performSegue(withIdentifier: "details", sender: self)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -202,6 +242,16 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         }
         
         return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == "details" {
+            
+            let vc = segue.destination as? DetailsDataPlugViewController
+            vc?.plug = self.selectedlPlug
+            vc?.plugURL = self.plugURL
+        }
     }
     
 }

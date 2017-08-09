@@ -11,6 +11,7 @@
  */
 
 import HatForIOS
+import SwiftyJSON
 
 // MARK: Class
 
@@ -20,9 +21,9 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
     // MARK: - Variables
 
     /// The sections of the table view
-    private let sections: [[String]] = [["Relationship Status"], ["Type of Accomodation"], ["Living Situation"], ["How many usually live in your household?"], ["Household ownership"], ["Do you have children?"], ["How many children do you have?"], ["Do you have any additional dependents?"]]
+    private let sections: [[String]] = [["Relationship Status"], ["Type of Accomodation"], ["Living Situation"], ["How many usually live in your household?"], ["How many children do you have?"], ["Do you have any additional dependents?"]]
     /// The headers of the table view
-    private let headers: [String] = ["Relationship Status", "Type of Accomodation", "Living Situation", "How many usually live in your household?", "Household ownership", "Do you have children?", "How many children do you have?", "Do you have any additional dependents?"]
+    private let headers: [String] = ["Relationship Status", "Type of Accomodation", "Living Situation", "How many usually live in your household?", "How many children do you have?", "Do you have any additional dependents?"]
     
     /// The loading view pop up
     private var loadingView: UIView = UIView()
@@ -30,7 +31,7 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
     private var darkView: UIView = UIView()
     
     /// The relationship and household object used to save all the values downloaded from the server and also used to produce the JSON to update to the server
-    private var relationshipAndHousehold: HATProfileRelationshipAndHouseholdObject = HATProfileRelationshipAndHouseholdObject()
+    private var livingInfo: HATLivingInfoObject = HATLivingInfoObject()
     
     // MARK: - IBAction
     
@@ -41,13 +42,70 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      */
     @IBAction func saveButtonAction(_ sender: Any) {
         
-        self.darkView = UIView(frame: self.tableView.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
+        self.createPopUp()
+        self.updateModelFromUI()
+        self.uploadInfoToHat()
+    }
+    
+    // MARK: - Create error Alert
+    
+    /**
+     Creates an error alert based on when the error occured
+     
+     - parameter title: The title of the alert
+     - parameter message: The message of the alert
+     - parameter error: The error to log on crashlytics
+     */
+    private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
         
-        self.view.addSubview(self.darkView)
+        self.loadingView.removeFromSuperview()
+        self.darkView.removeFromSuperview()
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.createClassicOKAlertWith(
+            alertMessage: message,
+            alertTitle: title,
+            okTitle: "OK",
+            proceedCompletion: {})
+        
+        CrashLoggerHelper.hatTableErrorLog(error: error)
+    }
+    
+    // MARK: - Upload info
+    
+    /**
+     Uploads the model to hat
+     */
+    private func uploadInfoToHat() {
+        
+        func success(json: JSON, newToken: String?) {
+            
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
+            
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        func failed(error: HATTableError) {
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+        
+        HATAccountService.createTableValuev2(
+            token: userToken,
+            userDomain: userDomain,
+            source: Constants.HATTableName.LivingInfo.source,
+            dataPath: Constants.HATTableName.LivingInfo.name,
+            parameters: self.livingInfo.toJSON(),
+            successCallback: success,
+            errorCallback: failed)
+    }
+    
+    // MARK: - Update Model
+    
+    /**
+     Maps the UI to the model in order to update the values
+     */
+    private func updateModelFromUI() {
         
         for index in self.headers.indices {
             
@@ -57,72 +115,52 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
                 
                 let indexPath = IndexPath(row: 0, section: index)
                 cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreRelationshipCell, for: indexPath) as? PhataTableViewCell
-                cell = self.setUpCell(cell: cell!, indexPath: indexPath, relationshipAndHousehold: self.relationshipAndHousehold) as? PhataTableViewCell
+                cell = self.setUpCell(cell: cell!, indexPath: indexPath, livingInfo: self.livingInfo) as? PhataTableViewCell
             }
             
             if index == 0 {
                 
-                self.relationshipAndHousehold.relationshipStatus = cell!.getTextFromTextField()
+                self.livingInfo.relationshipStatus = cell!.getTextFromTextField()
             } else if index == 1 {
                 
-                self.relationshipAndHousehold.typeOfAccomodation = cell!.getTextFromTextField()
+                self.livingInfo.typeOfAccomodation = cell!.getTextFromTextField()
             } else if index == 2 {
                 
-                self.relationshipAndHousehold.livingSituation = cell!.getTextFromTextField()
+                self.livingInfo.livingSituation = cell!.getTextFromTextField()
             } else if index == 3 {
                 
-                self.relationshipAndHousehold.howManyUsuallyLiveInYourHousehold = cell!.getTextFromTextField()
+                self.livingInfo.numberOfPeopleInHousehold = cell!.getTextFromTextField()
             } else if index == 4 {
                 
-                self.relationshipAndHousehold.householdOwnership = cell!.getTextFromTextField()
+                self.livingInfo.numberOfChildren = cell!.getTextFromTextField()
             } else if index == 5 {
                 
-                self.relationshipAndHousehold.hasChildren = cell!.getTextFromTextField()
-            } else if index == 6 {
-                
-                self.relationshipAndHousehold.numberOfChildren = Int(cell!.getTextFromTextField())!
-            } else if index == 7 {
-                
-                self.relationshipAndHousehold.additionalDependents = cell!.getTextFromTextField()
+                self.livingInfo.numberOfDecendants = cell!.getTextFromTextField()
             }
         }
+    }
+    
+    // MARK: - Create PopUp
+    
+    /**
+     Creates Updating profile... pop up while the uploading is taking place
+     */
+    private func createPopUp() {
         
-        func gotApplicationToken(appToken: String, newUserToken: String?) {
-            
-            HATProfileService.postRelationshipAndHouseholdToHAT(
-                userDomain: userDomain,
-                userToken: appToken,
-                relationshipAndHouseholdObject: self.relationshipAndHousehold,
-                successCallback: {_ in
-                    
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                failCallback: {error in
-                    
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    self.createClassicOKAlertWith(alertMessage: "There was an error posting profile", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-            )
-        }
+        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView.backgroundColor = .black
+        self.darkView.alpha = 0.4
         
-        func gotErrorWhenGettingApplicationToken(error: JSONParsingError) {
-            
-            CrashLoggerHelper.JSONParsingErrorLog(error: error)
-        }
+        self.view.addSubview(self.darkView)
         
-        HATService.getApplicationTokenFor(
-            serviceName: "Rumpel",
-            userDomain: self.userDomain,
-            token: self.userToken,
-            resource: "https://rumpel.hubofallthings.com",
-            succesfulCallBack: gotApplicationToken,
-            failCallBack: gotErrorWhenGettingApplicationToken)
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Updating profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
     }
     
     // MARK: - View Controller functions
@@ -133,9 +171,22 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
         
         self.tableView.allowsSelection = false
         
-        HATProfileService.getRelationshipAndHouseholdFromHAT(userDomain: userDomain, userToken: userToken, successCallback: updateTableWithValuesFrom, failCallback: errorFetching)
+        self.getLivingInfo()
     }
     
+    // MARK: - Get Living Info
+    
+    private func getLivingInfo () {
+        
+        HATAccountService.getHatTableValuesv2(
+            token: userToken,
+            userDomain: userDomain,
+            source: Constants.HATTableName.LivingInfo.source,
+            scope: Constants.HATTableName.LivingInfo.name,
+            parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
+            successCallback: updateTableWithValuesFrom,
+            errorCallback: errorFetching)
+    }
     // MARK: - Completion handlers
     
     /**
@@ -143,10 +194,13 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      
      - parameter nationalityObject: The nationality object returned from HAT
      */
-    func updateTableWithValuesFrom(relationshipAndHouseholdObject: HATProfileRelationshipAndHouseholdObject) {
+    func updateTableWithValuesFrom(array: [JSON], newToken: String?) {
         
-        self.relationshipAndHousehold = relationshipAndHouseholdObject
-        self.tableView.reloadData()
+        if !array.isEmpty {
+            
+            self.livingInfo = HATLivingInfoObject(from: array[0])
+            self.tableView.reloadData()
+        }
     }
     
     /**
@@ -159,7 +213,7 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
         switch error {
         case .noValuesFound:
             
-            self.relationshipAndHousehold = HATProfileRelationshipAndHouseholdObject()
+            self.livingInfo = HATLivingInfoObject()
         default:
             
             _ = CrashLoggerHelper.hatTableErrorLog(error: error)
@@ -187,7 +241,7 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
         
         if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreRelationshipCell, for: indexPath) as? PhataTableViewCell {
             
-            return setUpCell(cell: cell, indexPath: indexPath, relationshipAndHousehold: self.relationshipAndHousehold)
+            return setUpCell(cell: cell, indexPath: indexPath, livingInfo: self.livingInfo)
         }
         
         return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreRelationshipCell, for: indexPath)
@@ -214,34 +268,46 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      
      - returns: The set up cell
      */
-    func setUpCell(cell: PhataTableViewCell, indexPath: IndexPath, relationshipAndHousehold: HATProfileRelationshipAndHouseholdObject) -> UITableViewCell {
+    func setUpCell(cell: PhataTableViewCell, indexPath: IndexPath, livingInfo: HATLivingInfoObject) -> UITableViewCell {
         
         cell.accessoryType = .none
         
         if indexPath.section == 0 {
             
-            cell.setTextToTextField(text: relationshipAndHousehold.relationshipStatus)
+            cell.setTextToTextField(text: livingInfo.relationshipStatus)
+            cell.setTagInTextField(tag: 15)
+            cell.dataSourceForPickerView = ["Married", "Engaged", "Living together", "Single", "Divorced", "Widowed", "Do not want to say"]
+            cell.setKeyboardType(.default)
         } else if indexPath.section == 1 {
             
-            cell.setTextToTextField(text: relationshipAndHousehold.typeOfAccomodation)
+            cell.setTextToTextField(text: livingInfo.typeOfAccomodation)
+            cell.setTagInTextField(tag: 15)
+            cell.dataSourceForPickerView = ["Detached House", "Flat", "Semi-detached", "Terraced", "End Terrace", "Cottage", "Bungalow", "Do not want to say"]
+            cell.setKeyboardType(.default)
         } else if indexPath.section == 2 {
             
-            cell.setTextToTextField(text: relationshipAndHousehold.livingSituation)
+            cell.setTextToTextField(text: livingInfo.livingSituation)
+            cell.setTagInTextField(tag: 15)
+            cell.dataSourceForPickerView = ["own a home", "renting", "living with parents", "homeless", "Do not want to say"]
+            cell.setKeyboardType(.default)
         } else if indexPath.section == 3 {
             
-            cell.setTextToTextField(text: relationshipAndHousehold.howManyUsuallyLiveInYourHousehold)
+            cell.setTextToTextField(text: livingInfo.numberOfPeopleInHousehold)
+            cell.setTagInTextField(tag: 15)
+            cell.dataSourceForPickerView = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "Do not want to say"]
+            cell.setKeyboardType(.default)
         } else if indexPath.section == 4 {
             
-            cell.setTextToTextField(text: relationshipAndHousehold.householdOwnership)
+            cell.setTextToTextField(text: String(describing: livingInfo.numberOfChildren))
+            cell.setTagInTextField(tag: 15)
+            cell.dataSourceForPickerView = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "Do not want to say"]
+            cell.setKeyboardType(.default)
         } else if indexPath.section == 5 {
             
-            cell.setTextToTextField(text: relationshipAndHousehold.hasChildren)
-        } else if indexPath.section == 6 {
-            
-            cell.setTextToTextField(text: String(describing: relationshipAndHousehold.numberOfChildren))
-        } else if indexPath.section == 7 {
-            
-            cell.setTextToTextField(text: relationshipAndHousehold.additionalDependents)
+            cell.setTextToTextField(text: livingInfo.numberOfDecendants)
+            cell.setTagInTextField(tag: 15)
+            cell.dataSourceForPickerView = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "Do not want to say"]
+            cell.setKeyboardType(.default)
         }
         
         return cell

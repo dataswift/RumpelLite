@@ -38,6 +38,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var labelTitle: UITextView!
     /// An IBOutlet for handling the labelSubTitle
     @IBOutlet private weak var labelSubTitle: UITextView!
+    
     /// An IBOutlet for handling the inputUserHATDomain
     @IBOutlet private weak var inputUserHATDomain: UITextField!
     
@@ -48,9 +49,6 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var scrollView: UIScrollView!
     
     // MARK: - Variables
-    
-    /// A String typealias
-    typealias MarketAccessToken = String
    
     /// SafariViewController variable
     private var safariVC: SFSafariViewController?
@@ -133,7 +131,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if self.inputUserHATDomain.text != "" {
             
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
             let filteredDomain = self.removeDomainFromUserEnteredText(domain: self.inputUserHATDomain.text!)
 
             HATLoginService.formatAndVerifyDomain(userHATDomain: filteredDomain + (self.domainButton.titleLabel?.text)!, successfulVerification: self.authoriseUser, failedVerification: failed)
@@ -163,6 +161,107 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         return domain
     }
     
+    // MARK: - Update UI
+    
+    /**
+     Updates all the UI elemenents during login
+     */
+    private func updateUI() {
+        
+        // disable the navigation back button
+        self.navigationItem.setHidesBackButton(true, animated:false)
+        
+        self.updateButtons()
+        self.updateVersion()
+        self.updateLabels()
+        
+        // move placeholder inside by 5 points
+        self.inputUserHATDomain.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
+        
+        // set placeholder at textfield
+        self.inputUserHATDomain.placeholder = NSLocalizedString("hat_domain_placeholder", comment:  "user HAT domain")
+    }
+    
+    /**
+     Adds border to buttons and changes the title and color of login button
+     */
+    private func updateButtons() {
+        
+        // button
+        self.buttonLogon.setTitle(NSLocalizedString("logon_label", comment:  "username"), for: UIControlState())
+        self.buttonLogon.backgroundColor = .appBase
+        
+        self.joinCommunityButton.addBorderToButton(width: 1, color: .white)
+        self.getAHATButton.addBorderToButton(width: 1, color: .white)
+        self.learnMoreButton.addBorderToButton(width: 1, color: .white)
+    }
+    
+    /**
+     Updates the version number
+     */
+    private func updateVersion() {
+        
+        // app version
+        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
+            
+            self.labelAppVersion.text = "v. " + version
+        }
+    }
+    
+    /**
+     Updates the labels with the title wanted
+     */
+    private func updateLabels() {
+        
+        // set title
+        self.title = ""
+        
+//        let partOne = "Rumpel ".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
+//        let partTwo = "Lite".createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
+        
+        //self.labelTitle.attributedText = partOne.combineWith(attributedText: partTwo)
+        self.labelTitle.textAlignment = .center
+    }
+    
+    /**
+     Creates the toolbar to attach to the keyboard if we have a saved userDomain
+     */
+    private func createToolBar(toolBarTitle: String) {
+        
+        // Create a button bar for the number pad
+        let toolbar = UIToolbar()
+        toolbar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 35)
+        
+        let barButtonTitle = toolBarTitle
+        
+        // Setup the buttons to be put in the system.
+        let autofillButton = UIBarButtonItem(title: barButtonTitle, style: .done, target: self, action: #selector(self.autofillPHATA))
+        autofillButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 16.0)!, NSForegroundColorAttributeName: UIColor.white], for: .normal)
+        toolbar.barTintColor = .black
+        toolbar.setItems([autofillButton], animated: true)
+        
+        if barButtonTitle != "" {
+            
+            self.inputUserHATDomain.inputAccessoryView = toolbar
+            self.inputUserHATDomain.inputAccessoryView?.backgroundColor = .black
+        }
+    }
+    
+    /**
+     Creates the pop up view while authenticating with HAT
+     */
+    private func createPopUp() {
+        
+        self.popUpView = UIView()
+        popUpView!.createFloatingView(frame: CGRect(x: self.view.frame.midX - 60, y: self.view.frame.midY - 15, width: 120, height: 30), color: .teal, cornerRadius: 15)
+        
+        let label = UILabel().createLabel(frame: CGRect(x: 0, y: 0, width: 120, height: 30), text: "Authenticating...", textColor: .white, textAlignment: .center, font: UIFont(name: Constants.FontNames.openSans, size: 12))
+        
+        self.popUpView!.addSubview(label)
+        
+        self.view.addSubview(self.popUpView!)
+    }
+    
     // MARK: - View Controller functions
     
     override func viewDidLoad() {
@@ -173,40 +272,10 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         self.addKeyboardHandling()
         self.hideKeyboardWhenTappedAround()
         
-        // disable the navigation back button
-        self.navigationItem.setHidesBackButton(true, animated:false)
-        
-        // set title
-        self.title = NSLocalizedString("logon_label", comment:  "logon title")
-        
-        let partOne = "Rumpel ".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
-        let partTwo = "Lite".createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
-        
-        self.labelTitle.attributedText = partOne.combineWith(attributedText: partTwo)
-        self.labelTitle.textAlignment = .center
-        
-        // move placeholder inside by 5 points
-        self.inputUserHATDomain.layer.sublayerTransform = CATransform3DMakeTranslation(5, 0, 0)
-        
-        // input
-        self.inputUserHATDomain.placeholder = NSLocalizedString("hat_domain_placeholder", comment:  "user HAT domain")
-
-        // button
-        self.buttonLogon.setTitle(NSLocalizedString("logon_label", comment:  "username"), for: UIControlState())
-        self.buttonLogon.backgroundColor = .appBase
-        
-        // app version
-        if let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String {
-            
-            self.labelAppVersion.text = "v. " + version
-        }
+        self.updateUI()
         
         // add notification observer for the login in
         NotificationCenter.default.addObserver(self, selector: #selector(self.hatLoginAuth), name: NSNotification.Name(rawValue: Constants.Auth.notificationHandlerName), object: nil)
-        
-        self.joinCommunityButton.addBorderToButton(width: 1, color: .white)
-        self.getAHATButton.addBorderToButton(width: 1, color: .white)
-        self.learnMoreButton.addBorderToButton(width: 1, color: .white)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -216,25 +285,9 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         // when the view appears clear the text field. The user might pressed sing out, this field must not contain the previous address
         self.inputUserHATDomain.text = ""
         
-        // Create a button bar for the number pad
-        let toolbar = UIToolbar()
-        toolbar.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 35)
-        
         if let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.hatDomainKey) {
             
-            let barButtonTitle = result
-            
-            // Setup the buttons to be put in the system.
-            let autofillButton = UIBarButtonItem(title: barButtonTitle, style: .done, target: self, action: #selector(self.autofillPHATA))
-            autofillButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 16.0)!, NSForegroundColorAttributeName: UIColor.white], for: .normal)
-            toolbar.barTintColor = .black
-            toolbar.setItems([autofillButton], animated: true)
-            
-            if barButtonTitle != "" {
-                
-                self.inputUserHATDomain.inputAccessoryView = toolbar
-                self.inputUserHATDomain.inputAccessoryView?.backgroundColor = .black
-            }
+            self.createToolBar(toolBarTitle: result)
         }
     }
     
@@ -280,14 +333,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             // first of all, we close the safari vc
             self.safariVC?.dismissSafari(animated: true, completion: nil)
             
-            self.popUpView = UIView()
-            popUpView!.createFloatingView(frame: CGRect(x: self.view.frame.midX - 60, y: self.view.frame.midY - 15, width: 120, height: 30), color: .teal, cornerRadius: 15)
-            
-            let label = UILabel().createLabel(frame: CGRect(x: 0, y: 0, width: 120, height: 30), text: "Authenticating...", textColor: .white, textAlignment: .center, font: UIFont(name: Constants.FontNames.openSans, size: 12))
-            
-            self.popUpView!.addSubview(label)
-            
-            self.view.addSubview(self.popUpView!)
+            self.createPopUp()
             
             func success(token: String?) {
                 
@@ -295,7 +341,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
                 
                 if token != "" || token != nil {
                     
-                    _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
                 }
                 
                 let userDomain = HATAccountService.theUserHATDomain()
@@ -314,7 +360,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             
             // authorize with hat
             let filteredDomain = self.removeDomainFromUserEnteredText(domain: self.inputUserHATDomain.text!)
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.hatDomainKey, value: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.hatDomainKey, value: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!)
             HATLoginService.loginToHATAuthorization(userDomain: filteredDomain + (self.domainButton.titleLabel?.text)!, url: url, success: success, failed: failed)
         }
     }

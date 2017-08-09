@@ -21,6 +21,7 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
     
     /// The cell's imageView
     @IBOutlet private weak var image: UIImageView!
+    
     /// The ring progress bar of the image curently downloading
     @IBOutlet private weak var ringProgressView: RingProgressCircle!
     
@@ -59,33 +60,16 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
         
         let imageURL: String = Constants.HATEndpoints.fileInfoURL(fileID: files[indexPath.row].fileID, userDomain: userDomain)
 
-        if self.image.image == UIImage(named: Constants.ImageNames.placeholderImage) && URL(string: imageURL) != nil {
+        if files[indexPath.row].image != nil && files[indexPath.row].image != UIImage(named: Constants.ImageNames.placeholderImage) {
             
-            self.ringProgressView.isHidden = false
-            self.ringProgressView?.ringRadius = 15
-            self.ringProgressView?.animationDuration = 0
-            self.ringProgressView?.ringLineWidth = 4
-            self.ringProgressView?.ringColor = .white
-            self.ringProgressView.animationDuration = 0.2
+            self.image.image = files[indexPath.row].image
             
-            self.image.downloadedFrom(
-                url: URL(string: imageURL)!,
-                userToken: userToken,
-                progressUpdater: { [weak self] progress in
-                    
-                    let completion = CGFloat(progress)
-                    self?.ringProgressView.updateCircle(end: completion, animate: Float(self!.ringProgressView.endPoint), removePreviousLayer: false)
-                },
-                completion: { [weak self] in
-                                        
-                    if self != nil {
-                                                
-                        self!.ringProgressView.isHidden = true
-                                                
-                        completion(self!.image.image!)
-                    }
-                }
-            )
+            completion(self.image.image!)
+        } else if self.image.image == UIImage(named: Constants.ImageNames.placeholderImage) && URL(string: imageURL) != nil {
+            
+            self.initRingProgressView()
+            
+            self.downloadImageFrom(imageURL: imageURL, userToken: userToken, completion: completion)
         } else if self.ringProgressView.isHidden {
             
             self.image.image = files[indexPath.row].image
@@ -94,6 +78,52 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
         }
         
         return self
+    }
+    
+    // MARK: - Init ringProgressView
+    
+    /**
+     Inits the ringProgressView to default values
+     */
+    private func initRingProgressView() {
+        
+        self.ringProgressView.isHidden = false
+        self.ringProgressView?.ringRadius = 15
+        self.ringProgressView?.animationDuration = 0
+        self.ringProgressView?.ringLineWidth = 4
+        self.ringProgressView?.ringColor = .white
+        self.ringProgressView.animationDuration = 0.2
+    }
+    
+    // MARK: - Download Image
+    
+    /**
+     Downloads the image from the specified URL
+     
+     - parameter imageURL: The url to download the image from
+     - parameter userToken: The user token
+     - parameter completion: A function to execute on completion returning the UIImage
+     */
+    private func downloadImageFrom(imageURL: String, userToken: String, completion: @escaping (UIImage) -> Void) {
+        
+        self.image.downloadedFrom(
+            url: URL(string: imageURL)!,
+            userToken: userToken,
+            progressUpdater: { [weak self] progress in
+                
+                let completion = CGFloat(progress)
+                self?.ringProgressView.updateCircle(end: completion, animate: Float(self!.ringProgressView.endPoint), removePreviousLayer: false)
+            },
+            completion: { [weak self] in
+                
+                if self != nil {
+                    
+                    self!.ringProgressView.isHidden = true
+                    
+                    completion(self!.image.image!)
+                }
+            }
+        )
     }
     
     // MARK: - Crop Image

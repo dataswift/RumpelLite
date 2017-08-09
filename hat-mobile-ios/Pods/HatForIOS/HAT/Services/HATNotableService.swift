@@ -13,10 +13,10 @@
 import Alamofire
 import SwiftyJSON
 
-// MARK: Class
+// MARK: Struct
 
 /// A class about the methods concerning the Notables service
-public class HATNotablesService: NSObject {
+public struct HATNotablesService {
 
     // MARK: - Get Notes
 
@@ -25,7 +25,7 @@ public class HATNotablesService: NSObject {
      
      - parameter authToken: The auth token from hat
      */
-    public class func fetchNotables(userDomain: String, authToken: String, structure: Dictionary<String, Any>, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void, failure: @escaping (HATTableError) -> Void ) {
+    public static func fetchNotables(userDomain: String, authToken: String, structure: Dictionary<String, Any>, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void, failure: @escaping (HATTableError) -> Void ) {
 
         HATAccountService.checkHatTableExists(userDomain: userDomain, tableName: "notablesv1",
                                               sourceName: "rumpel",
@@ -40,7 +40,7 @@ public class HATNotablesService: NSObject {
      - parameter token: The user's token
      - parameter tableID: The table id of the notes
      */
-    private class func getNotes(userDomain: String, token: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) -> (_ tableID: NSNumber, _ token: String?) -> Void {
+    private static func getNotes(userDomain: String, token: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) -> (_ tableID: NSNumber, _ token: String?) -> Void {
 
         return { (tableID: NSNumber, returnedToken: String?) -> Void in
 
@@ -51,7 +51,7 @@ public class HATNotablesService: NSObject {
     /**
      Shows alert that the notes couldn't be fetched
      */
-    public class func showNotablesFetchError(error: HATTableError) {
+    public static func showNotablesFetchError(error: HATTableError) {
 
         // alert magic
     }
@@ -64,7 +64,7 @@ public class HATNotablesService: NSObject {
      - parameter id: the id of the note to delete
      - parameter tkn: the user's token as a string
      */
-    public class func deleteNote(recordID: Int, tkn: String, userDomain: String) {
+    public static func deleteNote(recordID: Int, tkn: String, userDomain: String) {
 
         HATAccountService.deleteHatRecord(userDomain: userDomain, token: tkn, recordId: recordID, success: { _ in }, failed: { (_) -> Void in return })
     }
@@ -77,7 +77,7 @@ public class HATNotablesService: NSObject {
      - parameter token: The token returned from the hat
      - parameter json: The json file as a Dictionary<String, Any>
      */
-    public class func postNote(userDomain: String, userToken: String, note: HATNotesData, successCallBack: @escaping () -> Void) {
+    public static func postNote(userDomain: String, userToken: String, note: HATNotesData, successCallBack: @escaping () -> Void) {
 
         func posting(resultJSON: Dictionary<String, Any>, token: String?) {
 
@@ -129,7 +129,7 @@ public class HATNotablesService: NSObject {
      - parameter array: The NotesData array
      - returns: An array of NotesData
      */
-    public class func removeDuplicatesFrom(array: [HATNotesData]) -> [HATNotesData] {
+    public static func removeDuplicatesFrom(array: [HATNotesData]) -> [HATNotesData] {
 
         // the array to return
         var arrayToReturn: [HATNotesData] = []
@@ -185,7 +185,7 @@ public class HATNotablesService: NSObject {
      - parameter notes: The NotesData array
      - returns: An array of NotesData
      */
-    public class func sortNotables(notes: [HATNotesData]) -> [HATNotesData] {
+    public static func sortNotables(notes: [HATNotesData]) -> [HATNotesData] {
 
         return notes.sorted { $0.lastUpdated > $1.lastUpdated }
     }

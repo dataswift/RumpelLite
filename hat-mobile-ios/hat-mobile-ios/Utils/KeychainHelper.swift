@@ -27,11 +27,12 @@ internal struct KeychainHelper {
      
      - returns: The result of the saving into keychain
      */
-    static func setKeychainValue(key: String, value: String?) -> Bool {
+    @discardableResult
+    static func setKeychainValue(key: String?, value: String?) -> Bool {
         
-        if value != nil {
+        if value != nil && key != nil {
             
-            return KeychainSwift().set(value!, forKey: key, withAccess: .accessibleWhenUnlocked)
+            return KeychainSwift().set(value!, forKey: key!, withAccess: .accessibleWhenUnlocked)
         }
         
         return false
@@ -56,6 +57,7 @@ internal struct KeychainHelper {
      
      - returns: String
      */
+    @discardableResult
     static func clearKeychainKey(key: String) -> Bool {
         
         return KeychainSwift().delete(key)

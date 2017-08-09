@@ -41,13 +41,81 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      */
     @IBAction func saveButtonAction(_ sender: Any) {
         
-        self.darkView = UIView(frame: self.tableView.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
+        self.createPopUp()
+        self.updateModelFromUI()
+        self.uploadInfoToHat()
+    }
+    
+    // MARK: - Create error Alert
+    
+    /**
+     Creates an error alert based on when the error occured
+     
+     - parameter title: The title of the alert
+     - parameter message: The message of the alert
+     - parameter error: The error to log on crashlytics
+     */
+    private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
         
-        self.view.addSubview(self.darkView)
+        self.loadingView.removeFromSuperview()
+        self.darkView.removeFromSuperview()
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.createClassicOKAlertWith(
+            alertMessage: message,
+            alertTitle: title,
+            okTitle: "OK",
+            proceedCompletion: {})
+        
+        CrashLoggerHelper.hatTableErrorLog(error: error)
+    }
+    
+    // MARK: - Upload info
+    
+    /**
+     Uploads the model to hat
+     */
+    private func uploadInfoToHat() {
+        
+        func gotApplicationToken(appToken: String, newUserToken: String?) {
+            
+            HATProfileService.postEducationToHAT(
+                userDomain: userDomain,
+                userToken: userToken,
+                education: self.education,
+                successCallback: {_ in
+                    
+                    self.loadingView.removeFromSuperview()
+                    self.darkView.removeFromSuperview()
+                    
+                    _ = self.navigationController?.popViewController(animated: true)
+                },
+                failCallback: {error in
+                    
+                    self.createErrorAlertWith(title: "Error", message: "There was an error posting profile", error: error)
+                }
+            )
+        }
+        
+        func gotErrorWhenGettingApplicationToken(error: JSONParsingError) {
+            
+            CrashLoggerHelper.JSONParsingErrorLog(error: error)
+        }
+        
+        HATService.getApplicationTokenFor(
+            serviceName: Constants.ApplicationToken.Rumpel.name,
+            userDomain: self.userDomain,
+            token: self.userToken,
+            resource: Constants.ApplicationToken.Rumpel.source,
+            succesfulCallBack: gotApplicationToken,
+            failCallBack: gotErrorWhenGettingApplicationToken)
+    }
+    
+    // MARK: - Update Model
+    
+    /**
+     Maps the UI to the model in order to update the values
+     */
+    private func updateModelFromUI() {
         
         for index in self.headers.indices {
             
@@ -65,43 +133,29 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
                 self.education.highestAcademicQualification = cell!.getTextFromTextField()
             }
         }
+    }
+    
+    // MARK: - Create PopUp
+    
+    /**
+     Creates Updating profile... pop up while the uploading is taking place
+     */
+    private func createPopUp() {
         
-        func gotApplicationToken(appToken: String, newUserToken: String?) {
-            
-            HATProfileService.postEducationToHAT(
-                userDomain: userDomain,
-                userToken: userToken,
-                education: self.education,
-                successCallback: {_ in
-                    
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                failCallback: {error in
-                    
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    self.createClassicOKAlertWith(alertMessage: "There was an error posting profile", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-            )
-        }
+        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView.backgroundColor = .black
+        self.darkView.alpha = 0.4
         
-        func gotErrorWhenGettingApplicationToken(error: JSONParsingError) {
-            
-            CrashLoggerHelper.JSONParsingErrorLog(error: error)
-        }
+        self.view.addSubview(self.darkView)
         
-        HATService.getApplicationTokenFor(
-            serviceName: "Rumpel",
-            userDomain: self.userDomain,
-            token: self.userToken,
-            resource: "https://rumpel.hubofallthings.com",
-            succesfulCallBack: gotApplicationToken,
-            failCallBack: gotErrorWhenGettingApplicationToken)
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Updating profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
     }
     
     // MARK: - View Controller Function
@@ -112,7 +166,11 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
         
         self.tableView.allowsSelection = false
         
-        HATProfileService.getEducationFromHAT(userDomain: userDomain, userToken: userToken, successCallback: updateTableWithValuesFrom, failCallback: errorFetching)
+        HATProfileService.getEducationFromHAT(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: updateTableWithValuesFrom,
+            failCallback: errorFetching)
     }
     
     override func didReceiveMemoryWarning() {
@@ -199,7 +257,10 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
 
         if indexPath.section == 0 {
             
+            cell.dataSourceForPickerView = ["GCSE/O levels", "High School/A levels", "Bachelors degree", "Masters degree", "Doctorate", "Do not want to say"]
             cell.setTextToTextField(text: education.highestAcademicQualification)
+            cell.setTagInTextField(tag: 11)
+            cell.setKeyboardType(.default)
         }
         
         return cell

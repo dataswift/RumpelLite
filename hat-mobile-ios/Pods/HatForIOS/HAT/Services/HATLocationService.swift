@@ -12,10 +12,10 @@
 
 import Alamofire
 
-// MARK: Class
+// MARK: Struct
 
 /// The location data plug service class
-public class HATLocationService: NSObject {
+public struct HATLocationService {
 
     // MARK: - Create location plug URL
 
@@ -25,7 +25,7 @@ public class HATLocationService: NSObject {
      - parameter userHATDomain: The user's hat domain
      - returns: HATRegistrationURLAlias, can return empty string
      */
-    public class func locationDataPlugURL(_ userHATDomain: String, dataPlugID: String) -> String {
+    public static func locationDataPlugURL(_ userHATDomain: String, dataPlugID: String) -> String {
 
         if let escapedUserHATDomain: String = userHATDomain.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
 
@@ -47,7 +47,7 @@ public class HATLocationService: NSObject {
      - parameter HATDomainFromToken: The HAT domain from token
      - parameter viewController: The UIViewController that calls this method
      */
-   public class func enableLocationDataPlug(_ userDomain: String, _ HATDomainFromToken: String, success: @escaping (Bool) -> Void, failed: @escaping (JSONParsingError) -> Void) {
+   public static func enableLocationDataPlug(_ userDomain: String, _ HATDomainFromToken: String, success: @escaping (Bool) -> Void, failed: @escaping (JSONParsingError) -> Void) {
 
         // parameters..
         let parameters: Dictionary<String, String> = [:]

@@ -11,6 +11,7 @@
  */
 
 import HatForIOS
+import SwiftyJSON
 
 // MARK: Class
 
@@ -20,9 +21,9 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Age"], ["Date of Birth"], ["Gender"]]
+    private let sections: [[String]] = [["Date of Birth"], ["I identify my gender as"], ["Income group"]]
     /// The headers of the table view
-    private let headers: [String] = ["Age", "Date of Birth", "Gender"]
+    private let headers: [String] = ["Date of Birth", "I identify my gender as", "Income group"]
     
     /// The loading view pop up
     private var loadingView: UIView = UIView()
@@ -30,7 +31,7 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
     private var darkView: UIView = UIView()
     
     /// The profile, used in PHATA table
-    var profile: HATProfileObject?
+    var profile: HATProfileInfo = HATProfileInfo()
     
     // MARK: - IBAction
 
@@ -41,13 +42,66 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
      */
     @IBAction func saveButtonAction(_ sender: Any) {
         
-        self.darkView = UIView(frame: self.tableView.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
+        self.createPopUp()
+        self.updateModelFromUI()
+        self.uploadInfoToHat()
+    }
+    
+    // MARK: - Create error Alert
+    
+    /**
+     Creates an error alert based on when the error occured
+     
+     - parameter title: The title of the alert
+     - parameter message: The message of the alert
+     - parameter error: The error to log on crashlytics
+     */
+    private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
         
-        self.view.addSubview(self.darkView)
+        self.loadingView.removeFromSuperview()
+        self.darkView.removeFromSuperview()
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.createClassicOKAlertWith(alertMessage: message, alertTitle: title, okTitle: "OK", proceedCompletion: {})
+        
+        CrashLoggerHelper.hatTableErrorLog(error: error)
+    }
+    
+    // MARK: - Upload info
+    
+    /**
+     Uploads the model to hat
+     */
+    private func uploadInfoToHat() {
+        
+        func success(json: JSON, newToken: String?) {
+            
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
+            
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        func failed(error: HATTableError) {
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+        
+        HATAccountService.createTableValuev2(
+            token: userToken,
+            userDomain: userDomain,
+            source: Constants.HATTableName.ProfileInfo.source,
+            dataPath: Constants.HATTableName.ProfileInfo.name,
+            parameters: self.profile.toJSON(),
+            successCallback: success,
+            errorCallback: failed)
+    }
+    
+    // MARK: - Update Model
+    
+    /**
+     Maps the UI to the model in order to update the values
+     */
+    private func updateModelFromUI() {
         
         for index in self.headers.indices {
             
@@ -60,62 +114,39 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
                 cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? PhataTableViewCell
             }
             
-            // age
+            // birth
             if index == 0 {
                 
-                profile?.data.age.group = cell!.getTextFromTextField()
-            // birth
+                if let date = HATFormatterHelper.formatStringToDate(string: cell!.getTextFromTextField()) {
+                    
+                    profile.dateOfBirth = date
+                }
+            // gender
             } else if index == 1 {
                 
-                profile?.data.birth.date = cell!.getTextFromTextField()
-            // gender
+                profile.gender = cell!.getTextFromTextField()
+            // income group
             } else if index == 2 {
                 
-                profile?.data.gender.type = cell!.getTextFromTextField()
+                profile.incomeGroup = cell!.getTextFromTextField()
             }
         }
+    }
+    
+    // MARK: - Create PopUp
+    
+    /**
+     Creates Updating profile... pop up while the uploading is taking place
+     */
+    private func createPopUp() {
         
-        func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
-            
-            HATPhataService.postProfile(
-                userDomain: userDomain,
-                userToken: userToken,
-                hatProfile: self.profile!,
-                successCallBack: {
-                
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                errorCallback: {error in
-                
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    self.createClassicOKAlertWith(alertMessage: "There was an error posting profile", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                    
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-            )
-        }
+        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView.backgroundColor = .black
+        self.darkView.alpha = 0.4
         
-        HATAccountService.checkHatTableExistsForUploading(
-            userDomain: userDomain,
-            tableName: Constants.HATTableName.Profile.name,
-            sourceName: Constants.HATTableName.Profile.source,
-            authToken: userToken,
-            successCallback: tableExists,
-            errorCallback: {error in
-            
-                self.loadingView.removeFromSuperview()
-                self.darkView.removeFromSuperview()
-                
-                self.createClassicOKAlertWith(alertMessage: "There was an error checking if it's possible to post the data", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-            }
-        )
+        self.view.addSubview(self.darkView)
+        
+        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
     }
     
     // MARK: - View Controller funtions
@@ -125,6 +156,7 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
         super.viewDidLoad()
         
         self.tableView.allowsSelection = false
+        self.getProfileInfo()
     }
 
     override func didReceiveMemoryWarning() {
@@ -146,12 +178,12 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "dataStoreInfoCell", for: indexPath) as? PhataTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreInfoCell, for: indexPath) as? PhataTableViewCell {
             
             return setUpCell(cell: cell, indexPath: indexPath)
         }
         
-        return tableView.dequeueReusableCell(withIdentifier: "dataStoreInfoCell", for: indexPath)
+        return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreInfoCell, for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -178,24 +210,55 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
         
         cell.accessoryType = .none
         
-        if indexPath.section == 0 && self.profile != nil {
-            
-            cell.setTextToTextField(text: self.profile!.data.age.group)
-            cell.setKeyboardType(.numberPad)
-        } else if indexPath.section == 1 && self.profile != nil {
+        if indexPath.section == 0 {
             
             cell.setTagInTextField(tag: 12)
-            cell.setTextToTextField(text: self.profile!.data.birth.date)
+            cell.setTextToTextField(
+                text: FormatterHelper.formatDateStringToUsersDefinedDate(
+                    date: self.profile.dateOfBirth,
+                    dateStyle: .short,
+                    timeStyle: .none)
+            )
             cell.setKeyboardType(.default)
-        } else if indexPath.section == 2 && self.profile != nil {
+        } else if indexPath.section == 1 {
             
             cell.setTagInTextField(tag: 15)
-            cell.dataSourceForPickerView = ["", "Male", "Female", "Other"]
-            cell.setTextToTextField(text: self.profile!.data.gender.type)
+            cell.dataSourceForPickerView = ["Do not want to say", "Male", "Female", "Trans"]
+            cell.setTextToTextField(text: self.profile.gender)
             cell.setKeyboardType(.default)
+        } else if indexPath.section == 2 {
+            
+            cell.setTextToTextField(text: self.profile.incomeGroup)
+            cell.setKeyboardType(.numberPad)
         }
         
         return cell
+    }
+    
+    func failedGettingInfo(error: HATTableError) {
+        
+        CrashLoggerHelper.hatTableErrorLog(error: error)
+    }
+    
+    func getProfileInfo() {
+        
+        func gotInfo(array: [JSON], newToken: String?) {
+            
+            if !array.isEmpty {
+                
+                self.profile = HATProfileInfo(from: array[0])
+                self.tableView.reloadData()
+            }
+        }
+        
+        HATAccountService.getHatTableValuesv2(
+            token: userToken,
+            userDomain: userDomain,
+            source: Constants.HATTableName.ProfileInfo.source,
+            scope: Constants.HATTableName.ProfileInfo.name,
+            parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
+            successCallback: gotInfo,
+            errorCallback: failedGettingInfo)
     }
 
 }

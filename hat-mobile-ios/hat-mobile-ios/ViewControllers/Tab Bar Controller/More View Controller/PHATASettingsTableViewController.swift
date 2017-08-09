@@ -43,7 +43,14 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
         
         self.view.addSubview(self.darkView)
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Updating profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         var cell = self.tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? PhataTableViewCell
         
@@ -102,8 +109,12 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
                     self.loadingView.removeFromSuperview()
                     self.darkView.removeFromSuperview()
                     
-                    self.createClassicOKAlertWith(alertMessage: "There was an error posting profile", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                    self.createClassicOKAlertWith(
+                        alertMessage: "There was an error posting profile",
+                        alertTitle: "Error",
+                        okTitle: "OK",
+                        proceedCompletion: {})
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
                 }
             )
         }
@@ -119,9 +130,13 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
                 self.loadingView.removeFromSuperview()
                 self.darkView.removeFromSuperview()
                 
-                self.createClassicOKAlertWith(alertMessage: "There was an error checking if it's possible to post the data", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
+                self.createClassicOKAlertWith(
+                    alertMessage: "There was an error checking if it's possible to post the data",
+                    alertTitle: "Error",
+                    okTitle: "OK",
+                    proceedCompletion: {})
                 
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                CrashLoggerHelper.hatTableErrorLog(error: error)
             }
         )
     }
@@ -186,10 +201,8 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
         
         if indexPath.row == 0 {
             
-            cell.setTextToTextField(text: self.userDomain)
-            cell.isUserInteractionEnabled = false
-            cell.setTextColorInTextField(color: .gray)
-            cell.setSwitchValue(isOn: true)
+            cell.enableLink(string: "https://\(self.userDomain)")
+            cell.isSwitchHidden(true)
         } else if indexPath.row == 1 {
             
             cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])

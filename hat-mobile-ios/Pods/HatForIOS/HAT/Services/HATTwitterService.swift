@@ -13,10 +13,10 @@
 import Alamofire
 import SwiftyJSON
 
-// MARK: Class
+// MARK: Struct
 
 /// The twitter data plug service class
-public class HATTwitterService: NSObject {
+public struct HATTwitterService {
 
     // MARK: - Check twitter plug
 
@@ -27,7 +27,7 @@ public class HATTwitterService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    public class func checkTwitterDataPlugTable(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
+    public static func checkTwitterDataPlugTable(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
 
         HATAccountService.checkHatTableExists(userDomain: userDomain,
                                               tableName: Twitter.tableName,
@@ -44,7 +44,7 @@ public class HATTwitterService: NSObject {
      - parameter successful: An @escaping (Void) -> Void method executed on a successful response
      - parameter failed: An @escaping (Void) -> Void) method executed on a failed response
      */
-    public class func isTwitterDataPlugActive(token: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
+    public static func isTwitterDataPlugActive(token: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
 
         // construct the url, set parameters and headers for the request
         let url = Twitter.statusURL
@@ -85,7 +85,7 @@ public class HATTwitterService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    private class func getTweets(token: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) -> (_ tableID: NSNumber, _ token: String?) -> Void {
+    private static func getTweets(token: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) -> (_ tableID: NSNumber, _ token: String?) -> Void {
 
         return {(tableID: NSNumber, returnedToken: String?) -> Void in
 
@@ -100,7 +100,7 @@ public class HATTwitterService: NSObject {
      - parameter parameters: The parameters to use in the request
      - parameter success: An @escaping (_ array: [JSON]) -> Void) method executed on a successful response
      */
-    public class func fetchTweetsV2(authToken: String, userDomain: String, parameters: Dictionary<String, String>, successCallback: @escaping (_ array: [HATTwitterSocialFeedObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func fetchTweetsV2(authToken: String, userDomain: String, parameters: Dictionary<String, String>, successCallback: @escaping (_ array: [HATTwitterSocialFeedObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
 
         func sendObjectBack(jsonArray: [JSON], token: String?) {
 
@@ -125,7 +125,7 @@ public class HATTwitterService: NSObject {
      - parameter successful: An @escaping (String) -> Void method executed on a successful response
      - parameter failed: An @escaping (Void) -> Void) method executed on a failed response
      */
-    public class func getAppTokenForTwitter(userDomain: String, token: String, successful: @escaping (String, String?) -> Void, failed: @escaping (JSONParsingError) -> Void) {
+    public static func getAppTokenForTwitter(userDomain: String, token: String, successful: @escaping (String, String?) -> Void, failed: @escaping (JSONParsingError) -> Void) {
 
         HATService.getApplicationTokenFor(serviceName: Twitter.serviceName, userDomain: userDomain, token: token, resource: Twitter.dataPlugURL, succesfulCallBack: successful, failCallBack: failed)
     }
@@ -138,7 +138,7 @@ public class HATTwitterService: NSObject {
      - parameter array: The JSON array
      - returns: An array of TwitterSocialFeedObject
      */
-    public class func removeDuplicatesFrom(array: [JSON]) -> [HATTwitterSocialFeedObject] {
+    public static func removeDuplicatesFrom(array: [JSON]) -> [HATTwitterSocialFeedObject] {
 
         // the array to return
         var arrayToReturn: [HATTwitterSocialFeedObject] = []
@@ -175,7 +175,7 @@ public class HATTwitterService: NSObject {
      - parameter array: The FacebookSocialFeedObject array
      - returns: An array of FacebookSocialFeedObject
      */
-    public class func removeDuplicatesFrom(array: [HATTwitterSocialFeedObject]) -> [HATTwitterSocialFeedObject] {
+    public static func removeDuplicatesFrom(array: [HATTwitterSocialFeedObject]) -> [HATTwitterSocialFeedObject] {
 
         // the array to return
         var arrayToReturn: [HATTwitterSocialFeedObject] = []

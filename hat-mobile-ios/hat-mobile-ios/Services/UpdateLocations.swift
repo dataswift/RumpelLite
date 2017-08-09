@@ -54,6 +54,7 @@ internal class UpdateLocations: NSObject, CLLocationManagerDelegate {
         self.locationManager?.desiredAccuracy = MapsHelper.getUserPreferencesAccuracy()
         self.locationManager?.distanceFilter = MapsHelper.getUserPreferencesDistance()
         self.locationManager?.allowsBackgroundLocationUpdates = true
+        self.locationManager?.requestAlwaysAuthorization()
         self.locationManager?.disallowDeferredLocationUpdates()
         self.locationManager?.pausesLocationUpdatesAutomatically = false
         self.locationManager?.activityType = .otherNavigation
@@ -142,7 +143,7 @@ internal class UpdateLocations: NSObject, CLLocationManagerDelegate {
         
         /*
          If not authorised, we can ignore.
-         Once user i    s logged in and has accepted the authorization, this will always be true
+         Once user is logged in and has accepted the authorization, this will always be true
          */
         if let manager: CLLocationManager = locationManager {
             
@@ -255,6 +256,8 @@ internal class UpdateLocations: NSObject, CLLocationManagerDelegate {
     
     /**
      Checks if app is authorised to collect location data
+     
+     - returns: A tuple of Bool, true, and the type of the CLAuthorizationStatus
      */
     public class func checkAuthorisation() -> (Bool, CLAuthorizationStatus) {
         

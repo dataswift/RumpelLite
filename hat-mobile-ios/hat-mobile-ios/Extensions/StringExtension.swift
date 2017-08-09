@@ -12,16 +12,38 @@
 
 import UIKit
 
-// MARK: String extension
+// MARK: Extension
 
 extension String {
+    
+    // MARK: - Generate random string
+    
+    /**
+     Generates a random alphanumeric string
+     
+     - parameter length: The desired length of the random string
+     - returns: A random String
+     */
+    static func random(length: Int = 20) -> String {
+        
+        let base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        var randomString: String = ""
+        
+        for _ in 0..<length {
+            
+            let randomValue = arc4random_uniform(UInt32(base.characters.count))
+            randomString += "\(base[base.index(base.startIndex, offsetBy: Int(randomValue))])"
+        }
+        
+        return randomString
+    }
     
     // MARK: - Convert from base64URL to base64
     
     /**
      String extension to convert from base64Url to base64
      
-     parameter s: The string to be converted
+     parameter stringToConvert: The string to be converted
      
      returns: A Base64 String
      */

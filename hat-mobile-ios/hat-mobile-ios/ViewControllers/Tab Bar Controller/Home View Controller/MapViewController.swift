@@ -18,7 +18,7 @@ import SwiftyJSON
 // MARK: Class
 
 /// The MapView to render the DataPoints
-internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettingsDelegate {
+internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettingsDelegate, UserCredentialsProtocol {
 
     // MARK: - IBOutlets
     
@@ -57,6 +57,9 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     /// The end date to filter for points
     private var filterDataPointsTo: Date?
     
+    /// The popUpView while downloading locations from hat
+    private var popUpView: UIView?
+    
     // MARK: - Auto generated methods
     
     override func viewDidLoad() {
@@ -67,7 +70,11 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         self.title = "Location"
         
         // add notification observer for refreshUI
-        NotificationCenter.default.addObserver(self, selector: #selector(goToSettings), name: NSNotification.Name(Constants.NotificationNames.goToSettings), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(goToSettings),
+            name: NSNotification.Name(Constants.NotificationNames.goToSettings),
+            object: nil)
         
         // add gesture recognizers to today button
         buttonTodayTouchUp(UIBarButtonItem())
@@ -126,12 +133,22 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         datePicker!.datePickerMode = .date
         
         // Add an event to call onDidChangeDate function when value is changed.
-        datePicker!.addTarget(self, action: #selector(self.datePickerValueChanged(sender:)), for: .valueChanged)
+        datePicker!.addTarget(
+            self,
+            action: #selector(self.datePickerValueChanged(sender:)),
+            for: .valueChanged)
         
-        let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(self.donePickerButton(sender:)))
+        let doneButton = UIBarButtonItem(
+            title: "Done",
+            style: .done,
+            target: self,
+            action: #selector(self.donePickerButton(sender:)))
         doneButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
         
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let spaceButton = UIBarButtonItem(
+            barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
+            target: nil,
+            action: nil)
         spaceButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
         
         self.segmentControl = UISegmentedControl(items: ["From", "To"])
@@ -142,10 +159,17 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         let barButtonSegmentedControll = UIBarButtonItem(customView: segmentControl!)
         
-        let spaceButton2 = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace, target: nil, action: nil)
+        let spaceButton2 = UIBarButtonItem(
+            barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
+            target: nil,
+            action: nil)
         spaceButton2.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
         
-        let cancelButton = UIBarButtonItem(title: "Cancel", style: .done, target: self, action: #selector(self.cancelPickerButton(sender:)))
+        let cancelButton = UIBarButtonItem(
+            title: "Cancel",
+            style: .done,
+            target: self,
+            action: #selector(self.cancelPickerButton(sender:)))
         cancelButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
         
         let toolBar = UIToolbar()
@@ -184,107 +208,31 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             }
         }
     }
-    
+
     /**
     The method executed when user taps the done button on the toolbar to filter the locations
-     
+ 
      - parameter sender: The object that called this method
      */
     func donePickerButton(sender: UIBarButtonItem) {
         
         self.textField.resignFirstResponder()
-        let userToken = HATAccountService.getUsersTokenFromKeychain()
-        let userDomain = HATAccountService.theUserHATDomain()
         
-        let view = UIView()
-        view.createFloatingView(
-            frame: CGRect(x: self.view.frame.midX - 60, y: self.view.frame.midY - 15, width: 120, height: 30),
-            color: .teal,
-            cornerRadius: 15)
-        
-        let label = UILabel().createLabel(
-            frame: CGRect(x: 0, y: 0, width: 120, height: 30),
-            text: "Getting locations...",
-            textColor: .white,
-            textAlignment: .center,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12))
-        
-        view.addSubview(label)
-        
-        self.view.addSubview(view)
-        
-        func getLocationsFromTable(tableID: NSNumber, renewedUserToken: String?) {
-            
-            func receivedLocations(json: [JSON], renewedUserToken: String?) {
-                
-                var array: [HATLocationsObject] = []
-                
-                for item in json {
-                    
-                    array.append(HATLocationsObject(dict: item.dictionaryValue))
-                }
-                
-                if array.isEmpty {
-                    
-                    if self.filterDataPointsTo! > Date() {
-                        
-                        self.createClassicOKAlertWith(
-                            alertMessage: "There are no points for the selected dates, time travelling mode is deactivated",
-                            alertTitle: "No points found",
-                            okTitle: "OK",
-                            proceedCompletion: {})
-                    }
-                    self.createClassicOKAlertWith(
-                        alertMessage: "There are no points for the selected dates",
-                        alertTitle: "No points found",
-                        okTitle: "OK",
-                        proceedCompletion: {})
-                }
-                
-                let pins = clusteringManager.createAnnotationsFrom(objects: array)
-                clusteringManager.addPointsToMap(annottationArray: pins, mapView: self.mapView)
-                
-                // refresh user token
-                _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
-                
-                view.removeFromSuperview()
-            }
-            
-            if self.filterDataPointsFrom != nil && self.filterDataPointsTo != nil {
-                
-                let starttime = HATFormatterHelper.formatDateToEpoch(date: self.filterDataPointsFrom!)
-                let endtime = HATFormatterHelper.formatDateToEpoch(date: self.filterDataPointsTo!)
-                
-                if starttime != nil && endtime != nil {
-                    
-                    let parameters: Dictionary<String, String> = ["starttime": starttime!, "endtime": endtime!, "limit": "2000"]
-                    
-                    HATAccountService.getHatTableValues(
-                        token: userToken,
-                        userDomain: userDomain,
-                        tableID: tableID,
-                        parameters: parameters,
-                        successCallback: receivedLocations,
-                        errorCallback: {(error) in
-                        
-                            view.removeFromSuperview()
-                            _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                        }
-                    )
-                }
-            }
-        }
+        self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         
         HATAccountService.checkHatTableExists(
             userDomain: userDomain,
             tableName: Constants.HATTableName.Location.name,
             sourceName: Constants.HATTableName.Location.source,
             authToken: userToken,
-            successCallback: getLocationsFromTable,
-            errorCallback: {(error) in
+            successCallback: requestLocations,
+            errorCallback: { [weak self] (error) in
                 
-                view.removeFromSuperview()
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                if let weakSelf = self {
+                    
+                    weakSelf.popUpView?.removeFromSuperview()
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
             }
         )
     }
@@ -299,6 +247,121 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         self.textField.resignFirstResponder()
         self.filterDataPointsFrom = nil
         self.filterDataPointsTo = nil
+    }
+    
+    // MARK: - Create Pop Up View
+    
+    /**
+     Creates a rounded UIView with a UILabel
+     
+     - parameter text: The text to put on the label
+     
+     - returns: The UIView just created
+     */
+    @discardableResult
+    private func createPopUpWindowWith(text: String) -> UIView {
+        
+        let view = UIView()
+        view.createFloatingView(
+            frame: CGRect(x: self.view.frame.midX - 60, y: self.view.frame.midY - 15, width: 120, height: 30),
+            color: .teal,
+            cornerRadius: 15)
+        
+        let label = UILabel().createLabel(
+            frame: CGRect(x: 0, y: 0, width: 120, height: 30),
+            text: text,
+            textColor: .white,
+            textAlignment: .center,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12))
+        
+        view.addSubview(label)
+        
+        self.view.addSubview(view)
+        
+        return view
+    }
+    
+    // MARK: - Show locations
+    
+    /**
+     Shows the locations received from hat
+     
+     - parameter json: the json received from HAT
+     - parameter renewedUserToken: The new user token from HAT
+     */
+    private func showLocations(json: [JSON], renewedUserToken: String?) {
+        
+        var array: [HATLocationsObject] = []
+        
+        for item in json {
+            
+            array.append(HATLocationsObject(dict: item.dictionaryValue))
+        }
+        
+        if array.isEmpty {
+            
+            if self.filterDataPointsTo! > Date() {
+                
+                self.createClassicOKAlertWith(
+                    alertMessage: "There are no points for the selected dates, time travelling mode is deactivated",
+                    alertTitle: "No points found",
+                    okTitle: "OK",
+                    proceedCompletion: {})
+            } else {
+                
+                self.createClassicOKAlertWith(
+                    alertMessage: "There are no points for the selected dates",
+                    alertTitle: "No points found",
+                    okTitle: "OK",
+                    proceedCompletion: {})
+            }
+        }
+        
+        let pins = clusteringManager.createAnnotationsFrom(objects: array)
+        clusteringManager.addPointsToMap(annottationArray: pins, mapView: self.mapView)
+        
+        // refresh user token
+        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+        
+        view.removeFromSuperview()
+    }
+    
+    // MARK: - Request locations
+    
+    /**
+     Requests locations from HAT
+     
+     - parameter tableID: The tableID number to use when requesting data with v1 HAT
+     - parameter renewedUserToken: The new user token from HAT
+     */
+    private func requestLocations(tableID: NSNumber, renewedUserToken: String?) {
+        
+        if self.filterDataPointsFrom != nil && self.filterDataPointsTo != nil {
+            
+            let starttime = HATFormatterHelper.formatDateToEpoch(date: self.filterDataPointsFrom!)
+            let endtime = HATFormatterHelper.formatDateToEpoch(date: self.filterDataPointsTo!)
+            
+            if starttime != nil && endtime != nil {
+                
+                let parameters: Dictionary<String, String> = ["starttime": starttime!, "endtime": endtime!, "limit": "2000"]
+                
+                HATAccountService.getHatTableValues(
+                    token: userToken,
+                    userDomain: userDomain,
+                    tableID: tableID,
+                    parameters: parameters,
+                    successCallback: showLocations,
+                    errorCallback: { [weak self] (error) in
+                        
+                        if let weakSelf = self {
+                            
+                            weakSelf.popUpView?.removeFromSuperview()
+                            CrashLoggerHelper.hatTableErrorLog(error: error)
+                        }
+                    }
+                )
+            }
+        }
     }
     
     // MARK: - Date picker method

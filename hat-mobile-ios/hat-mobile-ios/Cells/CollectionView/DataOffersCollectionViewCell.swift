@@ -26,6 +26,8 @@ internal class DataOffersCollectionViewCell: UICollectionViewCell, UserCredentia
     @IBOutlet private weak var titleLabel: UILabel!
     /// An IBOutlet for handling the details UILabel
     @IBOutlet private weak var detailsLabel: UILabel!
+    
+    /// An IBOutlet for handling the ringProgressBar RingProgressCircle
     @IBOutlet private weak var ringProgressBar: RingProgressCircle!
     
     // MARK: - Set up cell
@@ -35,10 +37,29 @@ internal class DataOffersCollectionViewCell: UICollectionViewCell, UserCredentia
      
      - parameter cell: The cell to set up
      - parameter dataOffer: The data to set up the cell from
+     - parameter completion: An optional function to execute returning the downloaded image
      
      - returns: An UICollectionViewCell already been set up
      */
     func setUpCell(cell: DataOffersCollectionViewCell, dataOffer: DataOfferObject, completion: ((UIImage) -> Void)?) -> UICollectionViewCell {
+        
+        self.setUpCellUI(cell: cell, dataOffer: dataOffer)
+
+        if dataOffer.image == nil {
+            
+            self.downloadOfferImage(url: dataOffer.illustrationURL, cell: cell, completion: completion)
+        }
+        
+        return cell
+    }
+    
+    /**
+     Updates the cell's UI
+     
+     - parameter cell: The cell to update the UI
+     - parameter dataOffer: The dataOffer object holding the data we need in order to update the cell
+     */
+    private func setUpCellUI(cell: DataOffersCollectionViewCell, dataOffer: DataOfferObject) {
         
         cell.titleLabel.text = dataOffer.title
         cell.detailsLabel.text = dataOffer.shortDescription
@@ -49,47 +70,21 @@ internal class DataOffersCollectionViewCell: UICollectionViewCell, UserCredentia
         cell.ringProgressBar.ringLineWidth = 4
         cell.ringProgressBar.animationDuration = 0.2
         cell.ringProgressBar.isHidden = true
-
-        if dataOffer.image == nil {
-            
-            if let url = URL(string: dataOffer.illustrationURL) {
-                
-                cell.ringProgressBar.isHidden = false
-                cell.imageView.downloadedFrom(
-                    url: url,
-                    userToken: self.userToken,
-                    progressUpdater: updateProgressBar,
-                    completion: {
-                
-                        cell.ringProgressBar.isHidden = true
-                        if let image = cell.imageView.image {
-                            
-                            completion?(image)
-                        } else {
-                            
-                            cell.imageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
-                            completion?(cell.imageView.image!)
-                        }
-                    }
-                )
-            } else {
-                
-                cell.ringProgressBar.isHidden = true
-                cell.imageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
-                completion?(cell.imageView.image!)
-            }
-        }
         
         cell.layer.cornerRadius = 5
         cell.layer.borderWidth = 2
         cell.layer.borderColor = UIColor(colorLiteralRed: 231 / 255, green: 231 / 255, blue: 231 / 255, alpha: 1.0).cgColor
-        
-        return cell
     }
     
-    func updateProgressBar(completion: Double) {
+    // MARK: - Update progressBar
+    
+    /**
+     Updates the progress bar according to the completion status
+     
+     - parameter completion: The download completion status
+     */
+    private func updateProgressBar(completion: Double) {
         
-        print(completion)
         ringProgressBar.updateCircle(end: CGFloat(completion), animate: 0.2, removePreviousLayer: true)
     }
     
@@ -99,44 +94,40 @@ internal class DataOffersCollectionViewCell: UICollectionViewCell, UserCredentia
      Downloads the offer image
      
      - parameter url: The url to connect to in order to get the image
-     - parameter userToken: The user's token. Needed for authentication
-     - parameter ringProgressBarToAnimate: The progress bar to animate, default value nil
-     - parameter imageView: The image view to show the image
-     - parameter completion: A completion handler to execute after the download has been completed
+     - parameter cell: The cell to download the image to
+     - parameter completion: A completion handler to execute after the image download has been completed
      */
-    func downloadOfferImage(url: String, userToken: String, ringProgressBarToAnimate: RingProgressCircle? = nil, imageView: UIImageView, completion: @escaping (UIImage?) -> Void) {
+    private func downloadOfferImage(url: String, cell: DataOffersCollectionViewCell, completion: ((UIImage) -> Void)?) {
         
-        if let tempURL = URL(string: url) {
+        func showDefaultImage() {
             
-            imageView.downloadedFrom(
-                url: tempURL,
-                userToken: userToken,
-                progressUpdater: { progress in
-                                        
-                    if ringProgressBarToAnimate != nil {
-                        
-                        let completion = Float(progress)
-                        ringProgressBarToAnimate?.updateCircle(end: CGFloat(completion), animate: Float((ringProgressBarToAnimate?.endPoint)!), removePreviousLayer: false)
-                    }
-                },
+            cell.ringProgressBar.isHidden = true
+            cell.imageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
+            completion?(cell.imageView.image!)
+        }
+        
+        if let unwrappedURL = URL(string: url) {
+            
+            cell.ringProgressBar.isHidden = false
+            cell.imageView.downloadedFrom(
+                url: unwrappedURL,
+                userToken: self.userToken,
+                progressUpdater: updateProgressBar,
                 completion: {
                     
-                    ringProgressBarToAnimate?.isHidden = false
-                    completion(imageView.image)
+                    if let image = cell.imageView.image {
+                        
+                        cell.ringProgressBar.isHidden = true
+                        completion?(image)
+                    } else {
+                        
+                        showDefaultImage()
+                    }
                 }
             )
+        } else {
+            
+            showDefaultImage()
         }
-    }
-    
-    /**
-     Formats the offer descripion as needed
-     
-     - parameter dataOfferDescription: The data offer object
-     
-     - returns: An NSMutableString with the description formated as needed
-     */
-    func formatOfferDescription(dataOfferDescription: String) -> NSMutableAttributedString {
-        
-        return NSMutableAttributedString(string: "OFFER DESCRIPTION:\n\(dataOfferDescription)", attributes: [NSFontAttributeName: UIFont(name: "OpenSans", size: 12)!])
     }
 }

@@ -38,10 +38,10 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // change tab bar item font
-        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans", size: 11)!], for: UIControlState.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 11)!], for: UIControlState.normal)
         
         // change bar button item font
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: "OpenSans-Bold", size: 17)!], for: UIControlState.normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: Constants.FontNames.openSansBold, size: 17)!], for: UIControlState.normal)
         
         // define the interval for background fetch interval
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
@@ -55,11 +55,37 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().isOpaque = true
         UINavigationBar.appearance().barTintColor = .teal
         UINavigationBar.appearance().tintColor = .white
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "OpenSans", size: 20)!]
+        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 20)!]
         UIBarButtonItem.appearance()
-            .setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "OpenSans", size: 17)!], for: UIControlState.normal)
+            .setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 17)!], for: UIControlState.normal)
+        
+        UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
+        UIApplication.shared.registerForRemoteNotifications()
         
         return true
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+        
+        print("notification received")
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        
+//        var token: String = ""
+//        for i in 0..<deviceToken.count {
+//            token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+//        }
+        
+        let token = deviceToken.reduce("", { $0 + String(format: "%02x", $1) })
+        
+        print(token)
+        print("Did registered")
+    }
+    
+    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+        
+        print("Failed")
     }
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
@@ -115,15 +141,15 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
             
             if urlHost == Constants.Auth.localAuthHost {
                 
-                let result = KeychainHelper.getKeychainValue(key: "logedIn")
+                let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.logedIn)
                 if result == "expired" {
                     
-                    NotificationCenter.default.post(name: Notification.Name("reauthorisedUser"), object: url)
+                    NotificationCenter.default.post(name: Notification.Name(Constants.NotificationNames.reauthorised), object: url)
                 } else if result == "false" {
                     
                     let notification = Notification.Name(Constants.Auth.notificationHandlerName)
                     NotificationCenter.default.post(name: notification, object: url)
-                    _ = KeychainHelper.setKeychainValue(key: "logedIn", value: "true")
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
                 }
             } else if urlHost == "dataplugsapphost" {
                 

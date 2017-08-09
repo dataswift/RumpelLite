@@ -25,9 +25,13 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
     
+    /// An UIViewController used for authorising user
     private var authoriseVC: AuthoriseUserViewController?
     
+    /// The locations protocol
     private let location: UpdateLocations = UpdateLocations.shared
+    
+    private var specificMerchantForOffers: String = ""
     
     // MARK: - IBOutlets
 
@@ -49,7 +53,8 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
      */
     @IBAction func showInfoButtonAction(_ sender: Any) {
         
-        self.showInfoViewController(text: "Rumpel Lite's Data Services are all the neat things you can do with your HAT data. Pull your data in with Data Plugs, and make it useful to you with Data Services.")
+        self.showInfoViewController(
+            text: "Rumpel Lite's Data Services are all the neat things you can do with your HAT data. Pull your data in with Data Plugs, and make it useful to you with Data Services.")
     }
     
     // MARK: - Collection View methods
@@ -96,18 +101,74 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if self.tiles[indexPath.row].serviceName == "Notes" {
+        if self.tiles[indexPath.row].serviceName == "Top Secret Logs" {
             
             self.performSegue(withIdentifier: Constants.Segue.notesSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Locations" {
+        } else if self.tiles[indexPath.row].serviceName == "GEOME" {
             
             self.performSegue(withIdentifier: Constants.Segue.locationsSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Social Data" {
+        } else if self.tiles[indexPath.row].serviceName == "My Story" {
             
             self.performSegue(withIdentifier: Constants.Segue.socialDataSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Photo Viewer" {
             
             self.performSegue(withIdentifier: Constants.Segue.photoViewerSegue, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Social Media Control" {
+            
+            self.performSegue(withIdentifier: Constants.Segue.homeToEditNoteSegue, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "The calling card" {
+            
+            self.performSegue(withIdentifier: Constants.Segue.phataSegue, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Total Recall" {
+            
+            self.performSegue(withIdentifier: Constants.Segue.homeToDataStore, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Gimme" {
+            
+            self.performSegue(withIdentifier: Constants.Segue.homeToDataPlugs, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Watch-eet" {
+            
+            self.specificMerchantForOffers = "rumpelwatch"
+            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "read-eet" {
+            
+            self.specificMerchantForOffers = "rumpelread"
+            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Do-eet" {
+            
+            self.specificMerchantForOffers = "rumpeldo"
+            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "SSO" {
+            
+            self.specificMerchantForOffers = "rumpelsso"
+            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Find your Form" {
+            
+            self.specificMerchantForOffers = "rumpelforms"
+            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Go deep" {
+            
+            self.performSegue(withIdentifier: Constants.Segue.homeToGoDeepSegue, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "MadHATTERs" {
+            
+            UIApplication.shared.openURL(URL(string: "http://us12.campaign-archive2.com/home/?u=bf49285ca77275f68a5263b83&id=3ca9558266")!)
+        } else if self.tiles[indexPath.row].serviceName == "HAT" {
+            
+            UIApplication.shared.openURL(URL(string: "http://mailchi.mp/hatdex/hat-news-pieces-of-art-earning-from-your-attention-and-reading-your-name-1017509")!)
+        } else if self.tiles[indexPath.row].serviceName == "BeMoji" {
+            
+            self.performSegue(withIdentifier: Constants.Segue.homeToEditNoteSegue, sender: self)
+        } else if self.tiles[indexPath.row].serviceName == "Featured App" {
+            
+            self.createClassicOKAlertWith(
+                alertMessage: "We are featuring GoodLoop - share your data to watch more relevant ads, all while contributing to a charity of your choice and also back to your HAT!",
+                alertTitle: "Heads Up",
+                okTitle: "OK",
+                proceedCompletion: {
+                    
+                    self.specificMerchantForOffers = "goodloop"
+                    self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
+                }
+            )
         }
     }
     
@@ -124,7 +185,11 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         self.ringProgressBar.ringLineWidth = 4
         self.ringProgressBar.animationDuration = 0.2
 
-        NotificationCenter.default.addObserver(self, selector: #selector(hidePopUp), name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hidePopUp),
+            name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
+            object: nil)
         
         // pin header view of collection view to the top while scrolling
         (self.collectionView.collectionViewLayout as? UICollectionViewFlowLayout)!.sectionHeadersPinToVisibleBounds = true
@@ -140,8 +205,8 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             
             if token != "" && token != nil {
                 
-                _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
-                _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
+                KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
+                KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
                 
                 self.authoriseVC?.removeViewController()
                 self.authoriseVC = nil
@@ -150,8 +215,10 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         func failed() {
             
-            NotificationCenter.default.post(name: NSNotification.Name(Constants.NotificationNames.networkMessage), object: "Unauthorized. Please sign out and try again.")
-            _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.expired)
+            NotificationCenter.default.post(
+                name: NSNotification.Name(Constants.NotificationNames.networkMessage),
+                object: "Unauthorized. Please sign out and try again.")
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.expired)
             
             self.authoriseVC = AuthoriseUserViewController.setupAuthoriseViewController(view: self.view)
             self.authoriseVC?.completionFunc = success
@@ -176,7 +243,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             
             // set up elements
             let usersHAT = userDomain.components(separatedBy: ".")[0]
-            self.helloLabel.text = "Hello " + usersHAT + "!"
+            self.helloLabel.text = "Hello \(usersHAT)!"
             
             // check if the token has expired
             HATAccountService.checkIfTokenExpired(
@@ -188,14 +255,17 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             self.collectionView?.reloadData()
         }
         
-        HATService.getSystemStatus(userDomain: userDomain, authToken: userToken, completion: updateRingProgressBar, failCallBack: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+        HATService.getSystemStatus(
+            userDomain: userDomain,
+            authToken: userToken,
+            completion: updateRingProgressBar,
+            failCallBack: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
         
         self.collectionView.reloadData()
     }
     
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         
-        // reload collection view
         self.collectionView?.reloadData()
     }
 
@@ -214,7 +284,10 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         // set up the created page view controller
         if let pageViewController = self.storyboard!.instantiateViewController(withIdentifier: "firstTimeOnboarding") as? FirstOnboardingPageViewController {
             
-            pageViewController.view.createFloatingView(frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.origin.x + 15, width: self.view.frame.width - 30, height: self.view.frame.height - 30), color: .teal, cornerRadius: 15)
+            pageViewController.view.createFloatingView(
+                frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.origin.x + 15, width: self.view.frame.width - 30, height: self.view.frame.height - 30),
+                color: .teal,
+                cornerRadius: 15)
             
             // add the page view controller to self
             self.addViewController(pageViewController)
@@ -230,10 +303,13 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     private func showInfoViewController(text: String) {
         
         // set up page controller
-        let textPopUpViewController = TextPopUpViewController.customInit(stringToShow: text, from: self.storyboard!)
+        let textPopUpViewController = TextPopUpViewController.customInit(stringToShow: text, isButtonHidden: true, from: self.storyboard!)
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
-        textPopUpViewController?.view.createFloatingView(frame: CGRect(x: self.view.frame.origin.x + 15, y: self.collectionView.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height), color: .teal, cornerRadius: 15)
+        textPopUpViewController?.view.createFloatingView(
+            frame: CGRect(x: self.view.frame.origin.x + 15, y: self.collectionView.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height),
+            color: .teal,
+            cornerRadius: 15)
         
         DispatchQueue.main.async { [weak self] () -> Void in
             
@@ -288,14 +364,16 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         if !data.isEmpty {
             
-            self.helloLabel.text = "Hello " + userDomain.components(separatedBy: ".")[0] + "!"
+            self.helloLabel.text = "Hello \(userDomain.components(separatedBy: ".")[0])!"
             
             self.ringProgressBar.isHidden = false
 
             var attributedString: NSAttributedString = NSAttributedString(string: self.helloLabel.text! + "\n")
-            self.helloLabel.text = attributedString.combineWith(attributedText: NSAttributedString(string: "Total space " + data[2].kind.metric + " " + data[2].kind.units!)).string
+            self.helloLabel.text = attributedString.combineWith(
+                attributedText: NSAttributedString(string: "Total space \(data[2].kind.metric) \(data[2].kind.units!)")).string
             attributedString = NSAttributedString(string: self.helloLabel.text! + "\n")
-            self.helloLabel.text = attributedString.combineWith(attributedText: NSAttributedString(string: "Used space " + String(describing: Int(Float(data[4].kind.metric)!.rounded())) + " " + data[4].kind.units!)).string
+            self.helloLabel.text = attributedString.combineWith(
+                attributedText: NSAttributedString(string: "Used space \(String(describing: Int(Float(data[4].kind.metric)!.rounded()))) \(data[4].kind.units!)")).string
             
             let fullCircle = 2.0 * CGFloat(Double.pi)
             self.ringProgressBar.startPoint = -0.25 * fullCircle
@@ -309,7 +387,32 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         }
         
         // refresh user token
-        _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == Constants.Segue.homeToDataOffers {
+            
+            if let vc = segue.destination as? DataOffersViewController {
+                
+                vc.specificMerchant = self.specificMerchantForOffers
+            }
+        } else if segue.identifier == Constants.Segue.notesSegue {
+            
+            if let vc = segue.destination as? NotablesViewController {
+                
+                vc.privateNotesOnly = true
+            }
+        } else if segue.identifier == Constants.Segue.homeToEditNoteSegue {
+            
+            if let vc = segue.destination as? ShareOptionsViewController {
+                
+                vc.autoSharedNote = true
+            }
+        }
     }
     
 }

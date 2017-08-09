@@ -40,8 +40,15 @@
 		60236C751E1BA2A6003B4B92 /* GetAHATViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60236C741E1BA2A6003B4B92 /* GetAHATViewController.swift */; };
 		60275BA01E6DB3740098B66C /* TextPopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60275B9F1E6DB3740098B66C /* TextPopUpViewController.swift */; };
 		6028B4F31EA616B800018D49 /* MoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6028B4F21EA616B800018D49 /* MoreTableViewController.swift */; };
+		602933FE1F39AEE400515926 /* DataStorePrioritiesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602933FD1F39AEE400515926 /* DataStorePrioritiesTableViewController.swift */; };
+		602934001F39B80E00515926 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602933FF1F39B80E00515926 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift */; };
+		602934031F39BDFD00515926 /* SurveyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602934021F39BDFD00515926 /* SurveyTableViewCell.swift */; };
+		602934051F39CECF00515926 /* SurveyObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602934041F39CECF00515926 /* SurveyObject.swift */; };
 		602CB4461E8BAF3B00903F33 /* UIAlertControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602CB4451E8BAF3B00903F33 /* UIAlertControllerExtension.swift */; };
 		602CB44A1E8BF3AB00903F33 /* PhotosCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 602CB4491E8BF3AB00903F33 /* PhotosCollectionViewCell.swift */; };
+		60314E6B1F3873F2004383AA /* DataStoreUKSpecificTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60314E6A1F3873F2004383AA /* DataStoreUKSpecificTableViewController.swift */; };
+		60314E7C1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60314E7B1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift */; };
+		6033DAF31F34C92200A9048B /* DataDebitTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6033DAF21F34C92200A9048B /* DataDebitTableViewCell.swift */; };
 		60387A8A1EC7C83000CD8309 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60387A891EC7C83000CD8309 /* AppDelegate.swift */; };
 		60387A8B1EC7C83000CD8309 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60387A891EC7C83000CD8309 /* AppDelegate.swift */; };
 		60387A8C1EC7C83000CD8309 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60387A891EC7C83000CD8309 /* AppDelegate.swift */; };
@@ -53,6 +60,8 @@
 		603926D21E603D3600DC1816 /* HomeScreenObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603926D11E603D3600DC1816 /* HomeScreenObject.swift */; };
 		603926D41E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603926D31E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift */; };
 		603A10071E720FA0003B62D4 /* SafariViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603A10061E720FA0003B62D4 /* SafariViewControllerExtension.swift */; };
+		603B20901F2742BB00E90D4C /* DataPlugsResponseInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603B208F1F2742BB00E90D4C /* DataPlugsResponseInteractor.swift */; };
+		603B20921F275B2C00E90D4C /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603B20911F275B2C00E90D4C /* CollectionExtension.swift */; };
 		603CE74A1DF6FA7400421429 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603CE7491DF6FA7400421429 /* PageViewController.swift */; };
 		603CE74C1DF7091500421429 /* ParentPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603CE74B1DF7091500421429 /* ParentPageViewController.swift */; };
 		603CE74E1DF85E1600421429 /* LearnMoreObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603CE74D1DF85E1600421429 /* LearnMoreObject.swift */; };
@@ -81,6 +90,7 @@
 		604504D31EAE0DBB003B76C3 /* ProfileInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604504D21EAE0DBB003B76C3 /* ProfileInfoTableViewController.swift */; };
 		604504D51EAE10A7003B76C3 /* EmergencyContactTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604504D41EAE10A7003B76C3 /* EmergencyContactTableViewController.swift */; };
 		604504D71EAE16D5003B76C3 /* PhataPictureViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604504D61EAE16D5003B76C3 /* PhataPictureViewController.swift */; };
+		6045AE9D1F264CE800755990 /* PresenterOfShareOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6045AE9C1F264CE800755990 /* PresenterOfShareOptionsViewController.swift */; };
 		6045FBBE1E2EDAE300086926 /* LearnMorePHATAViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6045FBBD1E2EDAE300086926 /* LearnMorePHATAViewController.swift */; };
 		60494AD81EB9C2A2005D5C85 /* MailHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60494AD71EB9C2A2005D5C85 /* MailHelper.swift */; };
 		60494ADA1EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */; };
@@ -92,11 +102,12 @@
 		604EAC111EB8C5F20084EEC8 /* UserCredentialsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604EAC101EB8C5F20084EEC8 /* UserCredentialsProtocol.swift */; };
 		6050E2DF1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */; };
 		6050E2E11ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E01ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift */; };
-		6050E2E31ED2E990002AD0C9 /* DataStoreNationalityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E21ED2E990002AD0C9 /* DataStoreNationalityTableViewController.swift */; };
+		6050E2E31ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E21ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift */; };
 		6050E2E51ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E41ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift */; };
 		6050E2E71ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */; };
 		6054B35A1EF970D4004BD104 /* SelectedPhotosProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054B3591EF970D4004BD104 /* SelectedPhotosProtocol.swift */; };
 		6055D9831EC9F16E00461C75 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D9821EC9F16E00461C75 /* UITableViewExtension.swift */; };
+		605D84041F2F715A00CA44F5 /* ProfileImageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */; };
 		605EE0341E8DBF8600B265F6 /* UpdateLocationsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE0331E8DBF8600B265F6 /* UpdateLocationsDelegate.swift */; };
 		605EE0361E8DC02F00B265F6 /* UpdateLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE0351E8DC02F00B265F6 /* UpdateLocations.swift */; };
 		605EE03C1E92A5BF00B265F6 /* PhotosHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE03B1E92A5BF00B265F6 /* PhotosHelper.swift */; };
@@ -137,14 +148,22 @@
 		60CDCC0F1EAB798A00035882 /* AddressTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CDCC0E1EAB798A00035882 /* AddressTableViewController.swift */; };
 		60D317691E35FE52008E0A5F /* SocialFeedCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D317681E35FE52008E0A5F /* SocialFeedCollectionViewCell.swift */; };
 		60D3176B1E35FF7F008E0A5F /* SocialFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D3176A1E35FF7F008E0A5F /* SocialFeedViewController.swift */; };
+		60D8DAA61F31E3960055CEAC /* NotificationsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D8DAA51F31E3960055CEAC /* NotificationsTableViewController.swift */; };
+		60D8DAB21F3215520055CEAC /* NotificationsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D8DAB11F3215520055CEAC /* NotificationsTableViewCell.swift */; };
+		60D8DAB41F3219C20055CEAC /* NotificationDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60D8DAB31F3219C20055CEAC /* NotificationDetailsViewController.swift */; };
 		60DDE16D1E30E19300AB9E18 /* CompletePurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DDE16C1E30E19300AB9E18 /* CompletePurchaseViewController.swift */; };
 		60DDE16F1E30FCD200AB9E18 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DDE16E1E30FCD200AB9E18 /* KeychainHelper.swift */; };
 		60DDE1711E31006600AB9E18 /* MapsHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DDE1701E31006600AB9E18 /* MapsHelper.swift */; };
+		60DE1DD41F3475C600E031F6 /* DetailsDataPlugViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DE1DD31F3475C600E031F6 /* DetailsDataPlugViewController.swift */; };
+		60DE1DD71F34A18C00E031F6 /* DataDebitsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60DE1DD61F34A18C00E031F6 /* DataDebitsTableViewController.swift */; };
 		60E2679E1E55B9B900B6D626 /* AuthoriseUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E2679D1E55B9B800B6D626 /* AuthoriseUserViewController.swift */; };
 		60EA32F11ECDECCA008ABD41 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EA32F01ECDECCA008ABD41 /* UIImageExtension.swift */; };
 		60F1D7E71E6828DA0009CF1F /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F1D7E61E6828DA0009CF1F /* AuthenticationHelper.swift */; };
 		60FAC7691E223A1D00532C01 /* DataPlugsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FAC7681E223A1D00532C01 /* DataPlugsCollectionViewController.swift */; };
 		60FAC76B1E223AA700532C01 /* DataPlugCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */; };
+		60FB24041F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FB24031F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift */; };
+		60FB24061F3A0C75001A5EFD /* GoDeepObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FB24051F3A0C75001A5EFD /* GoDeepObject.swift */; };
+		60FB24081F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */; };
 		80ECC806CA622621992D8329 /* Pods_hat_mobile_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38701F920BAE76DFF5463629 /* Pods_hat_mobile_ios.framework */; };
 		B5138ACE1D1ECA2C00CD1530 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5138ACD1D1ECA2C00CD1530 /* NetworkHelper.swift */; };
 		B51CC9241D1D5749000C9E48 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CC9231D1D5749000C9E48 /* SettingsViewController.swift */; };
@@ -212,21 +231,30 @@
 		6000CE6F1DE7288A0076E173 /* ss-glyphish-outlined.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ss-glyphish-outlined.ttf"; sourceTree = "<group>"; };
 		60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATDataplugsServiceExtension.swift; sourceTree = "<group>"; };
 		60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATAccountServiceExtension.swift; sourceTree = "<group>"; };
-		601142761E5F877500A9D982 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		601142761E5F877500A9D982 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = "Home View Controller/HomeViewController.swift"; sourceTree = "<group>"; };
 		601142781E5F967D00A9D982 /* HomeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeCollectionViewCell.swift; sourceTree = "<group>"; };
 		601BDFCF1E8D4D5A00213E37 /* CheckInMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckInMapViewController.swift; sourceTree = "<group>"; };
 		601FFD781E3A7E3600441EAD /* FirstOnboardingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstOnboardingViewController.swift; sourceTree = "<group>"; };
 		60236C741E1BA2A6003B4B92 /* GetAHATViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAHATViewController.swift; sourceTree = "<group>"; };
 		60275B9F1E6DB3740098B66C /* TextPopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPopUpViewController.swift; sourceTree = "<group>"; };
 		6028B4F21EA616B800018D49 /* MoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreTableViewController.swift; sourceTree = "<group>"; };
+		602933FD1F39AEE400515926 /* DataStorePrioritiesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStorePrioritiesTableViewController.swift; path = DataStore/DataStorePrioritiesTableViewController.swift; sourceTree = "<group>"; };
+		602933FF1F39B80E00515926 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreDietaryHabitsAndBehaviorsTableViewController.swift; path = "DataStore/My Priorities/DataStoreDietaryHabitsAndBehaviorsTableViewController.swift"; sourceTree = "<group>"; };
+		602934021F39BDFD00515926 /* SurveyTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyTableViewCell.swift; sourceTree = "<group>"; };
+		602934041F39CECF00515926 /* SurveyObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SurveyObject.swift; sourceTree = "<group>"; };
 		602CB4451E8BAF3B00903F33 /* UIAlertControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIAlertControllerExtension.swift; sourceTree = "<group>"; };
 		602CB4491E8BF3AB00903F33 /* PhotosCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosCollectionViewCell.swift; sourceTree = "<group>"; };
+		60314E6A1F3873F2004383AA /* DataStoreUKSpecificTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreUKSpecificTableViewController.swift; path = DataStore/DataStoreUKSpecificTableViewController.swift; sourceTree = "<group>"; };
+		60314E7B1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreForDataOffersTableViewController.swift; path = DataStore/DataStoreForDataOffersTableViewController.swift; sourceTree = "<group>"; };
+		6033DAF21F34C92200A9048B /* DataDebitTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataDebitTableViewCell.swift; sourceTree = "<group>"; };
 		60387A891EC7C83000CD8309 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		60387A8D1EC7C85100CD8309 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		60387A951EC7C91100CD8309 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		603926D11E603D3600DC1816 /* HomeScreenObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenObject.swift; sourceTree = "<group>"; };
 		603926D31E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		603A10061E720FA0003B62D4 /* SafariViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SafariViewControllerExtension.swift; sourceTree = "<group>"; };
+		603B208F1F2742BB00E90D4C /* DataPlugsResponseInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlugsResponseInteractor.swift; sourceTree = "<group>"; };
+		603B20911F275B2C00E90D4C /* CollectionExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionExtension.swift; sourceTree = "<group>"; };
 		603CE7491DF6FA7400421429 /* PageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		603CE74B1DF7091500421429 /* ParentPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParentPageViewController.swift; sourceTree = "<group>"; };
 		603CE74D1DF85E1600421429 /* LearnMoreObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnMoreObject.swift; sourceTree = "<group>"; };
@@ -256,6 +284,7 @@
 		604504D21EAE0DBB003B76C3 /* ProfileInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInfoTableViewController.swift; sourceTree = "<group>"; };
 		604504D41EAE10A7003B76C3 /* EmergencyContactTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmergencyContactTableViewController.swift; sourceTree = "<group>"; };
 		604504D61EAE16D5003B76C3 /* PhataPictureViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhataPictureViewController.swift; sourceTree = "<group>"; };
+		6045AE9C1F264CE800755990 /* PresenterOfShareOptionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PresenterOfShareOptionsViewController.swift; sourceTree = "<group>"; };
 		6045FBBD1E2EDAE300086926 /* LearnMorePHATAViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LearnMorePHATAViewController.swift; sourceTree = "<group>"; };
 		60494AD71EB9C2A2005D5C85 /* MailHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailHelper.swift; sourceTree = "<group>"; };
 		60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFMailComposeViewControllerExtension.swift; sourceTree = "<group>"; };
@@ -267,11 +296,12 @@
 		604EAC101EB8C5F20084EEC8 /* UserCredentialsProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCredentialsProtocol.swift; sourceTree = "<group>"; };
 		6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreInfoTableViewController.swift; path = DataStore/DataStoreInfoTableViewController.swift; sourceTree = "<group>"; };
 		6050E2E01ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreContactInfoTableViewController.swift; path = DataStore/DataStoreContactInfoTableViewController.swift; sourceTree = "<group>"; };
-		6050E2E21ED2E990002AD0C9 /* DataStoreNationalityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreNationalityTableViewController.swift; path = DataStore/DataStoreNationalityTableViewController.swift; sourceTree = "<group>"; };
+		6050E2E21ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreEmploymentStatusTableViewController.swift; path = DataStore/DataStoreEmploymentStatusTableViewController.swift; sourceTree = "<group>"; };
 		6050E2E41ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreRelationshipAndHouseholdTableViewController.swift; path = DataStore/DataStoreRelationshipAndHouseholdTableViewController.swift; sourceTree = "<group>"; };
 		6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreEducationTableViewController.swift; path = DataStore/DataStoreEducationTableViewController.swift; sourceTree = "<group>"; };
 		6054B3591EF970D4004BD104 /* SelectedPhotosProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedPhotosProtocol.swift; sourceTree = "<group>"; };
 		6055D9821EC9F16E00461C75 /* UITableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
+		605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageObject.swift; sourceTree = "<group>"; };
 		605EE0331E8DBF8600B265F6 /* UpdateLocationsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateLocationsDelegate.swift; sourceTree = "<group>"; };
 		605EE0351E8DC02F00B265F6 /* UpdateLocations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateLocations.swift; sourceTree = "<group>"; };
 		605EE03B1E92A5BF00B265F6 /* PhotosHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosHelper.swift; sourceTree = "<group>"; };
@@ -314,14 +344,22 @@
 		60D317651E32DD84008E0A5F /* hat-mobile-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "hat-mobile-ios.entitlements"; sourceTree = "<group>"; };
 		60D317681E35FE52008E0A5F /* SocialFeedCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialFeedCollectionViewCell.swift; sourceTree = "<group>"; };
 		60D3176A1E35FF7F008E0A5F /* SocialFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialFeedViewController.swift; sourceTree = "<group>"; };
+		60D8DAA51F31E3960055CEAC /* NotificationsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewController.swift; sourceTree = "<group>"; };
+		60D8DAB11F3215520055CEAC /* NotificationsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationsTableViewCell.swift; sourceTree = "<group>"; };
+		60D8DAB31F3219C20055CEAC /* NotificationDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotificationDetailsViewController.swift; sourceTree = "<group>"; };
 		60DDE16C1E30E19300AB9E18 /* CompletePurchaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompletePurchaseViewController.swift; sourceTree = "<group>"; };
 		60DDE16E1E30FCD200AB9E18 /* KeychainHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		60DDE1701E31006600AB9E18 /* MapsHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapsHelper.swift; sourceTree = "<group>"; };
+		60DE1DD31F3475C600E031F6 /* DetailsDataPlugViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DetailsDataPlugViewController.swift; sourceTree = "<group>"; };
+		60DE1DD61F34A18C00E031F6 /* DataDebitsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataDebitsTableViewController.swift; path = "Data Debits/DataDebitsTableViewController.swift"; sourceTree = "<group>"; };
 		60E2679D1E55B9B800B6D626 /* AuthoriseUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthoriseUserViewController.swift; sourceTree = "<group>"; };
 		60EA32F01ECDECCA008ABD41 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
 		60F1D7E61E6828DA0009CF1F /* AuthenticationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		60FAC7681E223A1D00532C01 /* DataPlugsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlugsCollectionViewController.swift; sourceTree = "<group>"; };
 		60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlugCollectionViewCell.swift; sourceTree = "<group>"; };
+		60FB24031F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoDeepCollectionViewController.swift; sourceTree = "<group>"; };
+		60FB24051F3A0C75001A5EFD /* GoDeepObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoDeepObject.swift; sourceTree = "<group>"; };
+		60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoDeepCollectionViewCell.swift; sourceTree = "<group>"; };
 		77786464C54765E0CEAD1CF0 /* Pods_hat_mobile_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		821CBD00C6F813421F149C7E /* Pods-hat-mobile-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B5138ACD1D1ECA2C00CD1530 /* NetworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
@@ -340,7 +378,7 @@
 		B564E98A1D19717900EDB8F1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B564E9961D1984CF00EDB8F1 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		B564E9981D19862200EDB8F1 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
-		B564E99F1D198C4D00EDB8F1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		B564E99F1D198C4D00EDB8F1 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = "Home View Controller/MapViewController.swift"; sourceTree = "<group>"; };
 		B56E2FA21D22D1C400546C7E /* JSONDataSourceRequestField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONDataSourceRequestField.swift; sourceTree = "<group>"; };
 		B56E2FA91D23D9FF00546C7E /* SyncDataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SyncDataHelper.swift; sourceTree = "<group>"; };
 		B56E2FAB1D23DED900546C7E /* DataSyncDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataSyncDelegate.swift; sourceTree = "<group>"; };
@@ -419,6 +457,8 @@
 				601BDFCF1E8D4D5A00213E37 /* CheckInMapViewController.swift */,
 				6041B20B1DD4AC040018CC31 /* NotablesViewController.swift */,
 				6041B20C1DD4AC040018CC31 /* ShareOptionsViewController.swift */,
+				6045AE9C1F264CE800755990 /* PresenterOfShareOptionsViewController.swift */,
+				603B208F1F2742BB00E90D4C /* DataPlugsResponseInteractor.swift */,
 			);
 			path = "Notables View Controllers";
 			sourceTree = "<group>";
@@ -456,11 +496,14 @@
 		60103FB41EB4A9A800BBA065 /* Tab Bar Controller */ = {
 			isa = PBXGroup;
 			children = (
+				60DE1DD51F349E3700E031F6 /* Data Debits */,
+				60CDCBED1EAAEA0000035882 /* More View Controller */,
 				60BAEEB11EE01BFC001F8381 /* Data Offers */,
 				604AC7B71ECF57490066414E /* DataStore */,
 				60103FB51EB4A9F000BBA065 /* Data Plugs */,
 				60103FB61EB4AA0100BBA065 /* Home View Controller */,
-				60CDCBED1EAAEA0000035882 /* More View Controller */,
+				601142761E5F877500A9D982 /* HomeViewController.swift */,
+				B564E99F1D198C4D00EDB8F1 /* MapViewController.swift */,
 				6044B2171DDB3151003A1263 /* TabBarViewController.swift */,
 			);
 			path = "Tab Bar Controller";
@@ -470,6 +513,7 @@
 			isa = PBXGroup;
 			children = (
 				60FAC7681E223A1D00532C01 /* DataPlugsCollectionViewController.swift */,
+				60DE1DD31F3475C600E031F6 /* DetailsDataPlugViewController.swift */,
 			);
 			path = "Data Plugs";
 			sourceTree = "<group>";
@@ -480,8 +524,7 @@
 				60103FB01EB4A02500BBA065 /* Notables View Controllers */,
 				60103FB71EB4AA1C00BBA065 /* Photos Service */,
 				60103FB81EB4AA4700BBA065 /* Social Feed */,
-				601142761E5F877500A9D982 /* HomeViewController.swift */,
-				B564E99F1D198C4D00EDB8F1 /* MapViewController.swift */,
+				60FB24031F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift */,
 			);
 			path = "Home View Controller";
 			sourceTree = "<group>";
@@ -504,10 +547,25 @@
 			path = "Social Feed";
 			sourceTree = "<group>";
 		};
+		602934011F39B81400515926 /* For Offers */ = {
+			isa = PBXGroup;
+			children = (
+				602933FF1F39B80E00515926 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift */,
+				6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */,
+				6050E2E21ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift */,
+				60314E7B1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift */,
+				6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */,
+				602933FD1F39AEE400515926 /* DataStorePrioritiesTableViewController.swift */,
+				6050E2E41ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift */,
+			);
+			name = "For Offers";
+			sourceTree = "<group>";
+		};
 		603926D01E603D1600DC1816 /* Home */ = {
 			isa = PBXGroup;
 			children = (
 				603926D11E603D3600DC1816 /* HomeScreenObject.swift */,
+				60FB24051F3A0C75001A5EFD /* GoDeepObject.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -542,13 +600,11 @@
 		604AC7B71ECF57490066414E /* DataStore */ = {
 			isa = PBXGroup;
 			children = (
+				602934011F39B81400515926 /* For Offers */,
 				604AC7B51ECF50B90066414E /* DataStoreTableViewController.swift */,
+				60314E6A1F3873F2004383AA /* DataStoreUKSpecificTableViewController.swift */,
 				604AC7B81ECF57650066414E /* DataSourceNameTableViewController.swift */,
-				6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */,
 				6050E2E01ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift */,
-				6050E2E21ED2E990002AD0C9 /* DataStoreNationalityTableViewController.swift */,
-				6050E2E41ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift */,
-				6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */,
 			);
 			name = DataStore;
 			sourceTree = "<group>";
@@ -565,6 +621,7 @@
 				60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */,
 				603D55C31E69ADBB00CCEBEB /* NSAttributedStringExtension.swift */,
 				603A10061E720FA0003B62D4 /* SafariViewControllerExtension.swift */,
+				603B20911F275B2C00E90D4C /* CollectionExtension.swift */,
 				608EAAA51DFEA7ED00234C60 /* StringExtension.swift */,
 				602CB4451E8BAF3B00903F33 /* UIAlertControllerExtension.swift */,
 				6044931A1DE9FE5C00B2FE7B /* UIButtonExtension.swift */,
@@ -635,8 +692,10 @@
 				604504D41EAE10A7003B76C3 /* EmergencyContactTableViewController.swift */,
 				6028B4F21EA616B800018D49 /* MoreTableViewController.swift */,
 				60CDCBF01EAAEA5500035882 /* NameTableViewController.swift */,
-				604DF81D1EC3B6F500805F8E /* PHATASettingsTableViewController.swift */,
+				60D8DAA51F31E3960055CEAC /* NotificationsTableViewController.swift */,
+				60D8DAB31F3219C20055CEAC /* NotificationDetailsViewController.swift */,
 				604504D61EAE16D5003B76C3 /* PhataPictureViewController.swift */,
+				604DF81D1EC3B6F500805F8E /* PHATASettingsTableViewController.swift */,
 				60CDCBE91EAACA9500035882 /* PhataTableViewController.swift */,
 				60CDCC0C1EAB760F00035882 /* PhoneTableViewController.swift */,
 				604504D21EAE0DBB003B76C3 /* ProfileInfoTableViewController.swift */,
@@ -650,7 +709,10 @@
 			isa = PBXGroup;
 			children = (
 				B54EA6191D19F5450018EE47 /* DataPointTableViewCell.swift */,
+				602934021F39BDFD00515926 /* SurveyTableViewCell.swift */,
+				6033DAF21F34C92200A9048B /* DataDebitTableViewCell.swift */,
 				6041B20F1DD4AC190018CC31 /* NotablesTableViewCell.swift */,
+				60D8DAB11F3215520055CEAC /* NotificationsTableViewCell.swift */,
 				60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */,
 				600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */,
 			);
@@ -668,11 +730,20 @@
 				607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */,
 				602CB4491E8BF3AB00903F33 /* PhotosCollectionViewCell.swift */,
 				60CC29A71EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift */,
+				60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */,
 				60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */,
 				60D317681E35FE52008E0A5F /* SocialFeedCollectionViewCell.swift */,
 				603D3A721DE879E600C973D8 /* SocialImageCollectionViewCell.swift */,
 			);
 			path = CollectionView;
+			sourceTree = "<group>";
+		};
+		60DE1DD51F349E3700E031F6 /* Data Debits */ = {
+			isa = PBXGroup;
+			children = (
+				60DE1DD61F34A18C00E031F6 /* DataDebitsTableViewController.swift */,
+			);
+			name = "Data Debits";
 			sourceTree = "<group>";
 		};
 		B564E95C1D19717900EDB8F1 = {
@@ -785,6 +856,8 @@
 				60CC29A91EEAED5C0083C6D8 /* Realm Objects */,
 				603926D01E603D1600DC1816 /* Home */,
 				6090D4671E3140D4004FD1E2 /* FutureTimeIntervalObject.swift */,
+				602934041F39CECF00515926 /* SurveyObject.swift */,
+				605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */,
 				B56E2FA21D22D1C400546C7E /* JSONDataSourceRequestField.swift */,
 				603CE74D1DF85E1600421429 /* LearnMoreObject.swift */,
 				60B486241E1D341000914AD2 /* PurchaseModel.swift */,
@@ -917,6 +990,9 @@
 							com.apple.Maps.iOS = {
 								enabled = 1;
 							};
+							com.apple.Push = {
+								enabled = 1;
+							};
 						};
 					};
 					B564E9781D19717900EDB8F1 = {
@@ -1047,6 +1123,7 @@
 				"${BUILT_PRODUCTS_DIR}/HatForIOS/HatForIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/MarkdownView/MarkdownView.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -1063,6 +1140,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HatForIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarkdownView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -1107,6 +1185,7 @@
 				"${BUILT_PRODUCTS_DIR}/HatForIOS/HatForIOS.framework",
 				"${BUILT_PRODUCTS_DIR}/JWTDecode/JWTDecode.framework",
 				"${BUILT_PRODUCTS_DIR}/KeychainSwift/KeychainSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/MarkdownView/MarkdownView.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -1122,6 +1201,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HatForIOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JWTDecode.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MarkdownView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -1236,6 +1316,7 @@
 				603D3A731DE879E600C973D8 /* SocialImageCollectionViewCell.swift in Sources */,
 				6050E2E51ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift in Sources */,
 				60938DBC1E9BA4190058F6CC /* PhotoPickerDelegate.swift in Sources */,
+				603B20901F2742BB00E90D4C /* DataPlugsResponseInteractor.swift in Sources */,
 				604504D71EAE16D5003B76C3 /* PhataPictureViewController.swift in Sources */,
 				601142771E5F877500A9D982 /* HomeViewController.swift in Sources */,
 				602CB4461E8BAF3B00903F33 /* UIAlertControllerExtension.swift in Sources */,
@@ -1254,8 +1335,10 @@
 				604AC7B61ECF50B90066414E /* DataStoreTableViewController.swift in Sources */,
 				60113D331E856EB2000EAF89 /* HATAccountServiceExtension.swift in Sources */,
 				601BDFD01E8D4D5A00213E37 /* CheckInMapViewController.swift in Sources */,
+				60314E7C1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift in Sources */,
 				B591368C1D19F13500E9EDD0 /* DataViewController.swift in Sources */,
 				60938DB81E9B96AA0058F6CC /* PhotoViewerViewController.swift in Sources */,
+				6033DAF31F34C92200A9048B /* DataDebitTableViewCell.swift in Sources */,
 				6090D4661E31316F004FD1E2 /* MarketSquareService.swift in Sources */,
 				B564E9A01D198C4D00EDB8F1 /* MapViewController.swift in Sources */,
 				604EAC111EB8C5F20084EEC8 /* UserCredentialsProtocol.swift in Sources */,
@@ -1266,18 +1349,21 @@
 				6041B20D1DD4AC040018CC31 /* NotablesViewController.swift in Sources */,
 				60938DBE1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift in Sources */,
 				6041474B1EE0554A008C9293 /* DataOfferDetailsViewController.swift in Sources */,
+				605D84041F2F715A00CA44F5 /* ProfileImageObject.swift in Sources */,
 				60B486311E1D6E7B00914AD2 /* UIImageViewExtension.swift in Sources */,
 				60CDCC0F1EAB798A00035882 /* AddressTableViewController.swift in Sources */,
 				604D68DE1DFAD2B300D7FFED /* HATCapabilitiesPageViewController.swift in Sources */,
 				603CE74E1DF85E1600421429 /* LearnMoreObject.swift in Sources */,
+				60D8DAB41F3219C20055CEAC /* NotificationDetailsViewController.swift in Sources */,
 				605EE03E1E93EB3500B265F6 /* CrashLoggerHelper.swift in Sources */,
 				6041B20E1DD4AC040018CC31 /* ShareOptionsViewController.swift in Sources */,
 				B56E2FAA1D23D9FF00546C7E /* SyncDataHelper.swift in Sources */,
+				60D8DAB21F3215520055CEAC /* NotificationsTableViewCell.swift in Sources */,
 				B54EA61A1D19F5450018EE47 /* DataPointTableViewCell.swift in Sources */,
 				60FAC7691E223A1D00532C01 /* DataPlugsCollectionViewController.swift in Sources */,
 				60938DC01E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */,
 				603D08B11E6D5E350077E90C /* AnimationHelper.swift in Sources */,
-				6050E2E31ED2E990002AD0C9 /* DataStoreNationalityTableViewController.swift in Sources */,
+				6050E2E31ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift in Sources */,
 				604237DF1E114F2D00E19109 /* UIColorExtension.swift in Sources */,
 				60E2679E1E55B9B900B6D626 /* AuthoriseUserViewController.swift in Sources */,
 				607C107B1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift in Sources */,
@@ -1290,6 +1376,9 @@
 				60CC29AB1EEAEFEF0083C6D8 /* HATImagesRealmObject.swift in Sources */,
 				603A10071E720FA0003B62D4 /* SafariViewControllerExtension.swift in Sources */,
 				6054B35A1EF970D4004BD104 /* SelectedPhotosProtocol.swift in Sources */,
+				60DE1DD41F3475C600E031F6 /* DetailsDataPlugViewController.swift in Sources */,
+				6045AE9D1F264CE800755990 /* PresenterOfShareOptionsViewController.swift in Sources */,
+				603B20921F275B2C00E90D4C /* CollectionExtension.swift in Sources */,
 				60AFA1E81E9F6CE100AFA28B /* SendLocationDataDelegate.swift in Sources */,
 				6044B2181DDB3151003A1263 /* TabBarViewController.swift in Sources */,
 				6097C0691E327506000E771A /* TermsAndConditionsViewController.swift in Sources */,
@@ -1298,12 +1387,16 @@
 				B591368A1D19DE6C00E9EDD0 /* RealmHelper.swift in Sources */,
 				606528D31DDA037400026EA6 /* JSONHelper.swift in Sources */,
 				603FDD511E43E7840086559B /* InfoHatProvidersViewController.swift in Sources */,
+				602934051F39CECF00515926 /* SurveyObject.swift in Sources */,
 				60EA32F11ECDECCA008ABD41 /* UIImageExtension.swift in Sources */,
 				600015541EAE62AE000A084F /* ResetPasswordTableViewController.swift in Sources */,
 				604504D11EAE087B003B76C3 /* SocialLinksTableViewController.swift in Sources */,
+				60DE1DD71F34A18C00E031F6 /* DataDebitsTableViewController.swift in Sources */,
 				6050E2E71ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift in Sources */,
+				60D8DAA61F31E3960055CEAC /* NotificationsTableViewController.swift in Sources */,
 				60CDCBF11EAAEA5500035882 /* NameTableViewController.swift in Sources */,
 				B59136851D19D3BB00E9EDD0 /* Constants.swift in Sources */,
+				60FB24041F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift in Sources */,
 				604AC7B91ECF57650066414E /* DataSourceNameTableViewController.swift in Sources */,
 				603D08AF1E6D5CFF0077E90C /* RingProgressCircle.swift in Sources */,
 				605EE0341E8DBF8600B265F6 /* UpdateLocationsDelegate.swift in Sources */,
@@ -1316,6 +1409,7 @@
 				60494ADA1EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift in Sources */,
 				603CE74A1DF6FA7400421429 /* PageViewController.swift in Sources */,
 				B5138ACE1D1ECA2C00CD1530 /* NetworkHelper.swift in Sources */,
+				60314E6B1F3873F2004383AA /* DataStoreUKSpecificTableViewController.swift in Sources */,
 				603D55BD1E69861D00CCEBEB /* UIViewExtension.swift in Sources */,
 				6050E2E11ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift in Sources */,
 				604504CF1EAE0872003B76C3 /* AboutTableViewController.swift in Sources */,
@@ -1325,6 +1419,7 @@
 				603D55BF1E69879300CCEBEB /* LabelExtension.swift in Sources */,
 				60FAC76B1E223AA700532C01 /* DataPlugCollectionViewCell.swift in Sources */,
 				B59136881D19DC2700E9EDD0 /* DataPoint.swift in Sources */,
+				60FB24061F3A0C75001A5EFD /* GoDeepObject.swift in Sources */,
 				60BAEEB31EE01C23001F8381 /* DataOffersViewController.swift in Sources */,
 				602CB44A1E8BF3AB00903F33 /* PhotosCollectionViewCell.swift in Sources */,
 				60B486251E1D341000914AD2 /* PurchaseModel.swift in Sources */,
@@ -1332,8 +1427,10 @@
 				605EE0361E8DC02F00B265F6 /* UpdateLocations.swift in Sources */,
 				60415B941EC4CA0A00CC5EE0 /* FBAnotationsExtension.swift in Sources */,
 				604504D51EAE10A7003B76C3 /* EmergencyContactTableViewController.swift in Sources */,
+				60FB24081F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift in Sources */,
 				60DDE1711E31006600AB9E18 /* MapsHelper.swift in Sources */,
 				60AAA5B81E83D70A0080D0D5 /* HATProviderObjectExtension.swift in Sources */,
+				602934001F39B80E00515926 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift in Sources */,
 				60113D2F1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift in Sources */,
 				604D68E01DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift in Sources */,
 				604DF81E1EC3B6F500805F8E /* PHATASettingsTableViewController.swift in Sources */,
@@ -1341,6 +1438,7 @@
 				603D55C11E69962E00CCEBEB /* UIPageViewController.swift in Sources */,
 				60275BA01E6DB3740098B66C /* TextPopUpViewController.swift in Sources */,
 				605EE03C1E92A5BF00B265F6 /* PhotosHelper.swift in Sources */,
+				602934031F39BDFD00515926 /* SurveyTableViewCell.swift in Sources */,
 				B51CC9281D1D7895000C9E48 /* LoginViewController.swift in Sources */,
 				60CC29A81EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift in Sources */,
 				6041B2101DD4AC190018CC31 /* NotablesTableViewCell.swift in Sources */,
@@ -1351,6 +1449,7 @@
 				607DC4551E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift in Sources */,
 				603926D21E603D3600DC1816 /* HomeScreenObject.swift in Sources */,
 				6055D9831EC9F16E00461C75 /* UITableViewExtension.swift in Sources */,
+				602933FE1F39AEE400515926 /* DataStorePrioritiesTableViewController.swift in Sources */,
 				6088ED191E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift in Sources */,
 				60DDE16F1E30FCD200AB9E18 /* KeychainHelper.swift in Sources */,
 			);
@@ -1507,11 +1606,14 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "hat-mobile-ios/hat-mobile-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 84XHE3A5BA;
 				ENABLE_BITCODE = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				INFOPLIST_FILE = "hat-mobile-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1531,10 +1633,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = "hat-mobile-ios/hat-mobile-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: HAT Data Exchange Ltd. (84XHE3A5BA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 84XHE3A5BA;
 				ENABLE_BITCODE = YES;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
 				INFOPLIST_FILE = "hat-mobile-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

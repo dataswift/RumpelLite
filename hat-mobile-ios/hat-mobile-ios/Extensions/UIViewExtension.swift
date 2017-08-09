@@ -52,7 +52,12 @@ extension UIView {
         let tempView = UIView()
         tempView.createFloatingView(frame: frame, color: color, cornerRadius: cornerRadius)
         
-        let label = UILabel().createLabel(frame: CGRect(x: 8, y: 8, width: frame.width - 16, height: frame.height - 16), text: text, textColor: textColor, textAlignment: .center, font: font)
+        let label = UILabel().createLabel(
+            frame: CGRect(x: 8, y: 8, width: frame.width - 16, height: frame.height - 16),
+            text: text,
+            textColor: textColor,
+            textAlignment: .center,
+            font: font)
         
         // add label to loading view
         tempView.addSubview(label)
@@ -79,7 +84,12 @@ extension UIView {
         
         let path = CGMutablePath()
         path.addRect(view.bounds)
-        path.addArc(center: CGPoint(x: xOffset, y: yOffset), radius: radius, startAngle: 0.0, endAngle: 2 * 3.14, clockwise: false)
+        path.addArc(
+            center: CGPoint(x: xOffset, y: yOffset),
+            radius: radius,
+            startAngle: 0.0,
+            endAngle: 2 * 3.14,
+            clockwise: false)
         path.closeSubpath()
         
         let maskLayer = CAShapeLayer()
@@ -108,7 +118,12 @@ extension UIView {
         
         let path = CGMutablePath()
         path.addPath(layer.path!)
-        path.addArc(center: CGPoint(x: xOffset, y: yOffset), radius: radius, startAngle: 0.0, endAngle: 2 * 3.14, clockwise: false)
+        path.addArc(
+            center: CGPoint(x: xOffset, y: yOffset),
+            radius: radius,
+            startAngle: 0.0,
+            endAngle: 2 * 3.14,
+            clockwise: false)
         path.closeSubpath()
         
         let maskLayer = CAShapeLayer()
@@ -198,8 +213,5 @@ extension UIView {
         _ = self.createOverlay(view: self, layer: maskLayer3, xOffset: self.bounds.maxX + 5, yOffset: self.bounds.maxY - 20, radius: 20)
         
         self.addDashedLine(view: self, xPoint: -5, yPoint: self.bounds.maxY - 18)
-        
-        //        self.stackView.layer.borderWidth = 2
-        //        self.stackView.layer.borderColor = UIColor(colorLiteralRed: 231/255, green: 231/255, blue: 231/255, alpha: 1.0).cgColor
     }
 }

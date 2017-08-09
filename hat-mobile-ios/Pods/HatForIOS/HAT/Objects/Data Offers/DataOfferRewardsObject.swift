@@ -102,6 +102,7 @@ public struct DataOfferRewardsObject {
         
         if let tempCodesArray = dictionary[DataOfferRewardsObject.Fields.codes]?.array {
             
+            codes = []
             for code in tempCodesArray {
                 
                 if let unwrappedCode = code.string {

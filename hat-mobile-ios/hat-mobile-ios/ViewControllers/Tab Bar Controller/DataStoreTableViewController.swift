@@ -20,7 +20,7 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
     // MARK: - Variables
 
     /// The sections of the table view
-    private let sections: [[String]] = [["Name", "Info", "Contact Info"], ["Nationality"], ["Relationship and Household"], ["Education"]]
+    private let sections: [[String]] = [["Name", "Contact Info"], ["UK Specific"], ["For Data Offers"]]
     /// The headers of the table view
     private let headers: [String] = ["My Profile"]
     
@@ -38,7 +38,11 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
         
         super.viewWillAppear(animated)
         
-        HATPhataService.getProfileFromHAT(userDomain: userDomain, userToken: userToken, successCallback: getProfile, failCallback: logError)
+        HATPhataService.getProfileFromHAT(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: getProfile,
+            failCallback: logError)
     }
     
     /**
@@ -49,7 +53,11 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
      */
     func tableCreated(dictionary: Dictionary<String, Any>, renewedToken: String?) {
         
-        HATPhataService.getProfileFromHAT(userDomain: userDomain, userToken: userToken, successCallback: getProfile, failCallback: logError)
+        HATPhataService.getProfileFromHAT(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: getProfile,
+            failCallback: logError)
     }
     
     /**
@@ -75,15 +83,27 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
         case .tableDoesNotExist:
             
             let tableJSON = HATJSONHelper.createProfileTableJSON()
-            HATAccountService.createHatTable(userDomain: userDomain, token: userToken, notablesTableStructure: tableJSON, failed: {(error) in
+            HATAccountService.createHatTable(
+                userDomain: userDomain,
+                token: userToken,
+                notablesTableStructure: tableJSON,
+                failed: {(error) in
                 
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-            })(
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
+            )(
                 
-                HATAccountService.checkHatTableExistsForUploading(userDomain: userDomain, tableName: Constants.HATTableName.Profile.name, sourceName: Constants.HATTableName.Profile.source, authToken: userToken, successCallback: tableCreated, errorCallback: logError)
+                HATAccountService.checkHatTableExistsForUploading(
+                    userDomain: userDomain,
+                    tableName: Constants.HATTableName.Profile.name,
+                    sourceName: Constants.HATTableName.Profile.source,
+                    authToken: userToken,
+                    successCallback: tableCreated,
+                    errorCallback: logError)
             )
         default:
-            _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
         }
     }
 
@@ -130,28 +150,19 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
                 self.performSegue(withIdentifier: Constants.Segue.dataStoreToName, sender: self)
             } else if indexPath.row == 1 {
                 
-                self.performSegue(withIdentifier: Constants.Segue.dataStoreToInfoSegue, sender: self)
-            } else if indexPath.row == 2 {
-                
                 self.performSegue(withIdentifier: Constants.Segue.dataStoreToContactInfoSegue, sender: self)
             }
         } else if indexPath.section == 1 {
             
             if indexPath.row == 0 {
                 
-                self.performSegue(withIdentifier: Constants.Segue.dataStoreToNationalitySegue, sender: self)
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToUKSpecificSegue, sender: self)
             }
         } else if indexPath.section == 2 {
             
             if indexPath.row == 0 {
                 
-                self.performSegue(withIdentifier: Constants.Segue.dataStoreToHouseholdSegue, sender: self)
-            }
-        } else if indexPath.section == 3 {
-            
-            if indexPath.row == 0 {
-                
-                self.performSegue(withIdentifier: Constants.Segue.dataStoreToEducationSegue, sender: self)
+                self.performSegue(withIdentifier: Constants.Segue.dataStoreToForDataOffersInfoSegue, sender: self)
             }
         }
     }
@@ -187,14 +198,6 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
                 weak var destinationVC = segue.destination as? DataSourceNameTableViewController
                 
                 if segue.identifier == Constants.Segue.dataStoreToName {
-                    
-                    destinationVC?.profile = self.profile
-                }
-            } else if segue.destination is DataStoreInfoTableViewController {
-                
-                weak var destinationVC = segue.destination as? DataStoreInfoTableViewController
-                
-                if segue.identifier == Constants.Segue.dataStoreToInfoSegue {
                     
                     destinationVC?.profile = self.profile
                 }

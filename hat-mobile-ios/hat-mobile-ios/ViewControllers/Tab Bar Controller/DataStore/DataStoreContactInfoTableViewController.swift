@@ -41,13 +41,80 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
      */
     @IBAction func saveButtonAction(_ sender: Any) {
         
-        self.darkView = UIView(frame: self.tableView.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
+        self.createPopUp()
+        self.updateModelFromUI()
+        self.uploadInfoToHat()
+    }
+    
+    // MARK: - Create error Alert
+    
+    /**
+     Creates an error alert based on when the error occured
+     
+     - parameter title: The title of the alert
+     - parameter message: The message of the alert
+     - parameter error: The error to log on crashlytics
+     */
+    private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
         
-        self.view.addSubview(self.darkView)
+        self.loadingView.removeFromSuperview()
+        self.darkView.removeFromSuperview()
         
-        self.loadingView = UIView.createLoadingView(with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30), color: .teal, cornerRadius: 15, in: self.view, with: "Updating profile...", textColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        self.createClassicOKAlertWith(
+            alertMessage: message,
+            alertTitle: title,
+            okTitle: "OK",
+            proceedCompletion: {})
+        
+        CrashLoggerHelper.hatTableErrorLog(error: error)
+    }
+    
+    // MARK: - Upload info
+    
+    /**
+     Uploads the model to hat
+     */
+    private func uploadInfoToHat() {
+        
+        func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
+            
+            HATPhataService.postProfile(
+                userDomain: userDomain,
+                userToken: userToken,
+                hatProfile: self.profile!,
+                successCallBack: {
+                    
+                    self.loadingView.removeFromSuperview()
+                    self.darkView.removeFromSuperview()
+                    
+                    _ = self.navigationController?.popViewController(animated: true)
+                },
+                errorCallback: {error in
+                    
+                    self.createErrorAlertWith(title: "Error", message: "There was an error posting profile", error: error)
+                }
+            )
+        }
+        
+        HATAccountService.checkHatTableExistsForUploading(
+            userDomain: userDomain,
+            tableName: Constants.HATTableName.Profile.name,
+            sourceName: Constants.HATTableName.Profile.source,
+            authToken: userToken,
+            successCallback: tableExists,
+            errorCallback: {error in
+                
+                self.createErrorAlertWith(title: "Error", message: "There was an error checking if it's possible to post the data", error: error)
+            }
+        )
+    }
+    
+    // MARK: - Update Model
+    
+    /**
+     Maps the UI to the model in order to update the values
+     */
+    private func updateModelFromUI() {
         
         for index in self.headers.indices {
             
@@ -64,65 +131,47 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
             if index == 0 {
                 
                 profile?.data.primaryEmail.value = cell!.getTextFromTextField()
-            // Mobile
+                // Mobile
             } else if index == 1 {
                 
                 profile?.data.mobile.number = cell!.getTextFromTextField()
-            // street name
+                // street name
             } else if index == 2 {
                 
                 profile?.data.addressDetails.street = cell!.getTextFromTextField()
-            // street number
+                // street number
             } else if index == 3 {
                 
                 profile?.data.addressDetails.number = cell!.getTextFromTextField()
-            // postcode
+                // postcode
             } else if index == 4 {
                 
                 profile?.data.addressDetails.postCode = cell!.getTextFromTextField()
             }
         }
+    }
+    
+    // MARK: - Create PopUp
+    
+    /**
+     Creates Updating profile... pop up while the uploading is taking place
+     */
+    private func createPopUp() {
         
-        func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
-            
-            HATPhataService.postProfile(
-                userDomain: userDomain,
-                userToken: userToken,
-                hatProfile: self.profile!,
-                successCallBack: {
-                
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                errorCallback: { error in
-                
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    self.createClassicOKAlertWith(alertMessage: "There was an error posting profile", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-            )
-        }
+        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView.backgroundColor = .black
+        self.darkView.alpha = 0.4
         
-        HATAccountService.checkHatTableExistsForUploading(
-            userDomain: userDomain,
-            tableName: Constants.HATTableName.Profile.name,
-            sourceName: Constants.HATTableName.Profile.source,
-            authToken: userToken,
-            successCallback: tableExists,
-            errorCallback: {error in
-            
-                self.loadingView.removeFromSuperview()
-                self.darkView.removeFromSuperview()
-                
-                self.createClassicOKAlertWith(alertMessage: "There was an error checking if it's possible to post the data", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-            }
-        )
+        self.view.addSubview(self.darkView)
+        
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Updating profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
     }
     
     // MARK: - View Controller functions
@@ -153,12 +202,12 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "dataStoreContactInfoCell", for: indexPath) as? PhataTableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreContactInfoCell, for: indexPath) as? PhataTableViewCell {
             
             return setUpCell(cell: cell, indexPath: indexPath)
         }
         
-        return tableView.dequeueReusableCell(withIdentifier: "dataStoreContactInfoCell", for: indexPath)
+        return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreContactInfoCell, for: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {

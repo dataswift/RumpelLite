@@ -223,7 +223,6 @@ open class RingProgressCircle: UIView {
             self.previousArc = self.addOval(self.ringLineWidth, path: self.path!, strokeStart: (CGFloat(0 + offset)), strokeEnd: (CGFloat(Double(end) * (Double.pi * 2) + offset)), strokeColor: self.ringColor, fillColor: self.ringFillColor, shadowRadius: self.ringShadowRadius, shadowOpacity: self.ringShadowOpacity, shadowOffset: self.ringShadowOffset)
         
             //animate main circle
-        
             AnimationHelper.animateCircle(from: from, toValue: Float(end), duration: TimeInterval(self.animationDuration), arc: self.previousArc!)
             
             self.hasAnimationFinished = false

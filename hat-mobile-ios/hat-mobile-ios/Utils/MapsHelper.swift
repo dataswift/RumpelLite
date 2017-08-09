@@ -94,7 +94,6 @@ internal struct MapsHelper {
             return
         }
         
-        print("time interval: \(timeInterval)")
         // check we have a measurement that meets our requirements,
         if ((latestLocation.horizontalAccuracy <= locationManager.desiredAccuracy)) || !(timeInterval.isLess(than: 10)) {
             
@@ -104,21 +103,28 @@ internal struct MapsHelper {
                 let distance = latestLocation.distance(from: dblocation!)
                 if !distance.isLess(than: locationManager.distanceFilter - (latestLocation.horizontalAccuracy + dblocation!.horizontalAccuracy)) {
                     
-                    print("added")
-                    // add data
-                    _ = RealmHelper.addData(Double(latestLocation.coordinate.latitude), longitude: Double(latestLocation.coordinate.longitude), accuracy: Double(latestLocation.horizontalAccuracy))
-                    let syncHelper = SyncDataHelper()
-                    _ = syncHelper.checkNextBlockToSync()
+                    MapsHelper.addDataToDB(latestLocation: latestLocation)
                 }
             } else {
                 
-                print("added")
-                // add data
-                _ = RealmHelper.addData(Double(latestLocation.coordinate.latitude), longitude: Double(latestLocation.coordinate.longitude), accuracy: Double(latestLocation.horizontalAccuracy))
-                let syncHelper = SyncDataHelper()
-                _ = syncHelper.checkNextBlockToSync()
+                MapsHelper.addDataToDB(latestLocation: latestLocation)
             }
         }
+    }
+    
+    // MARK: - Add data to db
+    
+    /**
+     Adds the latest location to db and trigers sync with hat
+     
+     - parameter latestLocation: The location to add to db
+     */
+    private static func addDataToDB(latestLocation: CLLocation) {
+        
+        // add data
+        _ = RealmHelper.addData(Double(latestLocation.coordinate.latitude), longitude: Double(latestLocation.coordinate.longitude), accuracy: Double(latestLocation.horizontalAccuracy))
+        let syncHelper = SyncDataHelper()
+        _ = syncHelper.checkNextBlockToSync()
     }
 
 }

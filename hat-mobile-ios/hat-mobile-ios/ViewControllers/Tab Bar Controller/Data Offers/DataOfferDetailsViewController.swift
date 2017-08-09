@@ -18,66 +18,160 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
     
     // MARK: - IBOutlets
 
+    /// An IBOutlet for handling the textField UITextView
     @IBOutlet private weak var textField: UITextView!
+    /// An IBOutlet for handling the dataRequirmentTextView UITextView
     @IBOutlet private weak var dataRequirmentTextView: UITextView!
     
+    /// An IBOutlet for handling the piiExplainedLabel UILabel
     @IBOutlet private weak var piiExplainedLabel: UILabel!
-    @IBOutlet private weak var imageView: UIImageView!
+    /// An IBOutlet for handling the offerDurationLabel UILabel
     @IBOutlet private weak var offerDurationLabel: UILabel!
+    /// An IBOutlet for handling the title label UILabel
     @IBOutlet private weak var titleLabel: UILabel!
+    /// An IBOutlet for handling the detailsLabel UILabel
     @IBOutlet private weak var detailsLabel: UILabel!
+    /// An IBOutlet for handling the offersRemainingLabel UILabel
     @IBOutlet private weak var offersRemainingLabel: UILabel!
+    /// An IBOutlet for handling the piiEnabledLabel UILabel
     @IBOutlet private weak var ppiEnabledLabel: UILabel!
     
+    /// An IBOutlet for handling the imageView
+    @IBOutlet private weak var imageView: UIImageView!
+
+    /// An IBOutlet for handling the stackView
     @IBOutlet private weak var stackView: UIStackView!
     
+    /// An IBOutlet for handling the infoView UIView
     @IBOutlet private weak var infoView: UIView!
     
+    /// An IBOutlet for handling the acceptOfferButton UIButton
     @IBOutlet private weak var acceptOfferButton: UIButton!
     
     // MARK: - Variables
     
+    /// The offer received from DataOffersViewController
     var receivedOffer: DataOfferObject?
+    
+    /// A dark view covering the collection view cell
+    private var darkView: UIVisualEffectView?
+    
+    /// A view to show that app is loading, fetching data plugs
+    private var loadingView: UIView = UIView()
+    
+    // MARK: - Claim offer
+    
+    /**
+     Claims the offer the user's currently reading
+     
+     - parameter appToken: The app token needed to claim the offer
+     */
+    private func claimOffer(appToken: String) {
+        
+        func success(claimResult: String, renewedUserToken: String?) {
+            
+            func alertCompletion() {
+                
+                self.darkView?.removeFromSuperview()
+                self.loadingView.removeFromSuperview()
+                
+                if receivedOffer?.reward.rewardType == "Cash" {
+                    
+                    self.navigationController?.popViewController(animated: true)
+                } else if receivedOffer?.reward.rewardType == "Service" {
+                    
+                    if claimResult == "completed" || claimResult == "redeemed" {
+                    
+                        if let unwrapedVendorURL = self.receivedOffer?.reward.vendorURL {
+                            
+                            self.showPopUpWindow(
+                                text: unwrapedVendorURL,
+                                buttonTitle: "Open in Safari")
+                        }
+                    } else {
+                        
+                        self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
+                        self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
+                        self.acceptOfferButton.isEnabled = false
+                        self.acceptOfferButton.alpha = 0.8
+                    }
+                } else if receivedOffer?.reward.rewardType == "Voucher" && (claimResult == "completed" || claimResult == "redeemed") {
+                    
+                    self.showPopUpWindow(
+                        text: (self.receivedOffer?.reward.codes?[0])!,
+                        buttonTitle: "Copy and open in Safari")
+                }
+            }
+            
+            self.createClassicOKAlertWith(
+                alertMessage: "Success",
+                alertTitle: "Offer has been claimed!",
+                okTitle: "OK",
+                proceedCompletion: alertCompletion)
+        }
+        
+        func failed(error: DataPlugError) {
+            
+            self.darkView?.removeFromSuperview()
+            self.loadingView.removeFromSuperview()
+            
+            CrashLoggerHelper.dataPlugErrorLog(error: error)
+        }
+        
+        HATDataOffersService.claimOffer(
+            applicationToken: appToken,
+            offerID: (receivedOffer?.dataOfferID)!,
+            succesfulCallBack: success,
+            failCallBack: failed)
+    }
     
     // MARK: - IBActions
     
+    /**
+     Accepts offer
+     
+     - parameter sender: The object that calls this method
+     */
     @IBAction func acceptOfferAction(_ sender: Any) {
         
         let remaining = (receivedOffer?.requiredMaxUsers)! - (receivedOffer?.usersClaimedOffer)!
-        if remaining > 0 {
+        if remaining > 0 && self.receivedOffer?.claim.claimStatus == "" {
             
             func gotApplicationToken(appToken: String, newUserToken: String?) {
                 
-                func success(claimResult: String, renewedUserToken: String?) {
-                    
-                    print(claimResult)
-                    self.navigationController?.popViewController(animated: true)
-                }
-                
-                func failed(error: DataPlugError) {
-                    
-                    print(error)
-                }
-                
-                HATDataOffersService.claimOffer(
-                    applicationToken: appToken,
-                    offerID: (receivedOffer?.dataOfferID)!,
-                    succesfulCallBack: success,
-                    failCallBack: failed)
+                self.claimOffer(appToken: appToken)
             }
             
             func failedGettingAppToken(error: JSONParsingError) {
                 
-                print(error)
+                self.darkView?.removeFromSuperview()
+                self.loadingView.removeFromSuperview()
+                
+                CrashLoggerHelper.JSONParsingErrorLog(error: error)
             }
             
+            self.addBlurToView()
+            
+            // create loading pop up screen
+            self.loadingView = UIView.createLoadingView(
+                with: CGRect(x: self.view.frame.midX - 70, y: self.view.bounds.midY - 15, width: 140, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: self.view,
+                with: "Accepting offer...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+            
             HATService.getApplicationTokenFor(
-                serviceName: "DataBuyer",
+                serviceName: Constants.ApplicationToken.DataBuyer.name,
                 userDomain: self.userDomain,
                 token: self.userToken,
-                resource: "https://databuyer.hubofallthings.com/",
+                resource: Constants.ApplicationToken.DataBuyer.source,
                 succesfulCallBack: gotApplicationToken,
                 failCallBack: failedGettingAppToken)
+        } else if remaining > 0 {
+            
+            self.showPopUpWindow()
         } else {
             
             self.createClassicOKAlertWith(
@@ -88,48 +182,84 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         }
     }
     
-    // MARK: - View controller methods
+    // MARK: - Check for received offer
     
-    override func viewDidLoad() {
+    /**
+     Checks for PII and sets up the view accordingly
+     */
+    private func checkForPII() {
         
-        super.viewDidLoad()
+        if receivedOffer!.isPΙIRequested {
+            
+            self.ppiEnabledLabel.text = "PII REQUESTED"
+            self.piiExplainedLabel.text = "PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
+        } else {
+            
+            self.ppiEnabledLabel.text = "PII NOT REQUESTED"
+            self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
+        }
+    }
+    
+    /**
+     Checks for the offer duration and sets up the view accordingly
+     */
+    private func checkForOfferDuration() {
         
-        self.acceptOfferButton.addBorderToButton(width: 1, color: .white)
+        if self.receivedOffer?.collectsDataFor == 1 {
+            
+            self.offerDurationLabel.text = "1 DAY DURATION"
+        } else {
+            
+            self.offerDurationLabel.text = String(describing: self.receivedOffer?.collectsDataFor) + "DAYS DURATION"
+        }
+    }
+    
+    /**
+     Checks for the offer reward type and sets up the view accordingly
+     */
+    private func checkForOfferRewardType() {
+        
+        if self.receivedOffer?.reward.rewardType != "cash" && (self.receivedOffer?.claim.claimStatus == "completed" || self.receivedOffer?.claim.claimStatus == "redeemed") {
+            
+            self.acceptOfferButton.setTitle("Show reward", for: .normal)
+            self.acceptOfferButton.addBorderToButton(width: 1, color: .white)
+        } else if self.receivedOffer?.claim.claimStatus != "" {
+            
+            self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
+            self.acceptOfferButton.isEnabled = false
+            self.acceptOfferButton.alpha = 0.8
+        } else {
+            
+            self.acceptOfferButton.addBorderToButton(width: 1, color: .white)
+        }
+    }
+    
+    /**
+     Checks for existing received offer and updating view accordingly
+     */
+    private func checkForReceivedOffer() {
         
         if receivedOffer != nil {
             
+            self.title = receivedOffer?.title
             self.titleLabel.text = receivedOffer?.title
             self.detailsLabel.text = receivedOffer?.shortDescription
             self.imageView.image = receivedOffer?.image
             self.textField.text = receivedOffer?.longDescription
             self.offersRemainingLabel.text = String(describing: ((receivedOffer?.requiredMaxUsers)! - (receivedOffer?.usersClaimedOffer)!)) + " REMAINING"
             self.dataRequirmentTextView.attributedText = self.formatRequiredDataDefinitionText(requiredDataDefinition: (receivedOffer?.requiredDataDefinition)!)
-            
-            if receivedOffer!.isPΙIRequested {
-                
-                self.ppiEnabledLabel.text = "PII REQUESTED"
-                self.piiExplainedLabel.text = "PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-            } else {
-                
-                self.ppiEnabledLabel.text = "PII NOT REQUESTED"
-                self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-            }
-            
-            if self.receivedOffer?.collectsDataFor == 1 {
-                
-                self.offerDurationLabel.text = "1 DAY DURATION"
-            } else {
-                
-                self.offerDurationLabel.text = String(describing: self.receivedOffer?.collectsDataFor) + "DAYS DURATION"
-            }
+            self.checkForPII()
+            self.checkForOfferDuration()
+            self.checkForOfferRewardType()
         }
-        
-        self.stackView.isHidden = true
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        
-        super.viewDidAppear(animated)
+    // MARK: - Update UI
+    
+    /**
+     Updates the UI adding lines to the infoView and drawing a ticket view
+     */
+    func updateUI() {
         
         self.stackView.isHidden = false
         
@@ -141,6 +271,26 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         view.drawTicketView()
     }
     
+    // MARK: - View controller methods
+    
+    override func viewDidLoad() {
+        
+        super.viewDidLoad()
+        
+        self.checkForReceivedOffer()
+        
+        self.stackView.isHidden = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(hidePopUp), name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo), object: nil)
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        self.updateUI()
+    }
+    
     override func didReceiveMemoryWarning() {
         
         super.didReceiveMemoryWarning()
@@ -148,10 +298,94 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
         
-        let view = self.stackView.arrangedSubviews[1]
-        view.addLine(view: self.infoView, xPoint: self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line)
-        view.addLine(view: self.infoView, xPoint: 2 * self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line2)
-        view.drawTicketView()
+        self.updateUI()
+    }
+    
+    // MARK: - Remove pop up
+    
+    /**
+     Hides pop up presented currently
+     */
+    @objc
+    private func hidePopUp() {
+        
+        self.darkView?.removeFromSuperview()
+        self.tabBarController?.tabBar.isUserInteractionEnabled = true
+    }
+    
+    /**
+     Sets up a pop up view controller
+     
+     - parameter text: The text to put on the main label
+     - parameter buttonTitle: The title to put on the button
+     */
+    private func showPopUpWindow(text: String, buttonTitle: String) {
+        
+        // set up page controller
+        let textPopUpViewController = TextPopUpViewController.customInit(stringToShow: text, isButtonHidden: false, from: self.storyboard!)
+        textPopUpViewController?.changeButtonTitle(buttonTitle)
+        textPopUpViewController?.typeOfService = (self.receivedOffer?.reward.rewardType)!
+        textPopUpViewController?.url = self.receivedOffer?.reward.vendorURL
+        textPopUpViewController?.voucher = self.receivedOffer?.reward.codes
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
+        textPopUpViewController?.view.createFloatingView(
+            frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height),
+            color: .teal,
+            cornerRadius: 15)
+        
+        DispatchQueue.main.async { [weak self] () -> Void in
+            
+            if let weakSelf = self {
+                
+                // add the page view controller to self
+                weakSelf.addBlurToView()
+                weakSelf.addViewController(textPopUpViewController!)
+                AnimationHelper.animateView(
+                    textPopUpViewController?.view,
+                    duration: 0.2,
+                    animations: {
+                        
+                        textPopUpViewController?.view.frame = CGRect(x: weakSelf.view.frame.origin.x + 15, y: weakSelf.view.frame.maxY - 300, width: weakSelf.view.frame.width - 30, height: 400)
+                    },
+                    completion: { _ in return }
+                )
+            }
+        }
+    }
+    
+    /**
+     Based on the type of reward shows the pop up window
+     */
+    private func showPopUpWindow() {
+        
+        if receivedOffer?.reward.rewardType == "Service" {
+            
+            if self.receivedOffer?.claim.claimStatus == "completed" || self.receivedOffer?.claim.claimStatus == "redeemed" {
+                
+                self.showPopUpWindow(
+                    text: (self.receivedOffer?.reward.vendorURL)!,
+                    buttonTitle: "Open in Safari")
+            }
+        } else if receivedOffer?.reward.rewardType == "Voucher" {
+            
+            if self.receivedOffer?.claim.claimStatus == "completed" || self.receivedOffer?.claim.claimStatus == "redeemed" {
+                
+                self.showPopUpWindow(
+                    text: (self.receivedOffer?.reward.codes?[0])!,
+                    buttonTitle: "Copy and open in Safari")
+            }
+        }
+    }
+    
+    // MARK: - Add blur View
+    
+    /**
+     Adds blur to the view before presenting the pop up
+     */
+    private func addBlurToView() {
+        
+        self.darkView = AnimationHelper.addBlurToView(self.view)
     }
     
     // MARK: - Format Text
@@ -165,11 +399,15 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
      */
     private func formatRequiredDataDefinitionText(requiredDataDefinition: [DataOfferRequiredDataDefinitionObject]) -> NSMutableAttributedString {
         
-        let textToReturn = NSMutableAttributedString(string: "REQUIREMENTS:\n", attributes: [NSFontAttributeName: UIFont(name: "OpenSans", size: 13)!])
+        let textToReturn = NSMutableAttributedString(
+            string: "REQUIREMENTS:\n",
+            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
         
         for requiredData in requiredDataDefinition {
             
-            let string = NSMutableAttributedString(string: "\(requiredData.source)\n", attributes: [NSFontAttributeName: UIFont(name: "OpenSans-Bold", size: 13)!])
+            let string = NSMutableAttributedString(
+                string: "\(requiredData.source)\n",
+                attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSansBold, size: 13)!])
             
             textToReturn.append(string)
             
@@ -177,11 +415,15 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                 
                 func reccuringFields(fieldsArray: [DataOfferRequiredDataDefinitionDataSetsFieldsObject], intend: String) -> NSMutableAttributedString {
                     
-                    let tempText = NSMutableAttributedString(string: "", attributes: [NSFontAttributeName: UIFont(name: "OpenSans", size: 13)!])
+                    let tempText = NSMutableAttributedString(
+                        string: "",
+                        attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
                     
                     for field in fieldsArray {
                         
-                        let fieldString = NSMutableAttributedString(string: "\(intend)\(field.name)\n", attributes: [NSFontAttributeName: UIFont(name: "OpenSans", size: 13)!])
+                        let fieldString = NSMutableAttributedString(
+                            string: "\(intend)\(field.name)\n",
+                            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
                         
                         tempText.append(fieldString)
                         
@@ -194,7 +436,9 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                     return tempText
                 }
                 
-                let dataName = NSMutableAttributedString(string: "\t\(dataSet.name)\n", attributes: [NSFontAttributeName: UIFont(name: "OpenSans", size: 13)!])
+                let dataName = NSMutableAttributedString(
+                    string: "\t\(dataSet.name)\n",
+                    attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
                 
                 textToReturn.append(dataName)
                 textToReturn.append(reccuringFields(fieldsArray: dataSet.fields, intend: "\t\t"))

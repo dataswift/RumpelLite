@@ -60,7 +60,7 @@ internal class PhotoFullScreenViewerViewController: UIViewController, UserCreden
      */
     @IBAction func setImageAsProfileImageAction(_ sender: Any) {
         
-        if self.image != nil {
+        if self.image != nil && !self.isImageForProfile {
             
             profileViewControllerDelegate?.setImageAsProfileImage(image: image!)
         } else {
@@ -96,9 +96,13 @@ internal class PhotoFullScreenViewerViewController: UIViewController, UserCreden
             func delete() {
                 
                 HATFileService.deleteFile(fileID: file!.fileID, token: self.userToken, userDomain: self.userDomain, successCallback: success, errorCallBack: fail)
+                profileViewControllerDelegate?.deleteImage(file: self.file!)
             }
             
-            if (file?.tags.contains("notes"))! {
+            if (file?.tags.contains("profile"))! {
+                
+                self.createClassicAlertWith(alertMessage: "This photo is in the profile pictures, removing it will remove the image there as well", alertTitle: "Warning", cancelTitle: "Cancel", proceedTitle: "Delete", proceedCompletion: delete, cancelCompletion: {})
+            } else if (file?.tags.contains("notes"))! {
                 
                 self.createClassicAlertWith(alertMessage: "This photo is attached to a notable, removing it will remove the image in the note as well", alertTitle: "Warning", cancelTitle: "Cancel", proceedTitle: "Delete", proceedCompletion: delete, cancelCompletion: {})
             } else {

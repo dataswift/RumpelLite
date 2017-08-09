@@ -30,11 +30,12 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     private var selectedIndex: Int?
     
     /// the kind of the note to create
-    private var kind: String = ""
+    private var kind: String = "note"
     /// the notables fetch items limit
     private var notablesFetchLimit: String = "50"
     /// the notables fetch end date
     private var notablesFetchEndDate: String?
+    var privateNotesOnly: Bool = false
     
     /// the paramaters to make the request for fetching the notes
     private var parameters: Dictionary<String, String> = ["starttime": "0",
@@ -74,6 +75,26 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         // fetch notes
         self.connectToServerToGetNotes(result: nil)
         
+        self.ensureNotablesPlugEnabled()
+    }
+    
+    /**
+     Go to New note and create a note
+     
+     - parameter sender: The object that calls this function
+     */
+    @IBAction func newNoteButton(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: Constants.Segue.optionsSegue, sender: self)
+    }
+    
+    // MARK: - Ensure notables plug is enabled
+    
+    /**
+     Checks if notables plug is enabled before use
+     */
+    private func ensureNotablesPlugEnabled() {
+        
         // if something wrong show error
         let failCallBack = { [weak self] () -> Void in
             
@@ -85,29 +106,22 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         }
         
         // check if data plug is ready
-        HATDataPlugsService.ensureOffersReady(succesfulCallBack: { _ in }, tokenErrorCallback: failCallBack, failCallBack: {error in
-        
-            switch error {
+        HATDataPlugsService.ensureOffersReady(
+            succesfulCallBack: { _ in },
+            tokenErrorCallback: failCallBack,
+            failCallBack: {error in
                 
-            case .offerClaimed:
-                
-                break
-            default:
-                
-                failCallBack()
+                switch error {
+                    
+                case .offerClaimed:
+                    
+                    break
+                default:
+                    
+                    failCallBack()
+                }
             }
-        })
-    }
-    
-    /**
-     Go to New note and create a note
-     
-     - parameter sender: The object that calls this function
-     */
-    @IBAction func newNoteButton(_ sender: Any) {
-        
-        kind = "note"
-        self.performSegue(withIdentifier: Constants.Segue.optionsSegue, sender: self)
+        )
     }
     
     // MARK: - View Methods
@@ -141,17 +155,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
             self.connectToServerToGetNotes(result: nil)
         }
         
-        HATDataPlugsService.ensureOffersReady(
-            succesfulCallBack: success,
-            tokenErrorCallback: {
-        
-                print("error")
-            },
-            failCallBack: {error in
-            
-                print(error)
-            }
-        )
+        self.ensureNotablesPlugEnabled()
 
         // get notes
         HATAccountService.checkIfTokenExpired(
@@ -182,7 +186,18 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                 // for each dictionary parse it and add it to the array
                 for dict in array {
                     
-                    weakSelf.notesArray.append(HATNotesData.init(dict: dict.dictionary!))
+                    let note = HATNotesData.init(dict: dict.dictionary!)
+                    
+                    if weakSelf.privateNotesOnly {
+                        
+                        if !note.data.shared {
+                            
+                            weakSelf.notesArray.append(note)
+                        }
+                    } else {
+                        
+                        weakSelf.notesArray.append(note)
+                    }
                 }
                 
                 DispatchQueue.main.async {
@@ -245,7 +260,13 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                                            "limit": weakSelf.notablesFetchLimit]
                         
                         // fetch notes
-                        HATNotablesService.fetchNotables(userDomain: weakSelf.userDomain, authToken: weakSelf.userToken, structure: HATJSONHelper.createNotablesTableJSON(), parameters: weakSelf.parameters, success: weakSelf.showNotables, failure: { _ in })
+                        HATNotablesService.fetchNotables(
+                            userDomain: weakSelf.userDomain,
+                            authToken: weakSelf.userToken,
+                            structure: HATJSONHelper.createNotablesTableJSON(),
+                            parameters: weakSelf.parameters,
+                            success: weakSelf.showNotables,
+                            failure: { _ in })
                         
                     } else {
                         
@@ -258,7 +279,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                     weakSelf.showReceivedNotesFrom(array: array)
                     
                     // refresh user token
-                    _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
                 }
             }
         }
@@ -278,16 +299,10 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                 
                 return controller.setUpCell(tempCell, note: self.cachedNotesArray[indexPath.row], indexPath: indexPath)
             }
-        } else {
-            
-            if let tempCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.cellData, for: indexPath) as? NotablesTableViewCell {
-                
-                return controller.setUpCell(tempCell, note: self.cachedNotesArray[indexPath.row], indexPath: indexPath)
-            }
         }
         
-        // return cell
-        return tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.cellDataWithImage, for: indexPath)
+        let tempCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.cellData, for: indexPath) as? NotablesTableViewCell
+        return controller.setUpCell(tempCell!, note: self.cachedNotesArray[indexPath.row], indexPath: indexPath)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -306,34 +321,6 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         
         if editingStyle == UITableViewCellEditingStyle.delete {
             
-            func proceedCompletion(result: String?) {
-                
-                func success(token: String?) {
-                    
-                    var unwrappedToken = ""
-                    if token == nil {
-                        
-                        unwrappedToken = userToken
-                    } else {
-                        
-                        unwrappedToken = token!
-                    }
-                    HATNotablesService.deleteNote(recordID: self.cachedNotesArray[indexPath.row].noteID, tkn: unwrappedToken, userDomain: userDomain)
-                    self.cachedNotesArray.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .fade)
-                    self.updateUI()
-                    
-                    self.authorise = nil
-                }
-                
-                // delete data from hat and remove from table
-                HATAccountService.checkIfTokenExpired(
-                    token: userToken,
-                    expiredCallBack: self.unauthorisedResponse(proceedCompletion: proceedCompletion),
-                    tokenValidCallBack: success,
-                    errorCallBack: self.createClassicOKAlertWith)
-            }
-            
             // if it is shared show message else delete the row
             if self.cachedNotesArray[indexPath.row].data.shared {
                 
@@ -342,11 +329,11 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                     alertTitle: "",
                     cancelTitle: "Cancel",
                     proceedTitle: "Proceed",
-                    proceedCompletion: { proceedCompletion(result: nil) },
+                    proceedCompletion: { [weak self] in self?.deleteNote(result: nil) },
                     cancelCompletion: {})
             } else {
                 
-                proceedCompletion(result: nil)
+                deleteNote(result: nil)
             }
         }
     }
@@ -369,8 +356,48 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         self.selectedIndex = indexPath.row
     }
     
+    // MARK: - Delete Note
+    
+    /**
+     Deletes a note from HAT
+     
+     - parameter result: An optional string used for the unauthorisedResponse function
+     */
+    private func deleteNote(result: String?) {
+        
+        func success(token: String?) {
+            
+            KeychainHelper.setKeychainValue(key: token, value: Constants.Keychain.userToken)
+            HATNotablesService.deleteNote(
+                recordID: self.cachedNotesArray[self.selectedIndex!].noteID,
+                tkn: userToken,
+                userDomain: userDomain
+            )
+            
+            self.cachedNotesArray.remove(at: selectedIndex!)
+            tableView.deleteRows(at: [IndexPath(row: selectedIndex!, section: 0)], with: .fade)
+            self.updateUI()
+            
+            self.authorise = nil
+        }
+        
+        // delete data from hat and remove from table
+        HATAccountService.checkIfTokenExpired(
+            token: userToken,
+            expiredCallBack: self.unauthorisedResponse(proceedCompletion: deleteNote),
+            tokenValidCallBack: success,
+            errorCallBack: self.createClassicOKAlertWith)
+    }
+    
     // MARK: - Unauthorised response
     
+    /**
+     Authorises the user again in an event of unauthorised response from HAT
+     
+     - parameter proceedCompletion: A function to execute after authorisation
+     
+     - returns: A function of type (Void) -> Void
+     */
     func unauthorisedResponse(proceedCompletion: @escaping (String?) -> Void) -> (Void) -> Void {
         
         return {
@@ -407,37 +434,59 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
             
             self.showEmptyTableLabelWith(message: "Accessing your HAT...")
             
-            HATNotablesService.fetchNotables(userDomain: userDomain, authToken: userToken, structure: HATJSONHelper.createNotablesTableJSON(), parameters: self.parameters, success: self.showNotables, failure: {[weak self] error in
+            self.fetchNotes()
+        }
+    }
+    
+    // MARK: - Fetch Notes
+    
+    /**
+     Fetches notes from HAT
+     */
+    func fetchNotes() {
+        
+        HATNotablesService.fetchNotables(
+            userDomain: userDomain,
+            authToken: userToken,
+            structure: HATJSONHelper.createNotablesTableJSON(),
+            parameters: self.parameters,
+            success: self.showNotables,
+            failure: {[weak self] error in
                 
                 switch error {
                     
                 case .generalError(_, let statusCode, _) :
                     
-                    if statusCode != nil && self != nil {
+                    if statusCode != nil {
                         
                         if statusCode != 404 && statusCode != 401 {
                             
-                            self!.showEmptyTableLabelWith(message: "There was an error fetching notes. Please try again later")
+                            self?.showEmptyTableLabelWith(message: "There was an error fetching notes. Please try again later")
                         }
-                        self!.connectToServerToGetNotes(result: nil)
+                        self?.connectToServerToGetNotes(result: nil)
                     }
                     
                 case .tableDoesNotExist:
                     
                     if self != nil {
                         
-                        HATAccountService.createHatTable(userDomain: self!.userDomain, token: self!.userToken, notablesTableStructure: HATJSONHelper.createNotablesTableJSON(), failed: {(createTableError: HATTableError) -> Void in
-                            
-                            _ = CrashLoggerHelper.hatTableErrorLog(error: createTableError)
-                        })()
+                        HATAccountService.createHatTable(
+                            userDomain: self!.userDomain,
+                            token: self!.userToken,
+                            notablesTableStructure: HATJSONHelper.createNotablesTableJSON(),
+                            failed: {(createTableError: HATTableError) -> Void in
+                                
+                                CrashLoggerHelper.hatTableErrorLog(error: createTableError)
+                            }
+                        )()
                     }
                     
                 default:
                     
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
                 }
-            })
-        }
+            }
+        )
     }
     
     // MARK: - Update notes data
@@ -449,11 +498,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     
     // MARK: - Navigation
 
-    //In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
         
         if segue.destination is ShareOptionsViewController {
             

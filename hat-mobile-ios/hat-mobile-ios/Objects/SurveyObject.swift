@@ -22,20 +22,30 @@ internal struct SurveyObject {
     private struct Fields {
         
         static let question: String = "question"
-        static let answer: String = "answer"
+        static let interest: String = "interest"
         static let recordID: String = "recordID"
+        static let array: String = "array"
         static let unixTimeStamp: String = "unixTimeStamp"
     }
 
     // MARK: - Variables
     
-    var question: String = ""
+    /// The answer in the question
     var answer: Int = 0
+
+    /// The question
+    var question: String = ""
+    /// The record ID in the hat
     var recordID: String = ""
+    
+    /// The date that this was answered
     var date: Date = Date()
     
     // MARK: - Initialisers
     
+    /**
+     The default initialiser. Initialises everything to default values.
+     */
     init() {
         
         question = ""
@@ -44,26 +54,25 @@ internal struct SurveyObject {
         date = Date()
     }
     
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
     init(from dict: JSON) {
         
-        if let data = (dict["data"].dictionary) {
+        if let dictionary = dict.dictionary {
             
-            if let tempQuestion = (data[Fields.question]?.stringValue) {
+            if let tempQuestion = dictionary[Fields.question]?.stringValue {
                 
                 question = tempQuestion
             }
             
-            if let tempAnswer = (data[Fields.answer]?.intValue) {
+            if let tempAnswer = dictionary[Fields.interest]?.intValue {
                 
                 answer = tempAnswer
             }
-            
-            if let tempDate = (data[Fields.unixTimeStamp]?.intValue) {
-                
-                date = HATFormatterHelper.formatStringToDate(string: String(describing: tempDate))!
-            }
         }
         
+        date = HATFormatterHelper.formatStringToDate(string: String(describing: dict[Fields.unixTimeStamp].intValue))!
         recordID = (dict[Fields.recordID].stringValue)
     }
     
@@ -79,9 +88,17 @@ internal struct SurveyObject {
         return [
             
             Fields.question: self.question,
-            Fields.answer: self.answer,
-            Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
+            Fields.interest: self.answer
         ]
+    }
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public static func createUnixTimeStamp() -> Int {
         
+        return Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
     }
 }

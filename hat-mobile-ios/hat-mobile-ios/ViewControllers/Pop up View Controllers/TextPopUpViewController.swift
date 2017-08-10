@@ -83,13 +83,19 @@ internal class TextPopUpViewController: UIViewController {
                 
                 if self != nil {
                     
-                    self!.view.frame = CGRect(x: self!.view.frame.origin.x, y: self!.view.frame.height, width: self!.view.frame.width, height: self!.view.frame.height)
+                    self!.view.frame = CGRect(
+                        x: self!.view.bounds.origin.x,
+                        y: UIScreen.main.bounds.height,
+                        width: self!.view.frame.width,
+                        height: self!.view.frame.height)
                 }
             },
             completion: {[weak self] (_: Bool) -> Void in
                 
                 self?.removeViewController()
-                NotificationCenter.default.post(name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo), object: nil)
+                NotificationCenter.default.post(
+                    name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
+                    object: nil)
             }
         )
     }

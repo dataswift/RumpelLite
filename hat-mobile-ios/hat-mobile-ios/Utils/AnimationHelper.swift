@@ -79,7 +79,8 @@ internal struct AnimationHelper {
                     completion: {(_: Bool) -> Void in
                         
                         completion?(true)
-                })
+                    }
+                )
             }
         }
     }

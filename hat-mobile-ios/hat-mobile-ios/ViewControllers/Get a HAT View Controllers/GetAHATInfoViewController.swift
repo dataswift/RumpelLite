@@ -65,7 +65,9 @@ internal class GetAHATInfoViewController: UIViewController {
             
             self.dismissView {
                 
-                NotificationCenter.default.post(name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp), object: "1")
+                NotificationCenter.default.post(
+                    name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp),
+                    object: "1")
             }
         }
     }
@@ -79,7 +81,9 @@ internal class GetAHATInfoViewController: UIViewController {
         
         self.dismissView {
             
-            NotificationCenter.default.post(name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp), object: nil)
+            NotificationCenter.default.post(
+                name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp),
+                object: nil)
         }
     }
     
@@ -131,7 +135,14 @@ internal class GetAHATInfoViewController: UIViewController {
             
             pageItemController.hatProvider = hatProvider
             
-            pageItemController.view.createFloatingView(frame: CGRect(x: pageItemController.view.frame.origin.x + 15, y: pageItemController.view.bounds.maxY, width: pageItemController.view.frame.width - 30, height: pageItemController.view.bounds.height - 30), color: .white, cornerRadius: 15)
+            pageItemController.view.createFloatingView(
+                frame: CGRect(
+                    x: pageItemController.view.frame.origin.x + 15,
+                    y: pageItemController.view.bounds.maxY,
+                    width: pageItemController.view.frame.width - 30,
+                    height: pageItemController.view.bounds.height - 30),
+                color: .white,
+                cornerRadius: 15)
             
             return pageItemController
         }
@@ -153,7 +164,11 @@ internal class GetAHATInfoViewController: UIViewController {
                 
                 if let weakSelf = self {
                     
-                    weakSelf.view.frame = CGRect(x: weakSelf.view.frame.origin.x, y: weakSelf.view.frame.maxY, width: weakSelf.view.frame.width, height: weakSelf.view.frame.height)
+                    weakSelf.view.frame = CGRect(
+                        x: weakSelf.view.frame.origin.x,
+                        y: weakSelf.view.frame.maxY,
+                        width: weakSelf.view.frame.width,
+                        height: weakSelf.view.frame.height)
                 }
             },
             completion: {[weak self] (_) -> Void in
@@ -163,6 +178,7 @@ internal class GetAHATInfoViewController: UIViewController {
                     self!.removeViewController()
                     completion()
                 }
-        })
+            }
+        )
     }
 }

@@ -31,7 +31,11 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     /// The locations protocol
     private let location: UpdateLocations = UpdateLocations.shared
     
+    /// A string to hold the specific Merchant for data offers, if empty then hat provides offers from every merchant
     private var specificMerchantForOffers: String = ""
+    
+    private var titleToPassOnToTheNextView: String = ""
+    private var infoPopUpToPassOnToTheNextView: String = ""
     
     // MARK: - IBOutlets
 
@@ -66,10 +70,17 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     
     public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.homeScreenCell, for: indexPath) as? HomeCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: Constants.CellReuseIDs.homeScreenCell,
+            for: indexPath) as? HomeCollectionViewCell
         
         let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
-        return HomeCollectionViewCell.setUp(cell: cell!, indexPath: indexPath, object: self.tiles[indexPath.row], orientation: orientation)
+        
+        return HomeCollectionViewCell.setUp(
+            cell: cell!,
+            indexPath: indexPath,
+            object: self.tiles[indexPath.row],
+            orientation: orientation)
     }
 
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -91,62 +102,91 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         
-        if let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.CellReuseIDs.homeHeader, for: indexPath) as? HomeHeaderCollectionReusableView {
+        if let headerView = collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: Constants.CellReuseIDs.homeHeader,
+            for: indexPath) as? HomeHeaderCollectionReusableView {
             
-            return headerView.setUp(stringToShow: "Data Services")
-        }
+                return headerView.setUp(stringToShow: "Data Services")
+            }
                 
-        return collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: Constants.CellReuseIDs.homeHeader, for: indexPath)
+        return collectionView.dequeueReusableSupplementaryView(
+            ofKind: kind,
+            withReuseIdentifier: Constants.CellReuseIDs.homeHeader,
+            for: indexPath)
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         if self.tiles[indexPath.row].serviceName == "Top Secret Logs" {
             
+            self.titleToPassOnToTheNextView = "Top Secret Logs"
+            self.infoPopUpToPassOnToTheNextView = "Daily log, diary and innermost thoughts can all go in here!"
             self.performSegue(withIdentifier: Constants.Segue.notesSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "GEOME" {
             
+            self.titleToPassOnToTheNextView = "GEOME"
+            self.infoPopUpToPassOnToTheNextView = "Check back where you were by using the date picker!"
             self.performSegue(withIdentifier: Constants.Segue.locationsSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "My Story" {
             
+            self.titleToPassOnToTheNextView = "My Story"
+            self.infoPopUpToPassOnToTheNextView = "Still work-in-progress, this is where you can see your social feed and notes."
             self.performSegue(withIdentifier: Constants.Segue.socialDataSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Photo Viewer" {
             
             self.performSegue(withIdentifier: Constants.Segue.photoViewerSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Social Media Control" {
             
+            self.infoPopUpToPassOnToTheNextView = "Post something on social media (FB or Twitter) or on HATTERS bulletin board. Share for 1/7/14/30 days and it would be deleted when the note expires! Or delete it instantly at the shared location by moving the note to private. Add your location or a photo!"
+            self.titleToPassOnToTheNextView = "Social Media Control"
             self.performSegue(withIdentifier: Constants.Segue.homeToEditNoteSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "The calling card" {
             
+            self.infoPopUpToPassOnToTheNextView = "Your PHATA is your public profile. Enable it to use it as a calling card!"
+            self.titleToPassOnToTheNextView = "The calling card"
             self.performSegue(withIdentifier: Constants.Segue.phataSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Total Recall" {
             
+            self.infoPopUpToPassOnToTheNextView = "Your personal data store for all numbers and important things to remember"
+            self.titleToPassOnToTheNextView = "Total Recall"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataStore, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Gimme" {
             
+            self.infoPopUpToPassOnToTheNextView = "Pull in your data with the HAT data Plugs"
+            self.titleToPassOnToTheNextView = "Gimme"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataPlugs, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Watch-eet" {
             
+            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised entertainment (videos, movies) for your data. Pick the curator who might have the best algorithms to entertain you. Pick your list to watch later!"
+            self.titleToPassOnToTheNextView = "Watch-eet"
             self.specificMerchantForOffers = "rumpelwatch"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "read-eet" {
             
+            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised news, books and other reading materials, matched with your personal data. Keep your list to read later"
+            self.titleToPassOnToTheNextView = "read-eet"
             self.specificMerchantForOffers = "rumpelread"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Do-eet" {
             
+            self.infoPopUpToPassOnToTheNextView = "Accept an offer to do a digital action, whether it’s to tweet something (fulfilled by your Twitter data), be somewhere (fulfilled by your location data) or run (fulfilled by Fitbit data). Get rewarded for your digital actions!"
+            self.titleToPassOnToTheNextView = "Do-eet"
             self.specificMerchantForOffers = "rumpeldo"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "SSO" {
+        } else if self.tiles[indexPath.row].serviceName == "Match Me" {
             
-            self.specificMerchantForOffers = "rumpelsso"
-            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
+            self.titleToPassOnToTheNextView = "Match Me"
+            self.infoPopUpToPassOnToTheNextView = "Fill up your preference profile so that it can be matched with products and services out there"
+            self.performSegue(withIdentifier: Constants.Segue.homeToForDataOffersSettingsSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Find your Form" {
             
+            self.titleToPassOnToTheNextView = "Find your Form"
             self.specificMerchantForOffers = "rumpelforms"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Go deep" {
             
+            self.titleToPassOnToTheNextView = "Go deep"
             self.performSegue(withIdentifier: Constants.Segue.homeToGoDeepSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "MadHATTERs" {
             
@@ -154,8 +194,16 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         } else if self.tiles[indexPath.row].serviceName == "HAT" {
             
             UIApplication.shared.openURL(URL(string: "http://mailchi.mp/hatdex/hat-news-pieces-of-art-earning-from-your-attention-and-reading-your-name-1017509")!)
+        } else if self.tiles[indexPath.row].serviceName == "Hatters" {
+            
+            UIApplication.shared.openURL(URL(string: "hatters.hubofallthings.com/community")!)
+        } else if self.tiles[indexPath.row].serviceName == "Ideas" {
+            
+            UIApplication.shared.openURL(URL(string: "https://marketsquare.hubofallthings.com/ideas")!)
         } else if self.tiles[indexPath.row].serviceName == "BeMoji" {
             
+            self.infoPopUpToPassOnToTheNextView = "Broadcast your mood. Pick an emoji and broadcast it!"
+            self.titleToPassOnToTheNextView = "BeMoji"
             self.performSegue(withIdentifier: Constants.Segue.homeToEditNoteSegue, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Featured App" {
             
@@ -285,7 +333,11 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         if let pageViewController = self.storyboard!.instantiateViewController(withIdentifier: "firstTimeOnboarding") as? FirstOnboardingPageViewController {
             
             pageViewController.view.createFloatingView(
-                frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.origin.x + 15, width: self.view.frame.width - 30, height: self.view.frame.height - 30),
+                frame: CGRect(
+                        x: self.view.frame.origin.x + 15,
+                        y: self.view.frame.origin.x + 15,
+                        width: self.view.frame.width - 30,
+                        height: self.view.frame.height - 30),
                 color: .teal,
                 cornerRadius: 15)
             
@@ -303,11 +355,19 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     private func showInfoViewController(text: String) {
         
         // set up page controller
-        let textPopUpViewController = TextPopUpViewController.customInit(stringToShow: text, isButtonHidden: true, from: self.storyboard!)
+        let textPopUpViewController = TextPopUpViewController.customInit(
+            stringToShow: text,
+            isButtonHidden: true,
+            from: self.storyboard!)
+        
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
-            frame: CGRect(x: self.view.frame.origin.x + 15, y: self.collectionView.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height),
+            frame: CGRect(
+                x: self.view.frame.origin.x + 15,
+                y: self.collectionView.frame.maxY,
+                width: self.view.frame.width - 30,
+                height: self.view.frame.height),
             color: .teal,
             cornerRadius: 15)
         
@@ -323,7 +383,11 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
                     duration: 0.2,
                     animations: {() -> Void in
                     
-                        textPopUpViewController?.view.frame = CGRect(x: weakSelf.view.frame.origin.x + 15, y: weakSelf.collectionView.frame.origin.y, width: weakSelf.view.frame.width - 30, height: weakSelf.view.frame.height)
+                        textPopUpViewController?.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.collectionView.frame.origin.y,
+                            width: weakSelf.view.frame.width - 30,
+                            height: weakSelf.view.frame.height)
                     },
                     completion: { _ in return }
                 )
@@ -368,7 +432,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             
             self.ringProgressBar.isHidden = false
 
-            var attributedString: NSAttributedString = NSAttributedString(string: self.helloLabel.text! + "\n")
+            var attributedString = NSAttributedString(string: self.helloLabel.text! + "\n")
             self.helloLabel.text = attributedString.combineWith(
                 attributedText: NSAttributedString(string: "Total space \(data[2].kind.metric) \(data[2].kind.units!)")).string
             attributedString = NSAttributedString(string: self.helloLabel.text! + "\n")
@@ -398,19 +462,47 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             
             if let vc = segue.destination as? DataOffersViewController {
                 
+                vc.prefferedTitle = self.titleToPassOnToTheNextView
                 vc.specificMerchant = self.specificMerchantForOffers
             }
         } else if segue.identifier == Constants.Segue.notesSegue {
             
             if let vc = segue.destination as? NotablesViewController {
                 
+                vc.prefferedTitle = self.titleToPassOnToTheNextView
                 vc.privateNotesOnly = true
             }
         } else if segue.identifier == Constants.Segue.homeToEditNoteSegue {
             
             if let vc = segue.destination as? ShareOptionsViewController {
                 
+                vc.prefferedTitle = self.titleToPassOnToTheNextView
                 vc.autoSharedNote = true
+            }
+        } else if segue.identifier == Constants.Segue.homeToDataPlugs {
+            
+            if let vc = segue.destination as? DataPlugsCollectionViewController {
+                
+                vc.prefferedTitle = self.titleToPassOnToTheNextView
+            }
+        } else if segue.identifier == Constants.Segue.homeToDataStore {
+            
+            if let vc = segue.destination as? DataStoreTableViewController {
+                
+                vc.prefferedTitle = self.titleToPassOnToTheNextView
+            }
+        } else if segue.identifier == Constants.Segue.phataSegue {
+            
+            if let vc = segue.destination as? PhataTableViewController {
+                
+                vc.prefferedTitle = self.titleToPassOnToTheNextView
+            }
+        } else if segue.identifier == Constants.Segue.homeToForDataOffersSettingsSegue {
+            
+            if let vc = segue.destination as? DataStoreForDataOffersTableViewController {
+                
+                vc.prefferedTitle = self.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.infoPopUpToPassOnToTheNextView
             }
         }
     }

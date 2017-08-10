@@ -60,7 +60,12 @@ internal class AuthenticationHelper: NSObject {
             // guard for the issuer check, “iss” (Issuer)
             guard let HATDomainFromToken = jwt.issuer else {
                 
-                return AuthenticationResponse(errorType: NSLocalizedString("error_label", comment: "error"), message: NSLocalizedString("auth_error_general", comment: "auth"), scope: nil, domain: nil, token: nil)
+                return AuthenticationResponse(
+                    errorType: NSLocalizedString("error_label", comment: "error"),
+                    message: NSLocalizedString("auth_error_general", comment: "auth"),
+                    scope: nil,
+                    domain: nil,
+                    token: nil)
             }
             
             /*
@@ -73,7 +78,12 @@ internal class AuthenticationHelper: NSObject {
             // guard for the attr length. Should be 3 [header, payload, signature]
             guard tokenAttr.count == 3 else {
                 
-                return AuthenticationResponse(errorType: NSLocalizedString("error_label", comment: "error"), message: NSLocalizedString("auth_error_general", comment: "auth"), scope: nil, domain: nil, token: nil)
+                return AuthenticationResponse(
+                    errorType: NSLocalizedString("error_label", comment: "error"),
+                    message: NSLocalizedString("auth_error_general", comment: "auth"),
+                    scope: nil,
+                    domain: nil,
+                    token: nil)
             }
             
             // And then to access the individual parts of token
@@ -96,18 +106,38 @@ internal class AuthenticationHelper: NSObject {
                 
                 if isSuccessful && tokenScope != nil {
                     
-                    return AuthenticationResponse(errorType: nil, message: "success", scope: tokenScope!, domain: HATDomainFromToken, token: jwt.string)
+                    return AuthenticationResponse(
+                        errorType: nil,
+                        message: "success",
+                        scope: tokenScope!,
+                        domain: HATDomainFromToken,
+                        token: jwt.string)
                 }
                 // if networkResponse == "" it's a refresh token situation
             } catch {
                 
-                return AuthenticationResponse(errorType: nil, message: "refreshToken", scope: tokenScope!, domain: HATDomainFromToken, token: jwt.string)
+                return AuthenticationResponse(
+                    errorType: nil,
+                    message: "refreshToken",
+                    scope: tokenScope!,
+                    domain: HATDomainFromToken,
+                    token: jwt.string)
             }
             
-            return AuthenticationResponse(errorType: nil, message: nil, scope: nil, domain: nil, token: nil)
+            return AuthenticationResponse(
+                errorType: nil,
+                message: nil,
+                scope: nil,
+                domain: nil,
+                token: nil)
         } catch {
             
-            return AuthenticationResponse(errorType: nil, message: "Could not decode token", scope: nil, domain: nil, token: nil)
+            return AuthenticationResponse(
+                errorType: nil,
+                message: "Could not decode token",
+                scope: nil,
+                domain: nil,
+                token: nil)
         }
     }
 }

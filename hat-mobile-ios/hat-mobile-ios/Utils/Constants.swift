@@ -177,6 +177,7 @@ internal class Constants {
         static let dataStoreUKSpecificInfoCell: String = "dataStoreUKSpecificInfoCell"
         static let forDataOffersCell: String = "forDataOffersCell"
         static let dietaryHabitsCell: String = "dietaryHabitsCell"
+        static let dataDebitCell: String = "dataDebitCell"
     }
     
     /**
@@ -575,6 +576,9 @@ internal class Constants {
         static let hospify: String = "Hospify"
         static let hatters: String = "Hatters"
         static let ideas: String = "Ideas"
+        static let profile: String = "Profile"
+        static let profileOutline: String = "Profile Outline"
+        static let hattersOutline: String = "Hatters Outline"
     }
     
     // MARK: - Data Plug
@@ -702,6 +706,7 @@ internal class Constants {
         static let homeToDataPlugs: String = "homeToDataPlugs"
         static let homeToDataOffers: String = "homeToDataOffers"
         static let homeToGoDeepSegue: String = "homeToGoDeepSegue"
+        static let homeToForDataOffersSettingsSegue: String = "homeToForDataOffersSettingsSegue"
     }
     
     // MARK: - HAT Endpoints

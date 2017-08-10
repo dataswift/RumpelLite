@@ -120,7 +120,7 @@ internal class NetworkHelper {
                     let result = AuthenticationHelper.decodeToken(token: tokenHeader!, networkResponse: "")
                     if result.message == "refreshToken" && result.scope == "owner" {
                         
-                        _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: tokenHeader!)
+                        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: tokenHeader!)
                     }
                 }
                 

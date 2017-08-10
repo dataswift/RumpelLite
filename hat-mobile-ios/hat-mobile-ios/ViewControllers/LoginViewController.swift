@@ -68,22 +68,37 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
      */
     @IBAction func domainButtonAction(_ sender: Any) {
         
-        let alert = UIAlertController(title: "Select domain", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(
+            title: "Select domain",
+            message: nil,
+            preferredStyle: .actionSheet)
         
-        let hubofallthingsAction = UIAlertAction(title: ".hubofallthings.net", style: .default, handler: {[unowned self](_: UIAlertAction) -> Void in
+        let hubofallthingsAction = UIAlertAction(
+            title: ".hubofallthings.net",
+            style: .default,
+            handler: {[unowned self](_: UIAlertAction) -> Void in
             
-            self.domainButton.setTitle(".hubofallthings.net", for: .normal)
-        })
+                self.domainButton.setTitle(".hubofallthings.net", for: .normal)
+            }
+        )
         
-        let bsafeAction = UIAlertAction(title: ".bheard.org", style: .default, handler: {[unowned self](_: UIAlertAction) -> Void in
-            
-            self.domainButton.setTitle(".bheard.org", for: .normal)
-        })
+        let bsafeAction = UIAlertAction(
+            title: ".bheard.org",
+            style: .default,
+            handler: {[unowned self](_: UIAlertAction) -> Void in
+                
+                self.domainButton.setTitle(".bheard.org", for: .normal)
+            }
+        )
         
-        let hubatAction = UIAlertAction(title: ".hubat.net", style: .default, handler: {[unowned self](_: UIAlertAction) -> Void in
+        let hubatAction = UIAlertAction(
+            title: ".hubat.net",
+            style: .default,
+            handler: {[unowned self](_: UIAlertAction) -> Void in
             
-            self.domainButton.setTitle(".hubat.net", for: .normal)
-        })
+                self.domainButton.setTitle(".hubat.net", for: .normal)
+            }
+        )
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
@@ -126,7 +141,11 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         
         func failed(error: String) {
             
-            self.createClassicOKAlertWith(alertMessage: "Please check your personal hat address again", alertTitle: "Wrong domain!", okTitle: "OK", proceedCompletion: {})
+            self.createClassicOKAlertWith(
+                alertMessage: "Please check your personal hat address again",
+                alertTitle: "Wrong domain!",
+                okTitle: "OK",
+                proceedCompletion: {})
         }
         
         if self.inputUserHATDomain.text != "" {
@@ -137,7 +156,11 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             HATLoginService.formatAndVerifyDomain(userHATDomain: filteredDomain + (self.domainButton.titleLabel?.text)!, successfulVerification: self.authoriseUser, failedVerification: failed)
         } else {
             
-            self.createClassicOKAlertWith(alertMessage: "Please input your HAT domain", alertTitle: "HAT domain is empty!", okTitle: "OK", proceedCompletion: {})
+            self.createClassicOKAlertWith(
+                alertMessage: "Please input your HAT domain",
+                alertTitle: "HAT domain is empty!",
+                okTitle: "OK",
+                proceedCompletion: {})
         }
     }
     
@@ -215,11 +238,6 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         
         // set title
         self.title = ""
-        
-//        let partOne = "Rumpel ".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
-//        let partTwo = "Lite".createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
-        
-        //self.labelTitle.attributedText = partOne.combineWith(attributedText: partTwo)
         self.labelTitle.textAlignment = .center
     }
     
@@ -235,8 +253,15 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         let barButtonTitle = toolBarTitle
         
         // Setup the buttons to be put in the system.
-        let autofillButton = UIBarButtonItem(title: barButtonTitle, style: .done, target: self, action: #selector(self.autofillPHATA))
-        autofillButton.setTitleTextAttributes([NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 16.0)!, NSForegroundColorAttributeName: UIColor.white], for: .normal)
+        let autofillButton = UIBarButtonItem(
+            title: barButtonTitle,
+            style: .done,
+            target: self,
+            action: #selector(self.autofillPHATA))
+        autofillButton.setTitleTextAttributes([
+            NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 16.0)!,
+            NSForegroundColorAttributeName: UIColor.white],
+            for: .normal)
         toolbar.barTintColor = .black
         toolbar.setItems([autofillButton], animated: true)
         
@@ -253,9 +278,21 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
     private func createPopUp() {
         
         self.popUpView = UIView()
-        popUpView!.createFloatingView(frame: CGRect(x: self.view.frame.midX - 60, y: self.view.frame.midY - 15, width: 120, height: 30), color: .teal, cornerRadius: 15)
+        popUpView!.createFloatingView(
+            frame: CGRect(
+                x: self.view.frame.midX - 60,
+                y: self.view.frame.midY - 15,
+                width: 120,
+                height: 30),
+            color: .teal,
+            cornerRadius: 15)
         
-        let label = UILabel().createLabel(frame: CGRect(x: 0, y: 0, width: 120, height: 30), text: "Authenticating...", textColor: .white, textAlignment: .center, font: UIFont(name: Constants.FontNames.openSans, size: 12))
+        let label = UILabel().createLabel(
+            frame: CGRect(x: 0, y: 0, width: 120, height: 30),
+            text: "Authenticating...",
+            textColor: .white,
+            textAlignment: .center,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12))
         
         self.popUpView!.addSubview(label)
         
@@ -275,7 +312,11 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         self.updateUI()
         
         // add notification observer for the login in
-        NotificationCenter.default.addObserver(self, selector: #selector(self.hatLoginAuth), name: NSNotification.Name(rawValue: Constants.Auth.notificationHandlerName), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(self.hatLoginAuth),
+            name: NSNotification.Name(rawValue: Constants.Auth.notificationHandlerName),
+            object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -316,7 +357,11 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
      */
     private func authoriseUser(hatDomain: String) {
               
-        self.safariVC = SFSafariViewController.openInSafari(url: Constants.HATEndpoints.hatLoginURL(userDomain: hatDomain), on: self, animated: true, completion: nil)
+        self.safariVC = SFSafariViewController.openInSafari(
+            url: Constants.HATEndpoints.hatLoginURL(userDomain: hatDomain),
+            on: self,
+            animated: true,
+            completion: nil)
     }
     
     /**
@@ -361,7 +406,11 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             // authorize with hat
             let filteredDomain = self.removeDomainFromUserEnteredText(domain: self.inputUserHATDomain.text!)
             KeychainHelper.setKeychainValue(key: Constants.Keychain.hatDomainKey, value: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!)
-            HATLoginService.loginToHATAuthorization(userDomain: filteredDomain + (self.domainButton.titleLabel?.text)!, url: url, success: success, failed: failed)
+            HATLoginService.loginToHATAuthorization(
+                userDomain: filteredDomain + (self.domainButton.titleLabel?.text)!,
+                url: url,
+                success: success,
+                failed: failed)
         }
     }
     
@@ -393,7 +442,10 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             self.present(alert, animated: true, completion: nil)
         }
         
-        HATLocationService.enableLocationDataPlug(userDomain, HATDomainFromToken, success: success, failed: failed)
+        HATLocationService.enableLocationDataPlug(
+            userDomain, HATDomainFromToken,
+            success: success,
+            failed: failed)
     }
     
     // MARK: - Keyboard handling

@@ -55,12 +55,12 @@ public struct NotificationObject {
         
         if let tempReceivedDate = dictionary[Fields.received]?.intValue {
             
-            received = Date(timeIntervalSince1970: TimeInterval(tempReceivedDate))
+            received = Date(timeIntervalSince1970: TimeInterval(tempReceivedDate / 1000))
         }
         
         if let tempReadDate = dictionary[Fields.read]?.intValue {
             
-            read = Date(timeIntervalSince1970: TimeInterval(tempReadDate))
+            read = Date(timeIntervalSince1970: TimeInterval(tempReadDate / 1000))
         }
     }
 

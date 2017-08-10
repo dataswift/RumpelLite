@@ -24,11 +24,57 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
     
     private var surveyObjects: [SurveyObject] = []
     
+    // MARK: - IBActions
+    
+    @IBAction func saveHabits(_ sender: Any) {
+        
+        func success(json: JSON, newToken: String?) {
+            
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        for index in self.sections.indices {
+            
+            var cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: index)) as? SurveyTableViewCell
+            
+            if cell == nil {
+                
+                let indexPath = IndexPath(row: 0, section: index)
+                cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dietaryHabitsCell, for: indexPath) as? SurveyTableViewCell
+                cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? SurveyTableViewCell
+            }
+            
+            if self.surveyObjects.count < index {
+                
+                self.surveyObjects.append(SurveyObject())
+            }
+            self.surveyObjects[index].answer = (cell?.getSelectedAnswer())!
+        }
+        
+        var array: [Dictionary<String, Any>] = []
+        for survey in surveyObjects {
+            
+            array.append(survey.toJSON())
+        }
+
+        HATAccountService.createTableValuev2(
+            token: userToken,
+            userDomain: userDomain,
+            source: Constants.HATTableName.DietaryAnswers.source,
+            dataPath: Constants.HATTableName.DietaryAnswers.name,
+            parameters: ["array": array,
+                         "unixTimeStamp": SurveyObject.createUnixTimeStamp()],
+            successCallback: success,
+            errorCallback: accessingHATTableFail)
+    }
+    
     // MARK: - Auto generated methods
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        self.getSurveyQuestionsAndAnswers()
     }
 
     override func didReceiveMemoryWarning() {
@@ -68,22 +114,44 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
     func setUpCell(cell: SurveyTableViewCell, indexPath: IndexPath) -> UITableViewCell {
         
         cell.setQuestionInLabel(question: self.sections[indexPath.section][indexPath.row])
-        cell.setSelectedAnswer(3)
+        if self.surveyObjects.count > indexPath.section {
+            
+            cell.setSelectedAnswer(self.surveyObjects[indexPath.section].answer)
+        }
+        
         return cell
     }
     
+    // MARK: - Get Survey questions
+    
+    /**
+     Logs the error with the fabric
+     
+     - parameter error: The HATTableError returned from hat
+     */
     func accessingHATTableFail(error: HATTableError) {
         
         CrashLoggerHelper.hatTableErrorLog(error: error)
     }
     
+    /**
+     Get questions from hat
+     */
     private func getSurveyQuestionsAndAnswers() {
         
         func gotValues(jsonArray: [JSON], newToken: String?) {
             
-            for json in jsonArray {
+            if !jsonArray.isEmpty {
                 
-                self.surveyObjects.append(SurveyObject(from: json))
+                if let array = jsonArray[0].dictionary?["data"]?["array"].array {
+                    
+                    for item in array {
+                        
+                        self.surveyObjects.append(SurveyObject(from: item))
+                    }
+                }
+                
+                self.tableView.reloadData()
             }
         }
         
@@ -92,7 +160,7 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
             userDomain: userDomain,
             source: Constants.HATTableName.DietaryAnswers.source,
             scope: Constants.HATTableName.DietaryAnswers.name,
-            parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
+            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
             successCallback: gotValues,
             errorCallback: accessingHATTableFail)
     }

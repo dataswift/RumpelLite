@@ -18,13 +18,14 @@ internal struct GoDeepObject {
 
     // MARK: - Variables
     
-    /// The image for the tile
+    /// The image for the app
     var appImage: UIImage = UIImage()
     
-    /// The service name of the tile
+    /// The service name of the app
     var appName: String = ""
-    /// The description of the tile
+    /// The url of the app
     var appURL: String = ""
+    /// The description of the app
     var appDescription: String = ""
     
     // MARK: - Initialisers

@@ -266,8 +266,16 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         navigationController?.hidesBarsOnSwipe = false
         
         let view = self.stackView.arrangedSubviews[1]
-        view.addLine(view: self.infoView, xPoint: self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line)
-        view.addLine(view: self.infoView, xPoint: 2 * self.infoView.bounds.width / 3, yPoint: 0, lineName: Constants.UIViewLayerNames.line2)
+        view.addLine(
+            view: self.infoView,
+            xPoint: self.infoView.bounds.width / 3,
+            yPoint: 0,
+            lineName: Constants.UIViewLayerNames.line)
+        view.addLine(
+            view: self.infoView,
+            xPoint: 2 * self.infoView.bounds.width / 3,
+            yPoint: 0,
+            lineName: Constants.UIViewLayerNames.line2)
         view.drawTicketView()
     }
     
@@ -330,7 +338,11 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
-            frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height),
+            frame: CGRect(
+                x: self.view.frame.origin.x + 15,
+                y: self.view.frame.maxY,
+                width: self.view.frame.width - 30,
+                height: self.view.frame.height),
             color: .teal,
             cornerRadius: 15)
         
@@ -346,7 +358,11 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                     duration: 0.2,
                     animations: {
                         
-                        textPopUpViewController?.view.frame = CGRect(x: weakSelf.view.frame.origin.x + 15, y: weakSelf.view.frame.maxY - 300, width: weakSelf.view.frame.width - 30, height: 400)
+                        textPopUpViewController?.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.view.frame.maxY - 300,
+                            width: weakSelf.view.frame.width - 30,
+                            height: 400)
                     },
                     completion: { _ in return }
                 )

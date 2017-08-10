@@ -37,11 +37,6 @@ internal class NotificationsTableViewController: UITableViewController, UserCred
         super.viewDidLoad()
 
         self.getDexApplicationToken()
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
@@ -132,11 +127,23 @@ internal class NotificationsTableViewController: UITableViewController, UserCred
         
         if indexPath.section == 0 {
             
-            cell?.setTitleInLabel(self.newNotifications[indexPath.row].notice.message)
+            cell?.setTitleInLabel("From DEX")
+            cell?.setDescriptionInLabel(self.newNotifications[indexPath.row].notice.message)
+            let date = FormatterHelper.formatDateStringToUsersDefinedDate(
+                date: self.newNotifications[indexPath.row].notice.dateCreated,
+                dateStyle: .short,
+                timeStyle: .none)
+            cell?.setDateInLabel(date)
             self.selectedNotification = self.newNotifications[indexPath.row]
         } else {
             
-            cell?.setTitleInLabel(self.pastNotifications[indexPath.row].notice.message)
+            cell?.setTitleInLabel("From DEX")
+            cell?.setDescriptionInLabel(self.pastNotifications[indexPath.row].notice.message)
+            let date = FormatterHelper.formatDateStringToUsersDefinedDate(
+                date: self.pastNotifications[indexPath.row].notice.dateCreated,
+                dateStyle: .short,
+                timeStyle: .none)
+            cell?.setDateInLabel(date)
             self.selectedNotification = self.pastNotifications[indexPath.row]
         }
 

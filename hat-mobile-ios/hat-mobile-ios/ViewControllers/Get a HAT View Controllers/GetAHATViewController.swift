@@ -81,7 +81,11 @@ internal class GetAHATViewController: UIViewController, UICollectionViewDataSour
                     
                     if let weakSelf = self {
                         
-                        popUp.view.frame = CGRect(x: weakSelf.view.frame.origin.x + 15, y: weakSelf.view.bounds.origin.y + 150, width: weakSelf.view.frame.width - 30, height: weakSelf.view.bounds.height)
+                        popUp.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.view.bounds.origin.y + 150,
+                            width: weakSelf.view.frame.width - 30,
+                            height: weakSelf.view.bounds.height)
                     }
                 },
                 completion: { _ in return })
@@ -104,10 +108,16 @@ internal class GetAHATViewController: UIViewController, UICollectionViewDataSour
         self.learnMoreButton.addBorderToButton(width: 1, color: .teal)
         
         // add notification observers
-        NotificationCenter.default.addObserver(self, selector: #selector(hidePopUpView), name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hidePopUpView),
+            name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp),
+            object: nil)
         
         // fetch available hat providers
-        HATService.getAvailableHATProviders(succesfulCallBack: refreshCollectionView, failCallBack: { (_) -> Void in return })
+        HATService.getAvailableHATProviders(
+            succesfulCallBack: refreshCollectionView,
+            failCallBack: { (_) -> Void in return })
     }
 
     override func didReceiveMemoryWarning() {
@@ -172,7 +182,11 @@ internal class GetAHATViewController: UIViewController, UICollectionViewDataSour
         let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
         
         // format cell
-        return OnboardingTileCollectionViewCell.setUp(cell: cell!, indexPath: indexPath, hatProvider: self.hatProviders[indexPath.row], orientation: orientation)
+        return OnboardingTileCollectionViewCell.setUp(
+            cell: cell!,
+            indexPath: indexPath,
+            hatProvider: self.hatProviders[indexPath.row],
+            orientation: orientation)
     }
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -191,7 +205,9 @@ internal class GetAHATViewController: UIViewController, UICollectionViewDataSour
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        return CGSize(width: self.collectionView.frame.width, height: self.view.frame.height - self.collectionView.frame.origin.y)
+        return CGSize(
+            width: self.collectionView.frame.width,
+            height: self.view.frame.height - self.collectionView.frame.origin.y)
     }
     
     // MARK: - Register for hat animation
@@ -210,7 +226,9 @@ internal class GetAHATViewController: UIViewController, UICollectionViewDataSour
         self.selectedHATProvider = self.hatProviders[indexPath.row]
         
         // set up page controller
-        if let pageItemController = GetAHATInfoViewController.setUpInfoHatProviderViewControllerPopUp(from: self.storyboard!, hatProvider: self.hatProviders[indexPath.row]) {
+        if let pageItemController = GetAHATInfoViewController.setUpInfoHatProviderViewControllerPopUp(
+            from: self.storyboard!,
+            hatProvider: self.hatProviders[indexPath.row]) {
             
             // present a dark pop up view to darken the background view controller
             self.darkView = AnimationHelper.addBlurToView(self.view)
@@ -222,7 +240,11 @@ internal class GetAHATViewController: UIViewController, UICollectionViewDataSour
                     
                     if let weakSelf = self {
                         
-                        pageItemController.view.frame = CGRect(x: weakSelf.view.frame.origin.x + 15, y: weakSelf.view.bounds.origin.y + 150, width: weakSelf.view.frame.width - 30, height: weakSelf.view.bounds.height - 130)
+                        pageItemController.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.view.bounds.origin.y + 150,
+                            width: weakSelf.view.frame.width - 30,
+                            height: weakSelf.view.bounds.height - 130)
                     }
                 },
                 completion: { _ in return })

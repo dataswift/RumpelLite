@@ -38,17 +38,21 @@ internal class InfoHatProvidersViewController: UIViewController {
                 
                 if let weakSelf = self {
                     
-                    weakSelf.view.frame = CGRect(x: weakSelf.view.frame.origin.x, y: weakSelf.view.frame.maxY, width: weakSelf.view.frame.width, height: weakSelf.view.frame.height)
+                    weakSelf.view.frame = CGRect(
+                        x: weakSelf.view.frame.origin.x,
+                        y: weakSelf.view.frame.maxY,
+                        width: weakSelf.view.frame.width,
+                        height: weakSelf.view.frame.height)
                 }
             },
             completion: {[weak self](_: Bool) -> Void in
                 
-                if self != nil {
-                    
-                    self!.removeViewController()
-                    NotificationCenter.default.post(name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp), object: nil)
-                }
-        })
+                self?.removeViewController()
+                NotificationCenter.default.post(
+                    name: NSNotification.Name(Constants.NotificationNames.hideGetAHATPopUp),
+                    object: nil)
+            }
+        )
     }
     
     // MARK: - View controller methods
@@ -80,7 +84,14 @@ internal class InfoHatProvidersViewController: UIViewController {
         // set up page controller
         let view = storyBoard.instantiateViewController(withIdentifier: "HATInfo") as? InfoHatProvidersViewController
         
-        view?.view.createFloatingView(frame: CGRect(x: view!.view.frame.origin.x + 15, y: view!.view.bounds.maxY, width: view!.view.frame.width - 30, height: view!.view.bounds.height), color: .white, cornerRadius: 15)
+        view?.view.createFloatingView(
+            frame: CGRect(
+                x: view!.view.frame.origin.x + 15,
+                y: view!.view.bounds.maxY,
+                width: view!.view.frame.width - 30,
+                height: view!.view.bounds.height),
+            color: .white,
+            cornerRadius: 15)
         
         return view
     }

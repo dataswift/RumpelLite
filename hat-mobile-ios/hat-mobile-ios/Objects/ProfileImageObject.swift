@@ -17,6 +17,16 @@ import SwiftyJSON
 
 internal struct ProfileImageObject {
     
+    // MARK: - Fields
+    
+    /// The JSON fields
+    private struct Fields {
+        
+        static let profile: String = "profile"
+        static let dateUploaded: String = "dateUploaded"
+        static let selectedImages: String = "selectedImages"
+    }
+    
     // MARK: - Variables
 
     /// The selected images of the profile
@@ -44,17 +54,17 @@ internal struct ProfileImageObject {
      */
     init(dictionary: Dictionary<String, JSON>) {
         
-        if let tempProfileImage = dictionary["profile"]?.dictionary {
+        if let tempProfileImage = dictionary[Fields.profile]?.dictionary {
             
             profileImage = FileUploadObject(from: tempProfileImage)
         }
         
-        if let tempDateUploaded = dictionary["dateUploaded"]?.intValue {
+        if let tempDateUploaded = dictionary[Fields.dateUploaded]?.intValue {
             
             dateUploaded = Date(timeIntervalSince1970: TimeInterval(tempDateUploaded))
         }
         
-        if let tempSelectedImages = dictionary["selectedImages"]?.array {
+        if let tempSelectedImages = dictionary[Fields.selectedImages]?.array {
             
             for image in tempSelectedImages {
                 
@@ -85,12 +95,14 @@ internal struct ProfileImageObject {
         
         if profileImage == nil || profileImage?.image == UIImage(named: Constants.ImageNames.placeholderImage) {
             
-            return ["selectedImages": constructSelectedImagesArray(),
-                    "dateUploaded": Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!] as [String : Any]
+            return [
+                Fields.selectedImages: constructSelectedImagesArray(),
+                Fields.dateUploaded: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!] as [String : Any]
         }
         
-        return ["profile": profileImage!.toJSON(),
-                    "selectedImages": constructSelectedImagesArray(),
-                    "dateUploaded": Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!] as [String : Any]
+        return [
+            Fields.profile: profileImage!.toJSON(),
+            Fields.selectedImages: constructSelectedImagesArray(),
+            Fields.dateUploaded: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!] as [String : Any]
     }
 }

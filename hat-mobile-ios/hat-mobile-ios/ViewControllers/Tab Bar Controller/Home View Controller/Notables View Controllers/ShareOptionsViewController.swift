@@ -61,6 +61,9 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
 
     // MARK: - Variables
     
+    /// A dark view covering the collection view cell
+    private var darkView: UIVisualEffectView?
+    
     /// A loading screen used while uploading photos
     private var loadingScr: LoadingScreenWithProgressRingViewController?
     
@@ -87,6 +90,9 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
     
     /// A string passed from Notables view controller about the kind of the note
     var kind: String = "note"
+    var prefferedTitle: String = "Note"
+    var prefferedInfoMessage: String = "Post something on social media (FB or Twitter) or on HATTERS bulletin board. Share for 1/7/14/30 days and it would be deleted when the note expires! Or delete it instantly at the shared location by moving the note to private. Add your location or a photo!"
+    
     /// The previous title for publish button
     private var previousPublishButtonTitle: String?
     
@@ -142,6 +148,8 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
     @IBOutlet private weak var addImageButton: UIButton!
     /// An IBOutlet for handling the add location Button
     @IBOutlet private weak var addLocationButton: UIButton!
+    /// An IBOutlet for handling the delete button
+    @IBOutlet private weak var infoPopUpButton: UIButton!
     
     /// An IBOutlet for handling the stackView
     @IBOutlet private weak var stackView: UIStackView!
@@ -160,6 +168,12 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
     @IBOutlet private weak var textView: UITextView!
     
     // MARK: - IBActions
+    
+    @IBAction func infoButtonAction(_ sender: Any) {
+        
+        self.showInfoViewController(text: prefferedInfoMessage)
+        self.infoPopUpButton.isUserInteractionEnabled = false
+    }
     
     /**
      This function is called when the user touches the add images button
@@ -681,6 +695,11 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardDidShow), name:NSNotification.Name.UIKeyboardDidShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide2), name:NSNotification.Name.UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(showAlertForDataPlug), name: Notification.Name("dataPlugMessage"), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hidePopUp),
+            name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
+            object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -693,10 +712,50 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         self.publicSwitch.isOn = self.autoSharedNote
         self.changeAllUIElementsOnSwitchChange(switchState: self.publicSwitch.isOn)
         
+        self.title = self.prefferedTitle
+        
         PresenterOfShareOptionsViewController.initOnViewDidAppear(
             textView: self.textView,
             locationData: (self.receivedNote?.data.locationData)!,
             locationButton: self.addLocationButton)
+    }
+    
+    func addViewToTextView() {
+        
+        let path = UIBezierPath(rect: CGRect(
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 30)
+        )
+        self.textView.textContainer.exclusionPaths = [path]
+        
+        let testView = UIView(frame: CGRect(
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 30)
+        )
+        testView.backgroundColor = .red
+        
+        let label = UILabel(frame: CGRect(
+            x: 0,
+            y: 0,
+            width: 100,
+            height: 30)
+        )
+        label.text = "Location"
+        
+        let button = UIButton(frame: CGRect(
+            x: 80,
+            y: 0,
+            width: 20,
+            height: 20))
+        button.setImage(UIImage(named: Constants.ImageNames.notesImage), for: .normal)
+        
+        testView.addSubview(button)
+        testView.addSubview(label)
+        self.textView.addSubview(testView)
     }
     
     override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
@@ -977,6 +1036,76 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
             self.imagesToUpload.removeAll()
             self.receivedNote?.data.photoData.link = ""
             self.collectionView.reloadData()
+        }
+    }
+    
+    // MARK: - Remove pop up
+    
+    /**
+     Hides pop up presented currently
+     */
+    @objc
+    private func hidePopUp() {
+        
+        self.darkView?.removeFromSuperview()
+        self.infoPopUpButton.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - Add blur View
+    
+    /**
+     Adds blur to the view before presenting the pop up
+     */
+    private func addBlurToView() {
+        
+        self.darkView = AnimationHelper.addBlurToView(self.view)
+    }
+    
+    /**
+     Shows the pop up view controller with the info passed on
+     
+     - parameter text: A String to show in the view controller
+     */
+    private func showInfoViewController(text: String) {
+        
+        // set up page controller
+        let textPopUpViewController = TextPopUpViewController.customInit(
+            stringToShow: text,
+            isButtonHidden: true,
+            from: self.storyboard!)
+        
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
+        textPopUpViewController?.view.createFloatingView(
+            frame: CGRect(
+                x: self.view.frame.origin.x + 15,
+                y: self.view.frame.maxY,
+                width: self.view.frame.width - 30,
+                height: self.view.frame.height),
+            color: .teal,
+            cornerRadius: 15)
+        
+        DispatchQueue.main.async { [weak self] () -> Void in
+            
+            if let weakSelf = self {
+                
+                // add the page view controller to self
+                weakSelf.addBlurToView()
+                weakSelf.addViewController(textPopUpViewController!)
+                AnimationHelper.animateView(
+                    textPopUpViewController?.view,
+                    duration: 0.2,
+                    animations: {() -> Void in
+                        
+                        textPopUpViewController?.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.view.frame.maxY - 350,
+                            width: weakSelf.view.frame.width - 30,
+                            height: 400)
+                    },
+                    completion: { _ in return }
+                )
+            }
         }
     }
     

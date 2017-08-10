@@ -46,7 +46,10 @@ internal struct FormatterHelper {
      */
     static func formatDateStringToUsersDefinedDate(date: Date, dateStyle: DateFormatter.Style, timeStyle: DateFormatter.Style) -> String {
         
-        return DateFormatter.localizedString(from: date, dateStyle: dateStyle, timeStyle: timeStyle).replacingOccurrences(of: ",", with: " -")
+        return DateFormatter.localizedString(
+            from: date,
+            dateStyle: dateStyle,
+            timeStyle: timeStyle).replacingOccurrences(of: ",", with: " -")
     }
     
     /**
@@ -121,7 +124,10 @@ internal struct FormatterHelper {
         
         if date == nil {
             
-            dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: string, options: 0, locale: Locale.current)
+            dateFormatter.dateFormat = DateFormatter.dateFormat(
+                fromTemplate: string,
+                options: 0,
+                locale: Locale.current)
             date = dateFormatter.date(from: string)
         }
         
@@ -150,6 +156,7 @@ internal struct FormatterHelper {
      Formats number to user's local number lingo
      
      - parameter number: An NSNumber number to convert to string
+     
      - returns: An optional String. The convertion can fail and return nil
      */
     static func formatNumber(number: NSNumber) -> String? {

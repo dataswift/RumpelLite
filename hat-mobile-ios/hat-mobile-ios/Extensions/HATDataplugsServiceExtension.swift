@@ -76,7 +76,11 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             // setup succesfulCallBack
             func offerClaimForToken(appToken: String, renewedUserToken: String?) {
                 
-                ensureOfferDataDebitEnabled(offerID: offerID, succesfulCallBack: succesfulCallBack, failCallBack: failCallBack)(appToken)
+                ensureOfferDataDebitEnabled(
+                    offerID: offerID,
+                    succesfulCallBack: succesfulCallBack,
+                    failCallBack: failCallBack
+                )(appToken)
             }
             
             // get applicationToken async
@@ -216,10 +220,14 @@ extension HATDataPlugsService: UserCredentialsProtocol {
         
         if socialServiceName == "twitter" {
             
-            return Constants.DataPlug.twitterDataPlugServiceURL(userDomain:self.userDomain, socialServiceURL: socialServiceURL)
+            return Constants.DataPlug.twitterDataPlugServiceURL(
+                userDomain: self.userDomain,
+                socialServiceURL: socialServiceURL)
         } else if socialServiceName == "facebook" {
             
-            return Constants.DataPlug.facebookDataPlugServiceURL(userDomain:self.userDomain, socialServiceURL: socialServiceURL)
+            return Constants.DataPlug.facebookDataPlugServiceURL(
+                userDomain: self.userDomain,
+                socialServiceURL: socialServiceURL)
         }
         
         return nil
@@ -262,8 +270,15 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             // check if twitter active
             HATTwitterService.isTwitterDataPlugActive(
                 token: appToken,
-                successful: { result in isCheckmarkVisible(result, onSocialNetwork: Constants.SocialNetworks.Twitter.name) },
-                failed: { _ in isCheckmarkVisible(false, onSocialNetwork: Constants.SocialNetworks.Twitter.name) })
+                successful: { result in
+                    
+                    isCheckmarkVisible(result, onSocialNetwork: Constants.SocialNetworks.Twitter.name)
+                },
+                failed: { _ in
+                    
+                    isCheckmarkVisible(false, onSocialNetwork: Constants.SocialNetworks.Twitter.name)
+                }
+            )
         }
         
         // get token for facebook and twitter and check if they are active

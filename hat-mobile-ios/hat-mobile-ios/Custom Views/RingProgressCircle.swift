@@ -26,14 +26,14 @@ open class RingProgressCircle: UIView {
     @IBInspectable open var ringLineWidth: CGFloat = 12.0
     
     ///The ring color
-    @IBInspectable open var ringColor: UIColor = UIColor.red
+    @IBInspectable open var ringColor: UIColor = .red
     ///The ring fill color
-    @IBInspectable open var ringFillColor: UIColor = UIColor.clear
+    @IBInspectable open var ringFillColor: UIColor = .clear
     
     ///The background ring color
-    @IBInspectable open var backgroundRingColor: UIColor = UIColor.gray
+    @IBInspectable open var backgroundRingColor: UIColor = .gray
     ///The background ring fill color
-    @IBInspectable open var backgroundRingFillColor: UIColor = UIColor.clear
+    @IBInspectable open var backgroundRingFillColor: UIColor = .clear
     
     ///The ring's start point
     @IBInspectable open var startPoint: CGFloat = CGFloat(Double.pi / 2)
@@ -47,22 +47,26 @@ open class RingProgressCircle: UIView {
     @IBInspectable open var ringShadowOpacity: Float = 0.0
     
     ///The ring's shadow offset
-    @IBInspectable open var ringShadowOffset: CGSize = CGSize.zero
+    @IBInspectable open var ringShadowOffset: CGSize = .zero
     
     ///The animation duration.
     @IBInspectable open var animationDuration: CGFloat = 0.2
     
     // MARK: - Variables
     
-    ///The UILabel in the middle of the UIView
+    /// The UILabel in the middle of the UIView
     private var label: UILabel = UILabel()
     
+    /// The path of the UIBezierPath
     private var path: CGPath?
     
+    /// If there is a previous ring save it in this variable
     private var previousArc: CAShapeLayer?
     
+    /// A timer to time the animation
     private var timer: Timer?
     
+    /// A bool to know if the ring is currently animating
     private var hasAnimationFinished: Bool = true
 
     // MARK: - Inits
@@ -87,16 +91,16 @@ open class RingProgressCircle: UIView {
         
         //init ring progress bar
         ringRadius = 55
-        ringColor = UIColor.red
-        ringFillColor = UIColor.clear
-        backgroundRingFillColor = UIColor.clear
-        backgroundRingColor = UIColor.gray
+        ringColor = .red
+        ringFillColor = .clear
+        backgroundRingFillColor = .clear
+        backgroundRingColor = .gray
         ringLineWidth = 12.0
         startPoint = CGFloat(-Double.pi / 2)
         endPoint = CGFloat(-Double.pi / 2)
         ringShadowRadius = 0.0
         ringShadowOpacity = 0.0
-        ringShadowOffset = CGSize.zero
+        ringShadowOffset = .zero
         animationDuration = 0.2
     }
     
@@ -167,18 +171,50 @@ open class RingProgressCircle: UIView {
         let offset = -Double.pi / 2
         
         //create the background path of the circle
-        let backgroundPath = UIBezierPath(arcCenter: CGPoint(x: X, y: Y), radius: self.ringRadius, startAngle: (CGFloat(0 + offset)), endAngle: CGFloat((Double.pi * 2) + offset), clockwise: true).cgPath
+        let backgroundPath = UIBezierPath(
+            arcCenter: CGPoint(x: X, y: Y),
+            radius: self.ringRadius,
+            startAngle: (CGFloat(0 + offset)),
+            endAngle: CGFloat((Double.pi * 2) + offset),
+            clockwise: true).cgPath
         //create the background path of the circle
-        self.path = UIBezierPath(arcCenter: CGPoint(x: X, y: Y), radius: self.ringRadius, startAngle: self.startPoint, endAngle: self.endPoint, clockwise: true).cgPath
+        self.path = UIBezierPath(
+            arcCenter: CGPoint(x: X, y: Y),
+            radius: self.ringRadius,
+            startAngle: self.startPoint,
+            endAngle: self.endPoint,
+            clockwise: true).cgPath
         
         //add a full background circle
-        _ = self.addOval(self.ringLineWidth + 1, path: backgroundPath, strokeStart: 0, strokeEnd: 1, strokeColor: self.backgroundRingColor, fillColor: self.backgroundRingFillColor, shadowRadius: self.ringShadowRadius, shadowOpacity: self.ringShadowOpacity, shadowOffset: self.ringShadowOffset)
+        _ = self.addOval(
+            self.ringLineWidth + 1,
+            path: backgroundPath,
+            strokeStart: 0,
+            strokeEnd: 1,
+            strokeColor: self.backgroundRingColor,
+            fillColor: self.backgroundRingFillColor,
+            shadowRadius: self.ringShadowRadius,
+            shadowOpacity: self.ringShadowOpacity,
+            shadowOffset: self.ringShadowOffset)
         
         //add a second cirlce representing the value we want
-        let mainArc = self.addOval(self.ringLineWidth, path: self.path!, strokeStart: self.startPoint, strokeEnd: self.endPoint, strokeColor: self.ringColor, fillColor: self.ringFillColor, shadowRadius: self.ringShadowRadius, shadowOpacity: self.ringShadowOpacity, shadowOffset: self.ringShadowOffset)
+        let mainArc = self.addOval(
+            self.ringLineWidth,
+            path: self.path!,
+            strokeStart: self.startPoint,
+            strokeEnd: self.endPoint,
+            strokeColor: self.ringColor,
+            fillColor: self.ringFillColor,
+            shadowRadius: self.ringShadowRadius,
+            shadowOpacity: self.ringShadowOpacity,
+            shadowOffset: self.ringShadowOffset)
         
         //animate main circle
-        AnimationHelper.animateCircle(from: 0, toValue: 1, duration: TimeInterval(self.animationDuration), arc: mainArc)
+        AnimationHelper.animateCircle(
+            from: 0,
+            toValue: 1,
+            duration: TimeInterval(self.animationDuration),
+            arc: mainArc)
     }
     
     // MARK: - Timer method
@@ -207,7 +243,12 @@ open class RingProgressCircle: UIView {
         let Y = self.bounds.midY
         let offset = -Double.pi / 2
         
-        self.path = UIBezierPath(arcCenter: CGPoint(x: X, y: Y), radius: self.ringRadius, startAngle: (CGFloat(0 + offset)), endAngle: (CGFloat(Double(end) * (Double.pi * 2) + offset)), clockwise: true).cgPath
+        self.path = UIBezierPath(
+            arcCenter: CGPoint(x: X, y: Y),
+            radius: self.ringRadius,
+            startAngle: (CGFloat(0 + offset)),
+            endAngle: (CGFloat(Double(end) * (Double.pi * 2) + offset)),
+            clockwise: true).cgPath
         
         if self.previousArc != nil && removePreviousLayer {
     
@@ -217,13 +258,31 @@ open class RingProgressCircle: UIView {
         
         if self.hasAnimationFinished {
             
-            self.timer = Timer.scheduledTimer(timeInterval: TimeInterval(0.5), target: self, selector: #selector(animationFisnished), userInfo: nil, repeats: false)
+            self.timer = Timer.scheduledTimer(
+                timeInterval: TimeInterval(0.5),
+                target: self,
+                selector: #selector(animationFisnished),
+                userInfo: nil,
+                repeats: false)
             
             //add a second cirlce representing the value we want
-            self.previousArc = self.addOval(self.ringLineWidth, path: self.path!, strokeStart: (CGFloat(0 + offset)), strokeEnd: (CGFloat(Double(end) * (Double.pi * 2) + offset)), strokeColor: self.ringColor, fillColor: self.ringFillColor, shadowRadius: self.ringShadowRadius, shadowOpacity: self.ringShadowOpacity, shadowOffset: self.ringShadowOffset)
+            self.previousArc = self.addOval(
+                self.ringLineWidth,
+                path: self.path!,
+                strokeStart: (CGFloat(0 + offset)),
+                strokeEnd: (CGFloat(Double(end) * (Double.pi * 2) + offset)),
+                strokeColor: self.ringColor,
+                fillColor: self.ringFillColor,
+                shadowRadius: self.ringShadowRadius,
+                shadowOpacity: self.ringShadowOpacity,
+                shadowOffset: self.ringShadowOffset)
         
             //animate main circle
-            AnimationHelper.animateCircle(from: from, toValue: Float(end), duration: TimeInterval(self.animationDuration), arc: self.previousArc!)
+            AnimationHelper.animateCircle(
+                from: from,
+                toValue: Float(end),
+                duration: TimeInterval(self.animationDuration),
+                arc: self.previousArc!)
             
             self.hasAnimationFinished = false
         }

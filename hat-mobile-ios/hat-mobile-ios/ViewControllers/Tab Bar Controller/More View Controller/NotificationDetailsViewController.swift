@@ -21,6 +21,8 @@ internal class NotificationDetailsViewController: UIViewController {
     // MARK: - IBOutlets
     
     @IBOutlet private weak var markdownView: MarkdownView!
+    @IBOutlet private weak var titleLabel: UILabel!
+    @IBOutlet private weak var dateLabel: UILabel!
     
     // MARK: - Variables
     
@@ -33,31 +35,39 @@ internal class NotificationDetailsViewController: UIViewController {
         
         super.viewDidLoad()
         
-        self.markdownView.load(markdown: self.notificationToShow?.notice.message)
-        self.markdownView.onTouchLink = { [weak self] request in
+        if self.notificationToShow != nil {
             
-            if let weakSelf = self {
+            self.titleLabel.text = "From DEX"
+            let message = self.notificationToShow?.notice.message
+            let date = FormatterHelper.formatDateStringToUsersDefinedDate(date: self.notificationToShow!.notice.dateCreated, dateStyle: .short, timeStyle: .none)
+            self.dateLabel.text = date
+            
+            self.markdownView.load(markdown: message)
+            self.markdownView.onTouchLink = { [weak self] request in
                 
-                guard let url = request.url else {
+                if let weakSelf = self {
                     
-                    return false
-                }
-                
-                if url.scheme == "file" {
+                    guard let url = request.url else {
+                        
+                        return false
+                    }
                     
-                    return true
-                } else if url.scheme == "https" {
-                    
-                    weakSelf.safari = SFSafariViewController.openInSafari(url: String(describing: url), on: weakSelf, animated: true, completion: nil)
-                    
-                    return false
+                    if url.scheme == "file" {
+                        
+                        return true
+                    } else if url.scheme == "https" {
+                        
+                        weakSelf.safari = SFSafariViewController.openInSafari(url: String(describing: url), on: weakSelf, animated: true, completion: nil)
+                        
+                        return false
+                    } else {
+                        
+                        return false
+                    }
                 } else {
                     
                     return false
                 }
-            } else {
-                
-                return false
             }
         }
     }

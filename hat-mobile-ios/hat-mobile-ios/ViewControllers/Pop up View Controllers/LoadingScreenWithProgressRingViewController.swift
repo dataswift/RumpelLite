@@ -118,6 +118,11 @@ internal class LoadingScreenWithProgressRingViewController: UIViewController {
     
     // MARK: Update ring
     
+    /**
+     Returns the endpoint of the circle
+     
+     - returns: The endpoint of the circle, CGFloat
+     */
     func getRingEndPoint() -> CGFloat {
         
         return self.progressRing.endPoint

@@ -33,7 +33,10 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
         super.viewDidLoad()
     
         // add notif observer
-        NotificationCenter.default.addObserver(self, selector: #selector(dismissView), name: NSNotification.Name(Constants.NotificationNames.reauthorised), object: nil)
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(dismissView),
+            name: NSNotification.Name(Constants.NotificationNames.reauthorised),
+            object: nil)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -76,7 +79,10 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
                     // remove authorise view controller, that means remove self and notify the view controllers listening
                     self.removeViewController()
                     
-                    NotificationCenter.default.removeObserver(self, name: NSNotification.Name(Constants.NotificationNames.reauthorised), object: nil)
+                    NotificationCenter.default.removeObserver(
+                        self,
+                        name: NSNotification.Name(Constants.NotificationNames.reauthorised),
+                        object: nil)
                 },
                 failed: { (_: AuthenicationError) -> Void in return }
             )
@@ -96,7 +102,11 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
         
         let authorise = AuthoriseUserViewController()
         authorise.view.backgroundColor = .clear
-        authorise.view.frame = CGRect(x: view.center.x - 50, y: view.center.y - 20, width: 100, height: 40)
+        authorise.view.frame = CGRect(
+            x: view.center.x - 50,
+            y: view.center.y - 20,
+            width: 100,
+            height: 40)
         authorise.view.layer.cornerRadius = 15
         authorise.completionFunc = nil
         
@@ -110,7 +120,11 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
      */
     private func launchSafari() {
         
-        self.safari = SFSafariViewController.openInSafari(url: Constants.HATEndpoints.hatLoginURL(userDomain: self.userDomain), on: self, animated: true, completion: nil)
+        self.safari = SFSafariViewController.openInSafari(
+            url: Constants.HATEndpoints.hatLoginURL(userDomain: self.userDomain),
+            on: self,
+            animated: true,
+            completion: nil)
     }
     
 }

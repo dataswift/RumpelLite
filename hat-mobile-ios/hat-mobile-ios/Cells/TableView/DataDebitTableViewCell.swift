@@ -18,10 +18,14 @@ internal class DataDebitTableViewCell: UITableViewCell {
     
     // MARK: - IBOutlets
     
+    /// An IBOutlet for handling the data debit imageView
     @IBOutlet private weak var dataDebitImage: UIImageView!
     
+    /// An IBOutlet for handling the data debit title label
     @IBOutlet private weak var titleLabel: UILabel!
+    /// An IBOutlet for handling the data debit description label
     @IBOutlet private weak var subTitleLabel: UILabel!
+    /// An IBOutlet for handling the data debit date label
     @IBOutlet private weak var dateLabel: UILabel!
     
     // MARK: - Auto generated method
@@ -38,6 +42,14 @@ internal class DataDebitTableViewCell: UITableViewCell {
     
     // MARK: - Set up cell
     
+    /**
+     Sets up the cell according to our needs
+     
+     - parameter cell: The cell to set up
+     - parameter dataDebit: The data debit, the model, to set up the cell from
+     
+     - returns: A formatted social feed cell of type DataDebitTableViewCell
+     */
     func setUpCell(cell: DataDebitTableViewCell, dataDebit: DataDebitObject) -> DataDebitTableViewCell {
         
         cell.titleLabel.text = dataDebit.name

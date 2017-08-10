@@ -50,7 +50,10 @@ extension UIView {
         
         // init loading view
         let tempView = UIView()
-        tempView.createFloatingView(frame: frame, color: color, cornerRadius: cornerRadius)
+        tempView.createFloatingView(
+            frame: frame,
+            color: color,
+            cornerRadius: cornerRadius)
         
         let label = UILabel().createLabel(
             frame: CGRect(x: 8, y: 8, width: frame.width - 16, height: frame.height - 16),
@@ -204,13 +207,35 @@ extension UIView {
         
         _ = self.layer.sublayers?.filter({ $0.name == Constants.UIViewLayerNames.dashedLine }).map({ $0.removeFromSuperlayer() })
         
-        let maskLayer = self.createOverlay(view: self, xOffset: -5, yOffset: self.bounds.origin.y + 20, radius: 20)
-        let maskLayer2 = self.createOverlay(view: self, layer: maskLayer, xOffset: -5, yOffset: self.bounds.maxY - 20, radius: 20)
+        let maskLayer = self.createOverlay(
+            view: self,
+            xOffset: -5,
+            yOffset: self.bounds.origin.y + 20,
+            radius: 20)
+        let maskLayer2 = self.createOverlay(
+            view: self,
+            layer: maskLayer,
+            xOffset: -5,
+            yOffset: self.bounds.maxY - 20,
+            radius: 20)
         
-        self.addDashedLine(view: self, xPoint: -5, yPoint: self.bounds.minY + 18)
+        self.addDashedLine(
+            view: self,
+            xPoint: -5,
+            yPoint: self.bounds.minY + 18)
         
-        let maskLayer3 = self.createOverlay(view: self, layer: maskLayer2, xOffset: self.bounds.maxX + 5, yOffset: self.bounds.origin.y + 20, radius: 20)
-        _ = self.createOverlay(view: self, layer: maskLayer3, xOffset: self.bounds.maxX + 5, yOffset: self.bounds.maxY - 20, radius: 20)
+        let maskLayer3 = self.createOverlay(
+            view: self,
+            layer: maskLayer2,
+            xOffset: self.bounds.maxX + 5,
+            yOffset: self.bounds.origin.y + 20,
+            radius: 20)
+        _ = self.createOverlay(
+            view: self,
+            layer: maskLayer3,
+            xOffset: self.bounds.maxX + 5,
+            yOffset: self.bounds.maxY - 20,
+            radius: 20)
         
         self.addDashedLine(view: self, xPoint: -5, yPoint: self.bounds.maxY - 18)
     }

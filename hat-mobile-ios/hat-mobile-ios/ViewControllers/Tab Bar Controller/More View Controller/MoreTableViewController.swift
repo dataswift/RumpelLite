@@ -23,6 +23,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
     private let sections: [[String]] = [["Data Debits"], ["Past Notifications"], ["Storage Info", "Change Password"], ["Show Data", "Location Settings"], [/*"Release Notes",*/ "Rumpel Terms of Service", "HAT Terms of Service"], ["Report Problem"], ["Log Out", "Version"]]
     /// The headers of the table view
     private let headers: [String] = ["Data Debits", "Notifications", "HAT", "Location", "About", "", ""]
+    private let footers: [String] = ["", "", "", "", "", "HATs are distributed systems and being private also means no one will know if you have a problem. If you have an issue with your HAT or this dashboard, please report it here", ""]
     
     /// The file url, used to show the pdf file for terms of service
     private var fileURL: String?
@@ -133,6 +134,16 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
         if section < self.headers.count {
             
             return self.headers[section]
+        }
+        
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        if section < self.footers.count {
+            
+            return self.footers[section]
         }
         
         return nil

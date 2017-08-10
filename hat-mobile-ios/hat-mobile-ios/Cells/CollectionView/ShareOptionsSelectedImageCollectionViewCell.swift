@@ -102,9 +102,12 @@ internal class ShareOptionsSelectedImageCollectionViewCell: UICollectionViewCell
             userToken: userToken,
             progressUpdater: { [weak self] progress in
                 
-                if self != nil {
+                if let weakSelf = self {
                     
-                    self!.ringProgressCircle.updateCircle(end: CGFloat(progress), animate: Float((self!.ringProgressCircle.endPoint)), removePreviousLayer: false)
+                    weakSelf.ringProgressCircle.updateCircle(
+                        end: CGFloat(progress),
+                        animate: Float((weakSelf.ringProgressCircle.endPoint)),
+                        removePreviousLayer: false)
                 }
             },
             completion: { [weak self] in

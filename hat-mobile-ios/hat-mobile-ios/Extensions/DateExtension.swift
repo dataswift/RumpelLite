@@ -35,7 +35,11 @@ extension Date {
         let latestDate = (earliestDate == dateNow) ? self : dateNow
         
         // set up the componenets
-        let components: DateComponents = (calendar as NSCalendar).components([NSCalendar.Unit.minute, NSCalendar.Unit.hour, NSCalendar.Unit.day, NSCalendar.Unit.weekOfYear, NSCalendar.Unit.month, NSCalendar.Unit.year, NSCalendar.Unit.second], from: earliestDate, to: latestDate, options: NSCalendar.Options())
+        let components: DateComponents = (calendar as NSCalendar).components(
+            [NSCalendar.Unit.minute, NSCalendar.Unit.hour, NSCalendar.Unit.day, NSCalendar.Unit.weekOfYear, NSCalendar.Unit.month, NSCalendar.Unit.year, NSCalendar.Unit.second],
+            from: earliestDate,
+            to: latestDate,
+            options: NSCalendar.Options())
         
         // check the components and return the correct string
         if components.year! >= 2 {

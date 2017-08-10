@@ -29,20 +29,38 @@ extension HATProviderObject {
         
         if hatProvider.price > 0 && hatProvider.kind.kind != "External" {
             
-            let partOne = "Sign Me Up".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
-            let partTwo = "".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
+            let partOne = "Sign Me Up".createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
+            let partTwo = "".createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
             
             return partOne.combineWith(attributedText: partTwo)
         } else if hatProvider.kind.kind == "External" {
             
-            let buttonName = ("Learn more about " + hatProvider.name).createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
-            let partTwo = "".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
+            let buttonName = ("Learn more about " + hatProvider.name).createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
+            let partTwo = "".createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
             
             return buttonName.combineWith(attributedText: partTwo)
         } else {
             
-            let partOne = "Sign Me Up Free".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
-            let partTwo = "".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSansBold, size: 15)!)
+            let partOne = "Sign Me Up Free".createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 15)!)
+            let partTwo = "".createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSansBold, size: 15)!)
             
             return partOne.combineWith(attributedText: partTwo)
         }

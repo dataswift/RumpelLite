@@ -46,7 +46,11 @@ internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentials
         // Configure the cell
         cell.dataPlugTitleLabel.text = dataPlug.name
         cell.dataPlugDetailsLabel.text = dataPlug.description
-        cell.dataPlugImage.downloadedFrom(url: URL(string: dataPlug.illustrationUrl)!, userToken: userToken, progressUpdater: nil, completion: nil)
+        cell.dataPlugImage.downloadedFrom(
+            url: URL(string: dataPlug.illustrationUrl)!,
+            userToken: userToken,
+            progressUpdater: nil,
+            completion: nil)
         cell.checkMarkImage.isHidden = !dataPlug.showCheckMark
         cell.backgroundColor = self.backgroundColorOfCellForIndexPath(indexPath, in: orientation)
         

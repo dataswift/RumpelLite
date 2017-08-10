@@ -56,13 +56,24 @@ internal class PageViewController: UIViewController {
             // set up the created page view controller
             self.pageViewController = pageItemController
             self.darkView = AnimationHelper.addBlurToView(self.view)
-            pageItemController.view.createFloatingView(frame: CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height - 30), color: .teal, cornerRadius: 15)
+            pageItemController.view.createFloatingView(
+                frame: CGRect(
+                    x: self.view.frame.origin.x + 15,
+                    y: self.view.frame.maxY,
+                    width: self.view.frame.width - 30,
+                    height: self.view.frame.height - 30),
+                color: .teal,
+                cornerRadius: 15)
             AnimationHelper.animateView(
                 pageItemController.view,
                 duration: 0.2,
                 animations: { [unowned self] () -> Void in
                     
-                    pageItemController.view.frame = CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.origin.y + 15, width: self.view.frame.width - 30, height: self.view.frame.height - 30)},
+                    pageItemController.view.frame = CGRect(
+                        x: self.view.frame.origin.x + 15,
+                        y: self.view.frame.origin.y + 15,
+                        width: self.view.frame.width - 30,
+                        height: self.view.frame.height - 30)},
                 completion: { _ in return })
             
             // add the page view controller to self
@@ -95,8 +106,14 @@ internal class PageViewController: UIViewController {
         if itemIndex == 6 {
             
             // format main label
-            let partOne = "Because we think YOU should be at the ".createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
-            let partTwo = "hub of all things".createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSans, size: 36)!)
+            let partOne = "Because we think YOU should be at the ".createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 36)!)
+            let partTwo = "hub of all things".createTextAttributes(
+                foregroundColor: .teal,
+                strokeColor: .teal,
+                font: UIFont(name: Constants.FontNames.openSans, size: 36)!)
             
             mainLabel.attributedText = partOne.combineWith(attributedText: partTwo)
         } else {
@@ -119,7 +136,11 @@ internal class PageViewController: UIViewController {
         }
         
         // add a notification observer in order to hide the second page view controller
-        NotificationCenter.default.addObserver(self, selector: #selector(removeSecondPageController), name: Notification.Name(Constants.NotificationNames.hideCapabilitiesPageViewContoller), object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(removeSecondPageController),
+            name: Notification.Name(Constants.NotificationNames.hideCapabilitiesPageViewContoller),
+            object: nil)
     }
     
     override func didReceiveMemoryWarning() {
@@ -145,15 +166,16 @@ internal class PageViewController: UIViewController {
                 duration: 0.2,
                 animations: {[unowned self] () -> Void in
                     
-                    view.view.frame = CGRect(x: self.view.frame.origin.x + 15, y: self.view.frame.maxY, width: self.view.frame.width - 30, height: self.view.frame.height - 30)
+                    view.view.frame = CGRect(
+                        x: self.view.frame.origin.x + 15,
+                        y: self.view.frame.maxY,
+                        width: self.view.frame.width - 30,
+                        height: self.view.frame.height - 30)
                 },
                 completion: {[weak self] (_) -> Void in
                     
-                    if self != nil {
-                        
-                        view.removeViewController()
-                        self!.darkView?.removeFromSuperview()
-                    }
+                    view.removeViewController()
+                    self?.darkView?.removeFromSuperview()
                 }
             )
         }

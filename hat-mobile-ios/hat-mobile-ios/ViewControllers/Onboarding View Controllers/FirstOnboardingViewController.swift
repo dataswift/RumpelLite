@@ -49,17 +49,21 @@ internal class FirstOnboardingViewController: UIViewController {
 
                 if let weakSelf = self {
                     
-                    weakSelf.view.frame = CGRect(x: weakSelf.view.frame.origin.x, y: weakSelf.view.frame.maxY, width: weakSelf.view.frame.width, height: weakSelf.view.frame.height)
+                    weakSelf.view.frame = CGRect(
+                        x: weakSelf.view.frame.origin.x,
+                        y: weakSelf.view.frame.maxY,
+                        width: weakSelf.view.frame.width,
+                        height: weakSelf.view.frame.height)
                 }
             },
             completion: {[weak self] (_: Bool) -> Void in
-
-                if let weakSelf = self {
-                    
-                    weakSelf.removeViewController()
-                    NotificationCenter.default.post(name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo), object: nil)
-                }
-        })
+                
+                self?.removeViewController()
+                NotificationCenter.default.post(
+                    name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
+                    object: nil)
+            }
+        )
         
     }
     
@@ -70,7 +74,9 @@ internal class FirstOnboardingViewController: UIViewController {
      */
     @IBAction func learnMoreButtonAction(_ sender: Any) {
         
-        NotificationCenter.default.post(name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo), object: nil)
+        NotificationCenter.default.post(
+            name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
+            object: nil)
     }
     
     // MARK: - View controller methods
@@ -83,7 +89,10 @@ internal class FirstOnboardingViewController: UIViewController {
         let learnMoreObject = LearnMoreObject(pageNumber: 20 + self.pageIndex)
         
         // format the label based on the page index
-        self.messages.attributedText = LearnMoreObject.setUpTitleString(for: self.pageIndex, learnMoreObject: learnMoreObject, learnMoreButton: self.learnMoreButton)
+        self.messages.attributedText = LearnMoreObject.setUpTitleString(
+            for: self.pageIndex,
+            learnMoreObject: learnMoreObject,
+            learnMoreButton: self.learnMoreButton)
         
         self.image.image = learnMoreObject.image
     }

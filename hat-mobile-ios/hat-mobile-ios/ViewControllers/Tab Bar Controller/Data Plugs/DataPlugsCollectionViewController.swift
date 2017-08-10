@@ -23,14 +23,31 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
     /// An array with the available data plugs
     private var dataPlugs: [HATDataPlugObject] = []
     
+    /// A dark view covering the collection view cell
+    private var darkView: UIVisualEffectView?
+    
     private var selectedlPlug: String = ""
     private var plugURL: String = ""
-    
+    var prefferedTitle: String = "Data Plugs"
+    var prefferedInfoMessage: String = "Pull in your data with the HAT data Plugs"
+
     /// A view to show that app is loading, fetching data plugs
     private var loadingView: UIView = UIView()
     
     /// A reference to safari view controller in order to be able to show or hide it
     private var safariVC: SFSafariViewController?
+    
+    // MARK: - IBOutlets
+    
+    @IBOutlet private weak var infoPopUpButton: UIButton!
+    
+    // MARK: - IBActions
+
+    @IBAction func infoPopUp(_ sender: Any) {
+        
+        self.showInfoViewController(text: prefferedInfoMessage)
+        self.infoPopUpButton.isUserInteractionEnabled = false
+    }
     
     // MARK: - View controller methods
 
@@ -38,11 +55,18 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         
         super.viewDidLoad()
         
+        self.title = self.prefferedTitle
+        
         // add notification observer for response from server
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(showAlertForDataPlug),
             name: Notification.Name(Constants.NotificationNames.dataPlug),
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hidePopUp),
+            name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
             object: nil)
     }
     
@@ -243,6 +267,78 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         
         return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
     }
+    
+    // MARK: - Remove pop up
+    
+    /**
+     Hides pop up presented currently
+     */
+    @objc
+    private func hidePopUp() {
+        
+        self.darkView?.removeFromSuperview()
+        self.infoPopUpButton.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - Add blur View
+    
+    /**
+     Adds blur to the view before presenting the pop up
+     */
+    private func addBlurToView() {
+        
+        self.darkView = AnimationHelper.addBlurToView(self.view)
+    }
+    
+    /**
+     Shows the pop up view controller with the info passed on
+     
+     - parameter text: A String to show in the view controller
+     */
+    private func showInfoViewController(text: String) {
+        
+        // set up page controller
+        let textPopUpViewController = TextPopUpViewController.customInit(
+            stringToShow: text,
+            isButtonHidden: true,
+            from: self.storyboard!)
+        
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
+        textPopUpViewController?.view.createFloatingView(
+            frame: CGRect(
+                x: self.view.frame.origin.x + 15,
+                y: (self.collectionView?.frame.maxY)!,
+                width: self.view.frame.width - 30,
+                height: self.view.frame.height),
+            color: .teal,
+            cornerRadius: 15)
+        
+        DispatchQueue.main.async { [weak self] () -> Void in
+            
+            if let weakSelf = self {
+                
+                // add the page view controller to self
+                weakSelf.addBlurToView()
+                weakSelf.addViewController(textPopUpViewController!)
+                AnimationHelper.animateView(
+                    textPopUpViewController?.view,
+                    duration: 0.2,
+                    animations: {() -> Void in
+                        
+                        textPopUpViewController?.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: (weakSelf.collectionView?.frame.maxY)! - 150,
+                            width: weakSelf.view.frame.width - 30,
+                            height: 200)
+                },
+                    completion: { _ in return }
+                )
+            }
+        }
+    }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

@@ -68,9 +68,13 @@ internal class OnboardingTileCollectionViewCell: UICollectionViewCell, UserCrede
         cell.signUpButton.addBorderToButton(width: 1, color: .teal)
         
         // get image from url and set it to the image view
-        if let url: URL = URL(string: "https://hatters.hubofallthings.com/assets" + hatProvider.illustration) {
+        if let url: URL = URL(string: "https://hatters.hubofallthings.com/assets\(hatProvider.illustration)") {
             
-            cell.hatProviderImage.downloadedFrom(url: url, userToken: userToken, progressUpdater: nil, completion: nil)
+            cell.hatProviderImage.downloadedFrom(
+                url: url,
+                userToken: userToken,
+                progressUpdater: nil,
+                completion: nil)
         }
         
         if hatProvider.price != 0 || hatProvider.kind.kind == "External" {

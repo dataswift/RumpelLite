@@ -152,20 +152,38 @@ internal class LearnMoreObject {
         
         if pageIndex == 0 {
             
-            let partOne = learnMoreObject.title.createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 30)!)
-            let partTwo = learnMoreObject.info.createTextAttributes(foregroundColor: .darkGray, strokeColor: .darkGray, font: UIFont(name: Constants.FontNames.openSans, size: 20)!)
+            let partOne = learnMoreObject.title.createTextAttributes(
+                foregroundColor: .teal,
+                strokeColor: .teal,
+                font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 30)!)
+            let partTwo = learnMoreObject.info.createTextAttributes(
+                foregroundColor: .darkGray,
+                strokeColor: .darkGray,
+                font: UIFont(name: Constants.FontNames.openSans, size: 20)!)
             
             return partOne.combineWith(attributedText: partTwo)
         } else if pageIndex == 1 {
             
-            let partOne = learnMoreObject.title.createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 30)!)
-            let partTwo = learnMoreObject.info.createTextAttributes(foregroundColor: .darkGray, strokeColor: .darkGray, font: UIFont(name: Constants.FontNames.openSans, size: 16)!)
+            let partOne = learnMoreObject.title.createTextAttributes(
+                foregroundColor: .teal,
+                strokeColor: .teal,
+                font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 30)!)
+            let partTwo = learnMoreObject.info.createTextAttributes(
+                foregroundColor: .darkGray,
+                strokeColor: .darkGray,
+                font: UIFont(name: Constants.FontNames.openSans, size: 16)!)
             
             return partOne.combineWith(attributedText: partTwo)
         } else if pageIndex == 2 {
             
-            let partOne = learnMoreObject.title.createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSans, size: 16)!)
-            let partTwo = learnMoreObject.info.createTextAttributes(foregroundColor: .darkGray, strokeColor: .darkGray, font: UIFont(name: Constants.FontNames.openSans, size: 16)!)
+            let partOne = learnMoreObject.title.createTextAttributes(
+                foregroundColor: .teal,
+                strokeColor: .teal,
+                font: UIFont(name: Constants.FontNames.openSans, size: 16)!)
+            let partTwo = learnMoreObject.info.createTextAttributes(
+                foregroundColor: .darkGray,
+                strokeColor: .darkGray,
+                font: UIFont(name: Constants.FontNames.openSans, size: 16)!)
             
             learnMoreButton.isHidden = false
             learnMoreButton.setTitle("GET STARTED", for: .normal)
@@ -178,7 +196,10 @@ internal class LearnMoreObject {
             learnMoreButton.setTitle("SET UP MY PHATA", for: .normal)
             learnMoreButton.addBorderToButton(width: 1, color: .white)
             
-            return learnMoreObject.title.createTextAttributes(foregroundColor: .white, strokeColor: .white, font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 30)!)
+            return learnMoreObject.title.createTextAttributes(
+                foregroundColor: .white,
+                strokeColor: .white,
+                font: UIFont(name: Constants.FontNames.openSansCondensedLight, size: 30)!)
         }
         
         return nil

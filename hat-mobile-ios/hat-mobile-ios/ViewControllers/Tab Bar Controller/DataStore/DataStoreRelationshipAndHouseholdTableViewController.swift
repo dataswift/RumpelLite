@@ -183,7 +183,7 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
             userDomain: userDomain,
             source: Constants.HATTableName.LivingInfo.source,
             scope: Constants.HATTableName.LivingInfo.name,
-            parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
+            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
             successCallback: updateTableWithValuesFrom,
             errorCallback: errorFetching)
     }

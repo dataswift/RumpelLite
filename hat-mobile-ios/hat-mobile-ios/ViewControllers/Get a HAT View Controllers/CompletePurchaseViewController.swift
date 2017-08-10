@@ -53,7 +53,7 @@ internal class CompletePurchaseViewController: UIViewController {
         
         // config the arrowBar
         self.arrowbar.image = self.arrowbar.image!.withRenderingMode(.alwaysTemplate)
-        self.arrowbar.tintColor = UIColor.rumpelVeryLightGray
+        self.arrowbar.tintColor = .rumpelVeryLightGray
         
         // add border to home button
         self.homeButton.addBorderToButton(width: 1, color: .rumpelDarkGray)

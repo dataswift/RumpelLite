@@ -29,7 +29,6 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     
     /// An IBOutlet for handling the textField
     @IBOutlet private weak var textField: UITextField!
-    
     /// An IBOutlet for handling the textView
     @IBOutlet private weak var textView: UITextView!
     
@@ -89,7 +88,10 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      */
     func datePickerDidUpdateDate(datePicker: UIDatePicker) {
         
-        self.textField.text = FormatterHelper.formatDateStringToUsersDefinedDate(date: datePicker.date, dateStyle: .short, timeStyle: .none)
+        self.textField.text = FormatterHelper.formatDateStringToUsersDefinedDate(
+            date: datePicker.date,
+            dateStyle: .short,
+            timeStyle: .none)
     }
     
     // MARK: - TextField delegate method
@@ -115,7 +117,10 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
                 
                 datePickerView.setDate(date!, animated: true)
             }
-            textField.text = FormatterHelper.formatDateStringToUsersDefinedDate(date: datePickerView.date, dateStyle: .short, timeStyle: .none)
+            textField.text = FormatterHelper.formatDateStringToUsersDefinedDate(
+                date: datePickerView.date,
+                dateStyle: .short,
+                timeStyle: .none)
         }
         
         return true
@@ -287,6 +292,11 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     
     // MARK: - Make textview link clickable
     
+    /**
+     Sets up textView with the url
+     
+     - parameter string: The url to show on the textView
+     */
     func enableLink(string: String) {
         
         self.textView.text = string

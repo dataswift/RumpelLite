@@ -85,10 +85,17 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
             if note.data.photoData.image != nil {
                 
                 newCell.attachedImage.image = note.data.photoData.image!
-                newCell.attachedImage.cropImage(width: newCell.attachedImage.frame.width, height: newCell.attachedImage.frame.height)
+                newCell.attachedImage.cropImage(
+                    width: newCell.attachedImage.frame.width,
+                    height: newCell.attachedImage.frame.height)
             } else {
                 
-                self.downloadAttachedImage(cell: newCell, url: url, row: indexPath.row, note: note, weakSelf: self)
+                self.downloadAttachedImage(
+                    cell: newCell,
+                    url: url,
+                    row: indexPath.row,
+                    note: note,
+                    weakSelf: self)
             }
         }
         
@@ -121,7 +128,10 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         // get the author data
         let authorData = notablesData.authorData
         // get the created date
-        let date = FormatterHelper.formatDateStringToUsersDefinedDate(date: note.data.createdTime, dateStyle: .short, timeStyle: .short)
+        let date = FormatterHelper.formatDateStringToUsersDefinedDate(
+            date: note.data.createdTime,
+            dateStyle: .short,
+            timeStyle: .short)
         
         // create this zebra like color based on the index of the cell
         if indexPath.row % 2 == 1 {
@@ -132,7 +142,10 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         // show the data in the cell's labels
         newCell.postDataLabel.text = notablesData.message
         newCell.usernameLabel.text = authorData.phata
-        newCell.postInfoLabel.attributedText = self.formatInfoLabel(date: date, shared: notablesData.shared, publicUntil:  note.data.publicUntil)
+        newCell.postInfoLabel.attributedText = self.formatInfoLabel(
+            date: date,
+            shared: notablesData.shared,
+            publicUntil: note.data.publicUntil)
         
         // flip the view to appear from right to left
         newCell.collectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -162,7 +175,10 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
             progressUpdater: { progress in
             
                 let completion = Float(progress)
-                cell.ringProgressBar.updateCircle(end: CGFloat(completion), animate: Float(cell.ringProgressBar.endPoint), removePreviousLayer: false)
+                cell.ringProgressBar.updateCircle(
+                    end: CGFloat(completion),
+                    animate: Float(cell.ringProgressBar.endPoint),
+                    removePreviousLayer: false)
             },
             completion: {
             
@@ -171,7 +187,9 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
                     
                     cell.fullSizeImage = cell.attachedImage.image!
                 }
-                cell.attachedImage.cropImage(width: cell.attachedImage.frame.width, height: cell.attachedImage.frame.height)
+                cell.attachedImage.cropImage(
+                    width: cell.attachedImage.frame.width,
+                    height: cell.attachedImage.frame.height)
                 
                 var tempNote = note
                 tempNote.data.photoData.image = cell.attachedImage.image
@@ -270,7 +288,10 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         }
         
         let partOne = NSAttributedString(string: string)
-        let partTwo = shareString.createTextAttributes(foregroundColor: .teal, strokeColor: .teal, font: UIFont(name: Constants.FontNames.openSans, size: 11)!)
+        let partTwo = shareString.createTextAttributes(
+            foregroundColor: .teal,
+            strokeColor: .teal,
+            font: UIFont(name: Constants.FontNames.openSans, size: 11)!)
         
         return partOne.combineWith(attributedText: partTwo)
     }

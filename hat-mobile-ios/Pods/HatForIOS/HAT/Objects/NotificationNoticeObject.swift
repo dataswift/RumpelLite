@@ -60,7 +60,7 @@ public struct NotificationNoticeObject {
         
         if let tempDateCreated = dictionary[Fields.dateCreated]?.intValue {
             
-            dateCreated = Date(timeIntervalSince1970: TimeInterval(tempDateCreated))
+            dateCreated = Date(timeIntervalSince1970: TimeInterval(tempDateCreated / 1000))
         }
     }
 }

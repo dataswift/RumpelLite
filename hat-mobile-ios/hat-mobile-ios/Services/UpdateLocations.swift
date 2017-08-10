@@ -84,7 +84,10 @@ internal class UpdateLocations: NSObject, CLLocationManagerDelegate {
         self.stopMonitoringAllRegions()
         
         // create a new region
-        self.region = CLCircularRegion(center: locations[locations.count - 1].coordinate, radius: 150, identifier: "UpdateCircle")
+        self.region = CLCircularRegion(
+            center: locations[locations.count - 1].coordinate,
+            radius: 150,
+            identifier: "UpdateCircle")
         self.region!.notifyOnExit = true
         
         // call delegate method
@@ -111,13 +114,13 @@ internal class UpdateLocations: NSObject, CLLocationManagerDelegate {
     public func locationManager(_ manager: CLLocationManager, monitoringDidFailFor region: CLRegion?, withError error: Error) {
         
         let message = "Monitoring failed for region with identifier: \(region!.identifier)"
-        _ = CrashLoggerHelper.customErrorLog(message: message, error: error)
+        CrashLoggerHelper.customErrorLog(message: message, error: error)
     }
     
     public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         
         let message = "Location Manager failed with the following error: \(error)"
-        _ = CrashLoggerHelper.customErrorLog(message: message, error: error)
+        CrashLoggerHelper.customErrorLog(message: message, error: error)
     }
     
     public func locationManager(_ manager: CLLocationManager, didFinishDeferredUpdatesWithError error: Error?) {
@@ -125,7 +128,7 @@ internal class UpdateLocations: NSObject, CLLocationManagerDelegate {
         if error != nil {
             
             let message = "error: \(error!.localizedDescription), status code: \(String(describing: manager.monitoredRegions))"
-            _ = CrashLoggerHelper.customErrorLog(message: message, error: error!)
+            CrashLoggerHelper.customErrorLog(message: message, error: error!)
         }
     }
     
@@ -155,7 +158,9 @@ internal class UpdateLocations: NSObject, CLLocationManagerDelegate {
                 }
             } else {
                 
-                _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.trackDeviceKey, value: Constants.Keychain.Values.setTrue)
+                KeychainHelper.setKeychainValue(
+                    key: Constants.Keychain.trackDeviceKey,
+                    value: Constants.Keychain.Values.setTrue)
                 self.stopMonitoringAllRegions()
                 self.locationManager?.stopUpdatingLocation()
                 self.locationManager = nil

@@ -86,16 +86,28 @@ extension UIImageView {
                 
                 print("image is landscape")
                 
-                rect = CGRect(x: 0, y: 0, width: Int(width), height: Int(height))
+                rect = CGRect(
+                    x: 0,
+                    y: 0,
+                    width: Int(width),
+                    height: Int(height))
                 let scale = height / (self.image?.size.height)!
                 let newWidth = (self.image?.size.width)! * scale
                 UIGraphicsBeginImageContext(CGSize(width: newWidth, height: height))
-                self.image?.draw(in: CGRect(x: 0, y: 0, width: newWidth, height: height))
+                self.image?.draw(in: CGRect(
+                    x: 0,
+                    y: 0,
+                    width: newWidth,
+                    height: height))
             } else {
                 
                 print("image is portrait")
                 
-                rect = CGRect(x: 0, y: 0, width: Int(width), height: Int(height))
+                rect = CGRect(
+                    x: 0,
+                    y: 0,
+                    width: Int(width),
+                    height: Int(height))
                 let scale = width / (self.image?.size.width)!
                 let newHeight = (self.image?.size.height)! * scale
                 UIGraphicsBeginImageContext(CGSize(width: width, height: newHeight))

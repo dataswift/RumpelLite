@@ -25,7 +25,9 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     /// An IBOutlet for handling the collection view
     @IBOutlet private weak var collectionView: UICollectionView!
+    
     @IBOutlet private weak var showAllNotes: UIButton!
+    @IBOutlet private weak var infoPopUpButton: UIButton!
     
     // MARK: - Variables
     
@@ -67,6 +69,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     private var twitterEndTime: String?
     /// A string to hold twitter app token for later use
     private var twitterAppToken: String = ""
+    var prefferedInfoMessage: String = "Still work-in-progress, this is where you can see your social feed and notes."
     /// The number of items per request
     private var twitterLimitParameter: String = "50" {
         
@@ -84,6 +87,9 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     /// An UIImageView to show the downloaded facebook profile image
     private var facebookProfileImage: UIImageView?
     
+    /// A dark view covering the collection view cell
+    private var darkView: UIVisualEffectView?
+    
     /// A String to define the end time of the last post in order to request posts before this time
     private var facebookEndTime: String?
     /// A string to hold facebook app token for later use
@@ -99,7 +105,13 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         }
     }
 
-    // MARK: - IBActions
+    // MARK: - IBAction
+    
+    @IBAction func infoButton(_ sender: Any) {
+        
+        self.showInfoViewController(text: prefferedInfoMessage)
+        self.infoPopUpButton.isUserInteractionEnabled = false
+    }
     
     @IBAction func showAllNotesAction(_ sender: Any) {
         
@@ -123,7 +135,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         super.viewDidLoad()
         
         // view controller title
-        self.title = "Social Data"  
+        self.title = "My Story"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -868,6 +880,76 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                     
                     weakSelf.emptyCollectionViewLabel.text = text
                 }
+            }
+        }
+    }
+    
+    // MARK: - Remove pop up
+    
+    /**
+     Hides pop up presented currently
+     */
+    @objc
+    private func hidePopUp() {
+        
+        self.darkView?.removeFromSuperview()
+        self.infoPopUpButton.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - Add blur View
+    
+    /**
+     Adds blur to the view before presenting the pop up
+     */
+    private func addBlurToView() {
+        
+        self.darkView = AnimationHelper.addBlurToView(self.view)
+    }
+    
+    /**
+     Shows the pop up view controller with the info passed on
+     
+     - parameter text: A String to show in the view controller
+     */
+    private func showInfoViewController(text: String) {
+        
+        // set up page controller
+        let textPopUpViewController = TextPopUpViewController.customInit(
+            stringToShow: text,
+            isButtonHidden: true,
+            from: self.storyboard!)
+        
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
+        textPopUpViewController?.view.createFloatingView(
+            frame: CGRect(
+                x: self.view.frame.origin.x + 15,
+                y: self.collectionView.frame.maxY,
+                width: self.view.frame.width - 30,
+                height: self.view.frame.height),
+            color: .teal,
+            cornerRadius: 15)
+        
+        DispatchQueue.main.async { [weak self] () -> Void in
+            
+            if let weakSelf = self {
+                
+                // add the page view controller to self
+                weakSelf.addBlurToView()
+                weakSelf.addViewController(textPopUpViewController!)
+                AnimationHelper.animateView(
+                    textPopUpViewController?.view,
+                    duration: 0.2,
+                    animations: {() -> Void in
+                        
+                        textPopUpViewController?.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.collectionView.frame.maxY - 150,
+                            width: weakSelf.view.frame.width - 30,
+                            height: 200)
+                },
+                    completion: { _ in return }
+                )
             }
         }
     }

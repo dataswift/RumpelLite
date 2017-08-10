@@ -14,12 +14,32 @@ import HatForIOS
 import SafariServices
 import SwiftyJSON
 
-internal class DetailsDataPlugViewController: UIViewController, UserCredentialsProtocol {
+// MARK: Class
+
+internal class DetailsDataPlugViewController: UIViewController, UserCredentialsProtocol, UITableViewDataSource {
+    
+    // MARK: - Model
+    
+    struct PlugDetails {
+        
+        var name: String = ""
+        var value: String = ""
+    }
+    
+    // MARK: - Variables
 
     var plug: String = ""
     var plugURL: String = ""
     
     var safariVC: SFSafariViewController?
+    
+    private var plugDetailsArray: [PlugDetails] = []
+    
+    // MARK: - IBOutlets
+    
+    @IBOutlet private weak var tableView: UITableView!
+    
+    // MARK: - IBActions
     
     @IBAction func connectPlug(_ sender: Any) {
         
@@ -43,10 +63,9 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         
         // check that safari is not nil, if it's not hide it
         self.safariVC?.dismissSafari(animated: true, completion: nil)
-        //self.checkFacebookPlugIfExpired()
     }
     
-    @IBOutlet private weak var textView: UITextView!
+    // MARK: - Auto-generated methods
     
     override func viewDidLoad() {
         
@@ -72,28 +91,61 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         super.didReceiveMemoryWarning()
     }
     
+    // MARK: - Table View methods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
+        return plugDetailsArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "PlugDetailsCell", for: indexPath) as? DataPlugDetailsTableViewCell
+        
+        if indexPath.row % 2 == 0 {
+            
+            cell?.backgroundColor = .gray
+        } else {
+            
+            cell?.backgroundColor = .white
+        }
+        cell?.setTitleToLabel(title: self.plugDetailsArray[indexPath.row].name)
+        cell?.setDetailsToLabel(details: self.plugDetailsArray[indexPath.row].value)
+        
+        return cell!
+    }
+    
+    // MARK: - Facebook Info
+    
     func loadFacebookInfo() {
         
         func tableFound(tableID: NSNumber, newToken: String?) {
             
             func gotProfile(profile: [JSON], renewedToken: String?) {
                 
-                let profile = profile[0].dictionaryValue["data"]?["profile"]
-                let stringToShow: NSMutableAttributedString = NSMutableAttributedString(string: "")
-                for (key, value) in (profile?.dictionaryValue)! {
+                if !profile.isEmpty {
                     
-                    stringToShow.append(NSMutableAttributedString(string: "\(key): \(value)"))
-                    stringToShow.append(NSAttributedString(string:"\n"))
+                    if let profile = profile[0].dictionaryValue["data"]?["profile"].dictionaryValue {
+                        
+                        for (key, value) in profile {
+                            
+                            var object = PlugDetails()
+                            object.name = key
+                            object.value = value.stringValue
+                            
+                            self.plugDetailsArray.append(object)
+                        }
+                        
+                        self.tableView.reloadData()
+                    }
                 }
-                
-                self.textView.attributedText = stringToShow
             }
             
             HATAccountService.getHatTableValues(
                 token: userToken,
                 userDomain: userDomain,
                 tableID: tableID,
-                parameters: [:],
+                parameters: ["starttime": "0"],
                 successCallback: gotProfile,
                 errorCallback: tableNotFound)
         }
@@ -107,19 +159,23 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             errorCallback: tableNotFound)
     }
     
+    // MARK: - Twitter Info
+    
     func loadTwitterInfo() {
         
         func gotTweets(tweets: [JSON], newToken: String?) {
             
             let user = tweets[0].dictionaryValue["data"]?["tweets"]["user"]
-            let stringToShow: NSMutableAttributedString = NSMutableAttributedString(string: "")
             for (key, value) in (user?.dictionaryValue)! {
                 
-                stringToShow.append(NSMutableAttributedString(string: "\(key): \(value)"))
-                stringToShow.append(NSAttributedString(string:"\n"))
+                var object = PlugDetails()
+                object.name = key
+                object.value = value.stringValue
+                
+                self.plugDetailsArray.append(object)
             }
             
-            self.textView.attributedText = stringToShow
+            self.tableView.reloadData()
         }
         
         HATTwitterService.checkTwitterDataPlugTable(
@@ -133,6 +189,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         
         CrashLoggerHelper.hatTableErrorLog(error: error)
     }
+    
+    // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         

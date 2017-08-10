@@ -180,11 +180,17 @@ internal class CustomSwitch: UIControl {
             let yPostition = (self.bounds.size.height - thumbSize.height) / 2
             
             // set the on and off point of the switch
-            self.onPoint = CGPoint(x: self.bounds.size.width - thumbSize.width - self.padding, y: yPostition)
-            self.offPoint = CGPoint(x: self.padding, y: yPostition)
+            self.onPoint = CGPoint(
+                x: self.bounds.size.width - thumbSize.width - self.padding,
+                y: yPostition)
+            self.offPoint = CGPoint(
+                x: self.padding,
+                y: yPostition)
             
             // set the frame of the thumb view based on the on and off points
-            self.thumbView.frame = CGRect(origin: self.isOn ? self.onPoint : self.offPoint, size: thumbSize)
+            self.thumbView.frame = CGRect(
+                origin: self.isOn ? self.onPoint : self.offPoint,
+                size: thumbSize)
             
             // set thumbs' corner radius
             self.thumbView.layer.cornerRadius = thumbSize.height * self.thumbCornerRadius
@@ -197,8 +203,15 @@ internal class CustomSwitch: UIControl {
             let labelWidth = self.bounds.width / 2 - self.padding * 2
             
             // set up on and of labels frame
-            self.labelOn.frame = CGRect(x: 2, y: 2, width: labelWidth, height: self.frame.height)
-            self.labelOff.frame = CGRect(x: -2 + self.frame.width - labelWidth, y: 2, width: labelWidth, height: self.frame.height)
+            self.labelOn.frame = CGRect(
+                x: 2,
+                y: 2,
+                width: labelWidth,
+                height: self.frame.height)
+            self.labelOff.frame = CGRect(
+                x: -2 + self.frame.width - labelWidth,
+                y: 2, width: labelWidth,
+                height: self.frame.height)
         }
     }
     
@@ -223,16 +236,27 @@ internal class CustomSwitch: UIControl {
         let labelWidth = self.bounds.width / 2 - self.padding * 2
         
         // set their frame
-        self.labelOn.frame = CGRect(x: 2, y: 2, width: labelWidth, height: self.frame.height)
-        self.labelOff.frame = CGRect(x: -2 + self.frame.width - labelWidth, y: 2, width: labelWidth, height: self.frame.height)
+        self.labelOn.frame = CGRect(
+            x: 2,
+            y: 2,
+            width: labelWidth,
+            height: self.frame.height)
+        self.labelOff.frame = CGRect(
+            x: -2 + self.frame.width - labelWidth,
+            y: 2, width: labelWidth,
+            height: self.frame.height)
         
         // run size to fit to draw the view correctly
         self.labelOff.sizeToFit()
         self.labelOn.sizeToFit()
         
         // set their icons
-        self.labelOff.attributedText = NSAttributedString(string: "\u{1F512}", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
-        self.labelOn.attributedText = NSAttributedString(string: "\u{1F513}", attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
+        self.labelOff.attributedText = NSAttributedString(
+            string: "\u{1F512}",
+            attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
+        self.labelOn.attributedText = NSAttributedString(
+            string: "\u{1F513}",
+            attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
         
         // align them in center
         self.labelOff.textAlignment = .center

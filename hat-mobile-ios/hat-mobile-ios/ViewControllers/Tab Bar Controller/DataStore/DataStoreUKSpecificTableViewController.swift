@@ -296,6 +296,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             if !array.isEmpty {
                 
                 self.ukSpecificInfo = UKSpecificInfo(from: array[0])
+                self.tableView.reloadData()
             }
         }
         
@@ -304,7 +305,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             userDomain: userDomain,
             source: Constants.HATTableName.UKSpecificInfo.source,
             scope: Constants.HATTableName.UKSpecificInfo.name,
-            parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
+            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
             successCallback: gotInfo,
             errorCallback: failedGettingInfo)
     }

@@ -18,6 +18,7 @@ internal class DataDebitsTableViewController: UITableViewController, UserCredent
     
     // MARK: - Variables
     
+    /// The received dataDebits from HAT
     private var dataDebits: [DataDebitObject] = []
     
     // MARK: - Auto generated methods
@@ -48,13 +49,18 @@ internal class DataDebitsTableViewController: UITableViewController, UserCredent
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "dataDebitCell", for: indexPath) as? DataDebitTableViewCell
+        let cell = tableView.dequeueReusableCell(
+            withIdentifier: Constants.CellReuseIDs.dataDebitCell,
+            for: indexPath) as? DataDebitTableViewCell
 
         return cell!.setUpCell(cell: cell!, dataDebit: dataDebits[indexPath.row])
     }
     
     // MARK: - Get data debits
     
+    /**
+     Gets the available dataDebits from hat
+     */
     private func getDataDebits() {
         
         func gotDataDebits(dataDebitsArray: [DataDebitObject], newToken: String?) {
@@ -74,15 +80,5 @@ internal class DataDebitsTableViewController: UITableViewController, UserCredent
             succesfulCallBack: gotDataDebits,
             failCallBack: failedGettingDataDebits)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

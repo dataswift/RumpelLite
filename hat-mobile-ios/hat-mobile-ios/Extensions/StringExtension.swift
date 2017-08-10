@@ -22,6 +22,7 @@ extension String {
      Generates a random alphanumeric string
      
      - parameter length: The desired length of the random string
+     
      - returns: A random String
      */
     static func random(length: Int = 20) -> String {
@@ -43,9 +44,9 @@ extension String {
     /**
      String extension to convert from base64Url to base64
      
-     parameter stringToConvert: The string to be converted
+     - parameter stringToConvert: The string to be converted
      
-     returns: A Base64 String
+     - returns: A Base64 String
      */
     func fromBase64URLToBase64(stringToConvert: String) -> String {
         

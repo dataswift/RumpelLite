@@ -18,12 +18,25 @@ internal class GoDeepCollectionViewCell: UICollectionViewCell {
     
     // MARK: - IBOutlets
     
+    /// An IBOutlet for handling the appImageView of the app
     @IBOutlet private weak var appImageView: UIImageView!
+    
+    /// An IBOutlet for handling the app name
     @IBOutlet private weak var appName: UILabel!
+    /// An IBOutlet for handling the app description
     @IBOutlet private weak var subTitle: UILabel!
     
     // MARK: - Set up cell
     
+    /**
+     Sets up the cell according to our needs and then it returns it back
+     
+     - parameter cell: The cell to set up
+     - parameter app: The app object, the model, we need to set up the cell
+     - parameter indexPath: The indexPath of the cell, used for the background color
+     
+     - returns: The set up cell
+     */
     func setUpCell(_ cell: GoDeepCollectionViewCell, app: GoDeepObject, indexPath: IndexPath) -> UICollectionViewCell {
         
         cell.appName.text = app.appName

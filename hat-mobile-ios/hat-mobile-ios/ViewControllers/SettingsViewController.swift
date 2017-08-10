@@ -63,7 +63,7 @@ internal class SettingsViewController: UIViewController {
         
         if let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.trackDeviceKey) {
             
-            if result == "true" {
+            if result == Constants.Keychain.Values.setTrue {
                 
                 self.locationSwitchOutlet.isOn = true
                 self.locationTrackingLabel.text = "Location upload to HAT enabled"

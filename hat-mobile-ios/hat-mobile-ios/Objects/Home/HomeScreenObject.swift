@@ -90,7 +90,7 @@ internal class HomeScreenObject: NSObject {
             image: UIImage(named: Constants.ImageNames.recall)!)
         let beMoji = HomeScreenObject(
             name: "BeMoji",
-            description: "Broadcast my mood, when tap on it, title change to Emoji",
+            description: "Broadcast my mood",
             image: UIImage(named: Constants.ImageNames.bemoji)!)
         let makeMeDoIt = HomeScreenObject(
             name: "Gimme",
@@ -109,9 +109,9 @@ internal class HomeScreenObject: NSObject {
             description: "No fake news",
             image: UIImage(named: Constants.ImageNames.read)!)
         let sso = HomeScreenObject(
-            name: "SSO",
-            description: "Sign on to websites. Check which ones here.",
-            image: UIImage(named: Constants.ImageNames.sso)!)
+            name: "Match Me",
+            description: "My preferences",
+            image: UIImage(named: Constants.ImageNames.profileOutline)!)
         let findYourForm = HomeScreenObject(
             name: "Find your Form",
             description: "No more form filling. Check-in to Hotels, Spas, places",
@@ -139,7 +139,7 @@ internal class HomeScreenObject: NSObject {
         let hatters = HomeScreenObject(
             name: "HATTERS",
             description: "Community notice board",
-            image: UIImage(named: Constants.ImageNames.hatters)!)
+            image: UIImage(named: Constants.ImageNames.hattersOutline)!)
         
         return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, beMoji, makeMeDoIt, doeet, watcheet, readeet, sso, findYourForm, goDeep, madhatters, hatCommunity, photoView, goodLoop, ideas, hatters]
     }

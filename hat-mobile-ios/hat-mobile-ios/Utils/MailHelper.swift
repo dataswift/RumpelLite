@@ -36,7 +36,11 @@ internal class MailHelper: UIViewController, MFMailComposeViewControllerDelegate
             ofViewController.present(mailVC, animated: true, completion: nil)
         } else {
             
-            ofViewController.createClassicOKAlertWith(alertMessage: "This device has not been configured to send emails", alertTitle: "Email services disabled", okTitle: "OK", proceedCompletion: {})
+            ofViewController.createClassicOKAlertWith(
+                alertMessage: "This device has not been configured to send emails",
+                alertTitle: "Email services disabled",
+                okTitle: "OK",
+                proceedCompletion: {})
         }
     }
     

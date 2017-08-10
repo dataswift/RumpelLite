@@ -58,7 +58,9 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
      */
     func setUpCell(userDomain: String, userToken: String, files: [FileUploadObject], indexPath: IndexPath, completion: @escaping (UIImage) -> Void) -> UICollectionViewCell {
         
-        let imageURL: String = Constants.HATEndpoints.fileInfoURL(fileID: files[indexPath.row].fileID, userDomain: userDomain)
+        let imageURL: String = Constants.HATEndpoints.fileInfoURL(
+            fileID: files[indexPath.row].fileID,
+            userDomain: userDomain)
 
         if files[indexPath.row].image != nil && files[indexPath.row].image != UIImage(named: Constants.ImageNames.placeholderImage) {
             
@@ -69,7 +71,10 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
             
             self.initRingProgressView()
             
-            self.downloadImageFrom(imageURL: imageURL, userToken: userToken, completion: completion)
+            self.downloadImageFrom(
+                imageURL: imageURL,
+                userToken: userToken,
+                completion: completion)
         } else if self.ringProgressView.isHidden {
             
             self.image.image = files[indexPath.row].image
@@ -111,16 +116,22 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
             userToken: userToken,
             progressUpdater: { [weak self] progress in
                 
-                let completion = CGFloat(progress)
-                self?.ringProgressView.updateCircle(end: completion, animate: Float(self!.ringProgressView.endPoint), removePreviousLayer: false)
+                if let weakSelf = self {
+                    
+                    let completion = CGFloat(progress)
+                    weakSelf.ringProgressView.updateCircle(
+                        end: completion,
+                        animate: Float(weakSelf.ringProgressView.endPoint),
+                        removePreviousLayer: false)
+                }
             },
             completion: { [weak self] in
                 
-                if self != nil {
+                if let weakSelf = self {
                     
-                    self!.ringProgressView.isHidden = true
+                    weakSelf.ringProgressView.isHidden = true
                     
-                    completion(self!.image.image!)
+                    completion(weakSelf.image.image!)
                 }
             }
         )

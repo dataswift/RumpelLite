@@ -29,7 +29,9 @@ extension UIImage {
     func resized(fileSize: Float, maximumSize: Float) -> UIImage? {
         
         let percentage = CGFloat(maximumSize / fileSize)
-        let canvasSize = CGSize(width: size.width * percentage, height: size.height * percentage)
+        let canvasSize = CGSize(
+            width: size.width * percentage,
+            height: size.height * percentage)
         UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
         defer { UIGraphicsEndImageContext() }
         draw(in: CGRect(origin: .zero, size: canvasSize))
@@ -46,7 +48,9 @@ extension UIImage {
      */
     func resized(toWidth width: CGFloat) -> UIImage? {
         
-        let canvasSize = CGSize(width: width, height: CGFloat(ceil(width / size.width * size.height)))
+        let canvasSize = CGSize(
+            width: width,
+            height: CGFloat(ceil(width / size.width * size.height)))
         UIGraphicsBeginImageContextWithOptions(canvasSize, false, scale)
         defer { UIGraphicsEndImageContext() }
         draw(in: CGRect(origin: .zero, size: canvasSize))

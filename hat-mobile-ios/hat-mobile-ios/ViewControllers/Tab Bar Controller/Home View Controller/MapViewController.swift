@@ -31,6 +31,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     @IBOutlet private weak var buttonToday: UIButton!
     /// An IBOutlet for handling the buttonLastWeek UIButton
     @IBOutlet private weak var buttonLastWeek: UIButton!
+    @IBOutlet private weak var infoPopUpButton: UIButton!
     
     /// An IBOutlet for handling the calendarImageView UIImageView
     @IBOutlet private weak var calendarImageView: UIImageView!
@@ -40,6 +41,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     
     // MARK: - Variables
     
+    var prefferedInfoMessage: String = "Check back where you were by using the date picker!"
+
     /// The FBClusteringManager object constant
     private let clusteringManager: FBClusteringManager = FBClusteringManager()
     
@@ -60,6 +63,15 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     /// The popUpView while downloading locations from hat
     private var popUpView: UIView?
     
+    /// A dark view covering the collection view cell
+    private var darkView: UIVisualEffectView?
+    
+    @IBAction func showPopUp(_ sender: Any) {
+        
+        self.showInfoViewController(text: prefferedInfoMessage)
+        self.infoPopUpButton.isUserInteractionEnabled = false
+    }
+    
     // MARK: - Auto generated methods
     
     override func viewDidLoad() {
@@ -67,13 +79,18 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         super.viewDidLoad()
 
         // view controller title
-        self.title = "Location"
+        self.title = "GEOME"
         
         // add notification observer for refreshUI
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(goToSettings),
             name: NSNotification.Name(Constants.NotificationNames.goToSettings),
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hidePopUp),
+            name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
             object: nil)
         
         // add gesture recognizers to today button
@@ -228,11 +245,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             successCallback: requestLocations,
             errorCallback: { [weak self] (error) in
                 
-                if let weakSelf = self {
-                    
-                    weakSelf.popUpView?.removeFromSuperview()
-                    CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
+                self?.popUpView?.removeFromSuperview()
+                CrashLoggerHelper.hatTableErrorLog(error: error)
             }
         )
     }
@@ -263,7 +277,11 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         let view = UIView()
         view.createFloatingView(
-            frame: CGRect(x: self.view.frame.midX - 60, y: self.view.frame.midY - 15, width: 120, height: 30),
+            frame: CGRect(
+                x: self.view.frame.midX - 60,
+                y: self.view.frame.midY - 15,
+                width: 120,
+                height: 30),
             color: .teal,
             cornerRadius: 15)
         
@@ -343,7 +361,10 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             
             if starttime != nil && endtime != nil {
                 
-                let parameters: Dictionary<String, String> = ["starttime": starttime!, "endtime": endtime!, "limit": "2000"]
+                let parameters: Dictionary<String, String> = [
+                    "starttime": starttime!,
+                    "endtime": endtime!,
+                    "limit": "2000"]
                 
                 HATAccountService.getHatTableValues(
                     token: userToken,
@@ -353,11 +374,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
                     successCallback: showLocations,
                     errorCallback: { [weak self] (error) in
                         
-                        if let weakSelf = self {
-                            
-                            weakSelf.popUpView?.removeFromSuperview()
-                            CrashLoggerHelper.hatTableErrorLog(error: error)
-                        }
+                        self?.popUpView?.removeFromSuperview()
+                        CrashLoggerHelper.hatTableErrorLog(error: error)
                     }
                 )
             }
@@ -497,14 +515,16 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
                 let mapRectWidth: Double = wSelf.mapView.visibleMapRect.size.width
                 let scale: Double = mapBoundsWidth / mapRectWidth
                 let annotationArray = wSelf.clusteringManager.clusteredAnnotations(withinMapRect: wSelf.mapView.visibleMapRect, zoomScale: scale)
-                DispatchQueue.main.sync(execute: { [weak self] () -> Void in
+                DispatchQueue.main.sync(
+                    execute: { [weak self] () -> Void in
                     
-                    if let weakSelf = self {
-                        
-                        // display map
-                        weakSelf.clusteringManager.display(annotations: annotationArray, onMapView: weakSelf.mapView)
+                        if let weakSelf = self {
+                            
+                            // display map
+                            weakSelf.clusteringManager.display(annotations: annotationArray, onMapView: weakSelf.mapView)
+                        }
                     }
-                })
+                )
             }
         })
     }
@@ -557,5 +577,75 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     func onChanged() {
         
         UpdateLocations.shared.resumeLocationServices()
+    }
+    
+    // MARK: - Remove pop up
+    
+    /**
+     Hides pop up presented currently
+     */
+    @objc
+    private func hidePopUp() {
+        
+        self.darkView?.removeFromSuperview()
+        self.infoPopUpButton.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - Add blur View
+    
+    /**
+     Adds blur to the view before presenting the pop up
+     */
+    private func addBlurToView() {
+        
+        self.darkView = AnimationHelper.addBlurToView(self.view)
+    }
+    
+    /**
+     Shows the pop up view controller with the info passed on
+     
+     - parameter text: A String to show in the view controller
+     */
+    private func showInfoViewController(text: String) {
+        
+        // set up page controller
+        let textPopUpViewController = TextPopUpViewController.customInit(
+            stringToShow: text,
+            isButtonHidden: true,
+            from: self.storyboard!)
+        
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
+        textPopUpViewController?.view.createFloatingView(
+            frame: CGRect(
+                x: self.view.frame.origin.x + 15,
+                y: self.view.frame.maxY,
+                width: self.view.frame.width - 30,
+                height: self.view.frame.height),
+            color: .teal,
+            cornerRadius: 15)
+        
+        DispatchQueue.main.async { [weak self] () -> Void in
+            
+            if let weakSelf = self {
+                
+                // add the page view controller to self
+                weakSelf.addBlurToView()
+                weakSelf.addViewController(textPopUpViewController!)
+                AnimationHelper.animateView(
+                    textPopUpViewController?.view,
+                    duration: 0.2,
+                    animations: {() -> Void in
+                        
+                        textPopUpViewController?.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.view.frame.maxY - 150,
+                            width: weakSelf.view.frame.width - 30,
+                            height: 200)
+                },
+                    completion: { _ in return }
+                )
+            }
+        }
     }
 }

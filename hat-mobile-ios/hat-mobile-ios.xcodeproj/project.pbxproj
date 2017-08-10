@@ -106,6 +106,7 @@
 		6050E2E51ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E41ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift */; };
 		6050E2E71ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */; };
 		6054B35A1EF970D4004BD104 /* SelectedPhotosProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054B3591EF970D4004BD104 /* SelectedPhotosProtocol.swift */; };
+		60550D721F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */; };
 		6055D9831EC9F16E00461C75 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D9821EC9F16E00461C75 /* UITableViewExtension.swift */; };
 		605D84041F2F715A00CA44F5 /* ProfileImageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */; };
 		605EE0341E8DBF8600B265F6 /* UpdateLocationsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE0331E8DBF8600B265F6 /* UpdateLocationsDelegate.swift */; };
@@ -300,6 +301,7 @@
 		6050E2E41ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreRelationshipAndHouseholdTableViewController.swift; path = DataStore/DataStoreRelationshipAndHouseholdTableViewController.swift; sourceTree = "<group>"; };
 		6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreEducationTableViewController.swift; path = DataStore/DataStoreEducationTableViewController.swift; sourceTree = "<group>"; };
 		6054B3591EF970D4004BD104 /* SelectedPhotosProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedPhotosProtocol.swift; sourceTree = "<group>"; };
+		60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlugDetailsTableViewCell.swift; sourceTree = "<group>"; };
 		6055D9821EC9F16E00461C75 /* UITableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageObject.swift; sourceTree = "<group>"; };
 		605EE0331E8DBF8600B265F6 /* UpdateLocationsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateLocationsDelegate.swift; sourceTree = "<group>"; };
@@ -712,6 +714,7 @@
 				602934021F39BDFD00515926 /* SurveyTableViewCell.swift */,
 				6033DAF21F34C92200A9048B /* DataDebitTableViewCell.swift */,
 				6041B20F1DD4AC190018CC31 /* NotablesTableViewCell.swift */,
+				60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */,
 				60D8DAB11F3215520055CEAC /* NotificationsTableViewCell.swift */,
 				60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */,
 				600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */,
@@ -1389,6 +1392,7 @@
 				603FDD511E43E7840086559B /* InfoHatProvidersViewController.swift in Sources */,
 				602934051F39CECF00515926 /* SurveyObject.swift in Sources */,
 				60EA32F11ECDECCA008ABD41 /* UIImageExtension.swift in Sources */,
+				60550D721F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift in Sources */,
 				600015541EAE62AE000A084F /* ResetPasswordTableViewController.swift in Sources */,
 				604504D11EAE087B003B76C3 /* SocialLinksTableViewController.swift in Sources */,
 				60DE1DD71F34A18C00E031F6 /* DataDebitsTableViewController.swift in Sources */,

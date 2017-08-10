@@ -66,7 +66,11 @@ internal class SocialFeedCollectionViewCell: UICollectionViewCell, UserCredentia
                 
                 if let url = URL(string: post.data.posts.fullPicture) {
                     
-                    cell.socialNetworkImage.downloadedFrom(url: url, userToken: userToken, progressUpdater: nil, completion: nil)
+                    cell.socialNetworkImage.downloadedFrom(
+                        url: url,
+                        userToken: userToken,
+                        progressUpdater: nil,
+                        completion: nil)
                 }
             }
             

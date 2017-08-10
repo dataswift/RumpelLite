@@ -26,13 +26,19 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     /// A view to show that app is loading, fetching data plugs
     private var loadingView: UIView = UIView()
     
+    /// A dark view covering the collection view cell
+    private var darkView: UIVisualEffectView?
+    
     /// DataBuyer app token
     private var appToken: String?
+    /// A string to hold the specific Merchant for data offers, if empty then hat provides offers from every merchant
+    var specificMerchant: String = ""
     
     /// The filter index, based on the selectionIndicatorView
     private var filterBy: Int = 0
     
-    var specificMerchant: String = ""
+    var prefferedTitle: String = "Data Offers"
+    var prefferedInfoMessage: String = "Accept an offer to do a digital action, whether it’s to tweet something (fulfilled by your Twitter data), be somewhere (fulfilled by your location data) or run (fulfilled by Fitbit data). Get rewarded for your digital actions!"
     
     // MARK: - IBOutlets
     
@@ -55,6 +61,16 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     /// An IBOutlet for handling the selectionIndicatorView UIView
     @IBOutlet private weak var selectionIndicatorView: UIView!
     
+    @IBOutlet private weak var infoPopUpButton: UIButton!
+    
+    // MARK: - IBActions
+    
+    @IBAction func infoPopUp(_ sender: Any) {
+        
+        self.showInfoViewController(text: prefferedInfoMessage)
+        self.infoPopUpButton.isUserInteractionEnabled = false
+    }
+    
     // MARK: - View controller functions
     
     override func viewDidLoad() {
@@ -63,8 +79,15 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         
         self.collectionView.delegate = self
         self.collectionView.dataSource = self
+        self.title = self.prefferedTitle
         
         self.addGestures()
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hidePopUp),
+            name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
+            object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -291,6 +314,11 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     // MARK: - Show offers
     
+    /**
+     The received offers from HAT
+     
+     - parameter dataOffers: The data offers downloaded from HAT
+     */
     func showOffers(_ dataOffers: [DataOfferObject]) {
         
         self.offers = dataOffers
@@ -372,6 +400,76 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         } else {
             
             continueOnOffer()
+        }
+    }
+    
+    // MARK: - Remove pop up
+    
+    /**
+     Hides pop up presented currently
+     */
+    @objc
+    private func hidePopUp() {
+        
+        self.darkView?.removeFromSuperview()
+        self.infoPopUpButton.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - Add blur View
+    
+    /**
+     Adds blur to the view before presenting the pop up
+     */
+    private func addBlurToView() {
+        
+        self.darkView = AnimationHelper.addBlurToView(self.view)
+    }
+    
+    /**
+     Shows the pop up view controller with the info passed on
+     
+     - parameter text: A String to show in the view controller
+     */
+    private func showInfoViewController(text: String) {
+        
+        // set up page controller
+        let textPopUpViewController = TextPopUpViewController.customInit(
+            stringToShow: text,
+            isButtonHidden: true,
+            from: self.storyboard!)
+        
+        self.tabBarController?.tabBar.isUserInteractionEnabled = false
+        
+        textPopUpViewController?.view.createFloatingView(
+            frame: CGRect(
+                x: self.view.frame.origin.x + 15,
+                y: self.collectionView.frame.maxY,
+                width: self.view.frame.width - 30,
+                height: self.view.frame.height),
+            color: .teal,
+            cornerRadius: 15)
+        
+        DispatchQueue.main.async { [weak self] () -> Void in
+            
+            if let weakSelf = self {
+                
+                // add the page view controller to self
+                weakSelf.addBlurToView()
+                weakSelf.addViewController(textPopUpViewController!)
+                AnimationHelper.animateView(
+                    textPopUpViewController?.view,
+                    duration: 0.2,
+                    animations: {() -> Void in
+                        
+                        textPopUpViewController?.view.frame = CGRect(
+                            x: weakSelf.view.frame.origin.x + 15,
+                            y: weakSelf.collectionView.frame.maxY - 300,
+                            width: weakSelf.view.frame.width - 30,
+                            height: 35)
+                },
+                    completion: { _ in return }
+                )
+            }
         }
     }
 

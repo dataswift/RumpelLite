@@ -102,11 +102,11 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
             
             if self.sections[indexPath.section][indexPath.row] == "Rumpel Terms of Service" {
                 
-                self.fileURL = (Bundle.main.url(forResource: "Rumpel Lite iOS Application Terms of Service", withExtension: "pdf", subdirectory: nil, localization: nil)?.absoluteString)!
+                self.fileURL = Constants.TermsURL.rumpel
                 self.performSegue(withIdentifier: Constants.Segue.moreToTermsSegue, sender: self)
             } else if self.sections[indexPath.section][indexPath.row] == "HAT Terms of Service" {
                 
-                self.fileURL = (Bundle.main.url(forResource: "2.1 HATTermsofService v1.0", withExtension: "pdf", subdirectory: nil, localization: nil)?.absoluteString)!
+                self.fileURL = Constants.TermsURL.hat
                 self.performSegue(withIdentifier: Constants.Segue.moreToTermsSegue, sender: self)
             }
         } else if indexPath.section == 5 {
@@ -288,7 +288,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
             // pass data to next view
             if let termsVC = segue.destination as? TermsAndConditionsViewController {
                 
-                termsVC.filePathURL = self.fileURL!
+                termsVC.url = self.fileURL!
             }
         }
     }

@@ -10,22 +10,23 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+import MarkdownView
+import SafariServices
 
 // MARK: class
 
 /// The terms and conditions view controller class
-internal class TermsAndConditionsViewController: UIViewController, UIWebViewDelegate {
+internal class TermsAndConditionsViewController: UIViewController {
     
     // MARK: - Variables
     
-    /// the path to the pdf file
-    var filePathURL: String = ""
+    private var safari: SFSafariViewController?
+    var url: String = "https://s3-eu-west-1.amazonaws.com/developers.hubofallthings.com/legals/RumpelLite-Terms-of-Service.md"
     
     // MARK: - IBOutlets
 
     /// An IBOutlet to handle the webview
-    @IBOutlet private weak var webView: UIWebView!
+    @IBOutlet private weak var markDownView: MarkdownView!
     
     // MARK: - View controller methods
     
@@ -33,28 +34,49 @@ internal class TermsAndConditionsViewController: UIViewController, UIWebViewDele
         
         super.viewDidLoad()
         
-        // if url not nil load the file
-        if let url = URL(string: self.filePathURL) {
+        let session = URLSession(configuration: .default)
+        let url = URL(string: self.url)!
+        let task = session.dataTask(with: url) { [weak self] data, _, _ in
             
-            let request = NSURLRequest(url: url)
-            self.webView.delegate = self
-            self.webView.loadRequest(request as URLRequest)
+            let str = String(data: data!, encoding: String.Encoding.utf8)
+            DispatchQueue.main.async {
+                
+                self?.markDownView.load(markdown: str)
+            }
+        }
+        task.resume()
+        
+        self.markDownView.onTouchLink = { [weak self] request in
             
-            // You might want to scale the page to fit
-            self.webView.scalesPageToFit = true
+            if let weakSelf = self {
+                
+                guard let url = request.url else {
+                    
+                    return false
+                }
+                
+                if url.scheme == "file" {
+                    
+                    return true
+                } else if url.scheme == "https" {
+                    
+                    weakSelf.safari = SFSafariViewController.openInSafari(url: String(describing: url), on: weakSelf, animated: true, completion: nil)
+                    
+                    return false
+                } else {
+                    
+                    return false
+                }
+            } else {
+                
+                return false
+            }
         }
     }
 
     override func didReceiveMemoryWarning() {
         
         super.didReceiveMemoryWarning()
-    }
-    
-    // MARK: - WebView delegate
-    
-    func webView(_ webView: UIWebView, didFailLoadWithError error: Error) {
-        
-        print(error)
     }
 
 }

@@ -158,14 +158,14 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             self.performSegue(withIdentifier: Constants.Segue.homeToDataPlugs, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Watch-eet" {
             
-            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised entertainment (videos, movies) for your data. Pick the curator who might have the best algorithms to entertain you. Pick your list to watch later!"
+            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised entertainment (videos, movies) for your data. Pick the curator who might have the best algorithms to entertain you. Keep your list to watch later! Watch-eet is currently work-in-progress. During this time, HAT owners will see all recommendations, without any matching of data in your HAT."
             self.titleToPassOnToTheNextView = "Watch-eet"
             self.specificMerchantForOffers = "rumpelwatch"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "read-eet" {
+        } else if self.tiles[indexPath.row].serviceName == "Read-eet" {
             
-            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised news, books and other reading materials, matched with your personal data. Keep your list to read later"
-            self.titleToPassOnToTheNextView = "read-eet"
+            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised news, books and other reading materials, matched with your personal data. Keep your list to read later. Read-eet is currently work-in-progress. During this time, HAT owners see all recommendations, without any matching of data in your HAT."
+            self.titleToPassOnToTheNextView = "Read-eet"
             self.specificMerchantForOffers = "rumpelread"
             self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
         } else if self.tiles[indexPath.row].serviceName == "Do-eet" {
@@ -194,9 +194,9 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         } else if self.tiles[indexPath.row].serviceName == "HAT" {
             
             UIApplication.shared.openURL(URL(string: "http://mailchi.mp/hatdex/hat-news-pieces-of-art-earning-from-your-attention-and-reading-your-name-1017509")!)
-        } else if self.tiles[indexPath.row].serviceName == "Hatters" {
+        } else if self.tiles[indexPath.row].serviceName == "HATTERs" {
             
-            UIApplication.shared.openURL(URL(string: "hatters.hubofallthings.com/community")!)
+            UIApplication.shared.openURL(URL(string: "https://hatters.hubofallthings.com/community")!)
         } else if self.tiles[indexPath.row].serviceName == "Ideas" {
             
             UIApplication.shared.openURL(URL(string: "https://marketsquare.hubofallthings.com/ideas")!)
@@ -355,14 +355,11 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     private func showInfoViewController(text: String) {
         
         // set up page controller
-        let textPopUpViewController = TextPopUpViewController.customInit(
-            stringToShow: text,
-            isButtonHidden: true,
-            from: self.storyboard!)
+        let imagePopUpPageViewController = ImagePopUpViewController.customInit(from: self.storyboard!)
         
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
-        textPopUpViewController?.view.createFloatingView(
+        imagePopUpPageViewController?.view.createFloatingView(
             frame: CGRect(
                 x: self.view.frame.origin.x + 15,
                 y: self.collectionView.frame.maxY,
@@ -377,17 +374,17 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
                 
                 // add the page view controller to self
                 weakSelf.addBlurToView()
-                weakSelf.addViewController(textPopUpViewController!)
+                weakSelf.addViewController(imagePopUpPageViewController!)
                 AnimationHelper.animateView(
-                    textPopUpViewController?.view,
+                    imagePopUpPageViewController?.view,
                     duration: 0.2,
                     animations: {() -> Void in
                     
-                        textPopUpViewController?.view.frame = CGRect(
+                        imagePopUpPageViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.collectionView.frame.origin.y,
+                            y: weakSelf.view.frame.origin.y + 60,
                             width: weakSelf.view.frame.width - 30,
-                            height: weakSelf.view.frame.height)
+                            height: weakSelf.view.frame.height - 50)
                     },
                     completion: { _ in return }
                 )

@@ -201,11 +201,11 @@ internal class EmailTableViewController: UITableViewController, UserCredentialsP
             if indexPath.section == 0 {
                 
                 cell.setTextToTextField(text: self.profile!.data.primaryEmail.value)
-                cell.setSwitchValue(isOn: self.profile!.data.primaryEmail.isPrivate)
+                cell.setSwitchValue(isOn: !self.profile!.data.primaryEmail.isPrivate)
             } else if indexPath.section == 1 {
                 
                 cell.setTextToTextField(text: self.profile!.data.alternativeEmail.value)
-                cell.setSwitchValue(isOn: self.profile!.data.alternativeEmail.isPrivate)
+                cell.setSwitchValue(isOn: !self.profile!.data.alternativeEmail.isPrivate)
             }
             
             cell.setKeyboardType(.emailAddress)

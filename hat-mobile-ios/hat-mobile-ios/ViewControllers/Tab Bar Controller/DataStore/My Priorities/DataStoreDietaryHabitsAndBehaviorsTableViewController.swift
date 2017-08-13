@@ -21,6 +21,7 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
     
     /// The sections of the table view
     private let sections: [[String]] = [["Food Shopping"], ["Hydrating Properly"], ["Cooking And Eating Healthier Meals"], ["Healthier Desserts"], ["Reducing Calories"]]
+    private let header: String = "Please indicate how important 1-5 (very much to not at all)"
     
     private var surveyObjects: [SurveyObject] = []
     
@@ -101,6 +102,11 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
         return self.setUpCell(cell: cell!, indexPath: indexPath)
     }
     
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        return header
+    }
+    
     // MARK: - Update cell
     
     /**
@@ -113,10 +119,17 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
      */
     func setUpCell(cell: SurveyTableViewCell, indexPath: IndexPath) -> UITableViewCell {
         
+        cell.selectionStyle = .none
         cell.setQuestionInLabel(question: self.sections[indexPath.section][indexPath.row])
         if self.surveyObjects.count > indexPath.section {
             
-            cell.setSelectedAnswer(self.surveyObjects[indexPath.section].answer)
+            cell.setSelectedAnswer(self.surveyObjects[indexPath.section + indexPath.row].answer)
+        } else {
+            
+            var surveyObject = SurveyObject()
+            surveyObject.question = self.sections[indexPath.section][indexPath.row]
+            
+            self.surveyObjects.append(surveyObject)
         }
         
         return cell
@@ -142,6 +155,8 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
         func gotValues(jsonArray: [JSON], newToken: String?) {
             
             if !jsonArray.isEmpty {
+                
+                self.surveyObjects.removeAll()
                 
                 if let array = jsonArray[0].dictionary?["data"]?["array"].array {
                     

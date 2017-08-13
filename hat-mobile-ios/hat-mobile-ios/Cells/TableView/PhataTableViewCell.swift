@@ -163,10 +163,14 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      */
     func getTextFromTextField() -> String {
         
-        if let text = self.textField.text {
+        if self.textField != nil {
             
-            return text
+            return self.textField.text!
+        } else if self.textView != nil {
+            
+            return self.textView.text
         }
+        
         return ""
     }
     

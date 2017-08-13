@@ -63,5 +63,5 @@ public struct NotificationObject {
             read = Date(timeIntervalSince1970: TimeInterval(tempReadDate / 1000))
         }
     }
-
+    
 }

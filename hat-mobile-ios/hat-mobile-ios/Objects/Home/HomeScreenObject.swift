@@ -88,7 +88,7 @@ internal class HomeScreenObject: NSObject {
             name: "Total Recall",
             description: "Information I always need in my data store",
             image: UIImage(named: Constants.ImageNames.recall)!)
-        let beMoji = HomeScreenObject(
+        _ = HomeScreenObject(
             name: "BeMoji",
             description: "Broadcast my mood",
             image: UIImage(named: Constants.ImageNames.bemoji)!)
@@ -105,14 +105,14 @@ internal class HomeScreenObject: NSObject {
             description: "Watch stuff. Get rewards",
             image: UIImage(named: Constants.ImageNames.watch)!)
         let readeet = HomeScreenObject(
-            name: "read-eet",
+            name: "Read-eet",
             description: "No fake news",
             image: UIImage(named: Constants.ImageNames.read)!)
         let sso = HomeScreenObject(
             name: "Match Me",
             description: "My preferences",
             image: UIImage(named: Constants.ImageNames.profileOutline)!)
-        let findYourForm = HomeScreenObject(
+        _ = HomeScreenObject(
             name: "Find your Form",
             description: "No more form filling. Check-in to Hotels, Spas, places",
             image: UIImage(named: Constants.ImageNames.news)!)
@@ -137,10 +137,10 @@ internal class HomeScreenObject: NSObject {
             description: "Contribute ideas that will make HAT better",
             image: UIImage(named: Constants.ImageNames.ideas)!)
         let hatters = HomeScreenObject(
-            name: "HATTERS",
-            description: "Community notice board",
+            name: "HATTERs",
+            description: "Community Space",
             image: UIImage(named: Constants.ImageNames.hattersOutline)!)
         
-        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, beMoji, makeMeDoIt, doeet, watcheet, readeet, sso, findYourForm, goDeep, madhatters, hatCommunity, photoView, goodLoop, ideas, hatters]
+        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, makeMeDoIt, doeet, watcheet, readeet, sso, goDeep, photoView, goodLoop, hatCommunity, madhatters, ideas, hatters]
     }
 }

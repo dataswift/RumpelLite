@@ -38,6 +38,7 @@ public struct DataOfferObject {
         static let owner: String = "owner"
         static let claim: String = "claim"
         static let pii: String = "pii"
+        static let merchantCode: String = "merchantCode"
     }
     
     // MARK: - Variables
@@ -48,6 +49,7 @@ public struct DataOfferObject {
     public var longDescription: String = ""
     public var illustrationURL: String = ""
     public var offerCategory: String = ""
+    public var merchantCode: String = ""
     
     public var created: Int = -1
     public var offerStarts: Int = -1
@@ -82,6 +84,7 @@ public struct DataOfferObject {
         longDescription = ""
         illustrationURL = ""
         offerCategory = ""
+        merchantCode = ""
         
         created = -1
         offerStarts = -1
@@ -142,6 +145,11 @@ public struct DataOfferObject {
         if let tempIllustrationUrl = dictionary[DataOfferObject.Fields.imageURL]?.string {
             
             illustrationURL = tempIllustrationUrl
+        }
+        
+        if let tempMerchantCode = dictionary[DataOfferObject.Fields.merchantCode]?.string {
+            
+            merchantCode = tempMerchantCode
         }
         
         if let tempOfferStarts = dictionary[DataOfferObject.Fields.offerStarts]?.int {

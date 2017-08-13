@@ -189,15 +189,15 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
      */
     private func checkForPII() {
         
-        if receivedOffer!.isPΙIRequested {
-            
-            self.ppiEnabledLabel.text = "PII REQUESTED"
-            self.piiExplainedLabel.text = "PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-        } else {
-            
-            self.ppiEnabledLabel.text = "PII NOT REQUESTED"
-            self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-        }
+        self.ppiEnabledLabel.text = "PII NOT REQUESTED"
+        self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
+//        if receivedOffer!.isPΙIRequested {
+//            self.ppiEnabledLabel.text = "PII REQUESTED"
+//            self.piiExplainedLabel.text = "PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
+//        } else {
+//            self.ppiEnabledLabel.text = "PII NOT REQUESTED"
+//            self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
+//        }
     }
     
     /**

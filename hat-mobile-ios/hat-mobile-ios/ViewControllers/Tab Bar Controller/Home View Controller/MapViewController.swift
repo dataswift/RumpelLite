@@ -62,6 +62,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     
     /// The popUpView while downloading locations from hat
     private var popUpView: UIView?
+    /// The popUpView while downloading locations from hat
+    private var gettingLocationsView: UIView?
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
@@ -275,8 +277,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     @discardableResult
     private func createPopUpWindowWith(text: String) -> UIView {
         
-        let view = UIView()
-        view.createFloatingView(
+        gettingLocationsView = UIView()
+        gettingLocationsView?.createFloatingView(
             frame: CGRect(
                 x: self.view.frame.midX - 60,
                 y: self.view.frame.midY - 15,
@@ -292,9 +294,9 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             textAlignment: .center,
             font: UIFont(name: Constants.FontNames.openSans, size: 12))
         
-        view.addSubview(label)
+        gettingLocationsView?.addSubview(label)
         
-        self.view.addSubview(view)
+        self.view.addSubview(gettingLocationsView!)
         
         return view
     }
@@ -341,7 +343,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         // refresh user token
         KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
         
-        view.removeFromSuperview()
+        gettingLocationsView?.removeFromSuperview()
     }
     
     // MARK: - Request locations

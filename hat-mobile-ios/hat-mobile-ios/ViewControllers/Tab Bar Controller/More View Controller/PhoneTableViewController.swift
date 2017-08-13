@@ -185,11 +185,11 @@ internal class PhoneTableViewController: UITableViewController, UserCredentialsP
             if indexPath.section == 0 {
                 
                 cell.setTextToTextField(text: self.profile!.data.mobile.number)
-                cell.setSwitchValue(isOn: self.profile!.data.mobile.isPrivate)
+                cell.setSwitchValue(isOn: !self.profile!.data.mobile.isPrivate)
             } else if indexPath.section == 1 {
                 
                 cell.setTextToTextField(text: self.profile!.data.homePhone.number)
-                cell.setSwitchValue(isOn: self.profile!.data.homePhone.isPrivate)
+                cell.setSwitchValue(isOn: !self.profile!.data.homePhone.isPrivate)
             }
             
             cell.setKeyboardType(.phonePad)

@@ -540,12 +540,12 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
             // if button was selected deselect it and remove the button from the array
             if self.marketsquareButton.alpha == 1 {
                 
-                self.shareOnSocial.append("marketSquare")
+                self.shareOnSocial.removeThe(string: "marketSquare")
                 PresenterOfShareOptionsViewController.turnButtonOff(button: self.marketsquareButton)
                 // else select it and add it to the array
             } else {
                 
-                self.shareOnSocial.removeThe(string: "marketSquare")
+                self.shareOnSocial.append("marketSquare")
                 PresenterOfShareOptionsViewController.turnButtonOn(button: self.marketsquareButton)
             }
             
@@ -1099,9 +1099,9 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.view.frame.maxY - 350,
+                            y: weakSelf.view.frame.maxY - 400,
                             width: weakSelf.view.frame.width - 30,
-                            height: 400)
+                            height: 450)
                     },
                     completion: { _ in return }
                 )

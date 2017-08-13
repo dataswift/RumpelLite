@@ -31,6 +31,8 @@
 		6004805B1E47ADA300EFBEB4 /* DataPlugCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */; };
 		600480671E47BB9100EFBEB4 /* UIColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604237DE1E114F2D00E19109 /* UIColorExtension.swift */; };
 		600480681E47BB9700EFBEB4 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B486301E1D6E7B00914AD2 /* UIImageViewExtension.swift */; };
+		600E14F91F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E14F81F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift */; };
+		600E14FB1F3F64C900505205 /* DataStoreInterestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E14FA1F3F64C900505205 /* DataStoreInterestsTableViewController.swift */; };
 		60113D2F1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */; };
 		60113D331E856EB2000EAF89 /* HATAccountServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */; };
 		601142771E5F877500A9D982 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601142761E5F877500A9D982 /* HomeViewController.swift */; };
@@ -100,6 +102,12 @@
 		604D68E01DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604D68DF1DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift */; };
 		604DF81E1EC3B6F500805F8E /* PHATASettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604DF81D1EC3B6F500805F8E /* PHATASettingsTableViewController.swift */; };
 		604EAC111EB8C5F20084EEC8 /* UserCredentialsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604EAC101EB8C5F20084EEC8 /* UserCredentialsProtocol.swift */; };
+		604F32E41F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32E31F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift */; };
+		604F32E81F3DFF1B00F48201 /* ImagePopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32E71F3DFF1B00F48201 /* ImagePopUpViewController.swift */; };
+		604F32EA1F3E02AA00F48201 /* ImageSlidePopUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32E91F3E02AA00F48201 /* ImageSlidePopUpViewController.swift */; };
+		604F32EC1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32EB1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift */; };
+		604F32EE1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32ED1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift */; };
+		604F32F01F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32EF1F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift */; };
 		6050E2DF1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */; };
 		6050E2E11ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E01ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift */; };
 		6050E2E31ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E21ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift */; };
@@ -230,6 +238,8 @@
 		6000CE691DE728640076E173 /* OpenSans-CondLightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-CondLightItalic.ttf"; sourceTree = "<group>"; };
 		6000CE6D1DE728770076E173 /* ss-glyphish-filled.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ss-glyphish-filled.ttf"; sourceTree = "<group>"; };
 		6000CE6F1DE7288A0076E173 /* ss-glyphish-outlined.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "ss-glyphish-outlined.ttf"; sourceTree = "<group>"; };
+		600E14F81F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreFinancialManagementTableViewController.swift; path = "DataStore/My Priorities/DataStoreFinancialManagementTableViewController.swift"; sourceTree = "<group>"; };
+		600E14FA1F3F64C900505205 /* DataStoreInterestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreInterestsTableViewController.swift; path = DataStore/DataStoreInterestsTableViewController.swift; sourceTree = "<group>"; };
 		60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATDataplugsServiceExtension.swift; sourceTree = "<group>"; };
 		60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATAccountServiceExtension.swift; sourceTree = "<group>"; };
 		601142761E5F877500A9D982 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = "Home View Controller/HomeViewController.swift"; sourceTree = "<group>"; };
@@ -295,6 +305,12 @@
 		604D68DF1DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATCapabilitiesViewController.swift; sourceTree = "<group>"; };
 		604DF81D1EC3B6F500805F8E /* PHATASettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHATASettingsTableViewController.swift; sourceTree = "<group>"; };
 		604EAC101EB8C5F20084EEC8 /* UserCredentialsProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserCredentialsProtocol.swift; sourceTree = "<group>"; };
+		604F32E31F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ListDataOffersCollectionViewCell.swift; sourceTree = "<group>"; };
+		604F32E71F3DFF1B00F48201 /* ImagePopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImagePopUpViewController.swift; sourceTree = "<group>"; };
+		604F32E91F3E02AA00F48201 /* ImageSlidePopUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageSlidePopUpViewController.swift; sourceTree = "<group>"; };
+		604F32EB1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStorePhysicalActivityTableViewController.swift; path = "DataStore/My Priorities/DataStorePhysicalActivityTableViewController.swift"; sourceTree = "<group>"; };
+		604F32ED1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreLifestyleHabitsTableViewController.swift; path = "DataStore/My Priorities/DataStoreLifestyleHabitsTableViewController.swift"; sourceTree = "<group>"; };
+		604F32EF1F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreHappinessAndMentalHealthTableViewController.swift; path = "DataStore/My Priorities/DataStoreHappinessAndMentalHealthTableViewController.swift"; sourceTree = "<group>"; };
 		6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreInfoTableViewController.swift; path = DataStore/DataStoreInfoTableViewController.swift; sourceTree = "<group>"; };
 		6050E2E01ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreContactInfoTableViewController.swift; path = DataStore/DataStoreContactInfoTableViewController.swift; sourceTree = "<group>"; };
 		6050E2E21ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreEmploymentStatusTableViewController.swift; path = DataStore/DataStoreEmploymentStatusTableViewController.swift; sourceTree = "<group>"; };
@@ -553,11 +569,16 @@
 			isa = PBXGroup;
 			children = (
 				602933FF1F39B80E00515926 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift */,
+				604F32EB1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift */,
+				600E14F81F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift */,
+				604F32ED1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift */,
+				604F32EF1F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift */,
 				6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */,
 				6050E2E21ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift */,
 				60314E7B1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift */,
 				6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */,
 				602933FD1F39AEE400515926 /* DataStorePrioritiesTableViewController.swift */,
+				600E14FA1F3F64C900505205 /* DataStoreInterestsTableViewController.swift */,
 				6050E2E41ED2E9A4002AD0C9 /* DataStoreRelationshipAndHouseholdTableViewController.swift */,
 			);
 			name = "For Offers";
@@ -659,6 +680,8 @@
 		60BB8F051EB335BD007E8045 /* Pop up View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				604F32E71F3DFF1B00F48201 /* ImagePopUpViewController.swift */,
+				604F32E91F3E02AA00F48201 /* ImageSlidePopUpViewController.swift */,
 				60E2679D1E55B9B800B6D626 /* AuthoriseUserViewController.swift */,
 				607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */,
 				60275B9F1E6DB3740098B66C /* TextPopUpViewController.swift */,
@@ -728,6 +751,7 @@
 				60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */,
 				606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */,
 				60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */,
+				604F32E31F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift */,
 				601142781E5F967D00A9D982 /* HomeCollectionViewCell.swift */,
 				603926D31E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift */,
 				607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */,
@@ -1325,6 +1349,7 @@
 				602CB4461E8BAF3B00903F33 /* UIAlertControllerExtension.swift in Sources */,
 				606435DB1E1B196F001A5D14 /* DateExtension.swift in Sources */,
 				603D55C41E69ADBB00CCEBEB /* NSAttributedStringExtension.swift in Sources */,
+				600E14F91F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift in Sources */,
 				606B559F1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift in Sources */,
 				600015561EAE63CD000A084F /* ResetPasswordTableViewCell.swift in Sources */,
 				B56E2FAC1D23DED900546C7E /* DataSyncDelegate.swift in Sources */,
@@ -1368,6 +1393,7 @@
 				603D08B11E6D5E350077E90C /* AnimationHelper.swift in Sources */,
 				6050E2E31ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift in Sources */,
 				604237DF1E114F2D00E19109 /* UIColorExtension.swift in Sources */,
+				600E14FB1F3F64C900505205 /* DataStoreInterestsTableViewController.swift in Sources */,
 				60E2679E1E55B9B900B6D626 /* AuthoriseUserViewController.swift in Sources */,
 				607C107B1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift in Sources */,
 				60387A8A1EC7C83000CD8309 /* AppDelegate.swift in Sources */,
@@ -1393,21 +1419,26 @@
 				602934051F39CECF00515926 /* SurveyObject.swift in Sources */,
 				60EA32F11ECDECCA008ABD41 /* UIImageExtension.swift in Sources */,
 				60550D721F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift in Sources */,
+				604F32EE1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift in Sources */,
 				600015541EAE62AE000A084F /* ResetPasswordTableViewController.swift in Sources */,
 				604504D11EAE087B003B76C3 /* SocialLinksTableViewController.swift in Sources */,
 				60DE1DD71F34A18C00E031F6 /* DataDebitsTableViewController.swift in Sources */,
+				604F32E41F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift in Sources */,
 				6050E2E71ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift in Sources */,
+				604F32EA1F3E02AA00F48201 /* ImageSlidePopUpViewController.swift in Sources */,
 				60D8DAA61F31E3960055CEAC /* NotificationsTableViewController.swift in Sources */,
 				60CDCBF11EAAEA5500035882 /* NameTableViewController.swift in Sources */,
 				B59136851D19D3BB00E9EDD0 /* Constants.swift in Sources */,
 				60FB24041F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift in Sources */,
 				604AC7B91ECF57650066414E /* DataSourceNameTableViewController.swift in Sources */,
 				603D08AF1E6D5CFF0077E90C /* RingProgressCircle.swift in Sources */,
+				604F32F01F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift in Sources */,
 				605EE0341E8DBF8600B265F6 /* UpdateLocationsDelegate.swift in Sources */,
 				60CDCC0D1EAB760F00035882 /* PhoneTableViewController.swift in Sources */,
 				608EAAA81DFEA8AD00234C60 /* ViewControllerExtension.swift in Sources */,
 				60BAEEB51EE01CB1001F8381 /* DataOffersCollectionViewCell.swift in Sources */,
 				60A727BD1DDF47ED008AF409 /* FormatterHelper.swift in Sources */,
+				604F32E81F3DFF1B00F48201 /* ImagePopUpViewController.swift in Sources */,
 				60CDCBEA1EAACA9500035882 /* PhataTableViewController.swift in Sources */,
 				60F1D7E71E6828DA0009CF1F /* AuthenticationHelper.swift in Sources */,
 				60494ADA1EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift in Sources */,
@@ -1430,6 +1461,7 @@
 				6045FBBE1E2EDAE300086926 /* LearnMorePHATAViewController.swift in Sources */,
 				605EE0361E8DC02F00B265F6 /* UpdateLocations.swift in Sources */,
 				60415B941EC4CA0A00CC5EE0 /* FBAnotationsExtension.swift in Sources */,
+				604F32EC1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift in Sources */,
 				604504D51EAE10A7003B76C3 /* EmergencyContactTableViewController.swift in Sources */,
 				60FB24081F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift in Sources */,
 				60DDE1711E31006600AB9E18 /* MapsHelper.swift in Sources */,
@@ -1613,7 +1645,7 @@
 				CODE_SIGN_ENTITLEMENTS = "hat-mobile-ios/hat-mobile-ios.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = 84XHE3A5BA;
 				ENABLE_BITCODE = YES;
 				GCC_WARN_UNUSED_LABEL = YES;

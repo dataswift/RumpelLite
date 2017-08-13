@@ -51,6 +51,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     @IBOutlet private weak var redeemedOffersLabel: UILabel!
     /// An IBOutlet for handling the summary label in the selectionIndicatorView
     @IBOutlet private weak var summaryLabel: UILabel!
+    @IBOutlet private weak var listOffersLabel: UILabel!
     
     /// An IBOutlet for handling the available offers UIView in the selectionIndicatorView
     @IBOutlet private weak var availableDataOffersView: UIView!
@@ -61,6 +62,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     /// An IBOutlet for handling the selectionIndicatorView UIView
     @IBOutlet private weak var selectionIndicatorView: UIView!
     
+    @IBOutlet private weak var listOffersView: UIView!
     @IBOutlet private weak var infoPopUpButton: UIButton!
     
     // MARK: - IBActions
@@ -95,6 +97,15 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         super.viewWillAppear(animated)
         
         self.getOffers()
+        
+        if self.specificMerchant == "" {
+            
+            self.createClassicOKAlertWith(
+                alertMessage: "Please note that data offers are under beta testing. During this time, the following offers are not allowed: \n Offers requesting for PIIs (personal identity identifiers) \n Offers with cash payments for data",
+                alertTitle: "Heads up!",
+                okTitle: "OK",
+                proceedCompletion: {})
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -121,10 +132,12 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
         let tapGesture1 = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
         let tapGesture2 = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
-        
+        let tapGesture3 = UITapGestureRecognizer(target: self, action: #selector(filterCollectionView(gesture:)))
+
         self.availableDataOffersView.addGestureRecognizer(tapGesture)
         self.redeemedDataOffersView.addGestureRecognizer(tapGesture1)
         self.summaryDataOffersView.addGestureRecognizer(tapGesture2)
+        self.listOffersView.addGestureRecognizer(tapGesture3)
     }
     
     // MARK: - Get offers
@@ -140,9 +153,22 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 
                 func fetchedOffers(_ dataOffers: [DataOfferObject], renewedToken: String?) {
                     
+                    if self.specificMerchant == "" {
+                        
+                        var filteredOffers: [DataOfferObject] = []
+                        
+                        for offer in dataOffers where offer.merchantCode == "none" {
+                            
+                            filteredOffers.append(offer)
+                        }
+                        
+                        self.showOffers(filteredOffers)
+                    } else {
+                        
+                        self.showOffers(dataOffers)
+                    }
                     // remove the loading screen from the view
                     self.loadingView.removeFromSuperview()
-                    self.showOffers(dataOffers)
                     KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedToken)
                 }
                 
@@ -215,19 +241,26 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         
         var offersAvailable = 0
         var offersClaimed = 0
+        var listOffers = 0
         
         _ = self.offers.map({
             if $0.claim.claimStatus == "" {
                 
                 offersAvailable += 1
-            } else if $0.claim.claimStatus != ""{
+            } else if $0.claim.claimStatus != "" {
                 
                 offersClaimed += 1
+            }
+            
+            if $0.claim.claimStatus == "claimed" {
+                
+                listOffers += 1
             }
         })
         
         self.availableOffersLabel.text = String(describing: offersAvailable)
         self.redeemedOffersLabel.text = String(describing: offersClaimed)
+        self.listOffersLabel.text = String(describing: listOffers)
         self.summaryLabel.text = "$"
     }
     
@@ -249,6 +282,9 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             } else if filterBy == 1 && $0.claim.claimStatus != "" {
                 
                 tempArray.append($0)
+            } else if filterBy == 3 && $0.claim.claimStatus == "claimed" && $0.reward.rewardType == "Service" {
+                
+                tempArray.append($0)
             }
         })
         
@@ -264,15 +300,36 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         
         func animation(index: Int) {
             
+            let indicatorWidth = self.selectionIndicatorView.frame.width
+            
             if index == 0 {
                 
-                self.selectionIndicatorView.frame = CGRect(x: self.availableDataOffersView.frame.origin.x, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
+                self.selectionIndicatorView.frame = CGRect(
+                    x: self.availableDataOffersView.frame.midX - indicatorWidth / 2,
+                    y: self.selectionIndicatorView.frame.origin.y,
+                    width: indicatorWidth,
+                    height: self.selectionIndicatorView.frame.height)
             } else if index == 1 {
                 
-                self.selectionIndicatorView.frame = CGRect(x: self.redeemedDataOffersView.frame.origin.x, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
-            } else {
+                self.selectionIndicatorView.frame = CGRect(
+                    x: self.redeemedDataOffersView.frame.midX - indicatorWidth / 2,
+                    y: self.selectionIndicatorView.frame.origin.y,
+                    width: indicatorWidth,
+                    height: self.selectionIndicatorView.frame.height)
+            } else if index == 2 {
                 
-                self.selectionIndicatorView.frame = CGRect(x: self.summaryDataOffersView.frame.origin.x, y: self.selectionIndicatorView.frame.origin.y, width: self.selectionIndicatorView.frame.width, height: self.selectionIndicatorView.frame.height)
+                self.selectionIndicatorView.frame = CGRect(
+                    x: self.summaryDataOffersView.frame.midX - indicatorWidth / 2,
+                    y: self.selectionIndicatorView.frame.origin.y,
+                    width: indicatorWidth,
+                    height: self.selectionIndicatorView.frame.height)
+            } else if index == 3 {
+                
+                self.selectionIndicatorView.frame = CGRect(
+                    x: self.listOffersView.frame.midX - indicatorWidth / 2,
+                    y: self.selectionIndicatorView.frame.origin.y,
+                    width: indicatorWidth,
+                    height: self.selectionIndicatorView.frame.height)
             }
             
             self.filterBy = index
@@ -331,9 +388,22 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        if self.filterBy != 2 {
+        if self.filterBy == 0 || self.filterBy == 1 {
             
             if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.offerCell, for: indexPath) as? DataOffersCollectionViewCell {
+                
+                return cell.setUpCell(
+                    cell: cell,
+                    dataOffer: filteredOffers[indexPath.row],
+                    completion: { [weak self] image in
+                        
+                        self?.filteredOffers[indexPath.row].image = image
+                    }
+                )
+            }
+        } else if self.filterBy == 3 {
+            
+            if let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.listDataOffersCell, for: indexPath) as? ListDataOffersCollectionViewCell {
                 
                 return cell.setUpCell(
                     cell: cell,
@@ -357,9 +427,18 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        let flow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+        flow?.minimumInteritemSpacing = 10
+        flow?.minimumLineSpacing = 10
+        
         if self.filterBy == 2 {
             
             return CGSize(width: self.collectionView.frame.width - 40, height: 180)
+        } else if self.filterBy == 3 {
+            
+            flow?.minimumInteritemSpacing = 0
+            flow?.minimumLineSpacing = 0
+            return CGSize(width: self.collectionView.frame.width, height: 100)
         }
         
         return CGSize(width: self.collectionView.frame.width - 40, height: 340)
@@ -463,9 +542,9 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.collectionView.frame.maxY - 300,
+                            y: weakSelf.collectionView.frame.maxY - 350,
                             width: weakSelf.view.frame.width - 30,
-                            height: 35)
+                            height: 450)
                 },
                     completion: { _ in return }
                 )

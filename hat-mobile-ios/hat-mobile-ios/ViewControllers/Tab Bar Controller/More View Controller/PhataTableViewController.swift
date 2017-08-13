@@ -20,11 +20,11 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["PHATA"], ["Email Address", "Mobile Number", "Address"], ["Full Name", "Picture"], ["Emergency Contact"], ["About"], ["Social Links"]]
+    private let sections: [[String]] = [["PHATA"], ["Social Links"], ["Email Address", "Mobile Number", "Locale"], ["Full Name", "Picture"], ["Emergency Contact"], ["Biodata"]]
     /// The headers of the table view
-    private let headers: [String] = ["PHATA", "Contact Info", "Profile", "Emergency Contact", "About", "Social Links"]
+    private let headers: [String] = ["PHATA", "Social Links", "Contact Info", "Profile", "Emergency Contact", "Biodata"]
     /// The footers of the table view
-    private let footers: [String] = ["PHATA stands for Personal HAT Address. Your PHATA page is your public profile, and you can customise exactly which parts of it you want to display, or keep private.", "", "", "", "HATs are distributed systems and being private also means no one will know if you have a problem. If you have an issue with your HAT or this dashboard, please report it here", ""]
+    private let footers: [String] = ["PHATA stands for Personal HAT Address. Your PHATA page is your public profile, and you can customise exactly which parts of it you want to display, or keep private.", "", "", "", "", ""]
     
     /// User's profile passed on from previous view controller
     var profile: HATProfileObject?
@@ -36,6 +36,8 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
+    
+    private var loadingView: UIView?
     
     // MARK: - IBOutlets
     
@@ -58,6 +60,9 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
      */
     private func getProfile(receivedProfile: HATProfileObject) {
         
+        self.loadingView?.removeFromSuperview()
+        self.tableView.isUserInteractionEnabled = true
+
         self.profile = receivedProfile
         
         self.isProfileDownloaded = true
@@ -84,7 +89,10 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     private func logError(error: HATTableError) {
         
         self.profile = HATProfileObject()
-
+        
+        self.loadingView?.removeFromSuperview()
+        self.tableView.isUserInteractionEnabled = true
+        
         switch error {
         case .tableDoesNotExist:
             
@@ -103,7 +111,8 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
                     errorCallback: logError)
             )
         default:
-            _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
         }
     }
     
@@ -127,7 +136,22 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
         super.viewWillAppear(animated)
         
         self.tableView.reloadData()
-        HATPhataService.getProfileFromHAT(userDomain: userDomain, userToken: userToken, successCallback: getProfile, failCallback: logError)
+        
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Loading data from my HAT",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        
+        HATPhataService.getProfileFromHAT(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: getProfile,
+            failCallback: logError)
     }
 
     override func didReceiveMemoryWarning() {
@@ -189,7 +213,11 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
                     
                     self.performSegue(withIdentifier: Constants.Segue.phataSettingsSegue, sender: self)
                 }
+            
             } else if indexPath.section == 1 {
+                
+                self.performSegue(withIdentifier: Constants.Segue.phataToSocialLinksSegue, sender: self)
+            } else if indexPath.section == 2 {
                 
                 if indexPath.row == 0 {
                     
@@ -201,7 +229,7 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
                     
                     self.performSegue(withIdentifier: Constants.Segue.phataToAddressSegue, sender: self)
                 }
-            } else if indexPath.section == 2 {
+            } else if indexPath.section == 3 {
                 
                 if indexPath.row == 0 {
                     
@@ -210,15 +238,12 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
                     
                     self.performSegue(withIdentifier: Constants.Segue.phataToProfilePictureSegue, sender: self)
                 }
-            } else if indexPath.section == 3 {
-                
-                self.performSegue(withIdentifier: Constants.Segue.phataToEmergencyContactSegue, sender: self)
             } else if indexPath.section == 4 {
                 
-                self.performSegue(withIdentifier: Constants.Segue.phataToAboutSegue, sender: self)
+                self.performSegue(withIdentifier: Constants.Segue.phataToEmergencyContactSegue, sender: self)
             } else if indexPath.section == 5 {
                 
-                self.performSegue(withIdentifier: Constants.Segue.phataToSocialLinksSegue, sender: self)
+                self.performSegue(withIdentifier: Constants.Segue.phataToAboutSegue, sender: self)
             }
         } else {
             

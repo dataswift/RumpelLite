@@ -20,7 +20,7 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
     // MARK: - Variables
 
     /// The sections of the table view
-    private let sections: [[String]] = [["Name", "Contact Info"], ["UK Specific"], ["For Data Offers"]]
+    private let sections: [[String]] = [["Name", "Contact Info"], ["UK Specific"], ["Profile & Preferences"]]
     /// The headers of the table view
     private let headers: [String] = ["My Profile"]
     

@@ -60,33 +60,27 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
             .setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 17)!], for: UIControlState.normal)
         
         UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
-        UIApplication.shared.registerForRemoteNotifications()
+        
+        application.applicationIconBadgeNumber = 0
         
         return true
     }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        
-        print("notification received")
-    }
-    
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        
-//        var token: String = ""
-//        for i in 0..<deviceToken.count {
-//            token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
-//        }
-        
-        let token = deviceToken.reduce("", { $0 + String(format: "%02x", $1) })
-        
-        print(token)
-        print("Did registered")
-    }
-    
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        
-        print("Failed")
-    }
+//
+//    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
+//        print("notification received")
+//    }
+//    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+////        var token: String = ""
+////        for i in 0..<deviceToken.count {
+////            token += String(format: "%02.2hhx", deviceToken[i] as CVarArg)
+////        }
+//        let token = deviceToken.reduce("", { $0 + String(format: "%02x", $1) })
+//        print(token)
+//        print("Did registered")
+//    }
+//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+//        print("Failed")
+//    }
     
     func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
         

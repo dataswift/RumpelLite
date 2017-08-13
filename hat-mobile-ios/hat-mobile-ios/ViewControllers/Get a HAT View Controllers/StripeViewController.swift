@@ -93,7 +93,7 @@ internal class StripeViewController: UIViewController, UIPickerViewDelegate, UIP
     @IBAction func termsAndConditionsButtonAction(_ sender: Any) {
         
         // get the file url to the pdf and show it to the terms and conditions view controller
-        self.fileURL = (Bundle.main.url(forResource: "2.1 HATTermsofService v1.0", withExtension: "pdf", subdirectory: nil, localization: nil)?.absoluteString)!
+        self.fileURL = Constants.TermsURL.hat
         self.performSegue(withIdentifier: Constants.Segue.termsSegue, sender: self)
     }
     
@@ -105,7 +105,7 @@ internal class StripeViewController: UIViewController, UIPickerViewDelegate, UIP
     @IBAction func rumpelLiteTermsAndConditionsButtonAction(_ sender: Any) {
         
         // get the file url to the pdf and show it to the terms and conditions view controller
-        self.fileURL = (Bundle.main.url(forResource: "Rumpel Lite iOS Application Terms of Service", withExtension: "pdf", subdirectory: nil, localization: nil)?.absoluteString)!
+        self.fileURL = Constants.TermsURL.rumpel
         self.performSegue(withIdentifier: Constants.Segue.termsSegue, sender: self)
     }
     
@@ -350,7 +350,7 @@ internal class StripeViewController: UIViewController, UIPickerViewDelegate, UIP
             // pass data to next view
             let termsVC = segue.destination as? TermsAndConditionsViewController
             
-            termsVC?.filePathURL = self.fileURL
+            termsVC?.url = self.fileURL
         } else if segue.identifier == Constants.Segue.completePurchaseSegue {
             
             let completeVC = segue.destination as? CompletePurchaseViewController

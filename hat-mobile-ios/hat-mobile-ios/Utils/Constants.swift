@@ -83,6 +83,7 @@ internal class Constants {
         static let networkMessage: String = "NetworkMessage"
         static let goToSettings: String = "goToSettings"
         static let reloadTable: String = "reloadTable"
+        static let imagePopUp: String = "imagePopUp"
     }
     
     /**
@@ -177,7 +178,19 @@ internal class Constants {
         static let dataStoreUKSpecificInfoCell: String = "dataStoreUKSpecificInfoCell"
         static let forDataOffersCell: String = "forDataOffersCell"
         static let dietaryHabitsCell: String = "dietaryHabitsCell"
+        static let physicalActivitiesCell: String = "physicalActivitiesCell"
+        static let lifestyleHabitsCell: String = "lifestyleHabitsCell"
+        static let financialManagementCell: String = "financialManagementCell"
         static let dataDebitCell: String = "dataDebitCell"
+        static let listDataOffersCell: String = "listDataOffersCell"
+        static let happinesAndMentalHealthCell: String = "happinesAndMentalHealthCell"
+        static let interestsCell: String = "interestsCell"
+    }
+    
+    struct TermsURL {
+        
+        static let rumpel: String = "https://s3-eu-west-1.amazonaws.com/developers.hubofallthings.com/legals/RumpelLite-Terms-of-Service.md"
+        static let hat: String = "https://s3-eu-west-1.amazonaws.com/developers.hubofallthings.com/legals/HAT-Terms-of-Service.md"
     }
     
     /**
@@ -281,6 +294,66 @@ internal class Constants {
         struct DietaryAnswers {
             
             static let name: String = "priorities/dietary"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The physical activities priorities of the user
+         
+         - name: priorities/physicalactivities, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct PhysicalActivityAnswers {
+            
+            static let name: String = "priorities/physicalactivities"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The lifestyle habits priorities of the user
+         
+         - name: priorities/lifestyle, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct LifestyleHabitsAnswers {
+            
+            static let name: String = "priorities/lifestyle"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The happiness and mental health priorities of the user
+         
+         - name: priorities/happinessandmentalhealth, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct HappinessAndMentalHealthAnswers {
+            
+            static let name: String = "priorities/happinessandmentalhealth"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The financial management priorities of the user
+         
+         - name: priorities/financialmanagement, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct FinancialManagementAnswers {
+            
+            static let name: String = "priorities/financialmanagement"
+            static let source: String = "rumpel"
+        }
+        
+        /**
+         The interests priorities of the user
+         
+         - name: interests, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct Interests {
+            
+            static let name: String = "interests"
             static let source: String = "rumpel"
         }
     }
@@ -579,6 +652,10 @@ internal class Constants {
         static let profile: String = "Profile"
         static let profileOutline: String = "Profile Outline"
         static let hattersOutline: String = "Hatters Outline"
+        static let imagePopUp1: String = "Image-1"
+        static let imagePopUp2: String = "Image-2"
+        static let imagePopUp3: String = "Image-3"
+        static let imagePopUp4: String = "Image-4"
     }
     
     // MARK: - Data Plug
@@ -707,6 +784,10 @@ internal class Constants {
         static let homeToDataOffers: String = "homeToDataOffers"
         static let homeToGoDeepSegue: String = "homeToGoDeepSegue"
         static let homeToForDataOffersSettingsSegue: String = "homeToForDataOffersSettingsSegue"
+        static let prioritiesToPhysicalActivitiesSegue: String = "prioritiesToPhysicalActivitiesSegue"
+        static let prioritiesToLifestyleHabitsSegue: String = "prioritiesToLifestyleHabitsSegue"
+        static let prioritiesToMentalHealthSegue: String = "prioritiesToMentalHealthSegue"
+        static let prioritiesToFinancialManagementSegue: String = "prioritiesToFinancialManagementSegue"
     }
     
     // MARK: - HAT Endpoints

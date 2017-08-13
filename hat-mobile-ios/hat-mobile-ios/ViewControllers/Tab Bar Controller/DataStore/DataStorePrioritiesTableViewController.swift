@@ -58,6 +58,18 @@ internal class DataStorePrioritiesTableViewController: UITableViewController, Us
         if indexPath.section == 0 {
             
             self.performSegue(withIdentifier: Constants.Segue.dietaryHabitsSegue, sender: self)
+        } else if indexPath.section == 1 {
+            
+            self.performSegue(withIdentifier: Constants.Segue.prioritiesToPhysicalActivitiesSegue, sender: self)
+        } else if indexPath.section == 2 {
+            
+            self.performSegue(withIdentifier: Constants.Segue.prioritiesToLifestyleHabitsSegue, sender: self)
+        } else if indexPath.section == 3 {
+            
+            self.performSegue(withIdentifier: Constants.Segue.prioritiesToMentalHealthSegue, sender: self)
+        } else if indexPath.section == 4 {
+            
+            self.performSegue(withIdentifier: Constants.Segue.prioritiesToFinancialManagementSegue, sender: self)
         }
     }
     

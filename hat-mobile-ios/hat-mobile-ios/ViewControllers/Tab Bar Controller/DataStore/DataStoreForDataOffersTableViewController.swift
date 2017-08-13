@@ -21,6 +21,7 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
     
     /// The sections of the table view
     private let sections: [[String]] = [["Education"], ["Info"], ["Employment Status"], ["Living Info"], ["My Priorities"], ["My Interests"]]
+    private let headers: [String] = ["Complete your profile and preferences to unlock more exclusive and personalised offers for your data", "", "", "", "", ""]
     
     var prefferedTitle: String = "For Data Offers"
     var prefferedInfoMessage: String = "Fill up your preference profile so that it can be matched with products and services out there"
@@ -170,6 +171,16 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
             
             self.performSegue(withIdentifier: Constants.Segue.interestsSegue, sender: self)
         }
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        
+        if section < self.headers.count {
+            
+            return self.headers[section]
+        }
+        
+        return nil
     }
     
     // MARK: - Update cell

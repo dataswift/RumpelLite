@@ -111,11 +111,10 @@ extension String {
     func createTextAttributes(foregroundColor: UIColor, strokeColor: UIColor, font: UIFont) -> NSAttributedString {
         
         let textAttributes = [
-            NSForegroundColorAttributeName: foregroundColor,
-            NSStrokeColorAttributeName: strokeColor,
-            NSFontAttributeName: font,
-            NSStrokeWidthAttributeName: -1.0
-            ] as [String : Any]
+            NSAttributedStringKey.foregroundColor: foregroundColor,
+            NSAttributedStringKey.strokeColor: strokeColor,
+            NSAttributedStringKey.font: font,
+            NSAttributedStringKey.strokeWidth: -1.0] as [NSAttributedStringKey : Any]
         
         return NSAttributedString(string: self, attributes: textAttributes)
     }

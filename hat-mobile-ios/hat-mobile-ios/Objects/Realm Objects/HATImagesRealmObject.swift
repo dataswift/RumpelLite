@@ -20,8 +20,8 @@ internal class HATImagesRealmObject: Object {
     // MARK: - Variables
     
     /// The image to save to Realm
-    dynamic var imagePath: String = ""
+    @objc dynamic var imagePath: String = ""
     
     /// The image ID
-    dynamic var imageID: String = ""
+    @objc dynamic var imageID: String = ""
 }

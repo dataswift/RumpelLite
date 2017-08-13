@@ -174,6 +174,7 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     
     // MARK: - View controller methods
     
+    @objc
     func profileImageTapped() {
         
         let alertController = UIAlertController(title: "Options", message: "Please select one option", preferredStyle: .actionSheet)
@@ -194,7 +195,7 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         self.navigationController!.present(alertController, animated: true, completion: nil)
     }
     
-    func handleLongTapGesture(gesture: UILongPressGestureRecognizer) {
+    @objc func handleLongTapGesture(gesture: UILongPressGestureRecognizer) {
         
         switch gesture.state {
             

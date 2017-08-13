@@ -259,6 +259,7 @@ internal class StripeViewController: UIViewController, UIPickerViewDelegate, UIP
         }
     }
     
+    @objc
     func textFieldDidChange() {
         
         // add the domain to what user is entering
@@ -322,6 +323,7 @@ internal class StripeViewController: UIViewController, UIPickerViewDelegate, UIP
      
      - parameter sender: The object that called this method
      */
+    @objc
     func keyboardHandling(sender: NSNotification) {
         
         let userInfo = sender.userInfo!

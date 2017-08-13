@@ -20,14 +20,14 @@ internal class DataPoint: Object {
     // MARK: - Variables
     
     /// The latitude of the point
-    dynamic var lat: Double = 0
+    @objc dynamic var lat: Double = 0
     /// The longitude of the point
-    dynamic var lng: Double = 0
+    @objc dynamic var lng: Double = 0
     /// The accuracy of the point
-    dynamic var accuracy: Double = 0
+    @objc dynamic var accuracy: Double = 0
     
     /// The adhttps://www.facebook.com/rsrc.php/v3/y4/r/-PAXP-deijE.gifded point date of the point
-    dynamic var dateAdded: Date = Date()
+    @objc dynamic var dateAdded: Date = Date()
     /// The last sync date of the point
-    dynamic var lastSynced: Date?
+    @objc dynamic var lastSynced: Date?
 }

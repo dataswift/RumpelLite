@@ -249,7 +249,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         // get notes
         HATAccountService.checkIfTokenExpired(
             token: userToken,
-            expiredCallBack: self.unauthorisedResponse(proceedCompletion: connectToServerToGetNotes),
+            expiredCallBack: self.unauthorisedResponse(proceedCompletion: connectToServerToGetNotes) as () -> Void,
             tokenValidCallBack: success,
             errorCallBack: self.createClassicOKAlertWith)
     }
@@ -473,7 +473,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         // delete data from hat and remove from table
         HATAccountService.checkIfTokenExpired(
             token: userToken,
-            expiredCallBack: self.unauthorisedResponse(proceedCompletion: deleteNote),
+            expiredCallBack: self.unauthorisedResponse(proceedCompletion: deleteNote) as () -> Void,
             tokenValidCallBack: success,
             errorCallBack: self.createClassicOKAlertWith)
     }
@@ -487,7 +487,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      
      - returns: A function of type (Void) -> Void
      */
-    func unauthorisedResponse(proceedCompletion: @escaping (String?) -> Void) -> (Void) -> Void {
+    func unauthorisedResponse(proceedCompletion: @escaping (String?) -> Void) -> () -> Void {
         
         return {
             

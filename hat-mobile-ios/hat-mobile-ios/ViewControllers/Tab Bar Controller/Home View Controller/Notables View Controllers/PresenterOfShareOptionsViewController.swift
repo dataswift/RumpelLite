@@ -282,7 +282,7 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
         }
     }
     
-    class func checkIfReauthorisationIsNeeded(viewController: ShareOptionsViewController, publishButton: UIButton, completion: @escaping (String?) -> Void) -> (Void) -> Void {
+    class func checkIfReauthorisationIsNeeded(viewController: ShareOptionsViewController, publishButton: UIButton, completion: @escaping (String?) -> Void) -> () -> Void {
         
         return {
             
@@ -367,10 +367,10 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
     class func setImageLabelsOn(isNotePublicLabel: UILabel, shareNoteLabel: UILabel, color: UIColor) {
         
         // set image fonts
-        isNotePublicLabel.attributedText = NSAttributedString(string: "\u{1F512}", attributes: [NSForegroundColorAttributeName: color, NSFontAttributeName: UIFont(name: Constants.FontNames.ssGlyphishFilled, size: 22)!])
+        isNotePublicLabel.attributedText = NSAttributedString(string: "\u{1F512}", attributes: [NSAttributedStringKey.foregroundColor: color, NSAttributedStringKey.font: UIFont(name: Constants.FontNames.ssGlyphishFilled, size: 22)!])
         isNotePublicLabel.sizeToFit()
         
-        shareNoteLabel.attributedText = NSAttributedString(string: "\u{23F2}", attributes: [NSForegroundColorAttributeName: color, NSFontAttributeName: UIFont(name: Constants.FontNames.ssGlyphishFilled, size: 22)!])
+        shareNoteLabel.attributedText = NSAttributedString(string: "\u{23F2}", attributes: [NSAttributedStringKey.foregroundColor: color, NSAttributedStringKey.font: UIFont(name: Constants.FontNames.ssGlyphishFilled, size: 22)!])
         shareNoteLabel.sizeToFit()
     }
     

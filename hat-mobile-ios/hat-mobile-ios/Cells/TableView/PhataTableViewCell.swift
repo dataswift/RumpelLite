@@ -86,6 +86,7 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      
      - parameter datePicker: The datePicker that called this method
      */
+    @objc
     func datePickerDidUpdateDate(datePicker: UIDatePicker) {
         
         self.textField.text = FormatterHelper.formatDateStringToUsersDefinedDate(

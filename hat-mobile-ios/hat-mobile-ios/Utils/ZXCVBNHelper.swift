@@ -11,7 +11,7 @@
  */
 
 import zxcvbn_ios
-
+    
 // MARK: Class
 
 /// A class to handle the zxcvbn meter

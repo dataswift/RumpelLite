@@ -259,8 +259,8 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             target: self,
             action: #selector(self.autofillPHATA))
         autofillButton.setTitleTextAttributes([
-            NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 16.0)!,
-            NSForegroundColorAttributeName: UIColor.white],
+            NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 16.0)!,
+            NSAttributedStringKey.foregroundColor: UIColor.white],
             for: .normal)
         toolbar.barTintColor = .black
         toolbar.setItems([autofillButton], animated: true)

@@ -129,13 +129,13 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
                                 token: userToken!,
                                 userDomain: userDomain,
                                 tags: tempFile.tags,
-                                completion: {[weak self] file2 in
+                                completion: { [weak self] file2, _ in
                                 
                                     if self != nil {
                                         
                                         var tempFile2 = file2
-                                        tempFile2.0.image = UIImage(named: Constants.ImageNames.placeholderImage)
-                                        self!.files.append(tempFile2.0)
+//                                        tempFile2.0.image = UIImage(named: Constants.ImageNames.placeholderImage)
+//                                        self!.files.append(tempFile2.0)
                                     }
                                 },
                                 errorCallback: {error in

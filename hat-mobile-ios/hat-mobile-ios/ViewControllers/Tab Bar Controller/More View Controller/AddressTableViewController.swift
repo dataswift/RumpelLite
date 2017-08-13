@@ -228,6 +228,7 @@ internal class AddressTableViewController: UITableViewController, UserCredential
     
     // MARK: - UITextViewDelegate
     
+    @objc
     func textFieldValueChanged(textField: UITextField) {
         
         var text = textField.text!

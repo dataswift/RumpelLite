@@ -106,27 +106,27 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
         self.profile = HATProfileObject()
         
         switch error {
-        case .tableDoesNotExist:
+        case .tableDoesNotExist: break
             
-            let tableJSON = HATJSONHelper.createProfileTableJSON()
-            HATAccountService.createHatTable(
-                userDomain: userDomain,
-                token: userToken,
-                notablesTableStructure: tableJSON,
-                failed: {(error) in
-                
-                    CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-            )(
-                
-                HATAccountService.checkHatTableExistsForUploading(
-                    userDomain: userDomain,
-                    tableName: Constants.HATTableName.Profile.name,
-                    sourceName: Constants.HATTableName.Profile.source,
-                    authToken: userToken,
-                    successCallback: tableCreated,
-                    errorCallback: logError)
-            )
+//            let tableJSON = HATJSONHelper.createProfileTableJSON()
+//            HATAccountService.createHatTable(
+//                userDomain: userDomain,
+//                token: userToken,
+//                notablesTableStructure: tableJSON,
+//                failed: {(error) in
+//                
+//                    CrashLoggerHelper.hatTableErrorLog(error: error)
+//                }
+//            )(
+//                
+//                HATAccountService.checkHatTableExistsForUploading(
+//                    userDomain: userDomain,
+//                    tableName: Constants.HATTableName.Profile.name,
+//                    sourceName: Constants.HATTableName.Profile.source,
+//                    authToken: userToken,
+//                    successCallback: tableCreated,
+//                    errorCallback: logError)
+//            )
         default:
             
             CrashLoggerHelper.hatTableErrorLog(error: error)

@@ -417,13 +417,13 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         
         let textToReturn = NSMutableAttributedString(
             string: "REQUIREMENTS:\n",
-            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
         
         for requiredData in requiredDataDefinition {
             
             let string = NSMutableAttributedString(
                 string: "\(requiredData.source)\n",
-                attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSansBold, size: 13)!])
+                attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSansBold, size: 13)!])
             
             textToReturn.append(string)
             
@@ -433,13 +433,13 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                     
                     let tempText = NSMutableAttributedString(
                         string: "",
-                        attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
+                        attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
                     
                     for field in fieldsArray {
                         
                         let fieldString = NSMutableAttributedString(
                             string: "\(intend)\(field.name)\n",
-                            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
+                            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
                         
                         tempText.append(fieldString)
                         
@@ -454,7 +454,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                 
                 let dataName = NSMutableAttributedString(
                     string: "\t\(dataSet.name)\n",
-                    attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 13)!])
+                    attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
                 
                 textToReturn.append(dataName)
                 textToReturn.append(reccuringFields(fieldsArray: dataSet.fields, intend: "\t\t"))

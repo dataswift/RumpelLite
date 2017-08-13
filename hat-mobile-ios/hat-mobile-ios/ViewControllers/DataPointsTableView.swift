@@ -19,11 +19,15 @@ internal class DataPointsTableView: UITableView, UITableViewDelegate, UITableVie
     
     // MARK: - Variables
     
+    // swiftlint:disable implicitly_unwrapped_optional
+    
     /// the data points from Realm
     private var dataResults: Results<DataPoint>!
     /// the cell identifier
     private let basicCellIdentifier: String = "DataPointTableViewCell"
     
+    // swiftlint:enable implicitly_unwrapped_optional
+
     // MARK: - View Controller delegate methods
 
     /**

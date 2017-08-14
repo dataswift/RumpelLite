@@ -82,12 +82,12 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             }
         )
         
-        let bsafeAction = UIAlertAction(
-            title: ".bheard.org",
+        let savyAction = UIAlertAction(
+            title: ".savy.io",
             style: .default,
             handler: {[unowned self](_: UIAlertAction) -> Void in
                 
-                self.domainButton.setTitle(".bheard.org", for: .normal)
+                self.domainButton.setTitle(".savy.io", for: .normal)
             }
         )
         
@@ -102,7 +102,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        alert.addActions(actions: [hubofallthingsAction, bsafeAction, hubatAction, cancelAction])
+        alert.addActions(actions: [hubofallthingsAction, savyAction, hubatAction, cancelAction])
         alert.addiPadSupport(sourceRect: self.domainButton.frame, sourceView: self.domainButton)
         
         // present alert controller

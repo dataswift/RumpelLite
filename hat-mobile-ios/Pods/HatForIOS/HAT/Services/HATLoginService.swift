@@ -29,7 +29,7 @@ public struct HATLoginService {
      */
     public static func verifyDomain(_ domain: String) -> Bool {
 
-        if domain == "hubofallthings.net" || domain == "bheard.org" || domain == "hubat.net" {
+        if domain == "hubofallthings.net" || domain == "savy.io" || domain == "hubat.net" {
 
             return true
         }

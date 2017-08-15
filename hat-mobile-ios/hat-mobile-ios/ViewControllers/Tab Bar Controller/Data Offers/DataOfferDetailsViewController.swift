@@ -80,21 +80,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                     self.navigationController?.popViewController(animated: true)
                 } else if receivedOffer?.reward.rewardType == "Service" {
                     
-                    if claimResult == "completed" || claimResult == "redeemed" {
-                    
-                        if let unwrapedVendorURL = self.receivedOffer?.reward.vendorURL {
-                            
-                            self.showPopUpWindow(
-                                text: unwrapedVendorURL,
-                                buttonTitle: "Open in Safari")
-                        }
-                    } else {
-                        
-                        self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
-                        self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
-                        self.acceptOfferButton.isEnabled = false
-                        self.acceptOfferButton.alpha = 0.8
-                    }
+                    self.checkOfferStatus(status: claimResult)
                 } else if receivedOffer?.reward.rewardType == "Voucher" && (claimResult == "completed" || claimResult == "redeemed") {
                     
                     self.showPopUpWindow(
@@ -104,7 +90,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             }
             
             self.createClassicOKAlertWith(
-                alertMessage: "Success",
+                alertMessage: "You can view your data debits in your settings",
                 alertTitle: "Offer has been claimed!",
                 okTitle: "OK",
                 proceedCompletion: alertCompletion)
@@ -182,6 +168,52 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         }
     }
     
+    // MARK: - Check offer status
+    
+    /**
+     <#Function Details#>
+     
+     - parameter <#Parameter#>: <#Parameter description#>
+     */
+    private func checkOfferStatus(status: String) {
+        
+        if receivedOffer?.reward.rewardType == "Service" {
+            
+            if status == "completed" || status == "redeemed" {
+                
+                if let unwrapedVendorURL = self.receivedOffer?.reward.vendorURL {
+                    
+                    self.showPopUpWindow(
+                        text: unwrapedVendorURL,
+                        buttonTitle: "Open in Safari")
+                }
+            } else if status == "accepted" {
+                
+                self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
+                self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
+                self.acceptOfferButton.isEnabled = false
+                self.acceptOfferButton.alpha = 0.8
+            }
+        }
+        
+        if receivedOffer?.reward.rewardType == "Voucher" {
+        
+            if status == "completed" || status == "redeemed" {
+                
+                self.showPopUpWindow(
+                    text: (self.receivedOffer?.reward.codes?[0])!,
+                    buttonTitle: "Copy and open in Safari")
+                
+            } else if status == "accepted" {
+                
+                self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
+                self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
+                self.acceptOfferButton.isEnabled = false
+                self.acceptOfferButton.alpha = 0.8
+            }
+        }
+    }
+    
     // MARK: - Check for received offer
     
     /**
@@ -251,6 +283,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             self.checkForPII()
             self.checkForOfferDuration()
             self.checkForOfferRewardType()
+            self.checkOfferStatus(status: receivedOffer!.claim.claimStatus)
         }
     }
     

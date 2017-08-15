@@ -23,9 +23,15 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
     private let sections: [[String]] = [["Name", "Contact Info"], ["UK Specific"]]
     /// The headers of the table view
     private let headers: [String] = ["My Profile"]
+    /// The footers of the table view
+    private let footers: [String] = ["", "Want more fields? Ping us at contact@hatdex.org!"]
     
     /// The profile, used in PHATA table
     private var profile: HATProfileObject?
+    
+    /// The loading view pop up
+    private var loadingView: UIView = UIView()
+    private var darkView2: UIView = UIView()
     
     var prefferedTitle: String = "Data Store"
     var prefferedInfoMessage: String = "Your personal data store for all numbers and important things to remember"
@@ -64,6 +70,22 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
         
         super.viewWillAppear(animated)
         
+        self.darkView2.backgroundColor = .black
+        self.darkView2.alpha = 0.4
+        
+        self.view.addSubview(self.darkView2)
+        
+        self.tableView.isUserInteractionEnabled = false
+        
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Loading HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        
         HATPhataService.getProfileFromHAT(
             userDomain: userDomain,
             userToken: userToken,
@@ -94,6 +116,11 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
     private func getProfile(receivedProfile: HATProfileObject) {
         
         self.profile = receivedProfile
+        
+        self.tableView.isUserInteractionEnabled = true
+
+        self.loadingView.removeFromSuperview()
+        self.darkView2.removeFromSuperview()
     }
     
     /**
@@ -103,6 +130,11 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
      */
     private func logError(error: HATTableError) {
         
+        self.loadingView.removeFromSuperview()
+        self.darkView2.removeFromSuperview()
+        
+        self.tableView.isUserInteractionEnabled = true
+
         self.profile = HATProfileObject()
         
         switch error {
@@ -162,6 +194,16 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
         if section < self.headers.count {
             
             return self.headers[section]
+        }
+        
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        
+        if section < self.footers.count {
+            
+            return self.footers[section]
         }
         
         return nil
@@ -247,6 +289,8 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
             isButtonHidden: true,
             from: self.storyboard!)
         
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 170
+
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
@@ -254,7 +298,7 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
                 x: self.view.frame.origin.x + 15,
                 y: self.tableView.frame.maxY,
                 width: self.view.frame.width - 30,
-                height: self.view.frame.height),
+                height: calculatedHeight),
             color: .teal,
             cornerRadius: 15)
         
@@ -272,9 +316,9 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.tableView.frame.maxY - 250,
+                            y: weakSelf.tableView.frame.maxY - calculatedHeight,
                             width: weakSelf.view.frame.width - 30,
-                            height: 300)
+                            height: calculatedHeight)
                 },
                     completion: { _ in return }
                 )

@@ -11,6 +11,7 @@
  */
 
 import HatForIOS
+import SwiftyJSON
 
 // MARK: Class
 
@@ -41,7 +42,7 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
      */
     @IBAction func saveButtonAction(_ sender: Any) {
         
-        self.createPopUp()
+        self.createPopUp(message: "Updating profile...")
         self.updateModelFromUI()
         self.uploadInfoToHat()
     }
@@ -91,11 +92,14 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
                 },
                 errorCallback: { error in
                     
+                    self.loadingView.removeFromSuperview()
+                    self.darkView.removeFromSuperview()
+                    
                     self.createErrorAlertWith(title: "Error", message: "There was an error posting profile", error: error)
                 }
             )
         }
-        
+
         HATAccountService.checkHatTableExistsForUploading(
             userDomain: userDomain,
             tableName: Constants.HATTableName.Profile.name,
@@ -156,9 +160,9 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
     /**
      Creates Updating profile... pop up while the uploading is taking place
      */
-    private func createPopUp() {
+    private func createPopUp(message: String) {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         
@@ -169,7 +173,7 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
             color: .teal,
             cornerRadius: 15,
             in: self.view,
-            with: "Updating profile...",
+            with: message,
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
     }
@@ -179,7 +183,7 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+                
         self.tableView.allowsSelection = false
     }
 

@@ -70,7 +70,7 @@ internal class HomeScreenObject: NSObject {
             image: UIImage(named: Constants.ImageNames.gpsOutlinedImage)!)
         let myStory = HomeScreenObject(
             name: "My Story",
-            description: "My digital life, all mashed-up",
+            description: "My digital life",
             image: UIImage(named: Constants.ImageNames.socialFeedImage)!)
         let photoView = HomeScreenObject(
             name: "Photo Viewer",
@@ -102,7 +102,7 @@ internal class HomeScreenObject: NSObject {
             image: UIImage(named: Constants.ImageNames.doImage)!)
         let watcheet = HomeScreenObject(
             name: "Watch-eet",
-            description: "Watch stuff. Get rewards",
+            description: "Watch stuff. Personalised to me",
             image: UIImage(named: Constants.ImageNames.watch)!)
         let readeet = HomeScreenObject(
             name: "Read-eet",
@@ -129,7 +129,7 @@ internal class HomeScreenObject: NSObject {
             description: "What's new",
             image: UIImage(named: Constants.ImageNames.hatLogo)!)
         let goodLoop = HomeScreenObject(
-            name: "Featured App",
+            name: "Featured Offers",
             description: "Ads for Good by GoodLoop",
             image: UIImage(named: Constants.ImageNames.featured)!)
         let ideas = HomeScreenObject(

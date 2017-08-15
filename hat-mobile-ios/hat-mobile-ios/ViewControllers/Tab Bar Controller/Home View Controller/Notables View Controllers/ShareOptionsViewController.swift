@@ -540,12 +540,12 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
             // if button was selected deselect it and remove the button from the array
             if self.marketsquareButton.alpha == 1 {
                 
-                self.shareOnSocial.removeThe(string: "marketSquare")
+                self.shareOnSocial.removeThe(string: "marketsquare")
                 PresenterOfShareOptionsViewController.turnButtonOff(button: self.marketsquareButton)
                 // else select it and add it to the array
             } else {
                 
-                self.shareOnSocial.append("marketSquare")
+                self.shareOnSocial.append("marketsquare")
                 PresenterOfShareOptionsViewController.turnButtonOn(button: self.marketsquareButton)
             }
             
@@ -709,8 +709,11 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         // add keyboard handling
         self.hideKeyboardWhenTappedAround()
         
-        self.publicSwitch.isOn = self.autoSharedNote
-        self.changeAllUIElementsOnSwitchChange(switchState: self.publicSwitch.isOn)
+        if self.autoSharedNote {
+            
+            self.publicSwitch.isOn = self.autoSharedNote
+            self.changeAllUIElementsOnSwitchChange(switchState: self.publicSwitch.isOn)
+        }
         
         self.title = self.prefferedTitle
         
@@ -797,6 +800,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         // add message to the text field
         self.textView.text = receivedNote.data.message
         // set public switch state
+        self.publicSwitch.isOn = true
         self.publicSwitch.setOn(receivedNote.data.shared, animated: false)
         // if switch is on update the ui accordingly
         if self.publicSwitch.isOn {
@@ -1074,6 +1078,8 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
             isButtonHidden: true,
             from: self.storyboard!)
         
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 220
+        
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
@@ -1081,7 +1087,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
                 x: self.view.frame.origin.x + 15,
                 y: self.view.frame.maxY,
                 width: self.view.frame.width - 30,
-                height: self.view.frame.height),
+                height: calculatedHeight),
             color: .teal,
             cornerRadius: 15)
         
@@ -1099,9 +1105,9 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.view.frame.maxY - 400,
+                            y: weakSelf.view.frame.maxY + (calculatedHeight * 0.1) - calculatedHeight,
                             width: weakSelf.view.frame.width - 30,
-                            height: 450)
+                            height: calculatedHeight)
                     },
                     completion: { _ in return }
                 )

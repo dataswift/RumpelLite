@@ -21,9 +21,11 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
     
     /// The sections of the table view
     private let sections: [[String]] = [["Food Shopping"], ["Hydrating Properly"], ["Cooking And Eating Healthier Meals"], ["Healthier Desserts"], ["Reducing Calories"]]
-    private let header: String = "Please indicate how important 1-5 (very much to not at all)"
+    private let header: String = "Please indicate how important from 1 (not at all) to 5 (very much)"
     
     private var surveyObjects: [SurveyObject] = []
+    
+    private var loadingView: UIView?
     
     // MARK: - IBActions
     
@@ -31,8 +33,20 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
         
         func success(json: JSON, newToken: String?) {
             
+            self.loadingView?.removeFromSuperview()
+            self.tableView.isUserInteractionEnabled = true
             _ = self.navigationController?.popViewController(animated: true)
         }
+        
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Saving HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         for index in self.sections.indices {
             
@@ -144,6 +158,13 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
      */
     func accessingHATTableFail(error: HATTableError) {
         
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView?.removeFromSuperview()
+        self.createClassicOKAlertWith(
+            alertMessage: "The was an error saving the data to HAT",
+            alertTitle: "Error",
+            okTitle: "OK",
+            proceedCompletion: {})
         CrashLoggerHelper.hatTableErrorLog(error: error)
     }
     
@@ -153,6 +174,9 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
     private func getSurveyQuestionsAndAnswers() {
         
         func gotValues(jsonArray: [JSON], newToken: String?) {
+            
+            self.tableView.isUserInteractionEnabled = true
+            self.loadingView?.removeFromSuperview()
             
             if !jsonArray.isEmpty {
                 
@@ -169,6 +193,16 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
                 self.tableView.reloadData()
             }
         }
+        
+        self.loadingView?.removeFromSuperview()
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Loading HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         HATAccountService.getHatTableValuesv2(
             token: userToken,

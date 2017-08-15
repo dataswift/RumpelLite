@@ -91,12 +91,18 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
                 },
                 failCallback: {error in
                     
+                    self.loadingView.removeFromSuperview()
+                    self.darkView.removeFromSuperview()
+                    
                     self.createErrorAlertWith(title: "Error", message: "There was an error posting profile", error: error)
                 }
             )
         }
         
         func gotErrorWhenGettingApplicationToken(error: JSONParsingError) {
+            
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
             
             CrashLoggerHelper.JSONParsingErrorLog(error: error)
         }
@@ -142,7 +148,7 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         
@@ -166,6 +172,17 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
         
         self.tableView.allowsSelection = false
         
+        self.tableView.isUserInteractionEnabled = false
+        
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Getting profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        
         HATProfileService.getEducationFromHAT(
             userDomain: userDomain,
             userToken: userToken,
@@ -187,6 +204,8 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      */
     func updateTableWithValuesFrom(education: HATProfileEducationObject) {
         
+        self.tableView.isUserInteractionEnabled = true
+        self.loadingView.removeFromSuperview()
         self.education = education
         self.tableView.reloadData()
     }
@@ -197,6 +216,9 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      - parameter error: The error returned from HAT
      */
     func errorFetching(error: HATTableError) {
+        
+        self.tableView.isUserInteractionEnabled = true
+        self.loadingView.removeFromSuperview()
         
         switch error {
         case .noValuesFound:

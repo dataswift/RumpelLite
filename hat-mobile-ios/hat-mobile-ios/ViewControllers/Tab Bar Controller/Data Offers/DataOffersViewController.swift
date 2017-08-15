@@ -157,7 +157,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                         
                         var filteredOffers: [DataOfferObject] = []
                         
-                        for offer in dataOffers where offer.merchantCode == "none" {
+                        for offer in dataOffers where offer.merchantCode == "databuyerpublic" {
                             
                             filteredOffers.append(offer)
                         }
@@ -252,7 +252,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 offersClaimed += 1
             }
             
-            if $0.claim.claimStatus == "claimed" {
+            if ($0.claim.claimStatus == "completed" || $0.claim.claimStatus == "redeemed") && ($0.reward.rewardType == "Service" || $0.reward.rewardType == "Voucher") {
                 
                 listOffers += 1
             }
@@ -282,7 +282,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             } else if filterBy == 1 && $0.claim.claimStatus != "" {
                 
                 tempArray.append($0)
-            } else if filterBy == 3 && $0.claim.claimStatus == "claimed" && $0.reward.rewardType == "Service" {
+            } else if filterBy == 3 && ($0.claim.claimStatus == "completed" || $0.claim.claimStatus == "redeemed") && ($0.reward.rewardType == "Service" || $0.reward.rewardType == "Voucher") {
                 
                 tempArray.append($0)
             }
@@ -517,6 +517,8 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             isButtonHidden: true,
             from: self.storyboard!)
         
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 130
+        
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
@@ -524,7 +526,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 x: self.view.frame.origin.x + 15,
                 y: self.collectionView.frame.maxY,
                 width: self.view.frame.width - 30,
-                height: self.view.frame.height),
+                height: calculatedHeight),
             color: .teal,
             cornerRadius: 15)
         
@@ -542,10 +544,10 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.collectionView.frame.maxY - 350,
+                            y: weakSelf.collectionView.frame.maxY + (0.35 * calculatedHeight) - calculatedHeight,
                             width: weakSelf.view.frame.width - 30,
-                            height: 450)
-                },
+                            height: calculatedHeight)
+                    },
                     completion: { _ in return }
                 )
             }

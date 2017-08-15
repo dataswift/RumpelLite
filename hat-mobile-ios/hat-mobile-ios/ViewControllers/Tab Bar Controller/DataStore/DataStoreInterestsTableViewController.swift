@@ -34,15 +34,30 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
     
     private var selectedItems: [String] = []
     
+    private var loadingView: UIView = UIView()
+    
     // MARK: - IBActions
     
     @IBAction func saveHabits(_ sender: Any) {
         
         func success(json: JSON, newToken: String?) {
             
+            self.tableView.isUserInteractionEnabled = true
+            self.loadingView.removeFromSuperview()
+            
             _ = self.navigationController?.popViewController(animated: true)
         }
         
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Saving HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+
         HATAccountService.createTableValuev2(
             token: userToken,
             userDomain: userDomain,
@@ -133,6 +148,9 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
      */
     func accessingHATTableFail(error: HATTableError) {
         
+        self.tableView.isUserInteractionEnabled = true
+        self.loadingView.removeFromSuperview()
+        
         CrashLoggerHelper.hatTableErrorLog(error: error)
     }
     
@@ -142,6 +160,9 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
     private func getSurveyQuestionsAndAnswers() {
         
         func gotValues(jsonArray: [JSON], newToken: String?) {
+            
+            self.tableView.isUserInteractionEnabled = true
+            self.loadingView.removeFromSuperview()
             
             if !jsonArray.isEmpty {
                 
@@ -172,6 +193,16 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
             }
         }
         
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Loading HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+
         HATAccountService.getHatTableValuesv2(
             token: userToken,
             userDomain: userDomain,

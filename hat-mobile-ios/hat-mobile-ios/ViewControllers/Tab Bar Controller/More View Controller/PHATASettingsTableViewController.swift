@@ -19,7 +19,7 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
     /// The sections of the table view
     private let sections: [[String]] = [["", "Enable your public profile page?"]]
     /// The headers of the table view
-    private let headers: [String] = ["Settings"]
+    private let headers: [String] = ["View Settings"]
     /// The loading view pop up
     private var loadingView: UIView = UIView()
     /// A dark view covering the collection view cell
@@ -37,7 +37,7 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
      */
     @IBAction func saveButtonAction(_ sender: Any) {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         

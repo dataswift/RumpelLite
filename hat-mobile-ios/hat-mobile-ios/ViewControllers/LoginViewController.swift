@@ -83,11 +83,11 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         )
         
         let bsafeAction = UIAlertAction(
-            title: ".bheard.org",
+            title: ".savy.io",
             style: .default,
             handler: {[unowned self](_: UIAlertAction) -> Void in
                 
-                self.domainButton.setTitle(".bheard.org", for: .normal)
+                self.domainButton.setTitle(".savy.io", for: .normal)
             }
         )
         

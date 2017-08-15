@@ -83,6 +83,9 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
         
         func failed(error: HATTableError) {
             
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
+            
             CrashLoggerHelper.hatTableErrorLog(error: error)
         }
         
@@ -140,7 +143,7 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         
@@ -228,6 +231,8 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
             cell.setKeyboardType(.default)
         } else if indexPath.section == 2 {
             
+            cell.setTagInTextField(tag: 15)
+            cell.dataSourceForPickerView = ["<£20,000", "£20,001 - £40,000", "£40,001 - £100,000", "£100,001+"]
             cell.setTextToTextField(text: self.profile.incomeGroup)
             cell.setKeyboardType(.numberPad)
         }
@@ -237,6 +242,9 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
     
     func failedGettingInfo(error: HATTableError) {
         
+        self.tableView.isUserInteractionEnabled = true
+        self.loadingView.removeFromSuperview()
+        
         CrashLoggerHelper.hatTableErrorLog(error: error)
     }
     
@@ -244,12 +252,25 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
         
         func gotInfo(array: [JSON], newToken: String?) {
             
+            self.tableView.isUserInteractionEnabled = true
+            self.loadingView.removeFromSuperview()
+            
             if !array.isEmpty {
                 
                 self.profile = HATProfileInfo(from: array[0])
                 self.tableView.reloadData()
             }
         }
+        
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Loading HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
         HATAccountService.getHatTableValuesv2(
             token: userToken,

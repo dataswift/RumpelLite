@@ -40,7 +40,7 @@ internal class EmergencyContactTableViewController: UITableViewController, UserC
      */
     @IBAction func saveButtonAction(_ sender: Any) {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         

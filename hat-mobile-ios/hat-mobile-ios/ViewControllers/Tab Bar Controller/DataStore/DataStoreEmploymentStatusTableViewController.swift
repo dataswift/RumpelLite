@@ -87,6 +87,9 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
         
         func error(error: HATTableError) {
             
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
+            
             CrashLoggerHelper.hatTableErrorLog(error: error)
         }
         
@@ -168,6 +171,17 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
     
     private func getEmploymentStatus() {
         
+        self.tableView.isUserInteractionEnabled = false
+        
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Getting profile...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        
         HATAccountService.getHatTableValuesv2(
             token: userToken,
             userDomain: userDomain,
@@ -186,6 +200,9 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
      */
     func updateTableWithValuesFrom(array: [JSON], newToken: String?) {
         
+        self.tableView.isUserInteractionEnabled = true
+        self.loadingView.removeFromSuperview()
+        
         if !array.isEmpty {
             
             self.employmentStatus = HATEmployementStatusObject(from: array[0])
@@ -199,6 +216,9 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
      - parameter error: The error returned from HAT
      */
     func errorFetching(error: HATTableError) {
+        
+        self.tableView.isUserInteractionEnabled = true
+        self.loadingView.removeFromSuperview()
         
         switch error {
         case .noValuesFound:

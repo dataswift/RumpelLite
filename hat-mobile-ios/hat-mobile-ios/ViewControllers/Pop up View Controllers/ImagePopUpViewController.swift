@@ -24,6 +24,8 @@ internal class ImagePopUpViewController: UIPageViewController, UIPageViewControl
     /// The current page index
     private var currentIndex: Int = 0
     
+    // MARK: - Auto-generated methods
+    
     override func viewDidLoad() {
         
         super.viewDidLoad()

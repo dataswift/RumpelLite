@@ -42,7 +42,7 @@ internal class AddressTableViewController: UITableViewController, UserCredential
         
         self.tableView.endEditing(true)
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         

@@ -95,7 +95,7 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
                 }
             )
         }
-        
+
         HATAccountService.checkHatTableExistsForUploading(
             userDomain: userDomain,
             tableName: Constants.HATTableName.Profile.name,
@@ -158,7 +158,7 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         

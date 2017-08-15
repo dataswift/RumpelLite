@@ -34,8 +34,8 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     /// A string to hold the specific Merchant for data offers, if empty then hat provides offers from every merchant
     private var specificMerchantForOffers: String = ""
     
-    private var titleToPassOnToTheNextView: String = ""
-    private var infoPopUpToPassOnToTheNextView: String = ""
+    /// An object to hold the values needed to pass on to the next views for set up
+    private var segueObjectValues: HomeScreenSegueObject = HomeScreenSegueObject()
     
     // MARK: - IBOutlets
 
@@ -118,94 +118,9 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if self.tiles[indexPath.row].serviceName == "Top Secret Logs" {
-            
-            self.titleToPassOnToTheNextView = "Top Secret Logs"
-            self.infoPopUpToPassOnToTheNextView = "Daily log, diary and innermost thoughts can all go in here!"
-            self.performSegue(withIdentifier: Constants.Segue.notesSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "GEOME" {
-            
-            self.titleToPassOnToTheNextView = "GEOME"
-            self.infoPopUpToPassOnToTheNextView = "Check back where you were by using the date picker!"
-            self.performSegue(withIdentifier: Constants.Segue.locationsSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "My Story" {
-            
-            self.titleToPassOnToTheNextView = "My Story"
-            self.infoPopUpToPassOnToTheNextView = "Still work-in-progress, this is where you can see your social feed and notes."
-            self.performSegue(withIdentifier: Constants.Segue.socialDataSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Photo Viewer" {
-            
-            self.performSegue(withIdentifier: Constants.Segue.photoViewerSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Social Media Control" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Post something on social media (FB or Twitter) or on HATTERS bulletin board. Share for 1/7/14/30 days and it would be deleted when the note expires! Or delete it instantly at the shared location by moving the note to private. Add your location or a photo!"
-            self.titleToPassOnToTheNextView = "Social Media Control"
-            self.performSegue(withIdentifier: Constants.Segue.homeToEditNoteSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "The calling card" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Your PHATA is your public profile. Enable it to use it as a calling card!"
-            self.titleToPassOnToTheNextView = "The calling card"
-            self.performSegue(withIdentifier: Constants.Segue.phataSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Total Recall" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Your personal data store for all numbers and important things to remember"
-            self.titleToPassOnToTheNextView = "Total Recall"
-            self.performSegue(withIdentifier: Constants.Segue.homeToDataStore, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Gimme" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Pull in your data with the HAT data Plugs"
-            self.titleToPassOnToTheNextView = "Gimme"
-            self.performSegue(withIdentifier: Constants.Segue.homeToDataPlugs, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Watch-eet" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised entertainment (videos, movies) for your data. Pick the curator who might have the best algorithms to entertain you. Keep your list to watch later! Watch-eet is currently work-in-progress. During this time, HAT owners will see all recommendations, without any matching of data in your HAT."
-            self.titleToPassOnToTheNextView = "Watch-eet"
-            self.specificMerchantForOffers = "rumpelwatch"
-            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Read-eet" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Accept an offer to curate personalised news, books and other reading materials, matched with your personal data. Keep your list to read later. Read-eet is currently work-in-progress. During this time, HAT owners see all recommendations, without any matching of data in your HAT."
-            self.titleToPassOnToTheNextView = "Read-eet"
-            self.specificMerchantForOffers = "rumpelread"
-            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Do-eet" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Accept an offer to do a digital action, whether it’s to tweet something (fulfilled by your Twitter data), be somewhere (fulfilled by your location data) or run (fulfilled by Fitbit data). Get rewarded for your digital actions!"
-            self.titleToPassOnToTheNextView = "Do-eet"
-            self.specificMerchantForOffers = "rumpeldo"
-            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Match Me" {
-            
-            self.titleToPassOnToTheNextView = "Match Me"
-            self.infoPopUpToPassOnToTheNextView = "Fill up your preference profile so that it can be matched with products and services out there"
-            self.performSegue(withIdentifier: Constants.Segue.homeToForDataOffersSettingsSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Find your Form" {
-            
-            self.titleToPassOnToTheNextView = "Find your Form"
-            self.specificMerchantForOffers = "rumpelforms"
-            self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Go deep" {
-            
-            self.titleToPassOnToTheNextView = "Go deep"
-            self.performSegue(withIdentifier: Constants.Segue.homeToGoDeepSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "MadHATTERs" {
-            
-            UIApplication.shared.openURL(URL(string: "http://us12.campaign-archive2.com/home/?u=bf49285ca77275f68a5263b83&id=3ca9558266")!)
-        } else if self.tiles[indexPath.row].serviceName == "HAT" {
-            
-            UIApplication.shared.openURL(URL(string: "http://mailchi.mp/hatdex/hat-news-pieces-of-art-earning-from-your-attention-and-reading-your-name-1017509")!)
-        } else if self.tiles[indexPath.row].serviceName == "HATTERs" {
-            
-            UIApplication.shared.openURL(URL(string: "https://hatters.hubofallthings.com/community")!)
-        } else if self.tiles[indexPath.row].serviceName == "Ideas" {
-            
-            UIApplication.shared.openURL(URL(string: "https://marketsquare.hubofallthings.com/ideas")!)
-        } else if self.tiles[indexPath.row].serviceName == "BeMoji" {
-            
-            self.infoPopUpToPassOnToTheNextView = "Broadcast your mood. Pick an emoji and broadcast it!"
-            self.titleToPassOnToTheNextView = "BeMoji"
-            self.performSegue(withIdentifier: Constants.Segue.homeToEditNoteSegue, sender: self)
-        } else if self.tiles[indexPath.row].serviceName == "Featured App" {
+        self.segueObjectValues = HomeScreenSegueObject.setUpPassingSegueValuesBy(name: self.tiles[indexPath.row].serviceName, viewController: self)
+        
+        if self.segueObjectValues.showAlert {
             
             self.createClassicOKAlertWith(
                 alertMessage: "We are featuring GoodLoop - share your data to watch more relevant ads, all while contributing to a charity of your choice and also back to your HAT!",
@@ -213,10 +128,15 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
                 okTitle: "OK",
                 proceedCompletion: {
                     
-                    self.specificMerchantForOffers = "goodloop"
+                    self.segueObjectValues.specificMerchantForOffers = "goodloop"
                     self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
                 }
             )
+        }
+        
+        if self.segueObjectValues.segueName != "" {
+            
+            self.performSegue(withIdentifier: self.segueObjectValues.segueName, sender: self)
         }
     }
     
@@ -459,47 +379,47 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             
             if let vc = segue.destination as? DataOffersViewController {
                 
-                vc.prefferedTitle = self.titleToPassOnToTheNextView
-                vc.specificMerchant = self.specificMerchantForOffers
+                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.specificMerchant = self.segueObjectValues.specificMerchantForOffers
             }
         } else if segue.identifier == Constants.Segue.notesSegue {
             
             if let vc = segue.destination as? NotablesViewController {
                 
-                vc.prefferedTitle = self.titleToPassOnToTheNextView
+                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
                 vc.privateNotesOnly = true
             }
         } else if segue.identifier == Constants.Segue.homeToEditNoteSegue {
             
             if let vc = segue.destination as? ShareOptionsViewController {
                 
-                vc.prefferedTitle = self.titleToPassOnToTheNextView
+                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
                 vc.autoSharedNote = true
             }
         } else if segue.identifier == Constants.Segue.homeToDataPlugs {
             
             if let vc = segue.destination as? DataPlugsCollectionViewController {
                 
-                vc.prefferedTitle = self.titleToPassOnToTheNextView
+                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
             }
         } else if segue.identifier == Constants.Segue.homeToDataStore {
             
             if let vc = segue.destination as? DataStoreTableViewController {
                 
-                vc.prefferedTitle = self.titleToPassOnToTheNextView
+                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
             }
         } else if segue.identifier == Constants.Segue.phataSegue {
             
             if let vc = segue.destination as? PhataTableViewController {
                 
-                vc.prefferedTitle = self.titleToPassOnToTheNextView
+                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
             }
         } else if segue.identifier == Constants.Segue.homeToForDataOffersSettingsSegue {
             
             if let vc = segue.destination as? DataStoreForDataOffersTableViewController {
                 
-                vc.prefferedTitle = self.titleToPassOnToTheNextView
-                vc.prefferedInfoMessage = self.infoPopUpToPassOnToTheNextView
+                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
             }
         }
     }

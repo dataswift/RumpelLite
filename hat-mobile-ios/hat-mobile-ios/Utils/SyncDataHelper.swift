@@ -138,66 +138,12 @@ internal class SyncDataHelper: UserCredentialsProtocol {
      */
     func getAccesstokenForUser(_ dataPoints: [DataPoint]) {
         
-        // auth header
-        let headers: [String : String] = NetworkHelper.constructRequestHeaders(MarketSquareService.theMarketAccessToken())
-
-        // construct url
-        let url = Constants.HATEndpoints.theUserHATAccessTokenURL(userDomain: self.userDomain)
+        self.checkIfUserDataSourceExists(userToken, dataPoints: dataPoints)
         
-        // make asynchronous call to get token
-        HATNetworkHelper.asynchronousRequest(url, method: HTTPMethod.get, encoding: Alamofire.URLEncoding.default, contentType: Constants.ContentType.json, parameters: [:], headers: headers) { (response: HATNetworkHelper.ResultType) -> Void in
+        // inform user
+        if self.dataSyncDelegate != nil {
             
-            // the result from asynchronous call to login
-            let checkResult: String = "accessToken"
-            
-            switch response {
-                
-            case .isSuccess(let isSuccess, _, let result, _):
-                
-                if isSuccess {
-                    
-                    // belt and braces.. check we have a accessToken in the returned JSON
-                    if result[checkResult].exists() {
-                        
-                        // get the user HAT access token ..
-                        let userHATAccessToken = result[checkResult].stringValue
-                        
-                        // 2. Check if DateSource exists
-                        self.checkIfUserDataSourceExists(userHATAccessToken, dataPoints: dataPoints)
-                        
-                        // inform user
-                        if self.dataSyncDelegate != nil {
-                            
-                            self.dataSyncDelegate?.onDataSyncFeedback(true, message: result.rawString()!)
-                        }
-                        // inform user that accessToken does not exist
-                    } else {
-                        
-                        if self.dataSyncDelegate != nil {
-                            
-                            let message = checkResult +  " not found in server response"
-                            self.dataSyncDelegate?.onDataSyncFeedback(false, message: message)
-                        }
-                    }
-                    // inform user that there was an error
-                } else {
-                    
-                    if self.dataSyncDelegate != nil {
-                        
-                        self.dataSyncDelegate?.onDataSyncFeedback(false, message: result.rawString()!)
-                    }
-                }
-                
-            // inform user that there was an error
-            case .error(let error, let statusCode):
-                
-                if self.dataSyncDelegate != nil {
-                    
-                    let msg: String = NetworkHelper.exceptionFriendlyMessage(statusCode, defaultMessage: error.localizedDescription)
-                    self.dataSyncDelegate?.onDataSyncFeedback(false, message: msg)
-                    _ = CrashLoggerHelper.customErrorLog(message: msg, error: error)
-                }
-            }
+            self.dataSyncDelegate?.onDataSyncFeedback(true, message: "OK")
         }
     }
     

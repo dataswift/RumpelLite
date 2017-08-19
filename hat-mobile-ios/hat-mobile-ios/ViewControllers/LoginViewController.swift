@@ -151,9 +151,8 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         if self.inputUserHATDomain.text != "" {
             
             KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
-            let filteredDomain = self.removeDomainFromUserEnteredText(domain: self.inputUserHATDomain.text!)
 
-            HATLoginService.formatAndVerifyDomain(userHATDomain: filteredDomain + (self.domainButton.titleLabel?.text)!, successfulVerification: self.authoriseUser, failedVerification: failed)
+            HATLoginService.formatAndVerifyDomain(userHATDomain: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!, successfulVerification: self.authoriseUser, failedVerification: failed)
         } else {
             
             self.createClassicOKAlertWith(

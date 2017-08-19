@@ -18,14 +18,28 @@ internal struct HomeScreenSegueObject {
     
     // MARK: - Variables
     
+    /// A string representing the title of the pushed view controller
     var titleToPassOnToTheNextView: String = ""
+    /// A string message to show in the info pop up in the pushed view controller
     var infoPopUpToPassOnToTheNextView: String = ""
+    /// A string representing the specific merchant for data offers
     var specificMerchantForOffers: String = ""
+    /// A string representing the name of the segue to execute
     var segueName: String = ""
+    
+    /// A bool flag to indicate the need to show an alert
     var showAlert: Bool = false
     
     // MARK: - Set up passing value
 
+    /**
+     Sets up the data needed for passing into the next ViewController
+     
+     - parameter name: The service name, tile name
+     - parameter viewController: The view controller that calls this method
+
+     - returns: An HomeScreenSegueObject object holding all the info to pass during the segue into the next ViewController
+     */
     static func setUpPassingSegueValuesBy(name: String, viewController: HomeViewController) -> HomeScreenSegueObject {
         
         var object = HomeScreenSegueObject()
@@ -66,7 +80,6 @@ internal struct HomeScreenSegueObject {
         } else if name == "Gimme" {
             
             object.infoPopUpToPassOnToTheNextView = "Pull in your data with the HAT data Plugs"
-            object.titleToPassOnToTheNextView = "Gimme"
             object.segueName = Constants.Segue.homeToDataPlugs
         } else if name == "Watch-eet" {
             
@@ -89,7 +102,7 @@ internal struct HomeScreenSegueObject {
         } else if name == "Match Me" {
             
             object.titleToPassOnToTheNextView = "Match Me"
-            object.infoPopUpToPassOnToTheNextView = "Fill up your preference profile so that it can be matched with products and services out there"
+            object.infoPopUpToPassOnToTheNextView = "Fill up your preference profile so that it can be matched with products and services out there. No personal identity information is shared"
             object.segueName = Constants.Segue.homeToForDataOffersSettingsSegue
         } else if name == "Find your Form" {
             
@@ -102,10 +115,10 @@ internal struct HomeScreenSegueObject {
             object.segueName = Constants.Segue.homeToGoDeepSegue
         } else if name == "MadHATTERs" {
             
-            UIApplication.shared.openURL(URL(string: "http://us12.campaign-archive2.com/home/?u=bf49285ca77275f68a5263b83&id=3ca9558266")!)
+            UIApplication.shared.openURL(URL(string: "https://hatters.hubofallthings.com/madhatters")!)
         } else if name == "HAT" {
             
-            UIApplication.shared.openURL(URL(string: "http://mailchi.mp/hatdex/hat-news-pieces-of-art-earning-from-your-attention-and-reading-your-name-1017509")!)
+            UIApplication.shared.openURL(URL(string: "http://www.hatdex.org/whats-new-hat/")!)
         } else if name == "HATTERs" {
             
             UIApplication.shared.openURL(URL(string: "https://hatters.hubofallthings.com/community")!)

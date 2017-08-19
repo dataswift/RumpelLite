@@ -129,6 +129,8 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
                 proceedCompletion: {
                     
                     self.segueObjectValues.specificMerchantForOffers = "goodloop"
+                    self.segueObjectValues.titleToPassOnToTheNextView = "Feature Offers"
+                    self.segueObjectValues.infoPopUpToPassOnToTheNextView = "We are featuring GoodLoop - share your data to watch more relevant ads, all while contributing to a charity of your choice and also back to your HAT!"
                     self.performSegue(withIdentifier: Constants.Segue.homeToDataOffers, sender: self)
                 }
             )
@@ -232,6 +234,19 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         self.collectionView.reloadData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
+        let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.newUser)
+        
+        if result != Constants.Keychain.Values.setTrue {
+            
+            self.showInfoViewController( text: "")
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.newUser, value: Constants.Keychain.Values.setTrue)
+        }
+    }
+    
     override func willRotate(to toInterfaceOrientation: UIInterfaceOrientation, duration: TimeInterval) {
         
         self.collectionView?.reloadData()
@@ -282,7 +297,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         imagePopUpPageViewController?.view.createFloatingView(
             frame: CGRect(
                 x: self.view.frame.origin.x + 15,
-                y: self.collectionView.frame.maxY,
+                y: self.view.frame.maxY,
                 width: self.view.frame.width - 30,
                 height: self.view.frame.height),
             color: .teal,
@@ -380,6 +395,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             if let vc = segue.destination as? DataOffersViewController {
                 
                 vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
                 vc.specificMerchant = self.segueObjectValues.specificMerchantForOffers
             }
         } else if segue.identifier == Constants.Segue.notesSegue {
@@ -387,6 +403,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             if let vc = segue.destination as? NotablesViewController {
                 
                 vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
                 vc.privateNotesOnly = true
             }
         } else if segue.identifier == Constants.Segue.homeToEditNoteSegue {
@@ -394,25 +411,28 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
             if let vc = segue.destination as? ShareOptionsViewController {
                 
                 vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
                 vc.autoSharedNote = true
             }
         } else if segue.identifier == Constants.Segue.homeToDataPlugs {
             
             if let vc = segue.destination as? DataPlugsCollectionViewController {
                 
-                vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
             }
         } else if segue.identifier == Constants.Segue.homeToDataStore {
             
             if let vc = segue.destination as? DataStoreTableViewController {
                 
                 vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
             }
         } else if segue.identifier == Constants.Segue.phataSegue {
             
             if let vc = segue.destination as? PhataTableViewController {
                 
                 vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
+                vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
             }
         } else if segue.identifier == Constants.Segue.homeToForDataOffersSettingsSegue {
             

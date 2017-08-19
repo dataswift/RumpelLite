@@ -110,7 +110,7 @@ internal class OnboardingTileCollectionViewCell: UICollectionViewCell, UserCrede
             
             if hatProvider.available - hatProvider.purchased != 0 {
                 
-                return String(hatProvider.available - hatProvider.purchased) + " of " + String(hatProvider.available) + " remaining"
+                return "\(String(hatProvider.available - hatProvider.purchased)) of \(String(hatProvider.available)) remaining"
             } else {
                 
                 return "Coming soon"
@@ -122,7 +122,7 @@ internal class OnboardingTileCollectionViewCell: UICollectionViewCell, UserCrede
             
             let price: Double = Double(Double(hatProvider.price) / 100.0)
             
-            return "£ " + String(price)
+            return "£ \(String(price))"
         }
     }
     

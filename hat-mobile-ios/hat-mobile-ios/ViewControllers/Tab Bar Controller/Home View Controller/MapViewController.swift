@@ -616,7 +616,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             isButtonHidden: true,
             from: self.storyboard!)
         
-        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 120
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 160
         
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         

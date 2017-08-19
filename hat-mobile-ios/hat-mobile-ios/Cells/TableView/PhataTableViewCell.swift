@@ -32,16 +32,6 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     /// An IBOutlet for handling the textView
     @IBOutlet private weak var textView: UITextView!
     
-    // MARK: - IBActions
-    
-    /**
-     A function called everytime the value of the switch has changed
-     
-     - parameter sender: The object that called this function
-     */
-    @IBAction func valueDidChange(_ sender: Any) {
-    }
-    
     // MARK: - PickerView methods
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {

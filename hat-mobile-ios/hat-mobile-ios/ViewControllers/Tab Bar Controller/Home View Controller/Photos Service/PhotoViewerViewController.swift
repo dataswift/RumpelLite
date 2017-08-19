@@ -27,8 +27,10 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
     /// The selected image file to view full screen
     private var selectedFileToView: FileUploadObject?
     
+    /// A delegate protocol for the selected files
     weak var selectedPhotosDelegate: SelectedPhotosProtocol?
     
+    /// The selected files to upload
     private var selectedFiles: [FileUploadObject] = []
     
     /// A variable passed by another View Controller indicating the way of selecting photos
@@ -123,6 +125,7 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
                             
                             var tempFile = file
                             tempFile.tags.append("photo")
+                            
                             HATFileService.updateParametersOfFile(
                                 fileID: tempFile.fileID,
                                 fileName: tempFile.name,
@@ -195,6 +198,7 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
             
             self.files.append(file)
             self.collectionView.isHidden = false
+            self.collectionView.reloadData()
         }
         
         photoPicker.handleUploadImage(info: info, completion: addFileToImages, callingViewController: self, fromReference: self.photoPicker)
@@ -252,7 +256,7 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
         cell?.contentView.layer.borderWidth = 3.0
         cell?.contentView.layer.borderColor = UIColor.clear.cgColor
         
-        for (index, file) in self.files.enumerated() where file == self.files[indexPath.row] {
+        for (index, file) in self.files.enumerated() where file == self.files[indexPath.row] && index < self.selectedFiles.count {
             
             self.selectedFiles.remove(at: index)
             break

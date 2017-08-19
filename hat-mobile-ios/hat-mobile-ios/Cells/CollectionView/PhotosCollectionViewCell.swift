@@ -62,12 +62,15 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
             fileID: files[indexPath.row].fileID,
             userDomain: userDomain)
 
-        if files[indexPath.row].image != nil && files[indexPath.row].image != UIImage(named: Constants.ImageNames.placeholderImage) {
+        if files[indexPath.row].image != nil && (files[indexPath.row].image != UIImage(named: Constants.ImageNames.placeholderImage) && files[indexPath.row].image != UIImage(named: Constants.ImageNames.imageDeleted)) {
             
             self.image.image = files[indexPath.row].image
             
-            completion(self.image.image!)
-        } else if self.image.image == UIImage(named: Constants.ImageNames.placeholderImage) && URL(string: imageURL) != nil {
+            if self.image.image != nil {
+                
+                completion(self.image.image!)
+            }
+        } else if URL(string: imageURL) != nil {
             
             self.initRingProgressView()
             
@@ -79,7 +82,10 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
             
             self.image.image = files[indexPath.row].image
             
-            completion(self.image.image!)
+            if self.image.image != nil {
+                
+                completion(self.image.image!)
+            }
         }
         
         return self
@@ -111,30 +117,36 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
      */
     private func downloadImageFrom(imageURL: String, userToken: String, completion: @escaping (UIImage) -> Void) {
         
-        self.image.downloadedFrom(
-            url: URL(string: imageURL)!,
-            userToken: userToken,
-            progressUpdater: { [weak self] progress in
-                
-                if let weakSelf = self {
+        if let url = URL(string: imageURL) {
+            
+            self.image.downloadedFrom(
+                url: url,
+                userToken: userToken,
+                progressUpdater: { [weak self] progress in
                     
-                    let completion = CGFloat(progress)
-                    weakSelf.ringProgressView.updateCircle(
-                        end: completion,
-                        animate: Float(weakSelf.ringProgressView.endPoint),
-                        removePreviousLayer: false)
+                    if let weakSelf = self {
+                        
+                        let completion = CGFloat(progress)
+                        weakSelf.ringProgressView.updateCircle(
+                            end: completion,
+                            animate: Float(weakSelf.ringProgressView.endPoint),
+                            removePreviousLayer: false)
+                    }
+                },
+                completion: { [weak self] in
+                    
+                    if let weakSelf = self {
+                        
+                        weakSelf.ringProgressView.isHidden = true
+                        
+                        if weakSelf.image.image != nil {
+                            
+                            completion(weakSelf.image.image!)
+                        }
+                    }
                 }
-            },
-            completion: { [weak self] in
-                
-                if let weakSelf = self {
-                    
-                    weakSelf.ringProgressView.isHidden = true
-                    
-                    completion(weakSelf.image.image!)
-                }
-            }
-        )
+            )
+        }
     }
     
     // MARK: - Crop Image

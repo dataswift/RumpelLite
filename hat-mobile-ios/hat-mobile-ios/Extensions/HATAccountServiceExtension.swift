@@ -10,12 +10,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
+import Alamofire
 import HatForIOS
 import JWTDecode
+import SwiftyJSON
 
 // MARK: Extension
 
-extension HATAccountService {
+extension HATAccountService: UserCredentialsProtocol {
     
     // MARK: - User's settings
     
@@ -90,12 +92,204 @@ extension HATAccountService {
      */
     static func verifyDomain(_ domain: String) -> Bool {
         
-        if domain == "hubofallthings.net" || domain == "warwickhat.net" || domain == "hubat.net" {
+        if domain.hasSuffix("hubofallthings.net") || domain.hasSuffix("savy.io") || domain.hasSuffix("hubat.net") {
             
             return true
         }
         
         return false
+    }
+    
+    // MARK: Create matchMe data bundle
+    
+    /**
+     Creates a data bundle end point to get gather all the data needed for calculating profile completion rate
+     
+     - parameter success: A function to execute on success response. Returns true of false
+     - parameter fail: A function to execute on failed response. Returns the error that occured
+     */
+    static func createMatchMeCompletion(success: @escaping (Bool) -> Void, fail: @escaping (HATTableError) -> Void) {
+        
+        if let url: URLConvertible = URL(string: "https://\(userDomain)/api/v2/data-bundle/datacompletion") {
+            
+            let parameters: Parameters = HATAccountService.constructJSON()
+
+            Alamofire.request(
+                url,
+                method: .post,
+                parameters: parameters,
+                encoding: Alamofire.JSONEncoding.default,
+                headers: ["x-auth-token": userToken]).responseJSON(completionHandler: { response in
+                    
+                    switch response.result {
+                    case .success:
+                        
+                        if response.response?.statusCode == 201 || response.response?.statusCode == 200 {
+                            
+                            success(true)
+                        } else {
+                            
+                            success(false)
+                        }
+                    case .failure(let error):
+                        
+                        fail(HATTableError.generalError("", nil, error))
+                    }
+                }
+            )
+        }
+    }
+    
+    // MARK: - Get matchMe data bundle
+    
+    /**
+     Fetches the data bundle for the calculation of the profile completeness
+     
+     - parameter success: A function to execute on success response. Returns the dictionary, JSON, of that endpoint
+     - parameter fail: A function to execute on failed response. Returns the error that occured
+     */
+    static func getMatchMeCompletion(success: @escaping (Dictionary<String, JSON>) -> Void, fail: @escaping (HATTableError) -> Void) {
+        
+        if let url: URLConvertible = URL(string: "https://\(userDomain)/api/v2/data-bundle/datacompletion") {
+            
+            Alamofire.request(
+                url,
+                method: .get,
+                parameters: nil,
+                encoding: Alamofire.JSONEncoding.default,
+                headers: ["x-auth-token": userToken]).responseJSON(completionHandler: { response in
+                    
+                    switch response.result {
+                    case .success:
+                        
+                        if let value = response.result.value {
+                            
+                            let json = JSON(value)
+                            success(json.dictionaryValue)
+                        } else {
+                            
+                            fail(HATTableError.generalError("json creation failed", nil, nil))
+                        }
+                    case .failure(let error):
+                        
+                        fail(HATTableError.generalError("", nil, error))
+                    }
+                }
+            )
+        }
+    }
+    
+    // MARK: - Create JSON for data bundle
+    
+    /**
+     Constructs the JSON, as [String: Any] format, to pass in Alamofire request
+     
+     - returns: A [String: Any] array, suitable to pass in Alamofire request
+     */
+    static private func constructJSON() -> [String: Any] {
+        
+        return [
+            "physicalactivities": [
+                "endpoints": [
+                    [
+                    "endpoint": "rumpel/priorities/physicalactivities"
+                    ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "dietary": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/priorities/dietary"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "lifestyle": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/priorities/lifestyle"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "happinessAndHealth": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/priorities/happinessandmentalhealth"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "financialManagement": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/priorities/financialmanagement"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "profileInfo": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/profile/profileinfo"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "employmentStatus": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/profile/employmentstatus"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "education": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/education"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "livingInfo": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/profile/livinginfo"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ],
+            "interests": [
+                "endpoints": [
+                [
+                    "endpoint": "rumpel/interests"
+                ]
+                ],
+                "orderBy": "unixTimeStamp",
+                "ordering": "descending",
+                "limit": 1
+            ]
+        ]
     }
 
 }

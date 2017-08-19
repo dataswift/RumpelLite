@@ -18,12 +18,22 @@ internal class ListDataOffersCollectionViewCell: UICollectionViewCell, UserCrede
     
     // MARK: - IBOutlets
     
-    @IBOutlet private weak var offerImageView: UIImageView!
+    /// An IBOutlet for handling the vendor name UILabel
     @IBOutlet private weak var offerVendorNameLabel: UILabel!
-    @IBOutlet private weak var offerVendorURLTextView: UITextView!
+    /// An IBOutlet for handling the expiry date for the offer UILabel
     @IBOutlet private weak var dateLabel: UILabel!
-    @IBOutlet private weak var ringProgressBar: RingProgressCircle!
+    /// An IBOutlet for handling the reward type UILabel
+    @IBOutlet private weak var rewardTypeLabel: UILabel!
     
+    /// An IBOutlet for handling the ring progress bar whilst downloading the image
+    @IBOutlet private weak var ringProgressBar: RingProgressCircle!
+
+    /// An IBOutlet for handling the url of the offer UITextView
+    @IBOutlet private weak var offerVendorURLTextView: UITextView!
+    
+    /// An IBOutlet for handling the UIImageView of the offer
+    @IBOutlet private weak var offerImageView: UIImageView!
+
     // MARK: - Set up cell
     
     /**
@@ -55,14 +65,16 @@ internal class ListDataOffersCollectionViewCell: UICollectionViewCell, UserCrede
      */
     private func setUpCellUI(cell: ListDataOffersCollectionViewCell, dataOffer: DataOfferObject) {
         
-        let date = Date(timeIntervalSince1970: TimeInterval(dataOffer.created / 1000))
+        let date = Date(timeIntervalSince1970: TimeInterval(dataOffer.offerExpires / 1000))
         let dateString = FormatterHelper.formatDateStringToUsersDefinedDate(
             date: date,
-            dateStyle: .medium,
+            dateStyle: .short,
             timeStyle: .none)
+        
+        cell.rewardTypeLabel.text = "Reward type: \(dataOffer.reward.rewardType)"
         cell.offerVendorURLTextView.text = dataOffer.reward.vendorURL
         cell.offerVendorNameLabel.text = dataOffer.reward.vendor
-        cell.dateLabel.text = dateString
+        cell.dateLabel.text = "Expires: \(dateString)"
         cell.offerImageView.image = dataOffer.image
         
         cell.ringProgressBar.ringColor = .white
@@ -78,6 +90,16 @@ internal class ListDataOffersCollectionViewCell: UICollectionViewCell, UserCrede
             green: 231 / 255,
             blue: 231 / 255,
             alpha: 1.0).cgColor
+        
+        if let codes = dataOffer.reward.codes {
+            
+            if dataOffer.reward.rewardType == "Voucher" && codes.isEmpty && cell.offerVendorURLTextView.text != nil {
+                
+                let code = codes[0]
+                let text = cell.offerVendorURLTextView.text!
+                cell.offerVendorURLTextView.text = "\(text) \n\(code)!)"
+            }
+        }
     }
     
     // MARK: - Update progressBar
@@ -106,9 +128,10 @@ internal class ListDataOffersCollectionViewCell: UICollectionViewCell, UserCrede
         func showDefaultImage() {
             
             cell.ringProgressBar.isHidden = true
-            cell.offerImageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
             completion?(cell.offerImageView.image!)
         }
+        
+        cell.offerImageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
         
         if let unwrappedURL = URL(string: url) {
             
@@ -117,18 +140,7 @@ internal class ListDataOffersCollectionViewCell: UICollectionViewCell, UserCrede
                 url: unwrappedURL,
                 userToken: self.userToken,
                 progressUpdater: updateProgressBar,
-                completion: {
-                    
-                    if let image = cell.offerImageView.image {
-                        
-                        cell.ringProgressBar.isHidden = true
-                        completion?(image)
-                    } else {
-                        
-                        showDefaultImage()
-                    }
-            }
-            )
+                completion: showDefaultImage)
         } else {
             
             showDefaultImage()

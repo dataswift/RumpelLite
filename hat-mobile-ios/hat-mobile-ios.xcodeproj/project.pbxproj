@@ -138,8 +138,6 @@
 		60938DBC1E9BA4190058F6CC /* PhotoPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBB1E9BA4190058F6CC /* PhotoPickerDelegate.swift */; };
 		60938DBE1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBD1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift */; };
 		60938DC01E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */; };
-		6097C0661E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6097C0641E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf */; };
-		6097C0671E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6097C0651E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf */; };
 		6097C0691E327506000E771A /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */; };
 		60A727BD1DDF47ED008AF409 /* FormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */; };
 		60AAA5B81E83D70A0080D0D5 /* HATProviderObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */; };
@@ -337,8 +335,6 @@
 		60938DBB1E9BA4190058F6CC /* PhotoPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPickerDelegate.swift; sourceTree = "<group>"; };
 		60938DBD1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoFullScreenViewerViewController.swift; sourceTree = "<group>"; };
 		60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareOptionsSelectedImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		6097C0641E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "2.1 HATTermsofService v1.0.pdf"; sourceTree = "<group>"; };
-		6097C0651E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Rumpel Lite iOS Application Terms of Service.pdf"; sourceTree = "<group>"; };
 		6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsViewController.swift; sourceTree = "<group>"; };
 		60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
 		60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATProviderObjectExtension.swift; sourceTree = "<group>"; };
@@ -665,8 +661,6 @@
 		6097C0631E3273AA000E771A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				6097C0641E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf */,
-				6097C0651E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -736,14 +730,14 @@
 		60DD7F6D1E27CEE3000C1B1E /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				B54EA6191D19F5450018EE47 /* DataPointTableViewCell.swift */,
-				602934021F39BDFD00515926 /* SurveyTableViewCell.swift */,
 				6033DAF21F34C92200A9048B /* DataDebitTableViewCell.swift */,
-				6041B20F1DD4AC190018CC31 /* NotablesTableViewCell.swift */,
 				60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */,
+				B54EA6191D19F5450018EE47 /* DataPointTableViewCell.swift */,
+				6041B20F1DD4AC190018CC31 /* NotablesTableViewCell.swift */,
 				60D8DAB11F3215520055CEAC /* NotificationsTableViewCell.swift */,
 				60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */,
 				600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */,
+				602934021F39BDFD00515926 /* SurveyTableViewCell.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -754,13 +748,13 @@
 				60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */,
 				606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */,
 				60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */,
-				604F32E31F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift */,
+				60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */,
 				601142781E5F967D00A9D982 /* HomeCollectionViewCell.swift */,
 				603926D31E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift */,
+				604F32E31F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift */,
 				607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */,
 				602CB4491E8BF3AB00903F33 /* PhotosCollectionViewCell.swift */,
 				60CC29A71EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift */,
-				60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */,
 				60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */,
 				60D317681E35FE52008E0A5F /* SocialFeedCollectionViewCell.swift */,
 				603D3A721DE879E600C973D8 /* SocialImageCollectionViewCell.swift */,
@@ -1073,7 +1067,6 @@
 				6000CE5F1DE728580076E173 /* OpenSans-ExtraBold.ttf in Resources */,
 				6000CE701DE7288A0076E173 /* ss-glyphish-outlined.ttf in Resources */,
 				B564E9991D19862200EDB8F1 /* Localizable.strings in Resources */,
-				6097C0671E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf in Resources */,
 				6000CE631DE728580076E173 /* OpenSans-LightItalic.ttf in Resources */,
 				6000CE6A1DE728640076E173 /* OpenSans-CondBold.ttf in Resources */,
 				6000CE6E1DE728770076E173 /* ss-glyphish-filled.ttf in Resources */,
@@ -1081,7 +1074,6 @@
 				B564E96E1D19717900EDB8F1 /* Main.storyboard in Resources */,
 				6000CE661DE728580076E173 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				6000CE621DE728580076E173 /* OpenSans-Light.ttf in Resources */,
-				6097C0661E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf in Resources */,
 				6000CE641DE728580076E173 /* OpenSans-Regular.ttf in Resources */,
 				6000CE601DE728580076E173 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				6041B2041E49CECA00534955 /* Launch Screen2.storyboard in Resources */,

@@ -60,7 +60,7 @@ internal class DataDebitsTableViewController: UITableViewController, UserCredent
         
         self.createClassicOKAlertWith(
             alertMessage: "Data Debit cancellation and amendments have not yet been enabled",
-            alertTitle: "Heads Up!",
+            alertTitle: "",
             okTitle: "Ok",
             proceedCompletion: {
                 

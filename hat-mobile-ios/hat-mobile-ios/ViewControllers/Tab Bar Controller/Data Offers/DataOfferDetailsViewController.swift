@@ -83,9 +83,12 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                     self.checkOfferStatus(status: claimResult)
                 } else if receivedOffer?.reward.rewardType == "Voucher" && (claimResult == "completed" || claimResult == "redeemed") {
                     
-                    self.showPopUpWindow(
-                        text: (self.receivedOffer?.reward.codes?[0])!,
-                        buttonTitle: "Copy and open in Safari")
+                    if let code = self.receivedOffer?.reward.codes?[0] {
+                        
+                        self.showPopUpWindow(
+                            text: code,
+                            buttonTitle: "Copy and open in Safari")
+                    }
                 }
             }
             
@@ -200,10 +203,12 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         
             if status == "completed" || status == "redeemed" {
                 
-                self.showPopUpWindow(
-                    text: (self.receivedOffer?.reward.codes?[0])!,
-                    buttonTitle: "Copy and open in Safari")
-                
+                if let code = self.receivedOffer?.reward.codes?[0] {
+                    
+                    self.showPopUpWindow(
+                        text: code,
+                        buttonTitle: "Copy and open in Safari")
+                }
             } else if status == "accepted" {
                 
                 self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
@@ -223,13 +228,6 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         
         self.ppiEnabledLabel.text = "PII NOT REQUESTED"
         self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-//        if receivedOffer!.isPΙIRequested {
-//            self.ppiEnabledLabel.text = "PII REQUESTED"
-//            self.piiExplainedLabel.text = "PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-//        } else {
-//            self.ppiEnabledLabel.text = "PII NOT REQUESTED"
-//            self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-//        }
     }
     
     /**
@@ -420,9 +418,15 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             
             if self.receivedOffer?.claim.claimStatus == "completed" || self.receivedOffer?.claim.claimStatus == "redeemed" {
                 
-                self.showPopUpWindow(
-                    text: (self.receivedOffer?.reward.codes?[0])!,
-                    buttonTitle: "Copy and open in Safari")
+                if let codes = self.receivedOffer?.reward.codes {
+                    
+                    if !codes.isEmpty {
+                        
+                        self.showPopUpWindow(
+                            text: codes[0],
+                            buttonTitle: "Copy and open in Safari")
+                    }
+                }
             }
         }
     }

@@ -88,7 +88,7 @@ internal class HomeCollectionViewCell: UICollectionViewCell {
             } else if indexPath.row % 6 == 3 {
                 
                 return .tealLight
-            } else if indexPath.row % 6 == 2 {
+            } else if indexPath.row % 6 == 2 || indexPath.row % 6 == 4 {
                 
                 return .rumpelLighterDarkGray
             }

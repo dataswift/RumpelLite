@@ -267,7 +267,8 @@ public struct HATFileService {
                         }
                     }
                 }
-        })
+            }
+        )
     }
     
     // MARK: - Upload File to hat
@@ -323,7 +324,8 @@ public struct HATFileService {
                         }
                     }
                 }
-        })
+            }
+        )
     }
     
     // MARK: Update Tags
@@ -380,7 +382,8 @@ public struct HATFileService {
                         }
                     }
                 }
-        })
+            }
+        )
     }
     // MARK: - Upload file to hat wrapper
     
@@ -410,7 +413,7 @@ public struct HATFileService {
                     progressUpdateHandler: {(progress) -> Void in
                         
                         progressUpdater?(progress)
-                },
+                    },
                     completion: {(_) -> Void in
                         
                         HATFileService.completeUploadFileToHAT(
@@ -420,25 +423,23 @@ public struct HATFileService {
                             userDomain: userDomain,
                             completion: {(uploadedFile, renewedUserToken) -> Void in
                                 
-                                // refresh user token
-                                if renewedUserToken != nil {
-                                    
-                                    completion?(uploadedFile, renewedUserToken!)
-                                } else {
-                                    
-                                    completion?(uploadedFile, nil)
-                                }
-                        },
+                                var tempFile = fileObject
+                                tempFile.status.status = uploadedFile.status.status
+                                completion?(tempFile, renewedUserToken!)
+                            },
                             errorCallback: {(error) -> Void in
                                 
                                 errorCallBack?(error)
-                        })
-                })
-        },
+                            }
+                        )
+                    }
+                )
+            },
             errorCallback: {(error) -> Void in
                 
                 errorCallBack?(error)
-        })
+            }
+        )
     }
     
 }

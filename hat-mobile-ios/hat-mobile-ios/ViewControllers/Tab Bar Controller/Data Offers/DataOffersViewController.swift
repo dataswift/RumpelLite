@@ -29,15 +29,16 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
     
+    /// The filter index, based on the selectionIndicatorView
+    private var filterBy: Int = 0
+    
     /// DataBuyer app token
     private var appToken: String?
     /// A string to hold the specific Merchant for data offers, if empty then hat provides offers from every merchant
     var specificMerchant: String = ""
-    
-    /// The filter index, based on the selectionIndicatorView
-    private var filterBy: Int = 0
-    
+    /// The preffered title for the view
     var prefferedTitle: String = "Data Offers"
+    /// The preffered title for the info pop up message
     var prefferedInfoMessage: String = "Accept an offer to do a digital action, whether it’s to tweet something (fulfilled by your Twitter data), be somewhere (fulfilled by your location data) or run (fulfilled by Fitbit data). Get rewarded for your digital actions!"
     
     // MARK: - IBOutlets
@@ -51,6 +52,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     @IBOutlet private weak var redeemedOffersLabel: UILabel!
     /// An IBOutlet for handling the summary label in the selectionIndicatorView
     @IBOutlet private weak var summaryLabel: UILabel!
+    /// An IBOutlet for handling the list offers label in the selectionIndicatorView
     @IBOutlet private weak var listOffersLabel: UILabel!
     
     /// An IBOutlet for handling the available offers UIView in the selectionIndicatorView
@@ -61,12 +63,19 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     @IBOutlet private weak var summaryDataOffersView: UIView!
     /// An IBOutlet for handling the selectionIndicatorView UIView
     @IBOutlet private weak var selectionIndicatorView: UIView!
-    
+    /// An IBOutlet for handling the list offers UIView in the selectionIndicatorView
     @IBOutlet private weak var listOffersView: UIView!
+    
+    /// An IBOutlet for handling the info pop up UIButton
     @IBOutlet private weak var infoPopUpButton: UIButton!
     
     // MARK: - IBActions
     
+    /**
+     It slides the pop up view controller from the bottom of the screen
+     
+     - parameter sender: The object that calls this method
+     */
     @IBAction func infoPopUp(_ sender: Any) {
         
         self.showInfoViewController(text: prefferedInfoMessage)
@@ -397,7 +406,13 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                     dataOffer: filteredOffers[indexPath.row],
                     completion: { [weak self] image in
                         
-                        self?.filteredOffers[indexPath.row].image = image
+                        if let weakSelf = self {
+                            
+                            if weakSelf.filteredOffers.count > indexPath.row {
+                                
+                                weakSelf.filteredOffers[indexPath.row].image = image
+                            }
+                        }
                     }
                 )
             }
@@ -410,7 +425,13 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                     dataOffer: filteredOffers[indexPath.row],
                     completion: { [weak self] image in
                         
-                        self?.filteredOffers[indexPath.row].image = image
+                        if let weakSelf = self {
+                            
+                            if weakSelf.filteredOffers.count > indexPath.row {
+                                
+                                weakSelf.filteredOffers[indexPath.row].image = image
+                            }
+                        }
                     }
                 )
             }
@@ -438,7 +459,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             
             flow?.minimumInteritemSpacing = 0
             flow?.minimumLineSpacing = 0
-            return CGSize(width: self.collectionView.frame.width, height: 100)
+            return CGSize(width: self.collectionView.frame.width, height: 130)
         }
         
         return CGSize(width: self.collectionView.frame.width - 40, height: 340)

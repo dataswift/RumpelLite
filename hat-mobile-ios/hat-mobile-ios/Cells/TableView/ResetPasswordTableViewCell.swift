@@ -19,6 +19,7 @@ internal class ResetPasswordTableViewCell: UITableViewCell, UITextFieldDelegate 
     
     // MARK: - Variables
     
+    /// The password's score
     private var score: Int = 0
     
     // MARK: - IBOutlets

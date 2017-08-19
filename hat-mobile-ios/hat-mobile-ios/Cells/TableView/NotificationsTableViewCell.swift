@@ -18,10 +18,13 @@ internal class NotificationsTableViewCell: UITableViewCell {
     
     // MARK: - IBOutlets
 
+    /// An IBOutlet for handling the descriptionLabel UILabel
     @IBOutlet private weak var descriptionLabel: UILabel!
     
+    /// An IBOutlet for handling the dateLabel UILabel
     @IBOutlet private weak var dateLabel: UILabel!
     
+    /// An IBOutlet for handling the titleLabel UILabel
     @IBOutlet private weak var titleLabel: UILabel!
     
     // MARK: - Auto-generated methods

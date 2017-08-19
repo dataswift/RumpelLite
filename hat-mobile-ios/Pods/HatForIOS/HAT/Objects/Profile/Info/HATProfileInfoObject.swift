@@ -96,9 +96,10 @@ public struct HATProfileInfo: Comparable {
                 incomeGroup = tempIncomeGroup
             }
             
-            if let tempDateOfBirth = (data[Fields.dateOfBirth]?.intValue) {
+            if let tempDateOfBirth = (data[Fields.dateOfBirth]?.stringValue) {
                 
-                dateOfBirth = Date(timeIntervalSince1970: TimeInterval(tempDateOfBirth))
+                dateOfBirth = HATFormatterHelper.formatStringToDate(string: tempDateOfBirth)!
+                //dateOfBirth = Date(timeIntervalSince1970: TimeInterval(tempDateOfBirth))
             }
         }
         
@@ -116,7 +117,7 @@ public struct HATProfileInfo: Comparable {
         
         return [
             
-            Fields.dateOfBirth: Int(HATFormatterHelper.formatDateToEpoch(date: self.dateOfBirth)!)!,
+            Fields.dateOfBirth: HATFormatterHelper.formatDateToISO(date: self.dateOfBirth),
             Fields.gender: self.gender,
             Fields.incomeGroup: self.incomeGroup,
             Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!

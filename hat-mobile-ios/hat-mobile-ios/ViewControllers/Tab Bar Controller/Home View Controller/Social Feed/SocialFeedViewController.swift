@@ -26,7 +26,9 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     /// An IBOutlet for handling the collection view
     @IBOutlet private weak var collectionView: UICollectionView!
     
+    /// An IBOutlet for handling the showAllNotes UIButton
     @IBOutlet private weak var showAllNotes: UIButton!
+    /// An IBOutlet for handling the infoPopUpButton UIButton
     @IBOutlet private weak var infoPopUpButton: UIButton!
     
     // MARK: - Variables
@@ -69,7 +71,10 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     private var twitterEndTime: String?
     /// A string to hold twitter app token for later use
     private var twitterAppToken: String = ""
+    /// The preffered message of the info pop up view controller
     var prefferedInfoMessage: String = "Still work-in-progress, this is where you can see your social feed and notes."
+    /// The preffered title of the view controller
+    var prefferedTitle: String = "My Story"
     /// The number of items per request
     private var twitterLimitParameter: String = "50" {
         
@@ -107,12 +112,22 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
 
     // MARK: - IBAction
     
+    /**
+     Shows an info pop up with a message
+     
+     - parameter sender: The object that called this method
+     */
     @IBAction func infoButton(_ sender: Any) {
         
         self.showInfoViewController(text: prefferedInfoMessage)
         self.infoPopUpButton.isUserInteractionEnabled = false
     }
     
+    /**
+     Shows all available notes
+     
+     - parameter sender: The object that called this method
+     */
     @IBAction func showAllNotesAction(_ sender: Any) {
         
         self.performSegue(withIdentifier: "socialFeedToNotesSegue", sender: self)
@@ -135,7 +150,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         super.viewDidLoad()
         
         // view controller title
-        self.title = "My Story"
+        self.title = self.prefferedTitle
     }
     
     override func viewWillAppear(_ animated: Bool) {

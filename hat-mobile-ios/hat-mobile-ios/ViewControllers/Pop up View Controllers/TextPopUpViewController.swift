@@ -146,5 +146,18 @@ internal class TextPopUpViewController: UIViewController {
         self.actionButton.setTitle(title, for: .normal)
         self.actionButton.addBorderToButton(width: 1, color: .white)
     }
+    
+    // MARK: - Get label height
+    
+    /**
+     <#Function Details#>
+     
+     - returns: <#Returns#>
+     */
+    func getLabelHeight() -> CGFloat {
+        
+        self.textLabel.sizeToFit()
+        return self.textLabel.frame.height
+    }
 
 }

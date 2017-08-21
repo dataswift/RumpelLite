@@ -20,9 +20,9 @@ internal class AddressTableViewController: UITableViewController, UserCredential
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [[""], [""], [""], ["Make those fields public?"]]
+    private var sections: [[String]] = [[""], [""], [""], ["Make those fields public?"]]
     /// The headers of the table view
-    private let headers: [String] = ["City", "State / County", "Country", "Privacy"]
+    private var headers: [String] = ["City", "State / County", "Country", "Privacy"]
     /// The loading view pop up
     private var loadingView: UIView = UIView()
     /// A dark view covering the collection view cell
@@ -30,6 +30,8 @@ internal class AddressTableViewController: UITableViewController, UserCredential
     
     /// User's profile passed on from previous view controller
     var profile: HATProfileObject?
+    
+    var isSwitchHidden: Bool = false
     
     // MARK: - IBActions
 
@@ -42,7 +44,7 @@ internal class AddressTableViewController: UITableViewController, UserCredential
         
         self.tableView.endEditing(true)
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         
@@ -153,6 +155,12 @@ internal class AddressTableViewController: UITableViewController, UserCredential
         }
         
         self.tableView.addBackgroundTapRecogniser()
+        
+        if isSwitchHidden {
+            
+            self.sections.removeLast()
+            self.headers.removeLast()
+        }
     }
 
     override func didReceiveMemoryWarning() {

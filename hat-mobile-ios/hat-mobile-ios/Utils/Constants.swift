@@ -455,6 +455,7 @@ internal class Constants {
         static let trackDeviceKey: String = "trackDevice"
         static let userToken: String = "UserToken"
         static let logedIn: String = "logedIn"
+        static let newUser: String = "newUser"
     }
     
     /**
@@ -507,8 +508,8 @@ internal class Constants {
      */
     struct HATDataPlugCredentials {
         
-        static let hatUsername: String = "location"
-        static let hatPassword: String = "MYl06ati0n"
+        //static let hatUsername: String = "location"
+        //static let hatPassword: String = "MYl06ati0n"
         static let marketsquareDataPlugID: String = "c532e122-db4a-44b8-9eaf-18989f214262"
         static let marketsquareAccessToken: MarketAccessTokenAlias = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxLVZyaHVrWFh1bm9LRVwvd3p2Vmh4bm5FakdxVHc2RCs3WVZoMnBLYTdIRjJXbHdUV29MQWR3K0tEdzZrTCtkQjI2eHdEbE5sdERqTmRtRlwvVWtWM1A2ODF3TXBPSUxZbFVPaHI1WnErTT0iLCJkYXRhcGx1ZyI6ImM1MzJlMTIyLWRiNGEtNDRiOC05ZWFmLTE4OTg5ZjIxNDI2MiIsImlzcyI6ImhhdC1tYXJrZXQiLCJleHAiOjE1MTU2MDQ3NzUsImlhdCI6MTQ4NDg0NjM3NSwianRpIjoiZTBlMjIwY2VmNTMwMjllZmQ3ZDFkZWQxOTQzYzdlZWE5NWVjNWEwNGI4ZjA1MjU1MzEwNDgzYTk1N2VmYTQzZWZiMzQ5MGRhZThmMTY0M2ViOGNhNGVlOGZkNzI3ZDBiZDBhZGQyZTgzZWZkNmY4NjM2NWJiMjllYjY2NzQ3MWVhMjgwMmQ4ZTdkZWIxMzlhZDUzY2UwYzQ1ZTgxZmVmMGVjZTI5NWRkNTU0N2I2ODQzZmRiZTZlNjJmZTU1YzczYzAyYjA4MDAzM2FlMzQyMWUxZWJlMGFhOTgzNmE4MGNjZjQ0YmIxY2E1NmQ0ZjM4NWJkMzg1ZDY4ZmY0ZTIwMyJ9.bPTryrVhFa2uAMSZ6A5-Vvca7muEf8RrWoiire7K7ko"
     }
@@ -788,6 +789,7 @@ internal class Constants {
         static let prioritiesToLifestyleHabitsSegue: String = "prioritiesToLifestyleHabitsSegue"
         static let prioritiesToMentalHealthSegue: String = "prioritiesToMentalHealthSegue"
         static let prioritiesToFinancialManagementSegue: String = "prioritiesToFinancialManagementSegue"
+        static let forDataOffersToLocaleSegue: String = "forDataOffersToLocaleSegue"
     }
     
     // MARK: - HAT Endpoints
@@ -816,10 +818,10 @@ internal class Constants {
          
          - returns: UserHATAccessTokenURLAlias
          */
-        static func theUserHATAccessTokenURL(userDomain: String) -> Constants.UserHATAccessTokenURLAlias {
-            
-            return "https://\(userDomain)/users/access_token?username=\(Constants.HATDataPlugCredentials.hatUsername)&password=\(Constants.HATDataPlugCredentials.hatPassword)"
-        }
+//        static func theUserHATAccessTokenURL(userDomain: String) -> Constants.UserHATAccessTokenURLAlias {
+//            
+//            return "https://\(userDomain)/users/access_token?username=\(Constants.HATDataPlugCredentials.hatUsername)&password=\(Constants.HATDataPlugCredentials.hatPassword)"
+//        }
         
         /**
          Constructs the url to access the table we want

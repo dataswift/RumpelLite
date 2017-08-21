@@ -83,11 +83,11 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         )
         
         let bsafeAction = UIAlertAction(
-            title: ".bheard.org",
+            title: ".savy.io",
             style: .default,
             handler: {[unowned self](_: UIAlertAction) -> Void in
                 
-                self.domainButton.setTitle(".bheard.org", for: .normal)
+                self.domainButton.setTitle(".savy.io", for: .normal)
             }
         )
         
@@ -151,9 +151,8 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         if self.inputUserHATDomain.text != "" {
             
             KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
-            let filteredDomain = self.removeDomainFromUserEnteredText(domain: self.inputUserHATDomain.text!)
 
-            HATLoginService.formatAndVerifyDomain(userHATDomain: filteredDomain + (self.domainButton.titleLabel?.text)!, successfulVerification: self.authoriseUser, failedVerification: failed)
+            HATLoginService.formatAndVerifyDomain(userHATDomain: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!, successfulVerification: self.authoriseUser, failedVerification: failed)
         } else {
             
             self.createClassicOKAlertWith(

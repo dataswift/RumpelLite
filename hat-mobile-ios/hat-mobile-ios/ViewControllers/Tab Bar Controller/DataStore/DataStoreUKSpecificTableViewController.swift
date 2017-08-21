@@ -164,7 +164,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         
@@ -286,12 +286,18 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
     
     func failedGettingInfo(error: HATTableError) {
         
+        self.tableView.isUserInteractionEnabled = true
+        self.loadingView.removeFromSuperview()
+        
         CrashLoggerHelper.hatTableErrorLog(error: error)
     }
     
     func getUKInfoFromHAT() {
         
         func gotInfo(array: [JSON], newToken: String?) {
+            
+            self.tableView.isUserInteractionEnabled = true
+            self.loadingView.removeFromSuperview()
             
             if !array.isEmpty {
                 
@@ -300,6 +306,16 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             }
         }
         
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Loading HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+
         HATAccountService.getHatTableValuesv2(
             token: userToken,
             userDomain: userDomain,

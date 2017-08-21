@@ -56,6 +56,19 @@ internal class DataDebitsTableViewController: UITableViewController, UserCredent
         return cell!.setUpCell(cell: cell!, dataDebit: dataDebits[indexPath.row])
     }
     
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        self.createClassicOKAlertWith(
+            alertMessage: "Data Debit cancellation and amendments have not yet been enabled",
+            alertTitle: "",
+            okTitle: "Ok",
+            proceedCompletion: {
+                
+                tableView.deselectRow(at: indexPath, animated: true)
+            }
+        )
+    }
+    
     // MARK: - Get data debits
     
     /**

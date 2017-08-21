@@ -20,7 +20,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     // MARK: - Model
     
-    struct PlugDetails {
+    /// A struct to hold the name and the value of the plug
+    private struct PlugDetails {
         
         var name: String = ""
         var value: String = ""
@@ -28,24 +29,39 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     // MARK: - Variables
 
+    /// The plug name, passed on from previous view controller
     var plug: String = ""
+    /// The plug url, passed on from previous view controller
     var plugURL: String = ""
     
-    var safariVC: SFSafariViewController?
+    /// The safari view controller reference
+    private var safariVC: SFSafariViewController?
     
+    /// The plug details
     private var plugDetailsArray: [PlugDetails] = []
     
     // MARK: - IBOutlets
     
+    /// An IBOutlet fon handling the tableView UITableView
     @IBOutlet private weak var tableView: UITableView!
     
     // MARK: - IBActions
     
+    /**
+     Connects the plug
+     
+     - parameter sender: The object that calls this method
+     */
     @IBAction func connectPlug(_ sender: Any) {
         
         self.safariVC = SFSafariViewController.openInSafari(url: plugURL, on: self, animated: true, completion: nil)
     }
     
+    /**
+     View data plug details
+     
+     - parameter sender: The object that calls this method
+     */
     @IBAction func viewDataPlugData(_ sender: Any) {
         
         self.performSegue(withIdentifier: "detailsToSocialFeed", sender: self)
@@ -117,6 +133,9 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     // MARK: - Facebook Info
     
+    /**
+     Get facebook info
+     */
     func loadFacebookInfo() {
         
         func tableFound(tableID: NSNumber, newToken: String?) {
@@ -161,6 +180,9 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     // MARK: - Twitter Info
     
+    /**
+     Get twitter info
+     */
     func loadTwitterInfo() {
         
         func gotTweets(tweets: [JSON], newToken: String?) {
@@ -185,6 +207,11 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             success: gotTweets)
     }
     
+    /**
+     HAT returned an error while trying to retrieve the data
+     
+     - parameter error: The HATTableError returned from the HAT
+     */
     func tableNotFound(error: HATTableError) {
         
         CrashLoggerHelper.hatTableErrorLog(error: error)
@@ -201,9 +228,11 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
                 if plug == "facebook" {
                     
                     vc.filterBy = "Facebook"
+                    vc.prefferedTitle = "Facebook Plug"
                 } else {
                     
                     vc.filterBy = "Twitter"
+                    vc.prefferedTitle = "Twitter Plug"
                 }
             }
         }

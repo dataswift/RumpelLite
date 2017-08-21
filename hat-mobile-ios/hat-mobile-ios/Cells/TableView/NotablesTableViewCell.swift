@@ -271,7 +271,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
     private func formatInfoLabel(date: String, shared: Bool, publicUntil: Date?) -> NSAttributedString {
         
         // format the info label
-        let string = "Posted " + date
+        let string = "Posted \(date)"
         var shareString: String = " Private Note"
         
         if shared {

@@ -54,11 +54,8 @@ internal class DataDebitTableViewCell: UITableViewCell {
         
         cell.titleLabel.text = dataDebit.name
         cell.subTitleLabel.text = "Kind: \(dataDebit.kind)"
-        cell.dateLabel.text = "Expires: " + String(describing: FormatterHelper.formatDateStringToUsersDefinedDate(
-            date: dataDebit.endDate!,
-            dateStyle: .short,
-            timeStyle: .none)
-        )
+        cell.dateLabel.text =
+        "Expires: \(String(describing: FormatterHelper.formatDateStringToUsersDefinedDate(date: dataDebit.endDate!, dateStyle: .short, timeStyle: .none)))"
         
         return cell
     }

@@ -621,6 +621,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             isButtonHidden: true,
             from: self.storyboard!)
         
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 160
+        
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
@@ -628,7 +630,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
                 x: self.view.frame.origin.x + 15,
                 y: self.view.frame.maxY,
                 width: self.view.frame.width - 30,
-                height: self.view.frame.height),
+                height: calculatedHeight),
             color: .teal,
             cornerRadius: 15)
         
@@ -646,10 +648,10 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.view.frame.maxY - 150,
+                            y: weakSelf.view.frame.maxY + 30 - calculatedHeight,
                             width: weakSelf.view.frame.width - 30,
-                            height: 200)
-                },
+                            height: calculatedHeight)
+                    },
                     completion: { _ in return }
                 )
             }

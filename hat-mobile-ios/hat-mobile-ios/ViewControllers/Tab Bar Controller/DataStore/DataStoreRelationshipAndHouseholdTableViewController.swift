@@ -87,9 +87,12 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
         
         func failed(error: HATTableError) {
             
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
+            
             CrashLoggerHelper.hatTableErrorLog(error: error)
         }
-        
+
         HATAccountService.createTableValuev2(
             token: userToken,
             userDomain: userDomain,
@@ -147,7 +150,7 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.tableView.frame)
+        self.darkView = UIView(frame: self.view.frame)
         self.darkView.backgroundColor = .black
         self.darkView.alpha = 0.4
         

@@ -76,6 +76,32 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         self.infoPopUpButton.isUserInteractionEnabled = false
     }
     
+    /**
+     Try to reconnect to get notes
+     
+     - parameter sender: The object that calls this function
+     */
+    @IBAction func refreshTableButtonAction(_ sender: Any) {
+        
+        // hide retry connection button
+        self.retryConnectingButton.isHidden = true
+        
+        // fetch notes
+        self.connectToServerToGetNotes(result: nil)
+        
+        self.ensureNotablesPlugEnabled()
+    }
+    
+    /**
+     Go to New note and create a note
+     
+     - parameter sender: The object that calls this function
+     */
+    @IBAction func newNoteButton(_ sender: Any) {
+        
+        self.performSegue(withIdentifier: Constants.Segue.optionsSegue, sender: self)
+    }
+    
     // MARK: - Remove pop up
     
     /**
@@ -111,6 +137,8 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
             isButtonHidden: true,
             from: self.storyboard!)
         
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 120
+        
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
@@ -118,7 +146,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                 x: self.view.frame.origin.x + 15,
                 y: self.tableView.frame.maxY,
                 width: self.view.frame.width - 30,
-                height: self.view.frame.height),
+                height: calculatedHeight),
             color: .teal,
             cornerRadius: 15)
         
@@ -136,40 +164,14 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.tableView.frame.maxY - 150,
+                            y: weakSelf.tableView.frame.maxY + (calculatedHeight * 0.3) - calculatedHeight,
                             width: weakSelf.view.frame.width - 30,
-                            height: 200)
-                    },
+                            height: calculatedHeight)
+                },
                     completion: { _ in return }
                 )
             }
         }
-    }
-    
-    /**
-     Try to reconnect to get notes
-     
-     - parameter sender: The object that calls this function
-     */
-    @IBAction func refreshTableButtonAction(_ sender: Any) {
-        
-        // hide retry connection button
-        self.retryConnectingButton.isHidden = true
-        
-        // fetch notes
-        self.connectToServerToGetNotes(result: nil)
-        
-        self.ensureNotablesPlugEnabled()
-    }
-    
-    /**
-     Go to New note and create a note
-     
-     - parameter sender: The object that calls this function
-     */
-    @IBAction func newNoteButton(_ sender: Any) {
-        
-        self.performSegue(withIdentifier: Constants.Segue.optionsSegue, sender: self)
     }
     
     // MARK: - Ensure notables plug is enabled
@@ -409,6 +411,8 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         
         if editingStyle == UITableViewCellEditingStyle.delete {
+            
+            self.selectedIndex = indexPath.row
             
             // if it is shared show message else delete the row
             if self.cachedNotesArray[indexPath.row].data.shared {
@@ -686,6 +690,11 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                     for note in weakSelf.notesArray {
                         
                         temp.append(note)
+                    }
+                    
+                    for (index, item) in temp.enumerated() {
+                        
+                        print("index: \(index) message: \(item.data.message)")
                     }
                     
                     weakSelf.cachedNotesArray.removeAll()

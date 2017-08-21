@@ -33,6 +33,11 @@ internal class GoDeepCollectionViewController: UICollectionViewController, UICol
         
         super.didReceiveMemoryWarning()
     }
+    
+    override func willTransition(to newCollection: UITraitCollection, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        self.collectionView?.reloadData()
+    }
 
     // MARK: UICollectionViewDataSource
 

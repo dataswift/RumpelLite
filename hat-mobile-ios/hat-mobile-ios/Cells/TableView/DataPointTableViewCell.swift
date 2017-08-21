@@ -38,13 +38,13 @@ internal class DataPointTableViewCell: UITableViewCell {
      */
     func setUpCell(dataPoint: DataPoint, lastSynced: Date?) -> UITableViewCell {
         
-        self.labelLatitude.text = String(dataPoint.lat) + ", " + String(dataPoint.lng) + ", " + String(dataPoint.accuracy)
-        self.labelDateAdded.text = "Added " + FormatterHelper.getDateString(dataPoint.dateAdded)
+        self.labelLatitude.text = "\(String(dataPoint.lat)), \(String(dataPoint.lng)), \(String(dataPoint.accuracy))"
+        self.labelDateAdded.text = "Added \(FormatterHelper.getDateString(dataPoint.dateAdded))"
         
         // last sync date
         if lastSynced != nil {
             
-            self.labelSyncDate.text = "Synced " + FormatterHelper.getDateString(lastSynced!)
+            self.labelSyncDate.text = "Synced \(FormatterHelper.getDateString(lastSynced!))"
             self.labelSyncDate.textColor = .appBase
         } else {
             

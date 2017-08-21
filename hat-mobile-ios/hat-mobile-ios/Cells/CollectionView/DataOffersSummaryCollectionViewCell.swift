@@ -76,7 +76,6 @@ internal class DataOffersSummaryCollectionViewCell: UICollectionViewCell {
      Updates the cell's UI
      
      - parameter cell: The cell to update the UI
-     - parameter dataOffer: The dataOffer object holding the data we need in order to update the cell
      */
     private func updateCellUI(cell: DataOffersSummaryCollectionViewCell) {
         
@@ -158,9 +157,11 @@ internal class DataOffersSummaryCollectionViewCell: UICollectionViewCell {
         let offersCount = self.countOffers(offers: cash)
         
         let totalCredit = self.countTotalCreditFromCashOffers(offers: cash)
-        let formattedNumber = FormatterHelper.formatNumber(number: NSNumber(value: totalCredit))
+        if let formattedNumber = FormatterHelper.formatNumber(number: NSNumber(value: totalCredit)) {
+            
+            cell.summaryOfferTitleLabel.text = "£ \(formattedNumber)"
+        }
         
-        cell.summaryOfferTitleLabel.text = "£ " + formattedNumber!
         cell.summaryOfferSubtitleLabel.text = "Cash earned"
         cell.claimedOffersLabel.text = String(describing: offersCount.completed)
         cell.pendingOffersLabel.text = String(describing: offersCount.pending)

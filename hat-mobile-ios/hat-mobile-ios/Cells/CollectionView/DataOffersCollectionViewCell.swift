@@ -106,10 +106,14 @@ internal class DataOffersCollectionViewCell: UICollectionViewCell, UserCredentia
         func showDefaultImage() {
             
             cell.ringProgressBar.isHidden = true
-            cell.imageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
-            completion?(cell.imageView.image!)
+            if let image = cell.imageView.image {
+                
+                completion?(image)
+            }
         }
         
+        cell.imageView.image = UIImage(named: Constants.ImageNames.placeholderImage)
+
         if let unwrappedURL = URL(string: url) {
             
             cell.ringProgressBar.isHidden = false
@@ -117,18 +121,7 @@ internal class DataOffersCollectionViewCell: UICollectionViewCell, UserCredentia
                 url: unwrappedURL,
                 userToken: self.userToken,
                 progressUpdater: updateProgressBar,
-                completion: {
-                    
-                    if let image = cell.imageView.image {
-                        
-                        cell.ringProgressBar.isHidden = true
-                        completion?(image)
-                    } else {
-                        
-                        showDefaultImage()
-                    }
-                }
-            )
+                completion: showDefaultImage)
         } else {
             
             showDefaultImage()

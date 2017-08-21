@@ -80,31 +80,20 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                     self.navigationController?.popViewController(animated: true)
                 } else if receivedOffer?.reward.rewardType == "Service" {
                     
-                    if claimResult == "completed" || claimResult == "redeemed" {
-                    
-                        if let unwrapedVendorURL = self.receivedOffer?.reward.vendorURL {
-                            
-                            self.showPopUpWindow(
-                                text: unwrapedVendorURL,
-                                buttonTitle: "Open in Safari")
-                        }
-                    } else {
-                        
-                        self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
-                        self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
-                        self.acceptOfferButton.isEnabled = false
-                        self.acceptOfferButton.alpha = 0.8
-                    }
+                    self.checkOfferStatus(status: claimResult)
                 } else if receivedOffer?.reward.rewardType == "Voucher" && (claimResult == "completed" || claimResult == "redeemed") {
                     
-                    self.showPopUpWindow(
-                        text: (self.receivedOffer?.reward.codes?[0])!,
-                        buttonTitle: "Copy and open in Safari")
+                    if let code = self.receivedOffer?.reward.codes?[0] {
+                        
+                        self.showPopUpWindow(
+                            text: code,
+                            buttonTitle: "Copy and open in Safari")
+                    }
                 }
             }
             
             self.createClassicOKAlertWith(
-                alertMessage: "Success",
+                alertMessage: "You can view your data debits in your settings",
                 alertTitle: "Offer has been claimed!",
                 okTitle: "OK",
                 proceedCompletion: alertCompletion)
@@ -182,6 +171,54 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         }
     }
     
+    // MARK: - Check offer status
+    
+    /**
+     <#Function Details#>
+     
+     - parameter <#Parameter#>: <#Parameter description#>
+     */
+    private func checkOfferStatus(status: String) {
+        
+        if receivedOffer?.reward.rewardType == "Service" {
+            
+            if status == "completed" || status == "redeemed" {
+                
+                if let unwrapedVendorURL = self.receivedOffer?.reward.vendorURL {
+                    
+                    self.showPopUpWindow(
+                        text: unwrapedVendorURL,
+                        buttonTitle: "Open in Safari")
+                }
+            } else if status == "accepted" {
+                
+                self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
+                self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
+                self.acceptOfferButton.isEnabled = false
+                self.acceptOfferButton.alpha = 0.8
+            }
+        }
+        
+        if receivedOffer?.reward.rewardType == "Voucher" {
+        
+            if status == "completed" || status == "redeemed" {
+                
+                if let code = self.receivedOffer?.reward.codes?[0] {
+                    
+                    self.showPopUpWindow(
+                        text: code,
+                        buttonTitle: "Copy and open in Safari")
+                }
+            } else if status == "accepted" {
+                
+                self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
+                self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
+                self.acceptOfferButton.isEnabled = false
+                self.acceptOfferButton.alpha = 0.8
+            }
+        }
+    }
+    
     // MARK: - Check for received offer
     
     /**
@@ -191,13 +228,6 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
         
         self.ppiEnabledLabel.text = "PII NOT REQUESTED"
         self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-//        if receivedOffer!.isPΙIRequested {
-//            self.ppiEnabledLabel.text = "PII REQUESTED"
-//            self.piiExplainedLabel.text = "PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-//        } else {
-//            self.ppiEnabledLabel.text = "PII NOT REQUESTED"
-//            self.piiExplainedLabel.text = "NO PERSONALLY IDENTIFIABLE INFORMATION (PII) IS REQUIRED IN THIS OFFER"
-//        }
     }
     
     /**
@@ -251,6 +281,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             self.checkForPII()
             self.checkForOfferDuration()
             self.checkForOfferRewardType()
+            self.checkOfferStatus(status: receivedOffer!.claim.claimStatus)
         }
     }
     
@@ -387,9 +418,15 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             
             if self.receivedOffer?.claim.claimStatus == "completed" || self.receivedOffer?.claim.claimStatus == "redeemed" {
                 
-                self.showPopUpWindow(
-                    text: (self.receivedOffer?.reward.codes?[0])!,
-                    buttonTitle: "Copy and open in Safari")
+                if let codes = self.receivedOffer?.reward.codes {
+                    
+                    if !codes.isEmpty {
+                        
+                        self.showPopUpWindow(
+                            text: codes[0],
+                            buttonTitle: "Copy and open in Safari")
+                    }
+                }
             }
         }
     }

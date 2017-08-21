@@ -10,7 +10,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+import HatForIOS
+import SwiftyJSON
 
 // MARK: Class
 
@@ -20,21 +21,34 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Education"], ["Info"], ["Employment Status"], ["Living Info"], ["My Priorities"], ["My Interests"]]
-    private let headers: [String] = ["Complete your profile and preferences to unlock more exclusive and personalised offers for your data", "", "", "", "", ""]
+    private let sections: [[String]] = [["Education"], ["Info"], ["Locale"], ["Employment Status"], ["Living Info"], ["My Priorities"], ["My Interests"]]
+    /// The headers of the table view
+    private var headers: [String] = ["Complete your profile and preferences to unlock more exclusive and personalised offers for your data (Coming Soon) ", "", "", "", "", "", ""]
     
+    /// The preffered title of the view controller
     var prefferedTitle: String = "For Data Offers"
+    /// The preffered info pop up message
     var prefferedInfoMessage: String = "Fill up your preference profile so that it can be matched with products and services out there"
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
     
+    private var profile: HATProfileObject?
+    
+    private var loadingView: UIView?
+    
     // MARK: - IBOutlets
     
+    /// An IBOutlet for handling the info pop up UIButton
     @IBOutlet private weak var infoPopUpButton: UIButton!
     
     // MARK: - IBActions
     
+    /**
+     It slides the pop up view controller from the bottom of the screen
+     
+     - parameter sender: The object that calls this method
+     */
     @IBAction func infoPopUp(_ sender: Any) {
         
         self.showInfoViewController(text: prefferedInfoMessage)
@@ -104,7 +118,7 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
                             y: weakSelf.tableView.frame.maxY - 250,
                             width: weakSelf.view.frame.width - 30,
                             height: 300)
-                },
+                    },
                     completion: { _ in return }
                 )
             }
@@ -124,6 +138,13 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
             selector: #selector(hidePopUp),
             name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
             object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        
+        super.viewWillAppear(animated)
+        
+        self.getCompleteness()
     }
     
     override func didReceiveMemoryWarning() {
@@ -160,14 +181,17 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
             self.performSegue(withIdentifier: Constants.Segue.dataStoreToInfoSegue, sender: self)
         } else if indexPath.section == 2 {
             
-            self.performSegue(withIdentifier: Constants.Segue.dataStoreToEmploymentStatusSegue, sender: self)
+            self.performSegue(withIdentifier: Constants.Segue.forDataOffersToLocaleSegue, sender: self)
         } else if indexPath.section == 3 {
             
-            self.performSegue(withIdentifier: Constants.Segue.dataStoreToHouseholdSegue, sender: self)
+            self.performSegue(withIdentifier: Constants.Segue.dataStoreToEmploymentStatusSegue, sender: self)
         } else if indexPath.section == 4 {
             
-            self.performSegue(withIdentifier: Constants.Segue.prioritiesSegue, sender: self)
+            self.performSegue(withIdentifier: Constants.Segue.dataStoreToHouseholdSegue, sender: self)
         } else if indexPath.section == 5 {
+            
+            self.performSegue(withIdentifier: Constants.Segue.prioritiesSegue, sender: self)
+        } else if indexPath.section == 6 {
             
             self.performSegue(withIdentifier: Constants.Segue.interestsSegue, sender: self)
         }
@@ -198,6 +222,170 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
         cell.textLabel?.text = self.sections[indexPath.section][indexPath.row]
         
         return cell
+    }
+    
+    // MARK: - Get profile completeness
+    
+    /**
+     Get's the profile completeness stat
+     */
+    func getCompleteness() {
+        
+        var count: Int = 0
+        var totalQuestions = 0
+        
+        func success(dataBundleCreated: Bool) {
+            
+            func profileReceived(profile: HATProfileObject) {
+                
+                func countCompletness(dictionary: Dictionary<String, JSON>) {
+                    
+                    self.tableView.isUserInteractionEnabled = true
+                    self.loadingView?.removeFromSuperview()
+                    
+                    if profile.data.addressGlobal.city != "" {
+                        
+                        count += 1
+                    }
+                    
+                    if profile.data.addressGlobal.county != "" {
+                        
+                        count += 1
+                    }
+                    
+                    if profile.data.addressGlobal.country != "" {
+                        
+                        count += 1
+                    }
+                    
+                    // 3 fields of profile above
+                    totalQuestions += 3
+                    
+                    if !dictionary.isEmpty {
+                        
+                        for (key, value) in dictionary {
+                            
+                            if key == "interests" && !value.arrayValue.isEmpty {
+                                
+                                if let array = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue {
+                                    
+                                    var countAdded: Bool = false
+                                    var countPossibleAnswers: Int = 0
+                                    
+                                    for interest in array where interest.key != "unixTimeStamp" {
+                                        
+                                        totalQuestions += 1
+                                        countPossibleAnswers += 1
+                                        
+                                        if interest.value == 1  && !countAdded {
+                                            
+                                            countAdded = true
+                                        }
+                                    }
+                                    
+                                    if countAdded {
+                                        
+                                        count += countPossibleAnswers
+                                    }
+                                    
+                                }
+                            } else if (key == "education" || key == "livingInfo" || key == "profileInfo" || key == "employmentStatus") && !value.arrayValue.isEmpty {
+                                
+                                if let dict = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue {
+                                    
+                                    for question in dict where question.key != "unixTimeStamp" && question.key != "numberOfDecendants" {
+                                        
+                                        totalQuestions += 1
+                                        if question.value.stringValue != "" {
+                                            
+                                            count += 1
+                                        }
+                                    }
+                                }
+                            } else if !value.arrayValue.isEmpty {
+                                
+                                if let array = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue["array"]?.arrayValue {
+                                    
+                                    for item in array {
+                                        
+                                        totalQuestions += 1
+                                        if item.dictionaryValue["interest"]?.intValue != 0 {
+                                            
+                                            count += 1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    if !headers.isEmpty {
+                        
+                        print(totalQuestions)
+                        if count > 67 {
+                            
+                            count = 67
+                        }
+                        let percent: Double = Double(Double(count) / Double(67))
+                        let stringPercentage: String = String(format: "%.2f", percent * 100)
+                        
+                        headers[0] = "Complete your profile and preferences to unlock more exclusive and personalised offers for your data (Coming Soon).\n\nCompletion level: \(stringPercentage)%, \(count)/67"
+                        self.tableView.reloadData()
+                    }
+                }
+                
+                if dataBundleCreated {
+                    
+                    HATAccountService.getMatchMeCompletion(
+                        success: countCompletness,
+                        fail: failed)
+                }
+                
+                self.profile = profile
+            }
+            
+            HATPhataService.getProfileFromHAT(
+                userDomain: userDomain,
+                userToken: userToken,
+                successCallback: profileReceived,
+                failCallback: failed)
+        }
+        
+        func failed(error: HATTableError) {
+            
+            self.tableView.isUserInteractionEnabled = true
+            self.loadingView?.removeFromSuperview()
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+        
+        self.tableView.isUserInteractionEnabled = false
+        self.loadingView = UIView.createLoadingView(
+            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
+            color: .teal,
+            cornerRadius: 15,
+            in: self.view,
+            with: "Loading HAT data...",
+            textColor: .white,
+            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        
+        HATAccountService.createMatchMeCompletion(
+            success: success,
+            fail: failed)
+    }
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        
+        if segue.identifier == Constants.Segue.forDataOffersToLocaleSegue {
+            
+            if let vc = segue.destination as? AddressTableViewController {
+                
+                vc.profile = self.profile
+                vc.isSwitchHidden = true
+            }
+        }
     }
     
 }

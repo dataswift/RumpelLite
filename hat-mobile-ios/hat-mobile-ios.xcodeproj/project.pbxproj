@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0D5637F6A801923583665846 /* Pods_hat_mobile_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 77786464C54765E0CEAD1CF0 /* Pods_hat_mobile_iosTests.framework */; };
+		4CA3FD173280DE94BE7C810B /* Pods_hat_mobile_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9A45CD21A696F25991B61630 /* Pods_hat_mobile_ios.framework */; };
 		600015541EAE62AE000A084F /* ResetPasswordTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600015531EAE62AE000A084F /* ResetPasswordTableViewController.swift */; };
 		600015561EAE63CD000A084F /* ResetPasswordTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */; };
 		6000CE5D1DE728580076E173 /* OpenSans-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6000CE531DE728580076E173 /* OpenSans-Bold.ttf */; };
@@ -414,6 +414,7 @@
 		607C107D1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */; };
 		607DC4551E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */; };
 		6088ED191E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6088ED181E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift */; };
+		608DCF791F41B41F0069BB6E /* HomeScreenSegueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DCF781F41B41F0069BB6E /* HomeScreenSegueObject.swift */; };
 		608EAAA61DFEA7ED00234C60 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608EAAA51DFEA7ED00234C60 /* StringExtension.swift */; };
 		608EAAA81DFEA8AD00234C60 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608EAAA71DFEA8AD00234C60 /* ViewControllerExtension.swift */; };
 		6090D4661E31316F004FD1E2 /* MarketSquareService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6090D4651E31316F004FD1E2 /* MarketSquareService.swift */; };
@@ -423,8 +424,6 @@
 		60938DBC1E9BA4190058F6CC /* PhotoPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBB1E9BA4190058F6CC /* PhotoPickerDelegate.swift */; };
 		60938DBE1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBD1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift */; };
 		60938DC01E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */; };
-		6097C0661E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6097C0641E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf */; };
-		6097C0671E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 6097C0651E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf */; };
 		6097C0691E327506000E771A /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */; };
 		60A727BD1DDF47ED008AF409 /* FormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */; };
 		60AAA5B81E83D70A0080D0D5 /* HATProviderObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */; };
@@ -459,7 +458,6 @@
 		60FB24041F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FB24031F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift */; };
 		60FB24061F3A0C75001A5EFD /* GoDeepObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FB24051F3A0C75001A5EFD /* GoDeepObject.swift */; };
 		60FB24081F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */; };
-		80ECC806CA622621992D8329 /* Pods_hat_mobile_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 38701F920BAE76DFF5463629 /* Pods_hat_mobile_ios.framework */; };
 		B5138ACE1D1ECA2C00CD1530 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5138ACD1D1ECA2C00CD1530 /* NetworkHelper.swift */; };
 		B51CC9241D1D5749000C9E48 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CC9231D1D5749000C9E48 /* SettingsViewController.swift */; };
 		B51CC9261D1D620C000C9E48 /* MapSettingsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51CC9251D1D620C000C9E48 /* MapSettingsDelegate.swift */; };
@@ -479,7 +477,8 @@
 		B59136881D19DC2700E9EDD0 /* DataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59136871D19DC2700E9EDD0 /* DataPoint.swift */; };
 		B591368A1D19DE6C00E9EDD0 /* RealmHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59136891D19DE6C00E9EDD0 /* RealmHelper.swift */; };
 		B591368C1D19F13500E9EDD0 /* DataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B591368B1D19F13500E9EDD0 /* DataViewController.swift */; };
-		C9A7EBA6C445F9F68C86728A /* Pods_hat_mobile_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2632FB8B2553DD802A1D8E0E /* Pods_hat_mobile_iosUITests.framework */; };
+		B94B57AA42DA4AEC616E077B /* Pods_hat_mobile_iosTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8098389A357ADF69E5CDE9E6 /* Pods_hat_mobile_iosTests.framework */; };
+		FD07C6371E5813B9C0D2C023 /* Pods_hat_mobile_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC13FC7BCE178898506BBF1F /* Pods_hat_mobile_iosUITests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -500,13 +499,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0AF64C75F28A29BAC48C6881 /* Pods-hat-mobile-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios.release.xcconfig"; sourceTree = "<group>"; };
-		158113EFCF5B64B67322CA7A /* Pods-hat-mobile-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios.debug.xcconfig"; sourceTree = "<group>"; };
-		2632FB8B2553DD802A1D8E0E /* Pods_hat_mobile_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		28C6670E861A21AA5FCE1C0F /* Pods-hat-mobile-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
-		38701F920BAE76DFF5463629 /* Pods_hat_mobile_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4B2D42BB42DCB166E7846D00 /* Pods-hat-mobile-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests.release.xcconfig"; sourceTree = "<group>"; };
-		58252B1549E6585555A90CEC /* Pods-hat-mobile-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		028FC83F8011E2DAB73796AB /* Pods-hat-mobile-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		2DECC0CB4C2B564CF10F5150 /* Pods-hat-mobile-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
 		600015531EAE62AE000A084F /* ResetPasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewController.swift; sourceTree = "<group>"; };
 		600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewCell.swift; sourceTree = "<group>"; };
 		6000CE531DE728580076E173 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -617,6 +611,7 @@
 		607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAHATInfoViewController.swift; sourceTree = "<group>"; };
 		607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScreenWithProgressRingViewController.swift; sourceTree = "<group>"; };
 		6088ED181E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstOnboardingPageViewController.swift; sourceTree = "<group>"; };
+		608DCF781F41B41F0069BB6E /* HomeScreenSegueObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenSegueObject.swift; sourceTree = "<group>"; };
 		608EAAA51DFEA7ED00234C60 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		608EAAA71DFEA8AD00234C60 /* ViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewControllerExtension.swift; sourceTree = "<group>"; };
 		6090D4651E31316F004FD1E2 /* MarketSquareService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarketSquareService.swift; sourceTree = "<group>"; };
@@ -626,8 +621,6 @@
 		60938DBB1E9BA4190058F6CC /* PhotoPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPickerDelegate.swift; sourceTree = "<group>"; };
 		60938DBD1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoFullScreenViewerViewController.swift; sourceTree = "<group>"; };
 		60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareOptionsSelectedImageCollectionViewCell.swift; sourceTree = "<group>"; };
-		6097C0641E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "2.1 HATTermsofService v1.0.pdf"; sourceTree = "<group>"; };
-		6097C0651E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "Rumpel Lite iOS Application Terms of Service.pdf"; sourceTree = "<group>"; };
 		6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsViewController.swift; sourceTree = "<group>"; };
 		60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
 		60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATProviderObjectExtension.swift; sourceTree = "<group>"; };
@@ -664,8 +657,12 @@
 		60FB24031F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoDeepCollectionViewController.swift; sourceTree = "<group>"; };
 		60FB24051F3A0C75001A5EFD /* GoDeepObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoDeepObject.swift; sourceTree = "<group>"; };
 		60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoDeepCollectionViewCell.swift; sourceTree = "<group>"; };
-		77786464C54765E0CEAD1CF0 /* Pods_hat_mobile_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		821CBD00C6F813421F149C7E /* Pods-hat-mobile-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
+		74B3E19D1AED186C79C50463 /* Pods-hat-mobile-iosTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests.debug.xcconfig"; sourceTree = "<group>"; };
+		7893B0CB09D488FE0ADBA9DE /* Pods-hat-mobile-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios.release.xcconfig"; sourceTree = "<group>"; };
+		7DDF6FF493DE6EFA23C3021D /* Pods-hat-mobile-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests.release.xcconfig"; sourceTree = "<group>"; };
+		8098389A357ADF69E5CDE9E6 /* Pods_hat_mobile_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8E02354156D9CC908D35C942 /* Pods-hat-mobile-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		9A45CD21A696F25991B61630 /* Pods_hat_mobile_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5138ACD1D1ECA2C00CD1530 /* NetworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		B51CC9231D1D5749000C9E48 /* SettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		B51CC9251D1D620C000C9E48 /* MapSettingsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapSettingsDelegate.swift; sourceTree = "<group>"; };
@@ -690,6 +687,7 @@
 		B59136871D19DC2700E9EDD0 /* DataPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPoint.swift; sourceTree = "<group>"; };
 		B59136891D19DE6C00E9EDD0 /* RealmHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealmHelper.swift; sourceTree = "<group>"; };
 		B591368B1D19F13500E9EDD0 /* DataViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataViewController.swift; sourceTree = "<group>"; };
+		FC13FC7BCE178898506BBF1F /* Pods_hat_mobile_iosUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_iosUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -698,7 +696,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B564E9971D1984CF00EDB8F1 /* MapKit.framework in Frameworks */,
-				80ECC806CA622621992D8329 /* Pods_hat_mobile_ios.framework in Frameworks */,
+				4CA3FD173280DE94BE7C810B /* Pods_hat_mobile_ios.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -706,7 +704,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0D5637F6A801923583665846 /* Pods_hat_mobile_iosTests.framework in Frameworks */,
+				B94B57AA42DA4AEC616E077B /* Pods_hat_mobile_iosTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,7 +712,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C9A7EBA6C445F9F68C86728A /* Pods_hat_mobile_iosUITests.framework in Frameworks */,
+				FD07C6371E5813B9C0D2C023 /* Pods_hat_mobile_iosUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -726,9 +724,9 @@
 			children = (
 				60CD68431E47C71300E60429 /* SwiftyJSON.framework */,
 				B564E9961D1984CF00EDB8F1 /* MapKit.framework */,
-				38701F920BAE76DFF5463629 /* Pods_hat_mobile_ios.framework */,
-				77786464C54765E0CEAD1CF0 /* Pods_hat_mobile_iosTests.framework */,
-				2632FB8B2553DD802A1D8E0E /* Pods_hat_mobile_iosUITests.framework */,
+				9A45CD21A696F25991B61630 /* Pods_hat_mobile_ios.framework */,
+				8098389A357ADF69E5CDE9E6 /* Pods_hat_mobile_iosTests.framework */,
+				FC13FC7BCE178898506BBF1F /* Pods_hat_mobile_iosUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -875,6 +873,7 @@
 			children = (
 				603926D11E603D3600DC1816 /* HomeScreenObject.swift */,
 				60FB24051F3A0C75001A5EFD /* GoDeepObject.swift */,
+				608DCF781F41B41F0069BB6E /* HomeScreenSegueObject.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -948,8 +947,6 @@
 		6097C0631E3273AA000E771A /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				6097C0641E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf */,
-				6097C0651E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -1019,14 +1016,14 @@
 		60DD7F6D1E27CEE3000C1B1E /* TableView */ = {
 			isa = PBXGroup;
 			children = (
-				B54EA6191D19F5450018EE47 /* DataPointTableViewCell.swift */,
-				602934021F39BDFD00515926 /* SurveyTableViewCell.swift */,
 				6033DAF21F34C92200A9048B /* DataDebitTableViewCell.swift */,
-				6041B20F1DD4AC190018CC31 /* NotablesTableViewCell.swift */,
 				60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */,
+				B54EA6191D19F5450018EE47 /* DataPointTableViewCell.swift */,
+				6041B20F1DD4AC190018CC31 /* NotablesTableViewCell.swift */,
 				60D8DAB11F3215520055CEAC /* NotificationsTableViewCell.swift */,
 				60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */,
 				600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */,
+				602934021F39BDFD00515926 /* SurveyTableViewCell.swift */,
 			);
 			path = TableView;
 			sourceTree = "<group>";
@@ -1037,13 +1034,13 @@
 				60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */,
 				606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */,
 				60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */,
-				604F32E31F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift */,
+				60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */,
 				601142781E5F967D00A9D982 /* HomeCollectionViewCell.swift */,
 				603926D31E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift */,
+				604F32E31F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift */,
 				607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */,
 				602CB4491E8BF3AB00903F33 /* PhotosCollectionViewCell.swift */,
 				60CC29A71EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift */,
-				60FB24071F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift */,
 				60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */,
 				60D317681E35FE52008E0A5F /* SocialFeedCollectionViewCell.swift */,
 				603D3A721DE879E600C973D8 /* SocialImageCollectionViewCell.swift */,
@@ -1059,12 +1056,24 @@
 			name = "Data Debits";
 			sourceTree = "<group>";
 		};
+		77A8EC15ADBFED5B83DDA45B /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8E02354156D9CC908D35C942 /* Pods-hat-mobile-ios.debug.xcconfig */,
+				7893B0CB09D488FE0ADBA9DE /* Pods-hat-mobile-ios.release.xcconfig */,
+				74B3E19D1AED186C79C50463 /* Pods-hat-mobile-iosTests.debug.xcconfig */,
+				7DDF6FF493DE6EFA23C3021D /* Pods-hat-mobile-iosTests.release.xcconfig */,
+				028FC83F8011E2DAB73796AB /* Pods-hat-mobile-iosUITests.debug.xcconfig */,
+				2DECC0CB4C2B564CF10F5150 /* Pods-hat-mobile-iosUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		B564E95C1D19717900EDB8F1 = {
 			isa = PBXGroup;
 			children = (
 				6097C0631E3273AA000E771A /* Assets */,
 				08D0D14BBCEF6FAAACE465BA /* Frameworks */,
-				DF4840D84E14BC3A54966F28 /* Pods */,
 				B564E9661D19717900EDB8F1 /* Products */,
 				B564E9671D19717900EDB8F1 /* hat-mobile-ios */,
 				B564E97C1D19717900EDB8F1 /* hat-mobile-iosTests */,
@@ -1074,6 +1083,7 @@
 				6041B2031E49CECA00534955 /* Launch Screen2.storyboard */,
 				B564E9981D19862200EDB8F1 /* Localizable.strings */,
 				B564E96C1D19717900EDB8F1 /* Main.storyboard */,
+				77A8EC15ADBFED5B83DDA45B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1192,19 +1202,6 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		DF4840D84E14BC3A54966F28 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				158113EFCF5B64B67322CA7A /* Pods-hat-mobile-ios.debug.xcconfig */,
-				0AF64C75F28A29BAC48C6881 /* Pods-hat-mobile-ios.release.xcconfig */,
-				28C6670E861A21AA5FCE1C0F /* Pods-hat-mobile-iosTests.debug.xcconfig */,
-				4B2D42BB42DCB166E7846D00 /* Pods-hat-mobile-iosTests.release.xcconfig */,
-				58252B1549E6585555A90CEC /* Pods-hat-mobile-iosUITests.debug.xcconfig */,
-				821CBD00C6F813421F149C7E /* Pods-hat-mobile-iosUITests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1212,14 +1209,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B564E98D1D19717900EDB8F1 /* Build configuration list for PBXNativeTarget "hat-mobile-ios" */;
 			buildPhases = (
-				AC9A4B5A5005F2159FF38388 /* [CP] Check Pods Manifest.lock */,
+				93650064D08A5BAE17AA1B40 /* [CP] Check Pods Manifest.lock */,
 				B564E9611D19717900EDB8F1 /* Sources */,
 				B564E9621D19717900EDB8F1 /* Frameworks */,
 				B564E9631D19717900EDB8F1 /* Resources */,
 				6076A5971DEFACA700D83D42 /* ShellScript */,
-				4E1B908D4617D7C03004F3E7 /* [CP] Embed Pods Frameworks */,
-				BE9985A57514D67E05B3091A /* [CP] Copy Pods Resources */,
 				604E45FE1EFBD4CC0071347E /* ShellScript */,
+				3AC8E24F0B1CDF2616014984 /* [CP] Embed Pods Frameworks */,
+				477F50B01D510BE601AD8F5E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1234,12 +1231,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B564E9901D19717900EDB8F1 /* Build configuration list for PBXNativeTarget "hat-mobile-iosTests" */;
 			buildPhases = (
-				4AFE367BDC8E7CB1B4B74AEB /* [CP] Check Pods Manifest.lock */,
+				622FE603E985673EDDBC90B9 /* [CP] Check Pods Manifest.lock */,
 				B564E9751D19717900EDB8F1 /* Sources */,
 				B564E9761D19717900EDB8F1 /* Frameworks */,
 				B564E9771D19717900EDB8F1 /* Resources */,
-				4558951E55EC13DFDA91F601 /* [CP] Embed Pods Frameworks */,
-				08B770A650AD1E61875F466F /* [CP] Copy Pods Resources */,
+				22093515B1A69772EC309720 /* [CP] Embed Pods Frameworks */,
+				19944B152E08F5BFC5640D01 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1255,12 +1252,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B564E9931D19717900EDB8F1 /* Build configuration list for PBXNativeTarget "hat-mobile-iosUITests" */;
 			buildPhases = (
-				B7A88E34CFB8B0481FD46E0D /* [CP] Check Pods Manifest.lock */,
+				0CFD62016767EAA5889F9F89 /* [CP] Check Pods Manifest.lock */,
 				B564E9801D19717900EDB8F1 /* Sources */,
 				B564E9811D19717900EDB8F1 /* Frameworks */,
 				B564E9821D19717900EDB8F1 /* Resources */,
-				2751C775C9807AEFFE85B3AE /* [CP] Embed Pods Frameworks */,
-				A3C2EE3D004F8531DF341A6F /* [CP] Copy Pods Resources */,
+				BFBAF1A09C18DF33D95099A1 /* [CP] Embed Pods Frameworks */,
+				2552F39FB981BEADA2DFFAB6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1356,7 +1353,6 @@
 				6000CE5F1DE728580076E173 /* OpenSans-ExtraBold.ttf in Resources */,
 				6000CE701DE7288A0076E173 /* ss-glyphish-outlined.ttf in Resources */,
 				B564E9991D19862200EDB8F1 /* Localizable.strings in Resources */,
-				6097C0671E3273E9000E771A /* Rumpel Lite iOS Application Terms of Service.pdf in Resources */,
 				6000CE631DE728580076E173 /* OpenSans-LightItalic.ttf in Resources */,
 				6000CE6A1DE728640076E173 /* OpenSans-CondBold.ttf in Resources */,
 				6000CE6E1DE728770076E173 /* ss-glyphish-filled.ttf in Resources */,
@@ -1364,7 +1360,6 @@
 				B564E96E1D19717900EDB8F1 /* Main.storyboard in Resources */,
 				6000CE661DE728580076E173 /* OpenSans-SemiboldItalic.ttf in Resources */,
 				6000CE621DE728580076E173 /* OpenSans-Light.ttf in Resources */,
-				6097C0661E3273E9000E771A /* 2.1 HATTermsofService v1.0.pdf in Resources */,
 				6000CE641DE728580076E173 /* OpenSans-Regular.ttf in Resources */,
 				6000CE601DE728580076E173 /* OpenSans-ExtraBoldItalic.ttf in Resources */,
 				6041B2041E49CECA00534955 /* Launch Screen2.storyboard in Resources */,
@@ -1393,7 +1388,25 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		08B770A650AD1E61875F466F /* [CP] Copy Pods Resources */ = {
+		0CFD62016767EAA5889F9F89 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hat-mobile-iosUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		19944B152E08F5BFC5640D01 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1408,22 +1421,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2751C775C9807AEFFE85B3AE /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4558951E55EC13DFDA91F601 /* [CP] Embed Pods Frameworks */ = {
+		22093515B1A69772EC309720 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1467,25 +1465,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4AFE367BDC8E7CB1B4B74AEB /* [CP] Check Pods Manifest.lock */ = {
+		2552F39FB981BEADA2DFFAB6 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Check Pods Manifest.lock";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-hat-mobile-iosTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		4E1B908D4617D7C03004F3E7 /* [CP] Embed Pods Frameworks */ = {
+		3AC8E24F0B1CDF2616014984 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1527,6 +1522,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		477F50B01D510BE601AD8F5E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		604E45FE1EFBD4CC0071347E /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1553,22 +1563,25 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Fabric/run\" 4398fa4a59c4ae9f4c3465ae15d65aa0bdd7810a 2c7e49e6d9a87b931db2642312ca7b43b36eaee03e5ace21b6a3a9785d2c02c3";
 		};
-		A3C2EE3D004F8531DF341A6F /* [CP] Copy Pods Resources */ = {
+		622FE603E985673EDDBC90B9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hat-mobile-iosTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AC9A4B5A5005F2159FF38388 /* [CP] Check Pods Manifest.lock */ = {
+		93650064D08A5BAE17AA1B40 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1586,37 +1599,19 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		B7A88E34CFB8B0481FD46E0D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-hat-mobile-iosUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		BE9985A57514D67E05B3091A /* [CP] Copy Pods Resources */ = {
+		BFBAF1A09C18DF33D95099A1 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "[CP] Copy Pods Resources";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1696,6 +1691,7 @@
 				603B20921F275B2C00E90D4C /* CollectionExtension.swift in Sources */,
 				60AFA1E81E9F6CE100AFA28B /* SendLocationDataDelegate.swift in Sources */,
 				6044B2181DDB3151003A1263 /* TabBarViewController.swift in Sources */,
+				608DCF791F41B41F0069BB6E /* HomeScreenSegueObject.swift in Sources */,
 				6097C0691E327506000E771A /* TermsAndConditionsViewController.swift in Sources */,
 				603CE74C1DF7091500421429 /* ParentPageViewController.swift in Sources */,
 				6050E2DF1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift in Sources */,
@@ -2224,7 +2220,7 @@
 		};
 		B564E98E1D19717900EDB8F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 158113EFCF5B64B67322CA7A /* Pods-hat-mobile-ios.debug.xcconfig */;
+			baseConfigurationReference = 8E02354156D9CC908D35C942 /* Pods-hat-mobile-ios.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2252,7 +2248,7 @@
 		};
 		B564E98F1D19717900EDB8F1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0AF64C75F28A29BAC48C6881 /* Pods-hat-mobile-ios.release.xcconfig */;
+			baseConfigurationReference = 7893B0CB09D488FE0ADBA9DE /* Pods-hat-mobile-ios.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -2279,7 +2275,7 @@
 		};
 		B564E9911D19717900EDB8F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 28C6670E861A21AA5FCE1C0F /* Pods-hat-mobile-iosTests.debug.xcconfig */;
+			baseConfigurationReference = 74B3E19D1AED186C79C50463 /* Pods-hat-mobile-iosTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2304,7 +2300,7 @@
 		};
 		B564E9921D19717900EDB8F1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4B2D42BB42DCB166E7846D00 /* Pods-hat-mobile-iosTests.release.xcconfig */;
+			baseConfigurationReference = 7DDF6FF493DE6EFA23C3021D /* Pods-hat-mobile-iosTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -2329,7 +2325,7 @@
 		};
 		B564E9941D19717900EDB8F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 58252B1549E6585555A90CEC /* Pods-hat-mobile-iosUITests.debug.xcconfig */;
+			baseConfigurationReference = 028FC83F8011E2DAB73796AB /* Pods-hat-mobile-iosUITests.debug.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "hat-mobile-iosUITests/Info.plist";
@@ -2344,7 +2340,7 @@
 		};
 		B564E9951D19717900EDB8F1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 821CBD00C6F813421F149C7E /* Pods-hat-mobile-iosUITests.release.xcconfig */;
+			baseConfigurationReference = 2DECC0CB4C2B564CF10F5150 /* Pods-hat-mobile-iosUITests.release.xcconfig */;
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "hat-mobile-iosUITests/Info.plist";

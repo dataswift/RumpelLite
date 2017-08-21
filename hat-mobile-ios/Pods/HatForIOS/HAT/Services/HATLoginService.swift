@@ -29,7 +29,7 @@ public struct HATLoginService {
      */
     public static func verifyDomain(_ domain: String) -> Bool {
 
-        if domain == "hubofallthings.net" || domain == "bheard.org" || domain == "hubat.net" {
+        if domain.hasSuffix("hubofallthings.net") || domain.hasSuffix("savy.io") || domain.hasSuffix("hubat.net") {
 
             return true
         }
@@ -51,8 +51,6 @@ public struct HATLoginService {
 
         // split text field text by .
         var array = hatDomain.components(separatedBy: ".")
-        // remove the first string
-        array.remove(at: 0)
 
         // form one string
         var domain = ""

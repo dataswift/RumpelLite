@@ -24,7 +24,7 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     /// The headers of the table view
     private let headers: [String] = ["PHATA", "Social Links", "Contact Info", "Profile", "Emergency Contact", "Biodata"]
     /// The footers of the table view
-    private let footers: [String] = ["PHATA stands for Personal HAT Address. Your PHATA page is your public profile, and you can customise exactly which parts of it you want to display, or keep private.", "", "", "", "", ""]
+    private let footers: [String] = ["PHATA stands for Personal HAT Address. Your PHATA page is the URL of your public profile, and you can customise exactly which parts of it you want to display, or keep private.", "", "", "", "", ""]
     
     /// User's profile passed on from previous view controller
     var profile: HATProfileObject?
@@ -143,7 +143,7 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
             color: .teal,
             cornerRadius: 15,
             in: self.view,
-            with: "Loading data from my HAT",
+            with: "Loading HAT data...",
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
@@ -311,6 +311,8 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
             isButtonHidden: true,
             from: self.storyboard!)
         
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 150
+        
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         
         textPopUpViewController?.view.createFloatingView(
@@ -318,7 +320,7 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
                 x: self.view.frame.origin.x + 15,
                 y: self.tableView.frame.maxY,
                 width: self.view.frame.width - 30,
-                height: self.view.frame.height),
+                height: calculatedHeight),
             color: .teal,
             cornerRadius: 15)
         
@@ -336,9 +338,9 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
                         
                         textPopUpViewController?.view.frame = CGRect(
                             x: weakSelf.view.frame.origin.x + 15,
-                            y: weakSelf.tableView.frame.maxY - 250,
+                            y: weakSelf.tableView.frame.maxY - calculatedHeight,
                             width: weakSelf.view.frame.width - 30,
-                            height: 300)
+                            height: calculatedHeight)
                     },
                     completion: { _ in return }
                 )

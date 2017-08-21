@@ -58,7 +58,8 @@ internal class SocialFeedCollectionViewCell: UICollectionViewCell, UserCredentia
             
             if let date = post.data.posts.updatedTime {
                 
-                cell.postInfoLabel.text = "Posted on " + FormatterHelper.formatDateStringToUsersDefinedDate(date: date, dateStyle: .short, timeStyle: .short) + ", privacy set to " + post.data.posts.privacy.value.replacingOccurrences(of: "_", with: " ")
+                cell.postInfoLabel.text =
+                "Posted on \(FormatterHelper.formatDateStringToUsersDefinedDate(date: date, dateStyle: .short, timeStyle: .short)), privacy set to \(post.data.posts.privacy.value.replacingOccurrences(of: "_", with: " "))"
             }
             
             // If the post is a photo, download it to the imageview
@@ -99,7 +100,8 @@ internal class SocialFeedCollectionViewCell: UICollectionViewCell, UserCredentia
             // if the post has a date create the info string label
             if post.data.tweets.createdAt != nil {
                 
-                cell.postInfoLabel.text = "Posted on " + FormatterHelper.formatDateStringToUsersDefinedDate(date: post.data.tweets.createdAt!, dateStyle: .short, timeStyle: .short)
+                cell.postInfoLabel.text =
+                "Posted on \(FormatterHelper.formatDateStringToUsersDefinedDate(date: post.data.tweets.createdAt!, dateStyle: .short, timeStyle: .short))"
             }
             
             // assign the twitter image as profile image
@@ -125,7 +127,7 @@ internal class SocialFeedCollectionViewCell: UICollectionViewCell, UserCredentia
         
         if data.type == "link" {
             
-            textView.attributedText = NSAttributedString(string: data.description + "\n" + data.link)
+            textView.attributedText = NSAttributedString(string: "\(data.description)\n\(data.link)")
         }
         
         // if nothing of above try to story and description

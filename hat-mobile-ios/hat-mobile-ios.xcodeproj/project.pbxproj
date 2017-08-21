@@ -966,9 +966,9 @@
 		60BB8F051EB335BD007E8045 /* Pop up View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				60E2679D1E55B9B800B6D626 /* AuthoriseUserViewController.swift */,
 				604F32E71F3DFF1B00F48201 /* ImagePopUpViewController.swift */,
 				604F32E91F3E02AA00F48201 /* ImageSlidePopUpViewController.swift */,
-				60E2679D1E55B9B800B6D626 /* AuthoriseUserViewController.swift */,
 				607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */,
 				60275B9F1E6DB3740098B66C /* TextPopUpViewController.swift */,
 			);

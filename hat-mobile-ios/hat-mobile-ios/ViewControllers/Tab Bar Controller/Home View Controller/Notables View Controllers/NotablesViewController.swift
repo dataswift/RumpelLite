@@ -412,6 +412,8 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         
         if editingStyle == UITableViewCellEditingStyle.delete {
             
+            self.selectedIndex = indexPath.row
+            
             // if it is shared show message else delete the row
             if self.cachedNotesArray[indexPath.row].data.shared {
                 

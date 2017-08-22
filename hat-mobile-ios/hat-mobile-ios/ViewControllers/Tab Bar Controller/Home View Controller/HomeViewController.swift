@@ -25,8 +25,8 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
     
-    /// An UIViewController used for authorising user
-    private var authoriseVC: AuthoriseUserViewController?
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
     
     /// The locations protocol
     private let location: UpdateLocations = UpdateLocations.shared
@@ -171,59 +171,16 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         self.ringProgressBar.isHidden = true
         
-        func success(token: String?) {
-            
-            if token != "" && token != nil {
-                
-                KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
-                KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
-                
-                self.authoriseVC?.removeViewController()
-                self.authoriseVC = nil
-            }
-        }
+        self.addChildViewController(HomeViewController.authoriseVC)
+
+        HomeViewController.authoriseVC.checkToken()
         
-        func failed() {
-            
-            NotificationCenter.default.post(
-                name: NSNotification.Name(Constants.NotificationNames.networkMessage),
-                object: "Unauthorized. Please sign out and try again.")
-            KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.expired)
-            
-            self.authoriseVC = AuthoriseUserViewController.setupAuthoriseViewController(view: self.view)
-            self.authoriseVC?.completionFunc = success
-            // addauthoriseVCthe page view controller to self
-            self.addViewController(self.authoriseVC!)
-        }
+        self.location.setUpLocationObject(self.location, delegate: UpdateLocations.shared)
+        self.location.locationManager?.requestAlwaysAuthorization()
         
-        // reset the stack to avoid allowing back
-        let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.logedIn)
-        
-        if result == "false" || userDomain == "" || userToken == "" {
-            
-            if let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
-                
-                self.navigationController?.pushViewController(loginViewController, animated: false)
-            }
-        // user logged in, set up view
-        } else {
-            
-            self.location.setUpLocationObject(self.location, delegate: UpdateLocations.shared)
-            self.location.locationManager?.requestAlwaysAuthorization()
-            
-            // set up elements
-            let usersHAT = userDomain.components(separatedBy: ".")[0]
-            self.helloLabel.text = "Hello \(usersHAT)!"
-            
-            // check if the token has expired
-            HATAccountService.checkIfTokenExpired(
-                token: userToken,
-                expiredCallBack: failed,
-                tokenValidCallBack: success,
-                errorCallBack: self.createClassicOKAlertWith)
-            
-            self.collectionView?.reloadData()
-        }
+        // set up elements
+        let usersHAT = userDomain.components(separatedBy: ".")[0]
+        self.helloLabel.text = "Hello \(usersHAT)!"
         
         HATService.getSystemStatus(
             userDomain: userDomain,

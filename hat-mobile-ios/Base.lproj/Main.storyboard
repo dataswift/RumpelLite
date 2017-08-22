@@ -108,7 +108,7 @@
                                             <segue destination="K1Y-nh-x1V" kind="show" identifier="learnMoreSegue" id="Gqh-nC-jR8"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qti-fk-0TI">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qti-fk-0TI">
                                         <rect key="frame" x="45" y="333" width="232" height="30"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="30" id="jpO-8G-LAG"/>
@@ -2364,7 +2364,7 @@
                         <viewControllerLayoutGuide type="top" id="diy-HZ-ac0"/>
                         <viewControllerLayoutGuide type="bottom" id="F3b-97-oAE"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="VNQ-Iy-ppa">
+                    <view key="view" contentMode="scaleToFill" misplaced="YES" id="VNQ-Iy-ppa">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
@@ -5003,7 +5003,7 @@
         <scene sceneID="yuS-Y2-x5h">
             <objects>
                 <collectionViewController id="Zii-IS-Aer" customClass="GoDeepCollectionViewController" customModule="hat_mobile_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="n8H-Lp-Cba">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="n8H-Lp-Cba">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -5181,7 +5181,7 @@
         <scene sceneID="tL6-wp-nlK">
             <objects>
                 <collectionViewController id="Zm4-mn-pPm" customClass="DataPlugsCollectionViewController" customModule="hat_mobile_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="VpC-ZV-WXZ">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" showsVerticalScrollIndicator="NO" dataMode="prototypes" id="VpC-ZV-WXZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -8165,12 +8165,12 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="v2J-fU-LlK"/>
-        <segue reference="dAR-WR-vXs"/>
+        <segue reference="TqN-oL-JwK"/>
+        <segue reference="z3o-Tc-MdP"/>
         <segue reference="4rH-cn-cXc"/>
         <segue reference="7kR-bZ-1RE"/>
-        <segue reference="z3o-Tc-MdP"/>
-        <segue reference="TqN-oL-JwK"/>
-        <segue reference="gao-fb-RHk"/>
+        <segue reference="MTn-5y-7dz"/>
+        <segue reference="dAR-WR-vXs"/>
         <segue reference="CgL-tV-CKg"/>
         <segue reference="bLw-tk-kFC"/>
     </inferredMetricsTieBreakers>

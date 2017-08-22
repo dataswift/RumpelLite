@@ -16,7 +16,7 @@ import SafariServices
 // MARK: Class
 
 /// Authorise view controller, really a blank view controller needed to present the safari view controller
-internal class AuthoriseUserViewController: UIViewController, UserCredentialsProtocol {
+internal class AuthoriseUserViewController: UIViewController, UserCredentialsProtocol, SFSafariViewControllerDelegate {
     
     // MARK: - Variables
     
@@ -25,6 +25,9 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
 
     /// The safari view controller that opened to authorise user again
     private var safari: SFSafariViewController?
+    
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
     
     // MARK: - View Controller methods
     
@@ -39,12 +42,31 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
             object: nil)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
+    convenience init() {
         
-        super.viewDidAppear(animated)
+        self.init(nibName:nil, bundle:nil)
         
-        // launch safari
-        self.launchSafari()
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(dismissView),
+            name: NSNotification.Name(Constants.NotificationNames.reauthorised),
+            object: nil)
+    }
+    
+    // This extends the superclass.
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        
+        super.init(coder: aDecoder)
+        
+        // add notif observer
+        NotificationCenter.default.addObserver(
+            self, selector: #selector(dismissView),
+            name: NSNotification.Name(Constants.NotificationNames.reauthorised),
+            object: nil)
     }
 
     override func didReceiveMemoryWarning() {
@@ -74,10 +96,8 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
                 url: url,
                 success: {token in
             
-                    self.completionFunc?(token)
-                    
-                    // remove authorise view controller, that means remove self and notify the view controllers listening
-                    self.removeViewController()
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
                     
                     NotificationCenter.default.removeObserver(
                         self,
@@ -89,42 +109,69 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
         }
     }
     
-    // MARK: - Set up view controller
-
-    /**
-     Sets up a new AuthoriseUserViewController in order to present it to one UIView
-     
-     - parameter view: The UIView to show the view controller
-     
-     - returns: A ready to use AuthoriseUserViewController
-     */
-    class func setupAuthoriseViewController(view: UIView) -> AuthoriseUserViewController {
-        
-        let authorise = AuthoriseUserViewController()
-        authorise.view.backgroundColor = .clear
-        authorise.view.frame = CGRect(
-            x: view.center.x - 50,
-            y: view.center.y - 20,
-            width: 100,
-            height: 40)
-        authorise.view.layer.cornerRadius = 15
-        authorise.completionFunc = nil
-        
-        return authorise
-    }
-    
     // MARK: - Launch safari
     
     /**
      Launches safari
      */
-    private func launchSafari() {
+    func launchSafari() {
         
+        KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.expired)
+
         self.safari = SFSafariViewController.openInSafari(
             url: Constants.HATEndpoints.hatLoginURL(userDomain: self.userDomain),
             on: self,
             animated: true,
             completion: nil)
+        
+        self.safari?.delegate = self
+    }
+    
+    // MARK: - Safari Delegate Methods
+    
+    func safariViewControllerDidFinish(_ controller: SFSafariViewController) {
+        
+        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: "")
+        KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
+    }
+    
+    func checkToken() {
+        
+        func success(token: String?) {
+            
+            if token != "" && token != nil {
+                
+                KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
+                KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
+            }
+        }
+        
+        func failed() {
+            
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.expired)
+            
+            self.launchSafari()
+        }
+        
+        // reset the stack to avoid allowing back
+        let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.logedIn)
+        
+        if result == "false" || userDomain == "" || userToken == "" {
+            
+            if let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+                
+                self.navigationController?.pushViewController(loginViewController, animated: false)
+            }
+        // user logged in, set up view
+        } else {
+            
+            // check if the token has expired
+            HATAccountService.checkIfTokenExpired(
+                token: userToken,
+                expiredCallBack: failed,
+                tokenValidCallBack: success,
+                errorCallBack: self.createClassicOKAlertWith)
+        }
     }
     
 }

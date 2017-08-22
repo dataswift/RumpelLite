@@ -49,6 +49,9 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     /// The selected enum category of Helper.TimePeriodSelected object
     private var timePeriodSelectedEnum: TimePeriodSelected = TimePeriodSelected.none
     
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
+    
     /// The uidatepicker used in toolbar
     private var datePicker: UIDatePicker?
     
@@ -109,6 +112,10 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     override func viewDidAppear(_ animated: Bool) {
         
         super.viewDidAppear(animated)
+        
+        // check token
+        self.addChildViewController(MapViewController.authoriseVC)
+        MapViewController.authoriseVC.checkToken()
         
         let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.trackDeviceKey)
         

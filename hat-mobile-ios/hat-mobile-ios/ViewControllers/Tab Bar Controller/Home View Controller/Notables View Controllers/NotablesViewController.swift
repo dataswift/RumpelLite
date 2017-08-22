@@ -47,8 +47,8 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     private var parameters: Dictionary<String, String> = ["starttime": "0",
                                                           "limit": "50"]
     
-    /// a dark view pop up to hide the background
-    private var authorise: AuthoriseUserViewController?
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
 
     // MARK: - IBOutlets
 
@@ -224,7 +224,6 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         
         // register observers for a notifications
         NotificationCenter.default.addObserver(self, selector: #selector(self.refreshData), name: NSNotification.Name(rawValue: Constants.NotificationNames.reloadTable), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.hideTable), name: NSNotification.Name(rawValue: Constants.NotificationNames.networkMessage), object: nil)
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(hidePopUp),
@@ -238,22 +237,11 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         
         super.viewWillAppear(animated)
         
-        func success(token: String?) {
-            
-            self.authorise = nil
-            
-            // fetch notes
-            self.connectToServerToGetNotes(result: nil)
-        }
+        // check token
+        self.addChildViewController(NotablesViewController.authoriseVC)
+        NotablesViewController.authoriseVC.checkToken()
         
         self.ensureNotablesPlugEnabled()
-
-        // get notes
-        HATAccountService.checkIfTokenExpired(
-            token: userToken,
-            expiredCallBack: self.unauthorisedResponse(proceedCompletion: connectToServerToGetNotes),
-            tokenValidCallBack: success,
-            errorCallBack: self.createClassicOKAlertWith)
     }
 
     override func didReceiveMemoryWarning() {
@@ -470,44 +458,13 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
             self.cachedNotesArray.remove(at: selectedIndex!)
             tableView.deleteRows(at: [IndexPath(row: selectedIndex!, section: 0)], with: .fade)
             self.updateUI()
-            
-            self.authorise = nil
         }
         
-        // delete data from hat and remove from table
-        HATAccountService.checkIfTokenExpired(
-            token: userToken,
-            expiredCallBack: self.unauthorisedResponse(proceedCompletion: deleteNote),
-            tokenValidCallBack: success,
-            errorCallBack: self.createClassicOKAlertWith)
-    }
-    
-    // MARK: - Unauthorised response
-    
-    /**
-     Authorises the user again in an event of unauthorised response from HAT
-     
-     - parameter proceedCompletion: A function to execute after authorisation
-     
-     - returns: A function of type (Void) -> Void
-     */
-    func unauthorisedResponse(proceedCompletion: @escaping (String?) -> Void) -> (Void) -> Void {
-        
-        return {
-            
-            if self.authorise == nil {
-                
-                self.authorise = AuthoriseUserViewController()
-                self.authorise!.view.frame = CGRect(x: self.view.center.x - 50, y: self.view.center.y - 20, width: 100, height: 40)
-                self.authorise!.view.layer.cornerRadius = 15
-                self.authorise!.completionFunc = proceedCompletion
-                
-                // add the page view controller to self
-                self.addChildViewController(self.authorise!)
-                self.view.addSubview(self.authorise!.view)
-                self.authorise!.didMove(toParentViewController: self)
-            }
-        }
+        // check token
+        self.addChildViewController(NotablesViewController.authoriseVC)
+        NotablesViewController.authoriseVC.completionFunc = success(token:)
+
+        NotablesViewController.authoriseVC.checkToken()
     }
     
     // MARK: - Network functions
@@ -582,13 +539,6 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         )
     }
     
-    // MARK: - Update notes data
-    
-    func updateNote(_ note: HATNotesData, at index: Int) {
-        
-        self.cachedNotesArray[index] = note
-    }
-    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -618,22 +568,6 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                 destinationVC?.kind = self.kind
             }
         }
-    }
-    
-    // MARK: - Update UI
-    
-    /**
-     Hides table and shows a label with a message
-     */
-    @objc
-    private func hideTable(_ notif: Notification) {
-        
-        guard let message = notif.object as? String else {
-            
-            self.showEmptyTableLabelWith(message: "There was an unknown error, please try again later.")
-            return
-        }
-        self.showEmptyTableLabelWith(message: message)
     }
     
     /**

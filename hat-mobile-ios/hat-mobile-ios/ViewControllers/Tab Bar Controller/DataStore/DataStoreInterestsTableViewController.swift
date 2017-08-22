@@ -21,7 +21,7 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
     
     /// The sections of the table view
     private let sections: [[String]] = [
-        ["Modern European", "Fusion", "Halal", "Chinese", "Thai", "Malaysian", "Vietnamese", "Japanese", "Italian", "Mexican", "Mediterranean", "Mexican", "International"],
+        ["Modern European", "Fusion", "Halal", "Chinese", "Thai", "Malaysian", "Vietnamese", "Japanese", "Italian", "Mediterranean", "Mexican", "International"],
         ["Wine", "Whiskey", "Vodka", "Beer", "Cocktails", "Non Alcoholic"],
         ["Games & Puzzles", "Film/Movies", "Series", "Music", "TV", "Gaming", "Sports"],
         ["Fitness", "Exercise", "Fashion And Styles", "Gardening and Landscaping", "Shopping", "Cooking and Recipes", "Travel", "Home furnishings", "Face and Body Care"],

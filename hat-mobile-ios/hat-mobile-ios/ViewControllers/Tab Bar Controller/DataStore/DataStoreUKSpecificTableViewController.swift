@@ -262,10 +262,11 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
                 timeStyle: .none)
             )
             cell.setKeyboardType(.default)
-            cell.tag = 12
+            cell.setTagInTextField(tag: 12)
         } else if indexPath.section == 5 {
             
             cell.setTextToTextField(text: self.ukSpecificInfo.placeOfBirth)
+            cell.setTagInTextField(tag: 5)
         } else if indexPath.section == 6 {
             
             cell.setTextToTextField(text: self.ukSpecificInfo.secondPassportNumber)
@@ -278,7 +279,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
                     timeStyle: .none)
             )
             cell.setKeyboardType(.default)
-            cell.tag = 12
+            cell.setTagInTextField(tag: 12)
         }
         
         return cell

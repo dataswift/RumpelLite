@@ -31,6 +31,9 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     
     var isProfileDownloaded: Bool = false
     
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
+    
     var prefferedTitle: String = "PHATA"
     var prefferedInfoMessage: String = "Your PHATA is your public profile. Enable it to use it as a calling card!"
     
@@ -134,6 +137,10 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+        
+        // check token
+        self.addChildViewController(PhataTableViewController.authoriseVC)
+        PhataTableViewController.authoriseVC.checkToken()
         
         self.tableView.reloadData()
         

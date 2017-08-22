@@ -539,6 +539,13 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         )
     }
     
+    // MARK: - Update notes data
+    
+    func updateNote(_ note: HATNotesData, at index: Int) {
+        
+        self.cachedNotesArray[index] = note
+    }
+    
     // MARK: - Navigation
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

@@ -29,6 +29,9 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
     
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
+    
     /// The filter index, based on the selectionIndicatorView
     private var filterBy: Int = 0
     
@@ -104,6 +107,10 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+        
+        // check token
+        self.addChildViewController(DataOffersViewController.authoriseVC)
+        DataOffersViewController.authoriseVC.checkToken()
         
         self.getOffers()
         

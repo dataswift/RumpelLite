@@ -17,6 +17,8 @@ import HatForIOS
 /// The share options view controller
 internal class ShareOptionsViewController: UIViewController, UITextViewDelegate, PhotoPickerDelegate, UICollectionViewDataSource, UICollectionViewDelegate, SendLocationDataDelegate, UserCredentialsProtocol, SelectedPhotosProtocol {
     
+    // MARK: - Protocol's Methods
+    
     func locationDataReceived(latitude: Double, longitude: Double, accuracy: Double) {
         
         self.receivedNote?.data.locationData.latitude = latitude

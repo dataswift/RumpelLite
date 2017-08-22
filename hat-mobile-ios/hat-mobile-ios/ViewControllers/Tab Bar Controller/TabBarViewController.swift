@@ -55,7 +55,7 @@ internal class TabBarViewController: UITabBarController {
             
             // reset the stack to avoid allowing back
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)
-            if let loginViewController = storyboard.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+            if let loginViewController = storyboard.instantiateViewController(withIdentifier: Constants.Segue.loginViewController) as? LoginViewController {
                 
                 let navigation = viewController.navigationController
                 _ = viewController.navigationController?.popToRootViewController(animated: false)

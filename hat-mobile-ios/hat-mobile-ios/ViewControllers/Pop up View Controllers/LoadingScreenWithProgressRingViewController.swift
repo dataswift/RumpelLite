@@ -52,7 +52,7 @@ internal class LoadingScreenWithProgressRingViewController: UIViewController {
         
         super.viewDidLoad()
         
-        self.percentageLabel.text = String(describing: self.completionPercentage!) + " %"
+        self.percentageLabel.text = "\(String(describing: self.completionPercentage!)) %"
         self.progressRing.ringRadius = 40
         self.progressRing.ringLineWidth = 5
         self.progressRing.ringColor = .white
@@ -92,7 +92,7 @@ internal class LoadingScreenWithProgressRingViewController: UIViewController {
         let end = (CGFloat(completion))
         
         let currentRatio = String(describing: floor(end * 100))
-        self.percentageLabel.text = currentRatio + " %"
+        self.percentageLabel.text = "\(currentRatio) %"
 
         self.progressRing.updateCircle(end: end, animate: animateFrom, removePreviousLayer: removePreviousRingLayer)
     }
@@ -109,7 +109,7 @@ internal class LoadingScreenWithProgressRingViewController: UIViewController {
      */
     class func customInit(completion: Double, from storyBoard: UIStoryboard) -> LoadingScreenWithProgressRingViewController? {
         
-        let loadingViewController = storyBoard.instantiateViewController(withIdentifier: "loadingScreen") as? LoadingScreenWithProgressRingViewController
+        let loadingViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Segue.loadingScreen) as? LoadingScreenWithProgressRingViewController
         
         loadingViewController?.completionPercentage = completion
         

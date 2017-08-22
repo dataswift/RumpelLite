@@ -343,7 +343,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             
             let domain = result.components(separatedBy: ".")
             self.inputUserHATDomain.text = domain[0]
-            self.domainButton.setTitle("." + domain[1] + "." + domain[2], for: .normal)
+            self.domainButton.setTitle(".\(domain[1]).\(domain[2])", for: .normal)
         }
     }
     

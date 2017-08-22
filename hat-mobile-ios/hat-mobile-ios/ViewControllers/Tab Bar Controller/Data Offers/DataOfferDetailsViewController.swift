@@ -235,12 +235,15 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
      */
     private func checkForOfferDuration() {
         
-        if self.receivedOffer?.collectsDataFor == 1 {
+        if let offer = self.receivedOffer {
             
-            self.offerDurationLabel.text = "1 DAY DURATION"
-        } else {
-            
-            self.offerDurationLabel.text = String(describing: self.receivedOffer?.collectsDataFor) + "DAYS DURATION"
+            if offer.collectsDataFor == 1 {
+                
+                self.offerDurationLabel.text = "1 DAY DURATION"
+            } else {
+                
+                self.offerDurationLabel.text = "\(String(describing: offer.collectsDataFor)) DAYS DURATION"
+            }
         }
     }
     
@@ -276,7 +279,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             self.detailsLabel.text = receivedOffer?.shortDescription
             self.imageView.image = receivedOffer?.image
             self.textField.text = receivedOffer?.longDescription
-            self.offersRemainingLabel.text = String(describing: ((receivedOffer?.requiredMaxUsers)! - (receivedOffer?.usersClaimedOffer)!)) + " REMAINING"
+            self.offersRemainingLabel.text = "\(String(describing: ((receivedOffer?.requiredMaxUsers)! - (receivedOffer?.usersClaimedOffer)!))) REMAINING"
             self.dataRequirmentTextView.attributedText = self.formatRequiredDataDefinitionText(requiredDataDefinition: (receivedOffer?.requiredDataDefinition)!)
             self.checkForPII()
             self.checkForOfferDuration()
@@ -482,7 +485,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                         
                         if !field.fields.isEmpty {
                             
-                            tempText.append(reccuringFields(fieldsArray: field.fields, intend: intend + "\t"))
+                            tempText.append(reccuringFields(fieldsArray: field.fields, intend: "\(intend)\t"))
                         }
                     }
                     

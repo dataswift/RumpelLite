@@ -185,6 +185,7 @@ internal class Constants {
         static let listDataOffersCell: String = "listDataOffersCell"
         static let happinesAndMentalHealthCell: String = "happinesAndMentalHealthCell"
         static let interestsCell: String = "interestsCell"
+        static let plugDetailsCell: String = "PlugDetailsCell"
     }
     
     struct TermsURL {
@@ -283,6 +284,18 @@ internal class Constants {
             
             static let name: String = "profile/livinginfo"
             static let source: String = "rumpel"
+        }
+        
+        /**
+         The facebook profile table
+         
+         - name: profile, the name of the table
+         - source: facebook, the source of the table
+         */
+        struct FacebookProfile {
+            
+            static let name: String = "profile"
+            static let source: String = "facebook"
         }
         
         /**
@@ -790,6 +803,12 @@ internal class Constants {
         static let prioritiesToMentalHealthSegue: String = "prioritiesToMentalHealthSegue"
         static let prioritiesToFinancialManagementSegue: String = "prioritiesToFinancialManagementSegue"
         static let forDataOffersToLocaleSegue: String = "forDataOffersToLocaleSegue"
+        static let loginViewController: String = "LoginViewController"
+        static let detailsToSocialFeed: String = "detailsToSocialFeed"
+        static let imagePopUpViewController: String = "ImagePopUpViewController"
+        static let imagePageViewController: String = "ImagePageViewController"
+        static let loadingScreen: String = "loadingScreen"
+        static let textPopUpViewController: String = "textPopUpViewController"
     }
     
     // MARK: - HAT Endpoints

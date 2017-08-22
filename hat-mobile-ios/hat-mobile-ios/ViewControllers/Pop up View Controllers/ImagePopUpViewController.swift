@@ -131,7 +131,7 @@ internal class ImagePopUpViewController: UIPageViewController, UIPageViewControl
         if itemIndex < numberOfPages.count {
             
             // create the view controller and return it
-            if let pageItemController = self.storyboard!.instantiateViewController(withIdentifier: "ImagePopUpViewController") as? ImageSlidePopUpViewController {
+            if let pageItemController = self.storyboard!.instantiateViewController(withIdentifier: Constants.Segue.imagePopUpViewController) as? ImageSlidePopUpViewController {
                 
                 pageItemController.itemIndex = itemIndex
                 self.currentIndex = itemIndex
@@ -155,7 +155,7 @@ internal class ImagePopUpViewController: UIPageViewController, UIPageViewControl
      */
     class func customInit(from storyBoard: UIStoryboard) -> ImagePopUpViewController? {
         
-        let textPopUpViewController = storyBoard.instantiateViewController(withIdentifier: "ImagePageViewController") as? ImagePopUpViewController
+        let textPopUpViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Segue.imagePageViewController) as? ImagePopUpViewController
         
         return textPopUpViewController
     }

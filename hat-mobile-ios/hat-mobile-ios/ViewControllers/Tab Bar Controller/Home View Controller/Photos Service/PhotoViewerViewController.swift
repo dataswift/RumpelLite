@@ -36,6 +36,9 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
     /// A variable passed by another View Controller indicating the way of selecting photos
     var allowsMultipleSelection: Bool = false
     
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
+    
     // MARK: - IBOutlets
     
     /// An IBOutlet for handling the collection view
@@ -107,6 +110,10 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+        
+        // check token
+        self.addChildViewController(PhotoViewerViewController.authoriseVC)
+        PhotoViewerViewController.authoriseVC.checkToken()
         
         func success(filesReceived: [FileUploadObject], userToken: String?) {
             

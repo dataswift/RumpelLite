@@ -26,6 +26,9 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
     
+    /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
+    private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
+    
     private var selectedlPlug: String = ""
     private var plugURL: String = ""
     var prefferedTitle: String = "Data Plugs"
@@ -73,6 +76,10 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
+        
+        // check token
+        self.addChildViewController(DataPlugsCollectionViewController.authoriseVC)
+        DataPlugsCollectionViewController.authoriseVC.checkToken()
         
         self.dataPlugs.removeAll()
         self.collectionView?.reloadData()

@@ -64,7 +64,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
      */
     @IBAction func viewDataPlugData(_ sender: Any) {
         
-        self.performSegue(withIdentifier: "detailsToSocialFeed", sender: self)
+        self.performSegue(withIdentifier: Constants.Segue.detailsToSocialFeed, sender: self)
     }
     
     // MARK: - Notification observer method
@@ -116,7 +116,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "PlugDetailsCell", for: indexPath) as? DataPlugDetailsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.plugDetailsCell, for: indexPath) as? DataPlugDetailsTableViewCell
         
         if indexPath.row % 2 == 0 {
             
@@ -171,8 +171,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         
         HATAccountService.checkHatTableExists(
             userDomain: userDomain,
-            tableName: "profile",
-            sourceName: "facebook",
+            tableName: Constants.HATTableName.FacebookProfile.name,
+            sourceName: Constants.HATTableName.FacebookProfile.source,
             authToken: userToken,
             successCallback: tableFound,
             errorCallback: tableNotFound)
@@ -221,8 +221,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-        if segue.identifier == "detailsToSocialFeed" {
-            
+        if segue.identifier == Constants.Segue.detailsToSocialFeed {
+        
             if let vc = segue.destination as? SocialFeedViewController {
                 
                 if plug == "facebook" {

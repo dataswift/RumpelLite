@@ -165,6 +165,12 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         
         HATTwitterService.getAppTokenForTwitter(userDomain: userDomain, token: userToken, successful: self.fetchTwitterData, failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
         
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(hidePopUp),
+            name: NSNotification.Name(Constants.NotificationNames.hideDataServicesInfo),
+            object: nil)
+        
         // set datasource and delegate to self
         self.collectionView.dataSource = self
         self.collectionView.delegate = self

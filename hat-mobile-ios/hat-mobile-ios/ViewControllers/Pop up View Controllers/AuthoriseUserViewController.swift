@@ -158,7 +158,7 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
         
         if result == "false" || userDomain == "" || userToken == "" {
             
-            if let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
+            if let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: Constants.Segue.loginViewController) as? LoginViewController {
                 
                 self.navigationController?.pushViewController(loginViewController, animated: false)
             }

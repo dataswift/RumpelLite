@@ -126,7 +126,7 @@ internal class TextPopUpViewController: UIViewController {
      */
     class func customInit(stringToShow: String, isButtonHidden: Bool, from storyBoard: UIStoryboard) -> TextPopUpViewController? {
         
-        let textPopUpViewController = storyBoard.instantiateViewController(withIdentifier: "textPopUpViewController") as? TextPopUpViewController
+        let textPopUpViewController = storyBoard.instantiateViewController(withIdentifier: Constants.Segue.textPopUpViewController) as? TextPopUpViewController
         textPopUpViewController?.textToShow = stringToShow
         textPopUpViewController?.view.alpha = 0.7
         textPopUpViewController?.actionButton.isHidden = isButtonHidden

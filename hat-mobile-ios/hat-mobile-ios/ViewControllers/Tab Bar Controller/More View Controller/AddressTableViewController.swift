@@ -221,8 +221,7 @@ internal class AddressTableViewController: UITableViewController, UserCredential
                 
                 cell.setTextToTextField(text: self.profile!.data.addressGlobal.country)
                 cell.isSwitchHidden(true)
-                cell.setDelegate(delegate: self)
-                cell.setActionOn(viewController: self)
+                cell.setTagInTextField(tag: 5)
             } else if indexPath.section == 3 {
                 
                 cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])
@@ -232,96 +231,6 @@ internal class AddressTableViewController: UITableViewController, UserCredential
         }
         
         return cell
-    }
-    
-    // MARK: - UITextViewDelegate
-    
-    func textFieldValueChanged(textField: UITextField) {
-        
-        var text = textField.text!
-        var cursorPosition: Int = 0
-        
-        if let selectedRange = textField.selectedTextRange {
-            
-            cursorPosition = textField.offset(from: textField.beginningOfDocument, to: selectedRange.start)
-            
-            let index = text.index(text.startIndex, offsetBy: cursorPosition)
-            text = text.substring(to: index)
-        }
-        
-        let countries = self.getCountries()
-        var found = false
-        
-        for country in countries where !text.characters.isEmpty {
-            
-            if country.lowercased().hasPrefix(text.lowercased()) {
-                
-                let partOne = text.createTextAttributes(
-                    foregroundColor: .black,
-                    strokeColor: .black,
-                    font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
-                
-                let replacedText = country.lowercased().replacingOccurrences(of: text.lowercased(), with: "")
-                let partTwo = replacedText.createTextAttributes(
-                    foregroundColor: .gray,
-                    strokeColor: .gray,
-                    font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
-                textField.attributedText = partOne.combineWith(attributedText: partTwo)
-                
-                if let newPosition = textField.position(from: textField.beginningOfDocument, offset: cursorPosition) {
-                    
-                    textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
-                }
-                
-                found = true
-                break
-            }
-        }
-        
-        if !found {
-            
-          textField.text = text
-        }
-        
-        if text.characters.count < 1 {
-            
-            textField.text = ""
-        }
-    }
-    
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        
-        let stringToFind = textField.attributedText?.string
-        
-        let countries = self.getCountries()
-        
-        for i in 0...countries.count - 1 {
-            
-            if countries[i].lowercased() == stringToFind?.lowercased() {
-                
-                textField.text = countries[i]
-                break
-            }
-        }
-    }
-    
-    // MARK: - Get countries
-    
-    /**
-     Gets all the countries available
-     
-     - returns: An array of strings for the countries found
-     */
-    private func getCountries() -> [String] {
-        
-        let locale: NSLocale = NSLocale.current as NSLocale
-        let countryArray = Locale.isoRegionCodes
-        let unsortedCountryArray: [String] = countryArray.map { (countryCode) -> String in
-
-            locale.displayName(forKey: NSLocale.Key.countryCode, value: countryCode)!
-        }
-
-        return unsortedCountryArray.sorted()
     }
 
 }

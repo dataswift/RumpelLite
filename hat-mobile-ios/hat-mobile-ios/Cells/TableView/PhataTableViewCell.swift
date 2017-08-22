@@ -85,7 +85,82 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     }
     
     // MARK: - TextField delegate method
-
+    
+    func textFieldValueChanged(textField: UITextField) {
+        
+        if textField.tag == 5 {
+            
+            var text = textField.text!
+            var cursorPosition: Int = 0
+            
+            if let selectedRange = textField.selectedTextRange {
+                
+                cursorPosition = textField.offset(from: textField.beginningOfDocument, to: selectedRange.start)
+                
+                let index = text.index(text.startIndex, offsetBy: cursorPosition)
+                text = text.substring(to: index)
+            }
+            
+            let countries = self.getCountries()
+            var found = false
+            
+            for country in countries where !text.characters.isEmpty {
+                
+                if country.lowercased().hasPrefix(text.lowercased()) {
+                    
+                    let partOne = text.createTextAttributes(
+                        foregroundColor: .black,
+                        strokeColor: .black,
+                        font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
+                    
+                    let replacedText = country.lowercased().replacingOccurrences(of: text.lowercased(), with: "")
+                    let partTwo = replacedText.createTextAttributes(
+                        foregroundColor: .gray,
+                        strokeColor: .gray,
+                        font: UIFont(name: Constants.FontNames.openSans, size: 14)!)
+                    textField.attributedText = partOne.combineWith(attributedText: partTwo)
+                    
+                    if let newPosition = textField.position(from: textField.beginningOfDocument, offset: cursorPosition) {
+                        
+                        textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+                    }
+                    
+                    found = true
+                    break
+                }
+            }
+            
+            if !found {
+                
+                textField.text = text
+            }
+            
+            if text.characters.count < 1 {
+                
+                textField.text = ""
+            }
+        }
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if textField.tag == 5 {
+            
+            let stringToFind = textField.attributedText?.string
+            
+            let countries = self.getCountries()
+            
+            for i in 0...countries.count - 1 {
+                
+                if countries[i].lowercased() == stringToFind?.lowercased() {
+                    
+                    textField.text = countries[i]
+                    break
+                }
+            }
+        }
+    }
+    
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         
         if textField.tag == 15 || textField.tag == 10 || textField.tag == 11 {
@@ -230,18 +305,6 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
         self.textField.delegate = delegate
     }
     
-    // MARK: - Set Action
-    
-    /**
-     Sets an action to the UIViewController passed in the parameter
-     
-     - parameter viewController: The UIViewController to set up the action to
-     */
-    func setActionOn(viewController: AddressTableViewController) {
-        
-        self.textField.addTarget(viewController, action: #selector(viewController.textFieldValueChanged(textField:)), for: UIControlEvents.allEditingEvents)
-    }
-    
     // MARK: - Set Keyboard Type
     
     /**
@@ -264,6 +327,10 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     func setTagInTextField(tag: Int) {
         
         self.textField.tag = tag
+        if tag == 5 {
+            
+            self.textField.addTarget(self, action: #selector(self.textFieldValueChanged(textField:)), for: UIControlEvents.allEditingEvents)
+        }
     }
     
     // MARK: - Set text color in textField
@@ -295,5 +362,24 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
         
         self.textView.text = string
         self.textView.textColor = .teal
+    }
+    
+    // MARK: - Get countries
+    
+    /**
+     Gets all the countries available
+     
+     - returns: An array of strings for the countries found
+     */
+    private func getCountries() -> [String] {
+        
+        let locale: NSLocale = NSLocale.current as NSLocale
+        let countryArray = Locale.isoRegionCodes
+        let unsortedCountryArray: [String] = countryArray.map { (countryCode) -> String in
+            
+            locale.displayName(forKey: NSLocale.Key.countryCode, value: countryCode)!
+        }
+        
+        return unsortedCountryArray.sorted()
     }
 }

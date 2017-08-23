@@ -115,10 +115,6 @@ public enum Auth {
  */
 public enum HATDataPlugCredentials {
 
-    /// hat username used for location data plug
-    static let locationDataPlugUsername: String = "location"
-    /// hat password used for location data plug
-    static let locationDataPlugPassword: String = "MYl06ati0n"
     /// market data plug id used for location data plug
     static let dataPlugID: String = "c532e122-db4a-44b8-9eaf-18989f214262"
     /// market access token used for location data plug

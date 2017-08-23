@@ -104,11 +104,11 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         alertController.addActions(actions: [cameraAction, libraryAction, selectFromHATAction, cancel])
         if let button = sender as? UIButton {
             
-            alertController.addiPadSupport(sourceRect: button.frame, sourceView: button)
+            alertController.addiPadSupport(sourceRect: button.bounds, sourceView: button)
         }
         
         // present alert controller
-        self.navigationController!.present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     /**
@@ -188,10 +188,10 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alertController.addActions(actions: [removeAction, cancel])
-        alertController.addiPadSupport(sourceRect: self.imageView.frame, sourceView: self.imageView)
+        alertController.addiPadSupport(sourceRect: self.imageView.bounds, sourceView: self.imageView)
         
         // present alert controller
-        self.navigationController!.present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func handleLongTapGesture(gesture: UILongPressGestureRecognizer) {

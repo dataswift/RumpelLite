@@ -239,7 +239,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         
         // check token
         self.addChildViewController(NotablesViewController.authoriseVC)
-        NotablesViewController.authoriseVC.checkToken()
+        NotablesViewController.authoriseVC.checkToken(viewController: self)
         
         self.ensureNotablesPlugEnabled()
     }
@@ -464,7 +464,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         self.addChildViewController(NotablesViewController.authoriseVC)
         NotablesViewController.authoriseVC.completionFunc = success(token:)
 
-        NotablesViewController.authoriseVC.checkToken()
+        NotablesViewController.authoriseVC.checkToken(viewController: self)
     }
     
     // MARK: - Network functions

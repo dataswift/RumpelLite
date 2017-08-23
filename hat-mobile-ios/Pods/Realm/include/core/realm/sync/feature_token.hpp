@@ -3,7 +3,7 @@
  * REALM CONFIDENTIAL
  * __________________
  *
- *  [2011] - [2013] Realm Inc
+ *  [2011] - [2012] Realm Inc
  *  All Rights Reserved.
  *
  * NOTICE:  All information contained herein is, and remains
@@ -17,18 +17,26 @@
  * from Realm Incorporated.
  *
  **************************************************************************/
-#ifndef REALM_SYNC_VERSION_HPP
-#define REALM_SYNC_VERSION_HPP
+#ifndef REALM_SYNC_FEATURE_TOKEN_HPP
+#define REALM_SYNC_FEATURE_TOKEN_HPP
 
+#include <realm/string_data.hpp>
 #include <realm/util/features.h>
 
-#define REALM_SYNC_VER_MAJOR 1
-#define REALM_SYNC_VER_MINOR 10
-#define REALM_SYNC_VER_PATCH 8
-#define REALM_SYNC_PRODUCT_NAME "realm-sync"
+namespace realm {
+namespace sync {
 
-#define REALM_SYNC_VER_STRING REALM_QUOTE(REALM_SYNC_VER_MAJOR) "." \
-    REALM_QUOTE(REALM_SYNC_VER_MINOR) "." REALM_QUOTE(REALM_SYNC_VER_PATCH)
-#define REALM_SYNC_VER_CHUNK "[" REALM_SYNC_PRODUCT_NAME "-" REALM_SYNC_VER_STRING "]"
+#if !REALM_MOBILE
+#define REALM_HAVE_FEATURE_TOKENS 1
 
-#endif // REALM_SYNC_VERSION_HPP
+void set_feature_token(StringData token);
+
+bool is_feature_enabled(StringData feature_name);
+#else
+#define REALM_HAVE_FEATURE_TOKENS 0
+#endif
+
+} // namespace sync
+} // namespace realm
+
+#endif // REALM_SYNC_FEATURE_TOKEN_HPP

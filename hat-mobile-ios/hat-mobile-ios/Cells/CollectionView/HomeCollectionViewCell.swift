@@ -63,37 +63,75 @@ internal class HomeCollectionViewCell: UICollectionViewCell {
      */
     private class func backgroundColorOfCellForIndexPath(_ indexPath: IndexPath, in orientation: UIInterfaceOrientation) -> UIColor {
         
-        // check if device is in portrait mode, 3 tiles per row vs 2
-        if orientation.isPortrait {
+        let model = UIDevice.current.model
+        if model == "iPhone" {
             
-            // create this zebra like color based on the index of the cell
-            if indexPath.row % 4 == 0 {
+            // check if device is in portrait mode, 3 tiles per row vs 2
+            if orientation.isPortrait {
                 
-                return .rumpelDarkGray
-            } else if indexPath.row % 4 == 3 {
+                // create this zebra like color based on the index of the cell
+                if indexPath.row % 4 == 0 {
+                    
+                    return .rumpelDarkGray
+                } else if indexPath.row % 4 == 3 {
+                    
+                    return .rumpelLighterDarkGray
+                } else if indexPath.row % 4 == 2 {
+                    
+                    return .tealLight
+                }
                 
-                return .rumpelLighterDarkGray
-            } else if indexPath.row % 4 == 2 {
+                return .tealDark
+            } else {
                 
-                return .tealLight
+                // create this zebra like color based on the index of the cell
+                if indexPath.row % 6 == 0 {
+                    
+                    return .rumpelDarkGray
+                } else if indexPath.row % 6 == 3 {
+                    
+                    return .tealLight
+                } else if indexPath.row % 6 == 2 || indexPath.row % 6 == 4 {
+                    
+                    return .rumpelLighterDarkGray
+                }
+                
+                return .teal
             }
-            
-            return .tealDark
         } else {
             
-            // create this zebra like color based on the index of the cell
-            if indexPath.row % 6 == 0 {
+            // check if device is in portrait mode, 3 tiles per row vs 2
+            if orientation.isPortrait {
                 
-                return .rumpelDarkGray
-            } else if indexPath.row % 6 == 3 {
+                // create this zebra like color based on the index of the cell
+                if indexPath.row % 5 == 0 {
+                    
+                    return .rumpelDarkGray
+                } else if indexPath.row % 5 == 2 || indexPath.row % 5 == 4 {
+                    
+                    return .rumpelLighterDarkGray
+                } else if indexPath.row % 5 == 1 {
+                    
+                    return .tealLight
+                }
                 
-                return .tealLight
-            } else if indexPath.row % 6 == 2 || indexPath.row % 6 == 4 {
+                return .tealDark
+            } else {
                 
-                return .rumpelLighterDarkGray
+                // create this zebra like color based on the index of the cell
+                if (indexPath.row + indexPath.row / 6) % 6 == 0 {
+                    
+                    return .rumpelDarkGray
+                } else if (indexPath.row + indexPath.row / 6) % 6 == 3 {
+                    
+                    return .tealLight
+                } else if (indexPath.row + indexPath.row / 6) % 6 == 2 || (indexPath.row + indexPath.row / 6) % 6 == 4 {
+                    
+                    return .rumpelLighterDarkGray
+                }
+                
+                return .teal
             }
-            
-            return .teal
         }
     }
 }

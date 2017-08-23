@@ -83,10 +83,10 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
             let cancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
             alertController.addActions(actions: [cameraAction, libraryAction, cancel])
-            alertController.addiPadSupport(sourceRect: self.addPictureButtonOutlet.frame, sourceView: self.addPictureButtonOutlet)
+            alertController.addiPadSupport(sourceRect: self.addPictureButtonOutlet.bounds, sourceView: self.addPictureButtonOutlet)
             
             // present alert controller
-            self.navigationController!.present(alertController, animated: true, completion: nil)
+            self.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -113,7 +113,7 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
         
         // check token
         self.addChildViewController(PhotoViewerViewController.authoriseVC)
-        PhotoViewerViewController.authoriseVC.checkToken()
+        PhotoViewerViewController.authoriseVC.checkToken(viewController: self)
         
         func success(filesReceived: [FileUploadObject], userToken: String?) {
             

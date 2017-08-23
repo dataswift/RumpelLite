@@ -185,13 +185,13 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
     @IBAction func addImageButtonAction(_ sender: Any) {
         
         let alertController = PresenterOfShareOptionsViewController.createUploadPhotoOptionsAlert(
-            sourceRect: self.addButton.frame,
-            sourceView: self.shareForView,
+            sourceRect: self.addImageButton.bounds,
+            sourceView: self.addImageButton,
             viewController: self,
             photosViewController: self.photosViewController)
         
         // present alert controller
-        self.navigationController!.present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     /**
@@ -295,12 +295,12 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         self.textView.resignFirstResponder()
         // create alert controller
         let alertController = PresenterOfShareOptionsViewController.createShareForDurationAlertController(
-            sourceRect: self.durationSharedForLabel.frame,
+            sourceRect: self.durationSharedForLabel.bounds,
             sourceView: self.shareForView,
             viewController: self)
         
         // present alert controller
-        self.navigationController!.present(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
     
     func postNote() {

@@ -33,7 +33,7 @@ public struct HATAccountService {
     public static func getHatTableValues(token: String, userDomain: String, tableID: NSNumber, parameters: Dictionary<String, String>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://" + userDomain + "/data/table/" + tableID.stringValue + "/values?pretty=true"
+        let url = "https://\(userDomain)/data/table/\(tableID.stringValue)/values?pretty=true"
         
         // create parameters and headers
         let headers = [RequestHeaders.xAuthToken: token]
@@ -76,7 +76,7 @@ public struct HATAccountService {
     public static func getHatTableValuesv2(token: String, userDomain: String, source: String, scope: String, parameters: Dictionary<String, Any>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://" + userDomain + "/api/v2/data/" + source + "/" + scope
+        let url = "https://\(userDomain)/api/v2/data/\(source)/\(scope)"
         
         // create parameters and headers
         let headers = [RequestHeaders.xAuthToken: token]
@@ -119,7 +119,7 @@ public struct HATAccountService {
     public static func createTableValuev2(token: String, userDomain: String, source: String, dataPath: String, parameters: Dictionary<String, Any>, successCallback: @escaping (JSON, String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://" + userDomain + "/api/v2/data/" + source + "/" + dataPath
+        let url = "https://\(userDomain)/api/v2/data/\(source)/\(dataPath)"
         
         // create parameters and headers
         let headers = [RequestHeaders.xAuthToken: token]
@@ -160,7 +160,7 @@ public struct HATAccountService {
     public static func getHatTableValuesWithOutPretty(token: String, userDomain: String, tableID: NSNumber, parameters: Dictionary<String, String>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://" + userDomain + "/data/table/" + tableID.stringValue + "/values"
+        let url = "https://\(userDomain)/data/table/\(tableID.stringValue)/values"
         
         // create parameters and headers
         let headers = [RequestHeaders.xAuthToken: token]
@@ -202,7 +202,7 @@ public struct HATAccountService {
     public static func checkHatTableExists(userDomain: String, tableName: String, sourceName: String, authToken: String, successCallback: @escaping (NSNumber, String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // create the url
-        let tableURL = "https://" + userDomain + "/data/table?name=" + tableName + "&source=" + sourceName
+        let tableURL = "https://\(userDomain)/data/table?name=\(tableName)&source=\(sourceName)"
         
         // create headers
         let header = [RequestHeaders.xAuthToken: authToken]
@@ -275,7 +275,7 @@ public struct HATAccountService {
             let headers = ["Accept": ContentType.JSON,
                            "Content-Type": ContentType.JSON,
                            "X-Auth-Token": token]
-            let url = "https://" + userDomain + "/data/table"
+            let url = "https://\(userDomain)/data/table"
             
             // make async request
             HATNetworkHelper.asynchronousRequest(url, method: HTTPMethod.post, encoding: Alamofire.JSONEncoding.default, contentType: ContentType.JSON, parameters: notablesTableStructure, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -317,7 +317,7 @@ public struct HATAccountService {
     public static func deleteHatRecord(userDomain: String, token: String, recordId: Int, success: @escaping (String) -> Void, failed: @ escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://" + userDomain + "/data/record/" + String(recordId)
+        let url = "https://\(userDomain)/data/record/\(String(recordId))"
         
         // create  headers
         let headers = [RequestHeaders.xAuthToken: token]
@@ -357,7 +357,7 @@ public struct HATAccountService {
     public static func deleteHatRecordV2(userDomain: String, token: String, recordId: [Int], success: @escaping (String) -> Void, failed: @ escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://" + userDomain + "/api/v2/data/"
+        let url = "https://\(userDomain)/api/v2/data/"
         
         // create parameters and headers
         let parameters: NSMutableDictionary = [:]
@@ -406,7 +406,7 @@ public struct HATAccountService {
     public static func editHatRecordV2(userDomain: String, token: String, parameters: Dictionary<String, Any>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://" + userDomain + "/api/v2/data/"
+        let url = "https://\(userDomain)/api/v2/data/"
         
         // create parameters and headers
         let headers = [RequestHeaders.xAuthToken: token]
@@ -466,7 +466,7 @@ public struct HATAccountService {
     public static func checkHatTableExistsForUploading(userDomain: String, tableName: String, sourceName: String, authToken: String, successCallback: @escaping (Dictionary<String, Any>, String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // create the url
-        let tableURL = "https://" + userDomain + "/data/table?name=" + tableName + "&source=" + sourceName
+        let tableURL = "https://\(userDomain)/data/table?name=\(tableName)&source=\(sourceName)"
         
         // create headers
         let header = [RequestHeaders.xAuthToken: authToken]
@@ -530,7 +530,7 @@ public struct HATAccountService {
         
         if let escapedUserHATDomain: String = userHATDomain.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
             
-            return "https://" + escapedUserHATDomain + "/" + "publickey"
+            return "https://\(escapedUserHATDomain)/publickey"
         }
         
         return nil
@@ -550,7 +550,7 @@ public struct HATAccountService {
      */
     public static func changePassword(userDomain: String, userToken: String, oldPassword: String, newPassword: String, successCallback: @escaping (String, String?) -> Void, failCallback: @escaping (HATError) -> Void) {
         
-        let url = "https://" + userDomain + "/control/v2/auth/password"
+        let url = "https://\(userDomain)/control/v2/auth/password"
         
         let parameters: Dictionary = ["password": oldPassword, "newPassword": newPassword]
         let headers = [RequestHeaders.xAuthToken: userToken]

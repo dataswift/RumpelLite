@@ -30,6 +30,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     @IBOutlet private weak var showAllNotes: UIButton!
     /// An IBOutlet for handling the infoPopUpButton UIButton
     @IBOutlet private weak var infoPopUpButton: UIButton!
+    @IBOutlet private weak var filterFeedButton: UIButton!
     
     // MARK: - Variables
     
@@ -867,10 +868,10 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addActions(actions: [facebookAction, twitterAction, allNetworksAction, cancelAction])
-        alert.addiPadSupport(barButtonItem: self.navigationItem.rightBarButtonItem!, sourceView: self.view)
+        alert.addiPadSupport(sourceRect: self.filterFeedButton.bounds, sourceView: self.filterFeedButton)
         
         // present alert view controller
-        self.navigationController!.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     // MARK: - Show empty label

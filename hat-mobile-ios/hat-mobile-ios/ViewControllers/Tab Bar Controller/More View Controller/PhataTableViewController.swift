@@ -140,7 +140,7 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
         
         // check token
         self.addChildViewController(PhataTableViewController.authoriseVC)
-        PhataTableViewController.authoriseVC.checkToken()
+        PhataTableViewController.authoriseVC.checkToken(viewController: self)
         
         self.tableView.reloadData()
         

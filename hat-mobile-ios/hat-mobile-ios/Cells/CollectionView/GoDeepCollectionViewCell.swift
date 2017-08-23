@@ -61,23 +61,46 @@ internal class GoDeepCollectionViewCell: UICollectionViewCell {
      */
     private func backgroundColorOfCellForIndexPath(_ indexPath: IndexPath, in orientation: UIInterfaceOrientation) -> UIColor {
         
-        if orientation.isPortrait {
+        let model = UIDevice.current.model
+        if model == "iPhone" {
             
-            // create this zebra like color based on the index of the cell
-            if (indexPath.row % 4 == 0) || (indexPath.row % 3 == 0) {
+            if orientation.isPortrait {
                 
-                return .rumpelVeryLightGray
+                // create this zebra like color based on the index of the cell
+                if (indexPath.row % 4 == 0) || (indexPath.row % 3 == 0) {
+                    
+                    return .rumpelVeryLightGray
+                }
+            } else {
+                
+                // create this zebra like color based on the index of the cell
+                if indexPath.row % 2 == 0 {
+                    
+                    return .rumpelVeryLightGray
+                }
             }
+            
+            return .white
         } else {
             
-            // create this zebra like color based on the index of the cell
-            if indexPath.row % 2 == 0 {
+            if orientation.isPortrait {
                 
-                return .rumpelVeryLightGray
+                // create this zebra like color based on the index of the cell
+                if indexPath.row % 5 == 0 || indexPath.row % 5 == 2 {
+                    
+                    return .rumpelVeryLightGray
+                }
+            } else {
+                
+                // create this zebra like color based on the index of the cell
+                if indexPath.row % 7 == 0 || indexPath.row % 7 == 2 || indexPath.row % 7 == 4 {
+                    
+                    return .rumpelVeryLightGray
+                }
             }
+            
+            return .white
         }
-        
-        return .white
     }
     
 }

@@ -110,7 +110,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         
         // check token
         self.addChildViewController(DataOffersViewController.authoriseVC)
-        DataOffersViewController.authoriseVC.checkToken()
+        DataOffersViewController.authoriseVC.checkToken(viewController: self)
         
         self.getOffers()
         
@@ -131,6 +131,13 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         navigationController?.navigationBar.setBackgroundImage(UIImage(named: Constants.ImageNames.tealImage), for: .any, barMetrics: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.navigationBar.isTranslucent = false
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        self.collectionView.reloadData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -455,21 +462,43 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
-        let flow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-        flow?.minimumInteritemSpacing = 10
-        flow?.minimumLineSpacing = 10
-        
-        if self.filterBy == 2 {
+        let model = UIDevice.current.model
+        if model == "iPhone" {
             
-            return CGSize(width: self.collectionView.frame.width - 40, height: 180)
-        } else if self.filterBy == 3 {
+            let flow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            flow?.minimumInteritemSpacing = 10
+            flow?.minimumLineSpacing = 10
             
-            flow?.minimumInteritemSpacing = 0
-            flow?.minimumLineSpacing = 0
-            return CGSize(width: self.collectionView.frame.width, height: 130)
+            if self.filterBy == 2 {
+                
+                return CGSize(width: self.collectionView.frame.width - 40, height: 180)
+            } else if self.filterBy == 3 {
+                
+                flow?.minimumInteritemSpacing = 0
+                flow?.minimumLineSpacing = 0
+                return CGSize(width: self.collectionView.frame.width, height: 130)
+            }
+            
+            return CGSize(width: self.collectionView.frame.width - 40, height: 340)
+        } else {
+            
+            let flow = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+            flow?.minimumInteritemSpacing = 10
+            flow?.minimumLineSpacing = 10
+            flow?.sectionInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+            
+            if self.filterBy == 2 {
+                
+                return CGSize(width: self.collectionView.frame.width - 40, height: 180)
+            } else if self.filterBy == 3 {
+                
+                flow?.minimumInteritemSpacing = 0
+                flow?.minimumLineSpacing = 0
+                return CGSize(width: self.collectionView.frame.width, height: 130)
+            }
+            
+            return CGSize(width: (self.collectionView.frame.width - 40) / 2, height: 340)
         }
-        
-        return CGSize(width: self.collectionView.frame.width - 40, height: 340)
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

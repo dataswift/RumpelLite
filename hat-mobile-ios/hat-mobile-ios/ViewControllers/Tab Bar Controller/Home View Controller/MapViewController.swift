@@ -115,7 +115,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         // check token
         self.addChildViewController(MapViewController.authoriseVC)
-        MapViewController.authoriseVC.checkToken()
+        MapViewController.authoriseVC.checkToken(viewController: self)
         
         let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.trackDeviceKey)
         
@@ -623,7 +623,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             isButtonHidden: true,
             from: self.storyboard!)
         
-        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 160
+        let calculatedHeight = textPopUpViewController!.getLabelHeight() + 170
         
         self.tabBarController?.tabBar.isUserInteractionEnabled = false
         

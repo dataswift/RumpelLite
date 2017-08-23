@@ -29,10 +29,7 @@ public struct HATLocationService {
 
         if let escapedUserHATDomain: String = userHATDomain.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlQueryAllowed) {
 
-            let url: String = "https://dex.hubofallthings.com/api/dataplugs/" +
-                dataPlugID + "/" + "connect?hat=" + escapedUserHATDomain
-
-            return url
+            return "https://dex.hubofallthings.com/api/dataplugs/\(dataPlugID)/connect?hat=\(escapedUserHATDomain)"
         }
 
         return ""

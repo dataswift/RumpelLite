@@ -77,7 +77,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": appToken]
         
         // contruct the url
-        let url = "https://dex.hubofallthings.com/api/offer/" + offerID + "/userClaim"
+        let url = "https://dex.hubofallthings.com/api/offer/\(offerID)/userClaim"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -139,7 +139,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": appToken]
         
         // contruct the url
-        let url = "https://dex.hubofallthings.com/api/offer/" + offerID + "/claim"
+        let url = "https://dex.hubofallthings.com/api/offer/\(offerID)/claim"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -191,7 +191,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": userToken]
         
         // contruct the url
-        let url = "https://" + userDomain + "/dataDebit/" + dataDebitID + "/enable"
+        let url = "https://\(userDomain)/dataDebit/\(dataDebitID)/enable"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .put, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -236,7 +236,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": userToken]
         
         // contruct the url
-        let url = "https://" + userDomain + "/dataDebit/" + dataDebitID
+        let url = "https://\(userDomain)/dataDebit/\(dataDebitID)"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in

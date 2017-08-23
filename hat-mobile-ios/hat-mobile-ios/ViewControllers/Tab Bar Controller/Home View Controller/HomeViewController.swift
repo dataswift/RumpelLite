@@ -91,13 +91,28 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
-        // in case of landscape show 3 tiles instead of 2
-        if orientation == .landscapeLeft || orientation == .landscapeRight {
+        let model = UIDevice.current.model
+        
+        if model == "iPhone" {
             
-            return CGSize(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
+            // in case of landscape show 3 tiles instead of 2
+            if orientation == .landscapeLeft || orientation == .landscapeRight {
+                
+                return CGSize(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
+            }
+            
+            return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+        } else {
+            
+            // in case of landscape show 6 tiles instead of 4
+            if orientation == .landscapeLeft || orientation == .landscapeRight {
+                
+                return CGSize(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+            }
+            
+            return CGSize(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.width / 4)
         }
         
-        return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -172,8 +187,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         self.ringProgressBar.isHidden = true
         
         self.addChildViewController(HomeViewController.authoriseVC)
-
-        HomeViewController.authoriseVC.checkToken()
+        HomeViewController.authoriseVC.checkToken(viewController: self)
         
         self.location.setUpLocationObject(self.location, delegate: UpdateLocations.shared)
         self.location.locationManager?.requestAlwaysAuthorization()

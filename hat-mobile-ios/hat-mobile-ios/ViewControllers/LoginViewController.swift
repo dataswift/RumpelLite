@@ -103,10 +103,9 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
         alert.addActions(actions: [hubofallthingsAction, bsafeAction, hubatAction, cancelAction])
-        alert.addiPadSupport(sourceRect: self.domainButton.frame, sourceView: self.domainButton)
+        alert.addiPadSupport(sourceRect: self.domainButton.bounds, sourceView: self.domainButton)
         
-        // present alert controller
-        self.navigationController!.present(alert, animated: true, completion: nil)
+        self.present(alert, animated: true, completion: nil)
     }
     
     /**

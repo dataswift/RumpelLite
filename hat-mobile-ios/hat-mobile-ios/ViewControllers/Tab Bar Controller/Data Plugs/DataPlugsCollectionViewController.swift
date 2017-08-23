@@ -79,7 +79,7 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         
         // check token
         self.addChildViewController(DataPlugsCollectionViewController.authoriseVC)
-        DataPlugsCollectionViewController.authoriseVC.checkToken()
+        DataPlugsCollectionViewController.authoriseVC.checkToken(viewController: self)
         
         self.dataPlugs.removeAll()
         self.collectionView?.reloadData()
@@ -264,15 +264,29 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
+        let model = UIDevice.current.model
         let orientation = UIInterfaceOrientation(rawValue: UIDevice.current.orientation.rawValue)!
         
-        // in case of landscape show 3 tiles instead of 2
-        if orientation == .landscapeLeft || orientation == .landscapeRight {
+        if model == "iPhone" {
             
-            return CGSize(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
+            // in case of landscape show 3 tiles instead of 2
+            if orientation == .landscapeLeft || orientation == .landscapeRight {
+                
+                return CGSize(width: UIScreen.main.bounds.width / 3, height: UIScreen.main.bounds.width / 3)
+            }
+            
+            return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
+        } else {
+            
+            // in case of landscape show 3 tiles instead of 2
+            if orientation == .landscapeLeft || orientation == .landscapeRight {
+                
+                return CGSize(width: UIScreen.main.bounds.width / 6, height: UIScreen.main.bounds.width / 6)
+            }
+            
+            return CGSize(width: UIScreen.main.bounds.width / 4, height: UIScreen.main.bounds.width / 4)
         }
         
-        return CGSize(width: UIScreen.main.bounds.width / 2, height: UIScreen.main.bounds.width / 2)
     }
     
     // MARK: - Remove pop up

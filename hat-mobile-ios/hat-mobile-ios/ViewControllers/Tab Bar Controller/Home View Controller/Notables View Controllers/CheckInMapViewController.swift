@@ -69,7 +69,10 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
      */
     @IBAction func focusOnUsersLocation(_ sender: Any) {
         
-        self.mapView.setCenter((self.locationHelper.locationManager?.location?.coordinate)!, animated: true)
+        if let coordinates = self.locationHelper.locationManager?.location?.coordinate {
+            
+            self.mapView.setCenter(coordinates, animated: true)
+        }
     }
     
     // MARK: - ViewController methods
@@ -83,7 +86,7 @@ internal class CheckInMapViewController: UIViewController, UpdateLocationsDelega
         
         // set up location helper
         self.locationHelper.locationDelegate = self
-        self.locationHelper.setUpLocationObject(self.locationHelper, delegate: UpdateLocations.shared)
+        //self.locationHelper.setUpLocationObject(self.locationHelper, delegate: UpdateLocations.shared)
         self.locationHelper.requestLocation()
         
         // set up search

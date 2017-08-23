@@ -135,7 +135,7 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
         KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
     }
     
-    func checkToken() {
+    func checkToken(viewController: UIViewController) {
         
         func success(token: String?) {
             
@@ -158,9 +158,9 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
         
         if result == "false" || userDomain == "" || userToken == "" {
             
-            if let loginViewController = self.storyboard?.instantiateViewController(withIdentifier: Constants.Segue.loginViewController) as? LoginViewController {
+            if let loginViewController = viewController.storyboard?.instantiateViewController(withIdentifier: Constants.Segue.loginViewController) as? LoginViewController {
                 
-                self.navigationController?.pushViewController(loginViewController, animated: false)
+                viewController.navigationController?.pushViewController(loginViewController, animated: false)
             }
         // user logged in, set up view
         } else {
@@ -170,7 +170,7 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
                 token: userToken,
                 expiredCallBack: failed,
                 tokenValidCallBack: success,
-                errorCallBack: self.createClassicOKAlertWith)
+                errorCallBack: viewController.createClassicOKAlertWith)
         }
     }
     

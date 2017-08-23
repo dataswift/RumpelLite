@@ -92,7 +92,7 @@ public struct HATNotablesService {
             let hatData = HATJSONHelper.updateNotesJSONFile(file: hatDataStructure, noteFile: note, userDomain: userDomain)
 
             // make async request
-            HATNetworkHelper.asynchronousRequest("https://" + userDomain + "/data/record/values", method: HTTPMethod.post, encoding: Alamofire.JSONEncoding.default, contentType: ContentType.JSON, parameters: hatData, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
+            HATNetworkHelper.asynchronousRequest("https://\(userDomain)/data/record/values", method: HTTPMethod.post, encoding: Alamofire.JSONEncoding.default, contentType: ContentType.JSON, parameters: hatData, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
 
                 // handle result
                 switch response {

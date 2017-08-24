@@ -184,7 +184,7 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-SX-weh">
-                                <rect key="frame" x="8" y="475" width="25" height="25"/>
+                                <rect key="frame" x="8" y="475.5" width="25" height="25"/>
                                 <state key="normal" image="Mail"/>
                                 <connections>
                                     <action selector="contactUsActionButton:" destination="Vvb-vK-6GZ" eventType="touchUpInside" id="gXy-uk-Qd9"/>
@@ -1918,7 +1918,7 @@
                                                         <rect key="frame" x="17" y="18" width="251" height="95"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PYu-LI-amZ">
-                                                        <rect key="frame" x="124" y="134" width="40.5" height="29"/>
+                                                        <rect key="frame" x="123.5" y="134" width="40.5" height="29"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -3090,7 +3090,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accessing your HAT..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqK-nY-8Dr">
-                                <rect key="frame" x="8" y="248.5" width="305" height="23.5"/>
+                                <rect key="frame" x="8" y="248" width="305" height="23.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -3359,7 +3359,7 @@
                                 </connections>
                             </tableView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FEm-cT-lG1">
-                                <rect key="frame" x="145" y="291.5" width="30" height="30"/>
+                                <rect key="frame" x="145" y="291" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="QeO-7o-UAY"/>
                                     <constraint firstAttribute="height" constant="30" id="qB5-Qq-Hws"/>
@@ -3585,9 +3585,11 @@
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Onw-zu-4D8"/>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Onw-zu-4D8">
+                                                                    <rect key="frame" x="0.0" y="0.0" width="110" height="110"/>
+                                                                </imageView>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7D-k9-Y0V">
-                                                                    <rect key="frame" x="-30" y="5" width="23" height="23"/>
+                                                                    <rect key="frame" x="80" y="5" width="23" height="23"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="23" id="RwY-Of-R7w"/>
                                                                         <constraint firstAttribute="width" constant="23" id="hfR-3q-g4g"/>
@@ -3598,7 +3600,7 @@
                                                                     </connections>
                                                                 </button>
                                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OMQ-U4-zG1" customClass="RingProgressCircle" customModule="hat_mobile_ios" customModuleProvider="target">
-                                                                    <rect key="frame" x="-17.5" y="-17.5" width="35" height="35"/>
+                                                                    <rect key="frame" x="37.5" y="37.5" width="35" height="35"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="35" id="gUr-jF-YO4"/>
@@ -5290,9 +5292,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e25-AZ-CXZ">
-                                <rect key="frame" x="16" y="72" width="66" height="30"/>
+                                <rect key="frame" x="16" y="72" width="58" height="30"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="66" id="9q1-i6-5Uj"/>
                                     <constraint firstAttribute="height" constant="30" id="a1Q-Hf-U2b"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
@@ -5304,7 +5305,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BG2-vb-TVY">
-                                <rect key="frame" x="219" y="72" width="85" height="30"/>
+                                <rect key="frame" x="226" y="72" width="78" height="30"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                 <state key="normal" title="Disconnect">
                                     <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
@@ -5332,16 +5333,16 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6zN-Ah-snz">
-                                                    <rect key="frame" x="8" y="11" width="148" height="21"/>
+                                                    <rect key="frame" x="8" y="11" width="38" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="ArL-Zn-VkY"/>
                                                     </constraints>
-                                                    <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
+                                                    <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWJ-VI-RKf">
-                                                    <rect key="frame" x="164" y="11" width="148" height="21"/>
+                                                    <rect key="frame" x="274" y="11" width="38" height="21"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="21" id="aDv-vg-13Q"/>
                                                     </constraints>
@@ -5352,11 +5353,10 @@
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="DWJ-VI-RKf" firstAttribute="baseline" secondItem="6zN-Ah-snz" secondAttribute="baseline" id="23Q-st-ApY"/>
-                                                <constraint firstItem="DWJ-VI-RKf" firstAttribute="width" secondItem="6zN-Ah-snz" secondAttribute="width" id="CSs-Oe-Keb"/>
                                                 <constraint firstItem="6zN-Ah-snz" firstAttribute="top" secondItem="IWt-cj-cfn" secondAttribute="topMargin" constant="3" id="Hyz-e5-aga"/>
                                                 <constraint firstItem="6zN-Ah-snz" firstAttribute="leading" secondItem="IWt-cj-cfn" secondAttribute="leadingMargin" id="RkX-b5-IdG"/>
-                                                <constraint firstItem="DWJ-VI-RKf" firstAttribute="leading" secondItem="6zN-Ah-snz" secondAttribute="trailing" constant="8" id="TWi-mi-xKy"/>
                                                 <constraint firstItem="DWJ-VI-RKf" firstAttribute="trailing" secondItem="IWt-cj-cfn" secondAttribute="trailingMargin" id="fKg-Tc-y74"/>
+                                                <constraint firstItem="DWJ-VI-RKf" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="6zN-Ah-snz" secondAttribute="trailing" constant="8" id="m4y-YE-MJH"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -5373,10 +5373,8 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="BG2-vb-TVY" firstAttribute="leading" secondItem="YgO-FL-NVH" secondAttribute="trailing" constant="23" id="0Cw-bG-TiH"/>
                             <constraint firstItem="wqt-98-H4I" firstAttribute="leading" secondItem="Np3-CU-LmB" secondAttribute="leading" id="0aL-BP-56V"/>
                             <constraint firstItem="e25-AZ-CXZ" firstAttribute="top" secondItem="yaR-Rg-9oo" secondAttribute="bottom" constant="8" symbolic="YES" id="2j0-Qm-ukv"/>
-                            <constraint firstItem="YgO-FL-NVH" firstAttribute="leading" secondItem="e25-AZ-CXZ" secondAttribute="trailing" constant="43" id="5Ie-0R-kX5"/>
                             <constraint firstItem="YgO-FL-NVH" firstAttribute="centerX" secondItem="wqt-98-H4I" secondAttribute="centerX" id="6Cg-r5-gUQ"/>
                             <constraint firstItem="YgO-FL-NVH" firstAttribute="baseline" secondItem="BG2-vb-TVY" secondAttribute="firstBaseline" id="HDx-J3-ZfY"/>
                             <constraint firstItem="YgO-FL-NVH" firstAttribute="baseline" secondItem="BG2-vb-TVY" secondAttribute="baseline" id="JB6-Eb-dpg"/>
@@ -8162,12 +8160,12 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="v2J-fU-LlK"/>
-        <segue reference="z3o-Tc-MdP"/>
-        <segue reference="4rH-cn-cXc"/>
         <segue reference="dAR-WR-vXs"/>
+        <segue reference="4rH-cn-cXc"/>
         <segue reference="7kR-bZ-1RE"/>
         <segue reference="1Da-p9-MTh"/>
         <segue reference="CgL-tV-CKg"/>
+        <segue reference="o05-Rl-q0A"/>
         <segue reference="gao-fb-RHk"/>
         <segue reference="bLw-tk-kFC"/>
     </inferredMetricsTieBreakers>

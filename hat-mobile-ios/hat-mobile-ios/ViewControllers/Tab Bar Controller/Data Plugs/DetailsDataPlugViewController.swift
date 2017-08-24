@@ -120,7 +120,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         
         if indexPath.row % 2 == 0 {
             
-            cell?.backgroundColor = .gray
+            cell?.backgroundColor = .groupTableViewBackground
         } else {
             
             cell?.backgroundColor = .white
@@ -149,8 +149,19 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
                         for (key, value) in profile {
                             
                             var object = PlugDetails()
-                            object.name = key
+                            object.name = key.replacingOccurrences(of: "_", with: " ")
                             object.value = value.stringValue
+                            
+                            if key == "updated_time" {
+                                
+                                if let date = HATFormatterHelper.formatStringToDate(string: value.stringValue) {
+                                    
+                                    object.value = FormatterHelper.formatDateStringToUsersDefinedDate(
+                                        date: date,
+                                        dateStyle: .short,
+                                        timeStyle: .short)
+                                }
+                            }
                             
                             self.plugDetailsArray.append(object)
                         }
@@ -191,7 +202,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             for (key, value) in (user?.dictionaryValue)! {
                 
                 var object = PlugDetails()
-                object.name = key
+                object.name = key.replacingOccurrences(of: "_", with: " ")
                 object.value = value.stringValue
                 
                 self.plugDetailsArray.append(object)

@@ -137,7 +137,19 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
         
         super.viewWillTransition(to: size, with: coordinator)
         
-        self.collectionView.reloadData()
+        if self.isViewLoaded && (self.view.window != nil) {
+            
+            DispatchQueue.main.async {
+                
+                coordinator.animate(
+                    alongsideTransition: nil,
+                    completion: { _ in
+                    
+                        self.collectionView.setCollectionViewLayout(self.collectionView.collectionViewLayout, animated: true)
+                    }
+                )
+            }
+        }
     }
 
     override func didReceiveMemoryWarning() {

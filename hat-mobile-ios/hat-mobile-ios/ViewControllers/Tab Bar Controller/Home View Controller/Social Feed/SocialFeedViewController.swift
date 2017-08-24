@@ -969,7 +969,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                             y: weakSelf.collectionView.frame.maxY - 150,
                             width: weakSelf.view.frame.width - 30,
                             height: 200)
-                },
+                    },
                     completion: { _ in return }
                 )
             }

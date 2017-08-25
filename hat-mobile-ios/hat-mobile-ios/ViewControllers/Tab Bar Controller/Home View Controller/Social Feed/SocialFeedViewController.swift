@@ -30,7 +30,12 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     @IBOutlet private weak var showAllNotes: UIButton!
     /// An IBOutlet for handling the infoPopUpButton UIButton
     @IBOutlet private weak var infoPopUpButton: UIButton!
+    /// An IBOutlet for handling the filterFeedButton UIButton
     @IBOutlet private weak var filterFeedButton: UIButton!
+    
+    @IBOutlet private weak var calendarImageView: UIImageView!
+    
+    @IBOutlet private weak var textField: UITextField!
     
     // MARK: - Variables
     
@@ -68,8 +73,14 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     /// A Bool to determine if twitter is available
     private var isTwitterAvailable: Bool = false
     
+    private let datePicker: UIDatePicker = UIDatePicker()
+    
+    private let segmentControl: UISegmentedControl = UISegmentedControl(items: ["From", "To"])
+    
     /// A String to define the end time of the last tweet in order to request tweets before this time
     private var twitterEndTime: String?
+    /// A String to define the end time of the last tweet in order to request tweets before this time
+    private var twitterStartTime: String = "0"
     /// A string to hold twitter app token for later use
     private var twitterAppToken: String = ""
     /// The preffered message of the info pop up view controller
@@ -87,8 +98,15 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         }
     }
     
+    /// The start date to filter for points
+    private var filterDataPointsFrom: Date?
+    /// The end date to filter for points
+    private var filterDataPointsTo: Date?
+    
     /// A Bool to determine if facebook is available
     private var isFacebookAvailable: Bool = false
+    /// A Bool to hide or show the button depending if user came from dataplugs or not
+    var showNotesButton: Bool = true
     
     /// An UIImageView to show the downloaded facebook profile image
     private var facebookProfileImage: UIImageView?
@@ -98,6 +116,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     /// A String to define the end time of the last post in order to request posts before this time
     private var facebookEndTime: String?
+    private var facebookStartTime: String?
     /// A string to hold facebook app token for later use
     private var facebookAppToken: String = ""
     /// The number of items per request
@@ -152,19 +171,21 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         
         // view controller title
         self.title = self.prefferedTitle
+        self.showAllNotes.isHidden = !self.showNotesButton
+        
+        let recogniser = UITapGestureRecognizer()
+        recogniser.addTarget(self, action: #selector(self.selectDatesToViewLocations(gesture:)))
+        self.calendarImageView.isUserInteractionEnabled = true
+        self.calendarImageView.addGestureRecognizer(recogniser)
+        
+        self.createDatePickerAccessoryView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
         
-        // show empty label
-        showEptyLabelWith(text: "Checking data plugs....")
-        
-        // get Token for plugs
-        HATFacebookService.getAppTokenForFacebook(token: userToken, userDomain: userDomain, successful: self.fetchFacebookData, failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
-        
-        HATTwitterService.getAppTokenForTwitter(userDomain: userDomain, token: userToken, successful: self.fetchTwitterData, failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+        self.getFeed()
         
         NotificationCenter.default.addObserver(
             self,
@@ -190,6 +211,189 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         self.collectionView.reloadData()
     }
     
+    // MARK: - Get Feed
+    
+    private func getFeed() {
+        
+        // show empty label
+        showEptyLabelWith(text: "Checking data plugs....")
+        
+        // get Token for plugs
+        HATFacebookService.getAppTokenForFacebook(
+            token: userToken,
+            userDomain: userDomain,
+            successful: self.fetchFacebookData,
+            failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+        
+        HATTwitterService.getAppTokenForTwitter(
+            userDomain: userDomain,
+            token: userToken,
+            successful: self.fetchTwitterData,
+            failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+    }
+    
+    // MARK: - Create Date Picker
+    
+    /**
+     Creates the date picker for choosing dates to show location for
+     */
+    private func createDatePickerAccessoryView() {
+        
+        // Set some of UIDatePicker properties
+        datePicker.frame = CGRect(x: 0, y: 200, width: view.frame.width, height: 220)
+        datePicker.timeZone = NSTimeZone.local
+        datePicker.backgroundColor = .white
+        datePicker.datePickerMode = .date
+        
+        // Add an event to call onDidChangeDate function when value is changed.
+        datePicker.addTarget(
+            self,
+            action: #selector(self.datePickerValueChanged(sender:)),
+            for: .valueChanged)
+        
+        let doneButton = UIBarButtonItem(
+            title: "Done",
+            style: .done,
+            target: self,
+            action: #selector(self.donePickerButton(sender:)))
+        doneButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        
+        let spaceButton = UIBarButtonItem(
+            barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
+            target: nil,
+            action: nil)
+        spaceButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        
+        self.segmentControl.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        self.segmentControl.selectedSegmentIndex = 0
+        self.segmentControl.addTarget(self, action: #selector(segmentedControlDidChange(sender:)), for: UIControlEvents.valueChanged)
+        self.segmentControl.tintColor = .teal
+        
+        let barButtonSegmentedControll = UIBarButtonItem(customView: segmentControl)
+        
+        let spaceButton2 = UIBarButtonItem(
+            barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
+            target: nil,
+            action: nil)
+        spaceButton2.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        
+        let cancelButton = UIBarButtonItem(
+            title: "Cancel",
+            style: .done,
+            target: self,
+            action: #selector(self.cancelPickerButton(sender:)))
+        cancelButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        
+        let toolBar = UIToolbar()
+        toolBar.barStyle = UIBarStyle.default
+        toolBar.isTranslucent = true
+        toolBar.tintColor = .toolbarColor
+        toolBar.sizeToFit()
+        
+        toolBar.setItems([cancelButton, spaceButton, barButtonSegmentedControll, spaceButton2, doneButton], animated: false)
+        toolBar.isUserInteractionEnabled = true
+        
+        self.textField.inputView = datePicker
+        self.textField.inputAccessoryView = toolBar
+    }
+    
+    // MARK: - Hidden Text Field method
+    
+    /**
+     Init from and to values
+     
+     - parameter sender: The object that called this method
+     */
+    func selectDatesToViewLocations(gesture: UITapGestureRecognizer) {
+        
+        self.textField.becomeFirstResponder()
+        self.filterDataPointsFrom = Date().startOfTheDay()
+        if let endOfDay = Date().endOfTheDay() {
+            
+            self.filterDataPointsTo = endOfDay
+        }
+    }
+    
+    // MARK: - Date picker method
+    
+    /**
+     The method executed when the picker value changes to save the date to the correct value
+     
+     - parameter sender: The object that called this method
+     */
+    func datePickerValueChanged(sender: UIDatePicker) {
+        
+        if self.segmentControl.selectedSegmentIndex == 0 {
+            
+            self.filterDataPointsFrom = self.datePicker.date.startOfTheDay()
+            if let endOfDay = self.datePicker.date.endOfTheDay() {
+                
+                self.filterDataPointsTo = endOfDay
+            }
+        } else {
+            
+            if let endOfDay = self.datePicker.date.endOfTheDay() {
+                
+                self.filterDataPointsTo = endOfDay
+            }
+        }
+    }
+    
+    // MARK: - Toolbar methods
+    
+    /**
+     Called everytime the segmented control changes value. Saves the from and to date to filter the locations
+     
+     - parameter sender: The object that called this method
+     */
+    func segmentedControlDidChange(sender: UISegmentedControl) {
+        
+        if self.segmentControl.selectedSegmentIndex == 0 {
+            
+            if self.filterDataPointsFrom != nil {
+                
+                self.datePicker.setDate(self.filterDataPointsFrom!, animated: true)
+            }
+        } else {
+            
+            if self.filterDataPointsTo != nil {
+                
+                self.datePicker.setDate(self.filterDataPointsTo!, animated: true)
+            }
+        }
+    }
+    
+    /**
+     The method executed when user taps the done button on the toolbar to filter the locations
+     
+     - parameter sender: The object that called this method
+     */
+    func donePickerButton(sender: UIBarButtonItem) {
+        
+        self.textField.resignFirstResponder()
+        
+        NetworkHelper.stopBackgroundNetworkTasks()
+        
+        self.allData.removeAll()
+        self.posts.removeAll()
+        self.tweets.removeAll()
+        self.cachedDataArray.removeAll()
+        
+        self.getFeed()
+    }
+    
+    /**
+     The method executed when user taps the cancel button on the toolbar to filter the locations
+     
+     - parameter sender: The object that called this method
+     */
+    func cancelPickerButton(sender: UIBarButtonItem) {
+        
+        self.textField.resignFirstResponder()
+        self.filterDataPointsFrom = nil
+        self.filterDataPointsTo = nil
+    }
+    
     // MARK: - Fetch twitter data
     
     /**
@@ -203,15 +407,65 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         self.twitterAppToken = appToken
         
         // construct the parameters for the request
-        var parameters: Dictionary<String, String> = ["limit": self.twitterLimitParameter,
-                                                      "starttime": "0"]
+        let parameters: Dictionary<String, String>
         
-        // if twitter end time not nil add a new parameter
+        let endtime: String
+        
         if self.twitterEndTime != nil {
             
-            parameters = ["limit": self.twitterLimitParameter,
-                          "starttime": "0",
-                          "endtime": self.twitterEndTime!]
+            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
+                
+                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
+                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
+                
+                if tempEndTime != nil && tempStartTime != nil {
+                    
+                    if self.twitterEndTime! < tempEndTime! {
+                        
+                        parameters =  ["limit": self.twitterLimitParameter,
+                                       "endtime": tempEndTime!,
+                                       "starttime": tempStartTime!]
+                    } else {
+                        
+                        parameters =  ["limit": self.twitterLimitParameter,
+                                       "endtime": self.twitterEndTime!,
+                                       "starttime": tempStartTime!]
+                    }
+                } else {
+                    
+                    parameters =  ["limit": self.twitterLimitParameter,
+                                   "endtime": self.twitterEndTime!,
+                                   "starttime": "0"]
+                }
+            } else {
+                
+                parameters =  ["limit": self.twitterLimitParameter,
+                               "endtime": self.twitterEndTime!,
+                               "starttime": "0"]
+            }
+        } else {
+            
+            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
+                
+                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
+                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
+                
+                if tempEndTime != nil && tempStartTime != nil {
+                    
+                    parameters =  ["limit": self.twitterLimitParameter,
+                                   "endtime": tempEndTime!,
+                                   "starttime": tempStartTime!]
+                } else {
+                    
+                    parameters =  ["limit": self.twitterLimitParameter,
+                                   "starttime": "0"]
+                }
+                
+            } else {
+                
+                parameters =  ["limit": self.twitterLimitParameter,
+                               "starttime": "0"]
+            }
         }
         
         // if request failed show message
@@ -226,15 +480,12 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
             token: appToken,
             successful: {[weak self] _ in
             
-                if self != nil {
-                    
-                    self!.fetchTweets(parameters: parameters)
-                }
+                self?.fetchTweets(parameters: parameters)
             },
             failed: { _ in failed() })
         
         // refresh user token
-        _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
     }
     
     /**
@@ -356,15 +607,65 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         self.facebookAppToken = appToken
         
         // construct the parameters for the request
-        var parameters: Dictionary<String, String> = ["limit": self.facebookLimitParameter,
-                                                      "starttime": "0"]
+        let parameters: Dictionary<String, String>
         
-        // if facebbok end time not nil add a new parameter
+        let endtime: String
+        
         if self.facebookEndTime != nil {
             
-            parameters = ["limit": self.facebookLimitParameter,
-                          "starttime": "0",
-                          "endtime": self.facebookEndTime!]
+            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
+                
+                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
+                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
+                
+                if tempEndTime != nil && tempStartTime != nil {
+                    
+                    if self.facebookEndTime! < tempEndTime! {
+                        
+                        parameters =  ["limit": self.facebookLimitParameter,
+                                       "endtime": tempEndTime!,
+                                       "starttime": tempStartTime!]
+                    } else {
+                        
+                        parameters =  ["limit": self.facebookLimitParameter,
+                                       "endtime": self.facebookEndTime!,
+                                       "starttime": tempStartTime!]
+                    }
+                } else {
+                    
+                    parameters =  ["limit": self.facebookLimitParameter,
+                                   "endtime": self.facebookEndTime!,
+                                   "starttime": "0"]
+                }
+            } else {
+                
+                parameters =  ["limit": self.facebookLimitParameter,
+                               "endtime": self.facebookEndTime!,
+                               "starttime": "0"]
+            }
+        } else {
+            
+            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
+                
+                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
+                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
+                
+                if tempEndTime != nil && tempStartTime != nil {
+                    
+                    parameters =  ["limit": self.facebookLimitParameter,
+                                   "endtime": tempEndTime!,
+                                   "starttime": tempStartTime!]
+                } else {
+                    
+                    parameters =  ["limit": self.facebookLimitParameter,
+                                   "starttime": "0"]
+                }
+                
+            } else {
+                
+                parameters =  ["limit": self.facebookLimitParameter,
+                               "starttime": "0"]
+            }
         }
         
         // if request failed show message
@@ -546,41 +847,47 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        // if this index path is FacebookSocialFeedObject
-        if let post = self.cachedDataArray[indexPath.row] as? HATFacebookSocialFeedObject {
+        if indexPath.row < self.cachedDataArray.count {
             
-            // create a cell
-            var cell = SocialFeedCollectionViewCell()
-            
-            // if photo create a photo cell else create a status cell
-            if post.data.posts.type == "photo" {
+            // if this index path is FacebookSocialFeedObject
+            if let post = self.cachedDataArray[indexPath.row] as? HATFacebookSocialFeedObject {
                 
-                cell = (collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.imageSocialFeedCell, for: indexPath) as? SocialFeedCollectionViewCell)!
+                // create a cell
+                var cell = SocialFeedCollectionViewCell()
+                
+                // if photo create a photo cell else create a status cell
+                if post.data.posts.type == "photo" {
+                    
+                    cell = (collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.imageSocialFeedCell, for: indexPath) as? SocialFeedCollectionViewCell)!
+                } else {
+                    
+                    cell = (collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.statusSocialFeedCell, for: indexPath) as? SocialFeedCollectionViewCell)!
+                }
+                
+                // if we have a downloaded image show it
+                if self.facebookProfileImage != nil {
+                    
+                    cell.setCellImage(image: self.facebookProfileImage?.image)
+                }
+                
+                // return cell
+                return SocialFeedCollectionViewCell.setUpCell(cell: cell, indexPath: indexPath, posts: post)
+                // else this is a TwitterSocialFeedObject
             } else {
                 
-                cell = (collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.statusSocialFeedCell, for: indexPath) as? SocialFeedCollectionViewCell)!
-            }
-            
-            // if we have a downloaded image show it
-            if self.facebookProfileImage != nil {
+                // get TwitterSocialFeedObject
+                let tweet = self.cachedDataArray[indexPath.row] as? HATTwitterSocialFeedObject
                 
-                cell.setCellImage(image: self.facebookProfileImage?.image)
+                // set up cell
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.statusSocialFeedCell, for: indexPath) as? SocialFeedCollectionViewCell
+                
+                // return cell
+                return SocialFeedCollectionViewCell.setUpCell(cell: cell!, indexPath: indexPath, posts: tweet!)
             }
-            
-            // return cell
-            return SocialFeedCollectionViewCell.setUpCell(cell: cell, indexPath: indexPath, posts: post)
-        // else this is a TwitterSocialFeedObject
-        } else {
-            
-            // get TwitterSocialFeedObject
-            let tweet = self.cachedDataArray[indexPath.row] as? HATTwitterSocialFeedObject
-            
-            // set up cell
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.statusSocialFeedCell, for: indexPath) as? SocialFeedCollectionViewCell
-            
-            // return cell
-            return SocialFeedCollectionViewCell.setUpCell(cell: cell!, indexPath: indexPath, posts: tweet!)
         }
+        
+        // return cell
+        return SocialFeedCollectionViewCell.setUpCell(cell: SocialFeedCollectionViewCell(), indexPath: indexPath, posts: HATTwitterSocialFeedObject())
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

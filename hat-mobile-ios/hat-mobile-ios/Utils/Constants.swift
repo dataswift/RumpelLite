@@ -831,18 +831,6 @@ internal class Constants {
         }
         
         /**
-         Should be performed before each data post request as token lifetime is short.
-         
-         - parameter userDomain: The user's domain
-         
-         - returns: UserHATAccessTokenURLAlias
-         */
-//        static func theUserHATAccessTokenURL(userDomain: String) -> Constants.UserHATAccessTokenURLAlias {
-//            
-//            return "https://\(userDomain)/users/access_token?username=\(Constants.HATDataPlugCredentials.hatUsername)&password=\(Constants.HATDataPlugCredentials.hatPassword)"
-//        }
-        
-        /**
          Constructs the url to access the table we want
          
          - parameter tableName: The table name

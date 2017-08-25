@@ -245,6 +245,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
                     vc.filterBy = "Twitter"
                     vc.prefferedTitle = "Twitter Plug"
                 }
+                
+                vc.showNotesButton = false
             }
         }
     }

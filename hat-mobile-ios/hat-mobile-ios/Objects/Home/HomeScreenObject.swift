@@ -92,10 +92,6 @@ internal class HomeScreenObject: NSObject {
             name: "BeMoji",
             description: "Broadcast my mood",
             image: UIImage(named: Constants.ImageNames.bemoji)!)
-        let makeMeDoIt = HomeScreenObject(
-            name: "Gimme",
-            description: "Grab back more of me with data plugs",
-            image: UIImage(named: Constants.ImageNames.gimme)!)
         let doeet = HomeScreenObject(
             name: "Do-eet",
             description: "Do stuff. Get rewards",
@@ -128,10 +124,6 @@ internal class HomeScreenObject: NSObject {
             name: "HAT",
             description: "What's new",
             image: UIImage(named: Constants.ImageNames.hatLogo)!)
-        let goodLoop = HomeScreenObject(
-            name: "Featured Offers",
-            description: "Ads for Good by GoodLoop",
-            image: UIImage(named: Constants.ImageNames.featured)!)
         let ideas = HomeScreenObject(
             name: "Ideas",
             description: "Contribute ideas that will make HAT better",
@@ -141,6 +133,6 @@ internal class HomeScreenObject: NSObject {
             description: "Community Space",
             image: UIImage(named: Constants.ImageNames.hattersOutline)!)
         
-        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, makeMeDoIt, doeet, watcheet, readeet, sso, goDeep, photoView, goodLoop, hatCommunity, madhatters, ideas, hatters]
+        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, doeet, watcheet, readeet, sso, goDeep, photoView, hatCommunity, madhatters, ideas, hatters]
     }
 }

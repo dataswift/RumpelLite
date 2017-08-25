@@ -241,6 +241,9 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         self.addChildViewController(NotablesViewController.authoriseVC)
         NotablesViewController.authoriseVC.checkToken(viewController: self)
         
+        // fetch notes
+        self.connectToServerToGetNotes(result: nil)
+        
         self.ensureNotablesPlugEnabled()
     }
 
@@ -474,18 +477,9 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      */
     private func connectToServerToGetNotes(result: String?) {
         
-        if userToken == "" {
-            
-            if let loginPageView = self.storyboard?.instantiateViewController(withIdentifier: "LoginViewController") as? LoginViewController {
-                
-                self.navigationController?.pushViewController(loginPageView, animated: false)
-            }
-        } else {
-            
-            self.showEmptyTableLabelWith(message: "Accessing your HAT...")
-            
-            self.fetchNotes()
-        }
+        self.showEmptyTableLabelWith(message: "Accessing your HAT...")
+        
+        self.fetchNotes()
     }
     
     // MARK: - Fetch Notes

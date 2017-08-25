@@ -35,15 +35,8 @@ extension HATDataPlugsService: UserCredentialsProtocol {
                                     failCallBack: failCallBack)
         
         func checkPlugForToken(appToken: String, renewedUserToken: String?) {
-            
-            self.checkSocialPlugAvailability(
-                succesfulCallBack: plugReadyContinue,
-                failCallBack: { (error) in
-                
-                    failCallBack(error)
-                    CrashLoggerHelper.dataPlugErrorLog(error: error)
-                }
-            )(appToken)
+
+            plugReadyContinue(appToken)
         }
         
         // get token async

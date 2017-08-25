@@ -204,7 +204,7 @@ internal class SyncDataHelper: UserCredentialsProtocol {
                         
                         if self.dataSyncDelegate != nil {
                             
-                            self.dataSyncDelegate?.onDataSyncFeedback(false, message: checkResult + " not found")
+                            self.dataSyncDelegate?.onDataSyncFeedback(false, message: "\(checkResult) not found")
                         }
                     }
                     // inform user that there was an error

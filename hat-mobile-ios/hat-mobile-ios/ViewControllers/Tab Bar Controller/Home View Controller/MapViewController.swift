@@ -31,6 +31,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     @IBOutlet private weak var buttonToday: UIButton!
     /// An IBOutlet for handling the buttonLastWeek UIButton
     @IBOutlet private weak var buttonLastWeek: UIButton!
+    /// An IBOutlet for handling the infoPopUpButton UIButton
     @IBOutlet private weak var infoPopUpButton: UIButton!
     
     /// An IBOutlet for handling the calendarImageView UIImageView

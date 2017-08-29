@@ -420,17 +420,9 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                 
                 if tempEndTime != nil && tempStartTime != nil {
                     
-                    if self.twitterEndTime! < tempEndTime! {
-                        
-                        parameters =  ["limit": self.twitterLimitParameter,
-                                       "endtime": tempEndTime!,
-                                       "starttime": tempStartTime!]
-                    } else {
-                        
-                        parameters =  ["limit": self.twitterLimitParameter,
-                                       "endtime": self.twitterEndTime!,
-                                       "starttime": tempStartTime!]
-                    }
+                    parameters =  ["limit": self.twitterLimitParameter,
+                                   "endtime": self.twitterEndTime!,
+                                   "starttime": tempStartTime!]
                 } else {
                     
                     parameters =  ["limit": self.twitterLimitParameter,
@@ -620,17 +612,9 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                 
                 if tempEndTime != nil && tempStartTime != nil {
                     
-                    if self.facebookEndTime! < tempEndTime! {
-                        
-                        parameters =  ["limit": self.facebookLimitParameter,
-                                       "endtime": tempEndTime!,
-                                       "starttime": tempStartTime!]
-                    } else {
-                        
-                        parameters =  ["limit": self.facebookLimitParameter,
-                                       "endtime": self.facebookEndTime!,
-                                       "starttime": tempStartTime!]
-                    }
+                    parameters =  ["limit": self.facebookLimitParameter,
+                                   "endtime": self.facebookEndTime!,
+                                   "starttime": tempStartTime!]
                 } else {
                     
                     parameters =  ["limit": self.facebookLimitParameter,
@@ -1201,7 +1185,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                 
                 if text == "" && (weakSelf.isTwitterAvailable || weakSelf.isFacebookAvailable) && weakSelf.cachedDataArray.count < 1 {
                     
-                    weakSelf.emptyCollectionViewLabel.text = "It can take up to one hour to fetch the social feeds initially"
+                    weakSelf.emptyCollectionViewLabel.text = "No data found. If this is your first time installing the plug, it may take up to an hour before all your data comes in"
                 } else if !weakSelf.cachedDataArray.isEmpty {
                     
                     weakSelf.emptyCollectionViewLabel.text = ""

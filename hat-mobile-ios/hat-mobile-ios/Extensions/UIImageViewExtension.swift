@@ -41,7 +41,8 @@ extension UIImageView {
                 closure: { progress in
             
                     progressUpdater?(progress.fractionCompleted)
-            }).responseData(
+                }
+            ).responseData(
                 completionHandler: { [weak self] response in
             
                     guard let data = response.result.value else {

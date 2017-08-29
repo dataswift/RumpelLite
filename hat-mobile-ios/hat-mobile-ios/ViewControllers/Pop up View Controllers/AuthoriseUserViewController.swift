@@ -94,15 +94,20 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
             HATLoginService.loginToHATAuthorization(
                 userDomain: userDomain,
                 url: url,
-                success: {token in
+                success: { [weak self] token in
             
-                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
-                    KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
-                    
-                    NotificationCenter.default.removeObserver(
-                        self,
-                        name: NSNotification.Name(Constants.NotificationNames.reauthorised),
-                        object: nil)
+                    if let weakSelf = self {
+                        
+                        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
+                        KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
+                        
+                        weakSelf.removeViewController()
+                        
+                        NotificationCenter.default.removeObserver(
+                            weakSelf,
+                            name: NSNotification.Name(Constants.NotificationNames.reauthorised),
+                            object: nil)
+                    }
                 },
                 failed: { (_: AuthenicationError) -> Void in return }
             )

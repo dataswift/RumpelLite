@@ -75,12 +75,11 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                 self.darkView?.removeFromSuperview()
                 self.loadingView.removeFromSuperview()
                 
+                self.checkOfferStatus(status: claimResult)
+                
                 if receivedOffer?.reward.rewardType == "Cash" {
                     
                     self.navigationController?.popViewController(animated: true)
-                } else if receivedOffer?.reward.rewardType == "Service" {
-                    
-                    self.checkOfferStatus(status: claimResult)
                 } else if receivedOffer?.reward.rewardType == "Voucher" && (claimResult == "completed" || claimResult == "redeemed") {
                     
                     if let code = self.receivedOffer?.reward.codes?[0] {
@@ -91,6 +90,11 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
                     }
                 }
             }
+            
+            self.acceptOfferButton.layer.backgroundColor = UIColor.clear.cgColor
+            self.acceptOfferButton.setTitle("Offer has been accepted", for: .normal)
+            self.acceptOfferButton.isEnabled = false
+            self.acceptOfferButton.alpha = 0.8
             
             self.createClassicOKAlertWith(
                 alertMessage: "You can view your data debits in your settings",

@@ -27,18 +27,21 @@ extension Array where Element == String {
         var found = false
         var index = 0
         
-        repeat {
+        if !self.isEmpty {
             
-            if self[index] == string {
+            repeat {
                 
-                // remove the string
-                self.remove(at: index)
-                found = true
-            } else {
-                
-                index += 1
-            }
-        } while found == false && index < self.count
+                if self[index] == string {
+                    
+                    // remove the string
+                    self.remove(at: index)
+                    found = true
+                } else {
+                    
+                    index += 1
+                }
+            } while found == false && index < self.count
+        }
     }
     
     // MARK: - Construct string

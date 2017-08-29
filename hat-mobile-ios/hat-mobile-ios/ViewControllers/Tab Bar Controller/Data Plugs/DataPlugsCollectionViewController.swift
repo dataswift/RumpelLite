@@ -153,10 +153,24 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             
             func setUpNotificationOnExpiry(date: String) {
                 
+                if let notifications = UIApplication.shared.scheduledLocalNotifications {
+                    
+                    for notification in notifications where notification.userInfo?["notificationReason"] as? String == "facebook plug expired" {
+                        
+                        UIApplication.shared.cancelLocalNotification(notification)
+                    }
+                    
+                    if notifications.count > 1 {
+                        
+                        UIApplication.shared.cancelAllLocalNotifications()
+                    }
+                }
+                
                 if let date = HATFormatterHelper.formatStringToDate(string: date) {
                     
                     let notification = UILocalNotification()
                     notification.fireDate = date
+                    notification.userInfo = ["notificationReason": "facebook plug expired"]
                     notification.alertBody = "Facebook Data Plug expired!"
                     notification.alertAction = "Please enable it!"
                     notification.soundName = UILocalNotificationDefaultSoundName

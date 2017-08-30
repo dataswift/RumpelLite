@@ -20,6 +20,7 @@ target 'hat-mobile-ios' do
     pod 'HatForIOS', :git => 'https://github.com/whiteshadow-gr/HatForIOS.git'
     pod 'SwiftLint'
     pod 'MarkdownView'
+    pod 'Haneke'
 end
 
 target 'hat-mobile-iosTests' do

@@ -11,6 +11,7 @@
  */
 
 import HatForIOS
+import Haneke
 
 // MARK: Class
 
@@ -119,29 +120,47 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
         
         if let url = URL(string: imageURL) {
             
-            self.image.downloadedFrom(
-                url: url,
-                userToken: userToken,
-                progressUpdater: { [weak self] progress in
-                    
-                    if let weakSelf = self {
-                        
-                        let completion = CGFloat(progress)
-                        weakSelf.ringProgressView.updateCircle(
-                            end: completion,
-                            animate: Float(weakSelf.ringProgressView.endPoint),
-                            removePreviousLayer: false)
-                    }
-                },
-                completion: { [weak self] in
-                    
+            //self.image.hnk_setImage(from: url, placeholder: UIImage(named: Constants.ImageNames.placeholderImage))
+            HNKCache.shared().removeAllImages()
+            self.image.hnk_setImage(
+                from: url,
+                placeholder: UIImage(named: Constants.ImageNames.placeholderImage),
+                headers: ["x-auth-token": userToken],
+                success: { [weak self] image in
+                
                     if let weakSelf = self {
                         
                         weakSelf.ringProgressView.isHidden = true
                         
+                        weakSelf.image.image = image
                         if weakSelf.image.image != nil {
                             
-                            completion(weakSelf.image.image!)
+                            DispatchQueue.main.async {
+                                
+                                completion(weakSelf.image.image!)
+                            }
+                        }
+                    }
+                },
+                failure: { error in
+                
+                    if error != nil {
+                        
+                        CrashLoggerHelper.customErrorLog(message: "", error: error!)
+                    }
+                },
+                update: { [weak self] completionProgress in
+            
+                    if let weakSelf = self {
+                        
+                        if completionProgress != nil {
+                            
+//                            let unwrappedProgress = completionProgress!.pointee
+//                            let completion = CGFloat(unwrappedProgress)
+//                            weakSelf.ringProgressView.updateCircle(
+//                                end: completion,
+//                                animate: Float(weakSelf.ringProgressView.endPoint),
+//                                removePreviousLayer: false)
                         }
                     }
                 }

@@ -1,0 +1,5 @@
+language: objective-c
+osx_image: xcode8.3
+xcode_workspace: hat-mobile-ios.xcworkspace
+xcode_scheme: hat-mobile-ios
+xcode_sdk: iphonesimulator10.3

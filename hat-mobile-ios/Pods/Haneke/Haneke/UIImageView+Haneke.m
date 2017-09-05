@@ -56,6 +56,7 @@
 - (void)hnk_setImageFromURL:(NSURL*)url placeholder:(UIImage*)placeholder headers:(NSDictionary*)dict success:(void (^)(UIImage *image))successBlock failure:(void (^)(NSError *error))failureBlock update: (void (^)(float completion)) completion
 {
     id<HNKFetcher> fetcher = [[HNKNetworkFetcher alloc] initWithURL:url headers:dict update:completion];
+    
     [self hnk_setImageFromFetcher:fetcher placeholder:placeholder success:successBlock failure:failureBlock];
 }
 
@@ -142,13 +143,13 @@
         
         if ([error.localizedDescription isEqualToString:@"not found"]) {
             
-            [strongSelf hnk_setImage:[UIImage imageNamed:@"Image Placeholder"] animated:animated success:successBlock];
+            [strongSelf hnk_setImage:[UIImage imageNamed:@"Image Deleted"] animated:animated success:successBlock];
         } else {
             
             strongSelf.hnk_fetcher = nil;
-            
-            if (failureBlock) failureBlock(error);
         }
+        
+        if (failureBlock) failureBlock(error);
     }];
     animated = YES;
     return didSetImage;

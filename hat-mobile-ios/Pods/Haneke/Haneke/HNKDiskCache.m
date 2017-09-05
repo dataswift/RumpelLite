@@ -245,6 +245,7 @@ NSString *const HNKExtendedFileAttributeKey = @"io.haneke.key";
 
 - (void)syncSetData:(NSData*)data forKey:(NSString*)key
 {
+    NSLog(@"HANEKE cache sync set data for key %@", key);
     NSError *error;
     NSString *path = [self pathForKey:key];
     NSFileManager *fileManager = [NSFileManager defaultManager];

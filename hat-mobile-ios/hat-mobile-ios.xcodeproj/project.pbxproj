@@ -139,6 +139,7 @@
 		60938DBC1E9BA4190058F6CC /* PhotoPickerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBB1E9BA4190058F6CC /* PhotoPickerDelegate.swift */; };
 		60938DBE1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBD1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift */; };
 		60938DC01E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */; };
+		609491311F57167800169A3C /* HanakeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609491301F57167800169A3C /* HanakeHelper.swift */; };
 		6097C0691E327506000E771A /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */; };
 		60A727BD1DDF47ED008AF409 /* FormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */; };
 		60AAA5B81E83D70A0080D0D5 /* HATProviderObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */; };
@@ -337,6 +338,7 @@
 		60938DBB1E9BA4190058F6CC /* PhotoPickerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoPickerDelegate.swift; sourceTree = "<group>"; };
 		60938DBD1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotoFullScreenViewerViewController.swift; sourceTree = "<group>"; };
 		60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareOptionsSelectedImageCollectionViewCell.swift; sourceTree = "<group>"; };
+		609491301F57167800169A3C /* HanakeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HanakeHelper.swift; sourceTree = "<group>"; };
 		6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsViewController.swift; sourceTree = "<group>"; };
 		60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
 		60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATProviderObjectExtension.swift; sourceTree = "<group>"; };
@@ -880,6 +882,7 @@
 				606528D21DDA037400026EA6 /* JSONHelper.swift */,
 				60DDE16E1E30FCD200AB9E18 /* KeychainHelper.swift */,
 				60494AD71EB9C2A2005D5C85 /* MailHelper.swift */,
+				609491301F57167800169A3C /* HanakeHelper.swift */,
 				60DDE1701E31006600AB9E18 /* MapsHelper.swift */,
 				B5138ACD1D1ECA2C00CD1530 /* NetworkHelper.swift */,
 				605EE03B1E92A5BF00B265F6 /* PhotosHelper.swift */,
@@ -1370,6 +1373,7 @@
 				6033DAF31F34C92200A9048B /* DataDebitTableViewCell.swift in Sources */,
 				6090D4661E31316F004FD1E2 /* MarketSquareService.swift in Sources */,
 				B564E9A01D198C4D00EDB8F1 /* MapViewController.swift in Sources */,
+				609491311F57167800169A3C /* HanakeHelper.swift in Sources */,
 				604EAC111EB8C5F20084EEC8 /* UserCredentialsProtocol.swift in Sources */,
 				B54EA6181D19F2750018EE47 /* DataPointsTableView.swift in Sources */,
 				608EAAA61DFEA7ED00234C60 /* StringExtension.swift in Sources */,

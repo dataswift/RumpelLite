@@ -116,6 +116,11 @@
  */
 - (void)removeAllImages;
 
+/**
+ Gets the size of the cache all cached images.
+ */
+- (void)getSizeOfCache:(HNKCacheFormat*)cache completion:(void (^)(float))completion;
+
 /** Removes all cached images of the given format.
  @param formatName Name of the format whose images will be removed.
  */

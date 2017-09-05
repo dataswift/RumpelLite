@@ -10,8 +10,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import HatForIOS
 import Haneke
+import HatForIOS
 
 // MARK: Class
 
@@ -120,8 +120,6 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
         
         if let url = URL(string: imageURL) {
             
-            //self.image.hnk_setImage(from: url, placeholder: UIImage(named: Constants.ImageNames.placeholderImage))
-            HNKCache.shared().removeAllImages()
             self.image.hnk_setImage(
                 from: url,
                 placeholder: UIImage(named: Constants.ImageNames.placeholderImage),
@@ -132,12 +130,12 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
                         
                         weakSelf.ringProgressView.isHidden = true
                         
-                        weakSelf.image.image = image
-                        if weakSelf.image.image != nil {
+                        if image != nil {
                             
                             DispatchQueue.main.async {
                                 
-                                completion(weakSelf.image.image!)
+                                weakSelf.setImageInUIImageView(image: image!)
+                                completion(image!)
                             }
                         }
                     }
@@ -150,18 +148,15 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
                     }
                 },
                 update: { [weak self] completionProgress in
-            
+                    
+                    let completion = CGFloat(completionProgress)
+
                     if let weakSelf = self {
                         
-                        if completionProgress != nil {
-                            
-//                            let unwrappedProgress = completionProgress!.pointee
-//                            let completion = CGFloat(unwrappedProgress)
-//                            weakSelf.ringProgressView.updateCircle(
-//                                end: completion,
-//                                animate: Float(weakSelf.ringProgressView.endPoint),
-//                                removePreviousLayer: false)
-                        }
+                        weakSelf.ringProgressView.updateCircle(
+                            end: completion,
+                            animate: Float(weakSelf.ringProgressView.endPoint),
+                            removePreviousLayer: false)
                     }
                 }
             )
@@ -176,5 +171,17 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
     func cropImage() {
         
         self.image.cropImage(width: self.image.frame.size.width, height: self.image.frame.size.height)
+    }
+    
+    // MAR: - Set image in UIImageView
+    
+    /**
+     <#Function Details#>
+     
+     - parameter <#Parameter#>: <#Parameter description#>
+     */
+    func setImageInUIImageView(image: UIImage) {
+        
+        self.image.image = image
     }
 }

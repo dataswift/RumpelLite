@@ -72,7 +72,7 @@
  @discussion If needed, the least recently used images in the cache will be evicted in background.
  @warning If a success block is provided you will be responsible for setting the image.
  */
-- (void)hnk_setImageFromURL:(NSURL*)url placeholder:(UIImage*)placeholder headers:(NSDictionary*)dict success:(void (^)(UIImage *image))successBlock failure:(void (^)(NSError *error))failureBlock update: (void (^)(float *completion)) completion;
+- (void)hnk_setImageFromURL:(NSURL*)url placeholder:(UIImage*)placeholder headers:(NSDictionary*)dict success:(void (^)(UIImage *image))successBlock failure:(void (^)(NSError *error))failureBlock update: (void (^)(float completion)) completion;
 
 /** Resizes, displays and caches an appropiately sized image from the given image.
  @param image Original image.

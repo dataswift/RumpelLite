@@ -20,10 +20,10 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Data Debits"], ["Past Notifications"], ["Storage Info", "Change Password"], ["Show Data", "Location Settings"], [/*"Release Notes",*/ "Rumpel Terms of Service", "HAT Terms of Service"], ["Report Problem"], ["Log Out", "Version"]]
+    private let sections: [[String]] = [["Data Debits"], ["Past Notifications"], ["Storage Info", "Change Password"], ["Show Data", "Location Settings"], [/*"Release Notes",*/ "Rumpel Terms of Service", "HAT Terms of Service"], ["Report Problem"], ["Clear Cache"], ["Log Out", "Version"]]
     /// The headers of the table view
-    private let headers: [String] = ["Data Debits", "Notifications", "HAT", "Location", "About", "", ""]
-    private let footers: [String] = ["", "", "", "", "", "HATs are distributed systems and being private also means no one will know if you have a problem. If you have an issue with your HAT or this dashboard, please report it here", ""]
+    private let headers: [String] = ["Data Debits", "Notifications", "HAT", "Location", "About", "", "", ""]
+    private let footers: [String] = ["", "", "", "", "", "HATs are distributed systems and being private also means no one will know if you have a problem. If you have an issue with your HAT or this dashboard, please report it here", "", ""]
     
     /// The file url, used to show the pdf file for terms of service
     private var fileURL: String?
@@ -119,6 +119,65 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                 TabBarViewController.logoutUser(from: self)
             }
         } else if indexPath.section == 6 {
+            
+            if self.sections[indexPath.section][indexPath.row] == "Clear Cache" {
+                
+                let appDir = "\(NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0])/Caches/com.hpique.haneke/shared/"
+                
+                func folderSize(folderPath: String) -> UInt {
+                    
+                    //swiftlint:disable force_try
+                    do {
+                        //return [FileAttributeKey : Any]
+                        let filesArray = try FileManager.default.subpathsOfDirectory(atPath: folderPath) as [String]
+                        var fileSize: UInt = 0
+                        
+                        for fileName in filesArray {
+                            let filePath = "\(folderPath)/\(fileName)"
+                            let fileDictionary: NSDictionary = try! FileManager.default.attributesOfItem(atPath: filePath) as NSDictionary
+                            fileSize += UInt(fileDictionary.fileSize())
+                            
+                        }
+                        //swiftlint:enable force_try
+                        
+                        return fileSize
+                    } catch {
+                        print("Error: \(error)")
+                    }
+                    
+                    return 0
+                }
+                
+                let cacheSize = folderSize(folderPath: appDir)
+                
+                if cacheSize > 0 {
+                    
+                    let newSize = cacheSize / 1024 / 1024
+                    self.createClassicAlertWith(
+                        alertMessage: "By clearing cache you will free up \(String(format: "%.u", newSize)) MB",
+                        alertTitle: "Do you want to clear cache?",
+                        cancelTitle: "Cancel",
+                        proceedTitle: "Clear",
+                        proceedCompletion: {
+                            
+                            do {
+                                
+                                let filesArray = try FileManager.default.subpathsOfDirectory(atPath: appDir) as [String]
+                                for fileName in filesArray {
+                                    
+                                    let filePath = "\(appDir)/\(fileName)"
+                                    try FileManager.default.removeItem(atPath: filePath)
+                                }
+                                
+                                HanakeHelper.clearCache()
+                            } catch {
+                                
+                            }
+                        },
+                        cancelCompletion: {})
+                }
+            }
+        } else if indexPath.section == 7 {
             
             if self.sections[indexPath.section][indexPath.row] == "Log Out" {
                 
@@ -221,6 +280,11 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                 cell.textLabel?.textColor = .teal
             }
         } else if indexPath.section == 6 {
+            
+            cell.accessoryType = .none
+            cell.isUserInteractionEnabled = true
+            cell.textLabel?.textColor = .black
+        } else if indexPath.section == 7 {
             
             cell.accessoryType = .none
             

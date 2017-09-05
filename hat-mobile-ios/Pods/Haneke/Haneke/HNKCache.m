@@ -125,6 +125,7 @@ NSString *const HNKErrorDomain = @"com.hpique.haneke";
 - (BOOL)fetchImageForFetcher:(id<HNKFetcher>)fetcher formatName:(NSString *)formatName success:(void (^)(UIImage *image))successBlock failure:(void (^)(NSError *error))failureBlock
 {
     NSString *key = fetcher.key;
+    NSLog(@"HANEKE Fetch image for fetcher with key %@ formatName %@", key, formatName);
     return [self fetchImageForKey:key formatName:formatName success:^(UIImage *image) {
         if (successBlock) successBlock(image);
     } failure:^(NSError *error) {
@@ -140,12 +141,12 @@ NSString *const HNKErrorDomain = @"com.hpique.haneke";
                     return;
                 }
                 
-                UIImage *image = [self imageFromOriginal:originalImage key:key format:format];
+                //UIImage *image = [self imageFromOriginal:originalImage key:key format:format];
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self setMemoryImage:image forKey:key format:format];
-                    if (successBlock) successBlock(image);
+                    [self setMemoryImage:originalImage forKey:key format:format];
+                    if (successBlock) successBlock(originalImage);
                 });
-                [self setDiskImage:image forKey:key format:format];
+                [self setDiskImage:originalImage forKey:key format:format];
             }];
         });
     }];
@@ -210,6 +211,7 @@ NSString *const HNKErrorDomain = @"com.hpique.haneke";
 
 - (void)setImage:(UIImage*)image forKey:(NSString*)key formatName:(NSString*)formatName
 {
+    NSLog(@"HANEKE Set image (key %@) to cache with formatName %@", key, formatName);
     HNKCacheFormat *format = _formats[formatName];
     NSAssert(format, @"Unknown format %@", formatName);
     
@@ -226,6 +228,27 @@ NSString *const HNKErrorDomain = @"com.hpique.haneke";
     NSCache *cache = _memoryCaches[formatName];
     [cache removeAllObjects];
     [format.diskCache removeAllData];
+}
+
+- (unsigned long long)getSizeOfCacheNamed:(NSString*)formatName
+{
+    HNKCacheFormat *format = _formats[formatName];
+    if (!format) return 0;
+    NSCache *cache = _memoryCaches[formatName];
+    
+    return format.diskCache.size + format.diskSize;
+}
+
+- (void)getSizeOfCache:(HNKCacheFormat*)cache completion:(void (^)(float))completion
+{
+    unsigned long long test = 0;
+    
+    HNKDiskCache *disk = [HNKDiskCache alloc];
+    unsigned long long diskSize = disk.size;
+    for (NSString *key in cache.cache.formats) {
+        test += [self getSizeOfCacheNamed:key];
+    }
+    completion(test);
 }
 
 - (void)removeAllImages
@@ -295,6 +318,7 @@ NSString *const HNKErrorDomain = @"com.hpique.haneke";
 
 - (void)setMemoryImage:(UIImage*)image forKey:(NSString*)key format:(HNKCacheFormat*)format
 {
+    NSLog(@"HANEKE Set memory image for key %@ formatName %@", key, format);
     NSString *formatName = format.name;
     NSCache *cache = _memoryCaches[formatName];
     if (!cache)
@@ -350,6 +374,7 @@ NSString *const HNKErrorDomain = @"com.hpique.haneke";
 
 - (void)setDiskImage:(UIImage*)image forKey:(NSString*)key format:(HNKCacheFormat*)format
 {
+    NSLog(@"HANEKE Set disk image for key %@ formatName %@", key, format);
     if (image)
     {
         if (format.diskCapacity == 0) return;
@@ -362,6 +387,7 @@ NSString *const HNKErrorDomain = @"com.hpique.haneke";
     }
     else
     {
+        NSLog(@"HANEKE Set disk image - REMOVE for key %@ formatName %@", key, format);
         [format.diskCache removeDataForKey:key];
     }
 }

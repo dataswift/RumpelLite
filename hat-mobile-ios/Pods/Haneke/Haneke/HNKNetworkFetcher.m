@@ -52,6 +52,7 @@
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data {
+    
     [_dataToDownload appendData:data];
     
     if (_progressUpdate) {
@@ -121,77 +122,14 @@
     NSURLSessionConfiguration *defaultConfigObject = [NSURLSessionConfiguration defaultSessionConfiguration];
     [defaultConfigObject setHTTPAdditionalHeaders:_dict];
     
-    NSURLSession *test = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:self delegateQueue: [NSOperationQueue mainQueue]];
+    NSURLSession *urlSession = [NSURLSession sessionWithConfiguration:defaultConfigObject delegate:self delegateQueue: [NSOperationQueue mainQueue]];
     
     self.failedBlock = failureBlock;
     self.successBlock = successBlock;
     _cancelled = NO;
     __weak __typeof__(self) weakSelf = self;
-    _dataTask = [test dataTaskWithURL:_URL];
+    _dataTask = [urlSession dataTaskWithURL:_URL];
     [_dataTask resume];
-//    _dataTask = [test dataTaskWithURL: _URL completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-//        __strong __typeof__(weakSelf) strongSelf = weakSelf;
-//
-//        if (!strongSelf) return;
-//
-//        if (strongSelf->_cancelled) return;
-//        
-//        NSURL *URL = strongSelf->_URL;
-//        
-//        if (error)
-//        {
-//            if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) return;
-//            
-//            HanekeLog(@"Request %@ failed with error %@", URL.absoluteString, error);
-//            if (!failureBlock) return;
-//            
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                failureBlock(error);
-//            });
-//            return;
-//        }
-//        
-//        if (![response isKindOfClass:NSHTTPURLResponse.class])
-//        {
-//            HanekeLog(@"Request %@ received unknown response %@", URL.absoluteString, response);
-//            return;
-//        }
-//        
-//        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse*)response;
-//        if (httpResponse.statusCode != 200 && httpResponse.statusCode != 201)
-//        {
-//            NSString *errorDescription = [NSHTTPURLResponse localizedStringForStatusCode:httpResponse.statusCode];
-//            [strongSelf failWithLocalizedDescription:errorDescription code:HNKErrorNetworkFetcherInvalidStatusCode block:failureBlock];
-//            return;
-//        }
-//        
-//        const long long expectedContentLength = response.expectedContentLength;
-//        if (expectedContentLength > -1)
-//        {
-//            const NSUInteger dataLength = data.length;
-//            if (dataLength < expectedContentLength)
-//            {
-//                NSString *errorDescription = [NSString stringWithFormat:NSLocalizedString(@"Request %@ received %ld out of %ld bytes", @""), URL.absoluteString, (long)dataLength, (long)expectedContentLength];
-//                [strongSelf failWithLocalizedDescription:errorDescription code:HNKErrorNetworkFetcherMissingData block:failureBlock];
-//                return;
-//            }
-//        }
-//        
-//        UIImage *image = [UIImage imageWithData:data];
-//        
-//        if (!image)
-//        {
-//            NSString *errorDescription = [NSString stringWithFormat:NSLocalizedString(@"Failed to load image from data at URL %@", @""), URL];
-//            [strongSelf failWithLocalizedDescription:errorDescription code:HNKErrorNetworkFetcherInvalidData block:failureBlock];
-//            return;
-//        }
-//        
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            successBlock(image);
-//        });
-//        
-//    }];
-//    [_dataTask resume];
 }
 
 - (void)cancelFetch

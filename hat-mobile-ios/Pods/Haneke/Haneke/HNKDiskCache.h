@@ -69,6 +69,8 @@
  */
 - (void)setData:(NSData*)data forKey:(NSString*)key;
 
+- (void)calculateSize;
+
 /**
  Fetches the data associated with the given key and updates its access date.
  @param key Key associated with requested data.

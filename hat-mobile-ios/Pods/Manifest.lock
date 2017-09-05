@@ -48,7 +48,7 @@ DEPENDENCIES:
   - MarkdownView
   - Mockingjay
   - RealmSwift
-  - SwiftLint
+  - SwiftLint (= 0.21.0)
   - SwiftyJSON
   - SwiftyRSA
   - Toaster
@@ -66,7 +66,7 @@ CHECKOUT OPTIONS:
     :commit: cc3b6524156f8e0d8653688423fba2fdf0944bc8
     :git: https://github.com/ribl/FBAnnotationClusteringSwift/
   HatForIOS:
-    :commit: 055317d1ee7253648d9e0bdd3af4a74042b4cb59
+    :commit: 4818ee661d24be055b45828490905a147bb6491c
     :git: https://github.com/whiteshadow-gr/HatForIOS.git
 
 SPEC CHECKSUMS:
@@ -90,6 +90,6 @@ SPEC CHECKSUMS:
   URITemplate: 720b8a56a281494d7c2d31ee33183986eaed2c67
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: da5a248312fcaf86606292b84f1ab1391b20b0ab
+PODFILE CHECKSUM: ce4350c9652787434ae9ccab54f62c88a5f6e205
 
 COCOAPODS: 1.3.1

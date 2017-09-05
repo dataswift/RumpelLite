@@ -19,24 +19,6 @@ import SwiftyRSA
 /// The login service class
 public struct HATLoginService {
 
-    // MARK: - Verify domain
-
-    /**
-     Verify the domain if it's what we expect
-     
-     - parameter domain: The formated doamain
-     - returns: Bool, true if the domain matches what we expect and false otherwise
-     */
-    public static func verifyDomain(_ domain: String) -> Bool {
-
-        if domain == "hubofallthings.net" || domain == "savy.io" || domain == "hubat.net" {
-
-            return true
-        }
-
-        return false
-    }
-
     /**
      Log in button pressed. Begin authorization
      
@@ -48,34 +30,17 @@ public struct HATLoginService {
 
         // trim values
         let hatDomain = userHATDomain.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-
-        // split text field text by .
-        var array = hatDomain.components(separatedBy: ".")
-        // remove the first string
-        array.remove(at: 0)
-
-        // form one string
-        var domain = ""
-        for section in array {
-
-            domain += section + "."
-        }
-
-        // chack if we are out of bounds and drop last leter
-        if domain.characters.count > 1 {
-
-            domain = String(domain.characters.dropLast())
-        }
+        let result = hatDomain.hasSuffixes(["hubofallthings.net", "savy.io", "hubat.net"])
 
         // verify if the domain is what we want
-        if HATLoginService.verifyDomain(domain) {
+        if result {
 
             // domain accepted
             successfulVerification(userHATDomain)
         } else {
 
             // domain is incorrect
-            let message = NSLocalizedString("The domain you entered is incorrect. Accepted domains are 'hubofallthings.net, warwickhat.net and hubat.net. Please correct any typos and try again", comment: "")
+            let message = NSLocalizedString("The domain you entered is incorrect. Accepted domains are 'hubofallthings.net, savy.io and hubat.net. Please correct any typos and try again", comment: "")
             failedVerification(message)
         }
     }

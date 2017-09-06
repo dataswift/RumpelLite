@@ -340,9 +340,22 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.hatDomainKey) {
             
-            let domain = result.components(separatedBy: ".")
-            self.inputUserHATDomain.text = domain[0]
-            self.domainButton.setTitle(".\(domain[1]).\(domain[2])", for: .normal)
+            if result.hasSuffix("hubat.net") {
+                
+                let test = result.components(separatedBy: ".hubat.net")
+                self.inputUserHATDomain.text = test[0]
+                self.domainButton.setTitle(".hubat.net", for: .normal)
+            } else if result.hasSuffix("hubofallthings.net") {
+                
+                let test = result.components(separatedBy: ".hubofallthings.net")
+                self.inputUserHATDomain.text = test[0]
+                self.domainButton.setTitle(".hubofallthings.net", for: .normal)
+            } else if result.hasSuffix("savy.io") {
+                
+                let test = result.components(separatedBy: ".savy.io")
+                self.inputUserHATDomain.text = test[0]
+                self.domainButton.setTitle(".savy.io", for: .normal)
+            }
         }
     }
     
@@ -402,10 +415,9 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             
             // authorize with hat
-            let filteredDomain = self.removeDomainFromUserEnteredText(domain: self.inputUserHATDomain.text!)
             KeychainHelper.setKeychainValue(key: Constants.Keychain.hatDomainKey, value: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!)
             HATLoginService.loginToHATAuthorization(
-                userDomain: filteredDomain + (self.domainButton.titleLabel?.text)!,
+                userDomain: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text!)!,
                 url: url,
                 success: success,
                 failed: failed)

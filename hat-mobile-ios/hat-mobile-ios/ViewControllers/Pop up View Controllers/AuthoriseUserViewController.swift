@@ -149,6 +149,8 @@ internal class AuthoriseUserViewController: UIViewController, UserCredentialsPro
                 KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: token!)
                 KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
             }
+            
+            self.completionFunc?(token)
         }
         
         func failed() {

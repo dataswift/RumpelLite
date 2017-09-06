@@ -3,4 +3,4 @@ osx_image: xcode8.3
 xcode_workspace: hat-mobile-ios.xcworkspace
 xcode_scheme: hat-mobile-ios
 xcode_sdk: iphonesimulator10.3
-script: — xcodebuild clean build -workspace NSManchester.xcworkspace -scheme NSManchester -destination “platform=iOS Simulator,name=iPhone 7"
+script: — xcodebuild clean build -workspace hat-mobile-ios.xcworkspace -scheme hat-mobile-ios -destination “platform=iOS Simulator,name=iPhone 7"

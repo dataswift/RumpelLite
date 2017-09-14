@@ -91,7 +91,7 @@ public class RealmHelper {
         try! realm.write {
             
             // iterate over ResultSet and update
-            for dataPoint: DataPoint in dataPoints {
+            for dataPoint in dataPoints {
                 
                 dataPoint.lastSynced = lastUpdated
             }

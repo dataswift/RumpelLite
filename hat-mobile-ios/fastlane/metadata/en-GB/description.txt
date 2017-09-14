@@ -1,0 +1,21 @@
+Rumpel Lite is the mobile extension of web Rumpel, the dashboard for all your HAT data.
+
+What is the HAT:
+
+The HAT is a private and secure personal data store that allow users to exchange and control the use of their data by Internet services. 
+The HAT is private, and belongs to you, the individual. 
+The HAT is secure.
+The HAT is portable. You can move your HAT to a provider you like (or even bring it to your own server)
+The HAT is built on research. £1.7m, 6 UK universities, 7 professors and 20 researchers researched into the design of the technology, business and economic models
+The HAT changes the future of the Internet. Your data and words become your history and memory, a ‘wiki-me’ of information for health, well being and personalized products.
+The HAT stands for the Hub-of-All-Things. Because we think YOU should be at the hub of all things
+
+What you can do with Rumpel Lite:
+
+Stuff data into your HAT. Claim your data from Internet companies and make it useful to YOU. With just a few key presses. 
+Keep it secure and available on demand. Your data is stored in a personal and secure cloud container that goes everywhere with you and available on your devices.
+Monetise your data. Use it to get discounts and vouchers, again and again.
+
+You would need to choose your HAT provider. Expert users can install the HAT on their computers or other devices in their home or office (the hard HAT), or subscribe to a cloud service provided by certified HAT providers that are legally committed to ensure privacy, security and confidentiality. Users can move their HAT between providers. All HAT Providers are regulated by the HAT Community Foundation. More information at http://hubofallthings.com
+
+Rumpel Lite also collects your phone location data and pushes it into your HAT. Continued use of GPS running in the background can dramatically decrease battery life.

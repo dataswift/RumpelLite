@@ -15,7 +15,7 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the locations received from server
-public struct HATLocationsObject: Equatable {
+public struct HATLocationsObject: Equatable, HatApiType {
 
     // MARK: - Equatable protocol
 
@@ -71,24 +71,43 @@ public struct HATLocationsObject: Equatable {
         // init optional JSON fields to default values
         self.init()
 
-        // this field will always have a value no need to use if let
-        if let tempID = dict["id"]?.intValue {
-
-            locationID = tempID
+        self.initialize(from: dict)
+    }
+    
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let json = JSON(fromCache)
+        if let tempLocations = json["locations"].dictionary {
+            
+            data.locations = HATLocationsDataLocationsObject(dict: tempLocations)
         }
-
-        if let tempUpdatedTime = dict["lastUpdated"]?.string {
-
+        
+        if let tempUpdatedTime = json["unixTimeStamp"].string {
+            
             lastUpdate = HATFormatterHelper.formatStringToDate(string: tempUpdatedTime)
         }
-
-        if let tempName = dict["name"]?.string {
-
+    }
+    
+    public mutating func initialize(from dictionary: Dictionary<String, JSON>) {
+        
+        // this field will always have a value no need to use if let
+        if let tempID = dictionary["id"]?.intValue {
+            
+            locationID = tempID
+        }
+        
+        if let tempUpdatedTime = dictionary["lastUpdated"]?.string {
+            
+            lastUpdate = HATFormatterHelper.formatStringToDate(string: tempUpdatedTime)
+        }
+        
+        if let tempName = dictionary["name"]?.string {
+            
             name = tempName
         }
-
-        if let tempTables = dict["data"]?.dictionaryValue {
-
+        
+        if let tempTables = dictionary["data"]?.dictionaryValue {
+            
             data = HATLocationsDataObject(dict: tempTables)
         }
     }

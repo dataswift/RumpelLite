@@ -373,6 +373,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             on: self,
             animated: true,
             completion: nil)
+        self.safariVC?.accessibilityLabel = "loginWebview"
     }
     
     /**

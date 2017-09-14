@@ -12,16 +12,14 @@
 
 import RealmSwift
 
-// MARK: Class
-
-/// The DataPoint object representation
-internal class HATImagesRealmObject: Object {
+public class JSONCacheObject: Object {
     
-    // MARK: - Variables
+    dynamic var jsonData: Data?
     
-    /// The image to save to Realm
-    dynamic var imagePath: String = ""
+    dynamic var dateAdded: Date?
+    dynamic var lastSyncedDate: Date?
+    dynamic var expiryDate: Date?
     
-    /// The image ID
-    dynamic var imageID: String = ""
+    dynamic var type: String = ""
+    dynamic var uniqueKey: String = ""
 }

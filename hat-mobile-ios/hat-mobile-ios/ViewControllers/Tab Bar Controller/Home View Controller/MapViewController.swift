@@ -247,13 +247,13 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         
-        HATAccountService.checkHatTableExists(
+        LocationsWrapperHelper.getLocations(
+            userToken: userToken,
             userDomain: userDomain,
-            tableName: Constants.HATTableName.Location.name,
-            sourceName: Constants.HATTableName.Location.source,
-            authToken: userToken,
-            successCallback: requestLocations,
-            errorCallback: { [weak self] (error) in
+            locationsFromDate: self.filterDataPointsFrom,
+            locationsToDate: self.filterDataPointsTo,
+            successRespond: showLocations,
+            failRespond: { [weak self] (error) in
                 
                 self?.popUpView?.removeFromSuperview()
                 CrashLoggerHelper.hatTableErrorLog(error: error)
@@ -317,14 +317,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      - parameter json: the json received from HAT
      - parameter renewedUserToken: The new user token from HAT
      */
-    private func showLocations(json: [JSON], renewedUserToken: String?) {
-        
-        var array: [HATLocationsObject] = []
-        
-        for item in json {
-            
-            array.append(HATLocationsObject(dict: item.dictionaryValue))
-        }
+    private func showLocations(array: [HATLocationsObject], renewedUserToken: String?) {
         
         if array.isEmpty {
             
@@ -352,44 +345,6 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
         
         gettingLocationsView?.removeFromSuperview()
-    }
-    
-    // MARK: - Request locations
-    
-    /**
-     Requests locations from HAT
-     
-     - parameter tableID: The tableID number to use when requesting data with v1 HAT
-     - parameter renewedUserToken: The new user token from HAT
-     */
-    private func requestLocations(tableID: NSNumber, renewedUserToken: String?) {
-        
-        if self.filterDataPointsFrom != nil && self.filterDataPointsTo != nil {
-            
-            let starttime = HATFormatterHelper.formatDateToEpoch(date: self.filterDataPointsFrom!)
-            let endtime = HATFormatterHelper.formatDateToEpoch(date: self.filterDataPointsTo!)
-            
-            if starttime != nil && endtime != nil {
-                
-                let parameters: Dictionary<String, String> = [
-                    "starttime": starttime!,
-                    "endtime": endtime!,
-                    "limit": "2000"]
-                
-                HATAccountService.getHatTableValues(
-                    token: userToken,
-                    userDomain: userDomain,
-                    tableID: tableID,
-                    parameters: parameters,
-                    successCallback: showLocations,
-                    errorCallback: { [weak self] (error) in
-                        
-                        self?.popUpView?.removeFromSuperview()
-                        CrashLoggerHelper.hatTableErrorLog(error: error)
-                    }
-                )
-            }
-        }
     }
     
     // MARK: - Date picker method

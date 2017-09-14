@@ -68,6 +68,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
+fastlane/Gymfile
+fastlane/Appfile
+fastlane/Deliverfile
 
 ### Xcode ###
 build
@@ -77,4 +80,3 @@ build
 
 # GPS Related file to simulate movement
 *.gpx
-

@@ -196,11 +196,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         let usersHAT = userDomain.components(separatedBy: ".")[0]
         self.helloLabel.text = "Hello \(usersHAT)!"
         
-        HATService.getSystemStatus(
-            userDomain: userDomain,
-            authToken: userToken,
-            completion: updateRingProgressBar,
-            failCallBack: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+        SystemStatusWrapperHelper.getSystemStatus(userToken: userToken, userDomain: userDomain, successRespond: self.updateRingProgressBar, failRespond: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
         
         self.collectionView.reloadData()
     }
@@ -331,6 +327,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         if !data.isEmpty {
             
+            let test = CachingHelper.getFromRealm(type: "systemStatus")
             self.helloLabel.text = "Hello \(userDomain.components(separatedBy: ".")[0])!"
             
             self.ringProgressBar.isHidden = false

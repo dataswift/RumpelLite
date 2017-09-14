@@ -79,7 +79,7 @@ internal class SyncDataHelper: UserCredentialsProtocol {
             
             var theBlockDataPoints: [DataPoint] = []
             
-            for dataPoint: DataPoint in results {
+            for dataPoint in results {
                 
                 // inc
                 iCount += 1
@@ -406,7 +406,7 @@ internal class SyncDataHelper: UserCredentialsProtocol {
         var jsonObject: [Any] = []
         var iCount: Int = 0
         
-        for dataPoint: DataPoint in dataPoints {
+        for dataPoint in dataPoints {
             
             // inc counter for record name
             iCount += 1

@@ -128,7 +128,6 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                     
                     //swiftlint:disable force_try
                     do {
-                        //return [FileAttributeKey : Any]
                         let filesArray = try FileManager.default.subpathsOfDirectory(atPath: folderPath) as [String]
                         var fileSize: UInt = 0
                         
@@ -138,29 +137,32 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                             fileSize += UInt(fileDictionary.fileSize())
                             
                         }
-                        //swiftlint:enable force_try
+                    //swiftlint:enable force_try
                         
                         return fileSize
                     } catch {
+                        
                         print("Error: \(error)")
                     }
                     
                     return 0
                 }
                 
-                let cacheSize = folderSize(folderPath: appDir)
+                let cacheSize = Int(folderSize(folderPath: appDir)) + CachingHelper.getRealmCacheSize(type: "systemStatus")
                 
                 if cacheSize > 0 {
                     
                     let newSize = cacheSize / 1024 / 1024
                     self.createClassicAlertWith(
-                        alertMessage: "By clearing cache you will free up \(String(format: "%.u", newSize)) MB",
+                        alertMessage: "By clearing cache you will free up \(String(newSize)) MB",
                         alertTitle: "Do you want to clear cache?",
                         cancelTitle: "Cancel",
                         proceedTitle: "Clear",
                         proceedCompletion: {
                             
                             do {
+                                
+                                CachingHelper.deleteFromRealm(type: "systemStatus")
                                 
                                 let filesArray = try FileManager.default.subpathsOfDirectory(atPath: appDir) as [String]
                                 for fileName in filesArray {

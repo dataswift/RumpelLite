@@ -10,8 +10,9 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-@testable import Pods_hat_mobile_ios
-@testable import SwiftyJSON
+@testable import hat_mobile_ios
+@testable import HatForIOS
+@testable import RealmSwift
 import XCTest
 
 internal class DataPlugCollectionViewCellTests: XCTestCase {
@@ -30,13 +31,13 @@ internal class DataPlugCollectionViewCellTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
         
-        var note = NotesData()
+        var note = HATNotesData()
         
-        note.id = 1
+        note.noteID = 1
         note.lastUpdated = Date()
         note.name = "test"
         
-        note.data.authorData.id = 1
+        note.data.authorData.authorID = 1
         note.data.authorData.name = "Marios"
         note.data.authorData.nickName = "whiteshadow"
         note.data.authorData.phata = "mariostsekis.hubofallthings.net"
@@ -67,7 +68,6 @@ internal class DataPlugCollectionViewCellTests: XCTestCase {
         note.data.shared = false
         
         _ = UITableViewCell()
-        
     }
     
     func testPerformanceExample() {

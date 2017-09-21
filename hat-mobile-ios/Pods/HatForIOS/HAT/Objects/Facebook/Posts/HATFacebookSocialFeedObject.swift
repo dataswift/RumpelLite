@@ -15,8 +15,21 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the facebook social feed object
-public struct HATFacebookSocialFeedObject: HATSocialFeedObject, Comparable {
+public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comparable {
 
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let name: String = "name"
+        static let data: String = "data"
+        static let facebookID: String = "id"
+        static let recordID: String = "recordId"
+        static let endPoint: String = "endpoint"
+        static let lastUpdated: String = "lastUpdated"
+    }
+    
     // MARK: - Comparable protocol
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -102,20 +115,44 @@ public struct HATFacebookSocialFeedObject: HATSocialFeedObject, Comparable {
 
         self.init()
 
-        if let tempName = dict["name"]?.stringValue {
+        if let tempName = dict[Fields.name]?.stringValue {
 
             name = tempName
         }
-        if let tempData = dict["data"]?.dictionaryValue {
+        if let tempData = dict[Fields.data]?.dictionaryValue {
 
             data = HATFacebookDataSocialFeedObject(from: tempData)
         }
-        if let tempID = dict["id"]?.intValue {
+        if let tempID = dict[Fields.facebookID]?.intValue {
 
             recordIDv1 = tempID
         }
-        if let tempLastUpdated = dict["lastUpdated"]?.stringValue {
+        if let tempLastUpdated = dict[Fields.lastUpdated]?.stringValue {
 
+            lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
+            protocolLastUpdate = lastUpdated
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempName = dict[Fields.name]?.stringValue {
+            
+            name = tempName
+        }
+        if let tempData = dict[Fields.data]?.dictionaryValue {
+            
+            data = HATFacebookDataSocialFeedObject(from: tempData)
+        }
+        if let tempID = dict[Fields.facebookID]?.intValue {
+            
+            recordIDv1 = tempID
+        }
+        if let tempLastUpdated = dict[Fields.lastUpdated]?.stringValue {
+            
             lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
             protocolLastUpdate = lastUpdated
         }
@@ -128,19 +165,19 @@ public struct HATFacebookSocialFeedObject: HATSocialFeedObject, Comparable {
 
         self.init()
 
-        if let tempEndpoint = dict["endpoint"]?.string {
+        if let tempEndpoint = dict[Fields.endPoint]?.string {
 
             endPoint = tempEndpoint
         }
 
-        if let tempRecordID = dict["recordId"]?.string {
+        if let tempRecordID = dict[Fields.recordID]?.string {
 
             recordID = tempRecordID
         }
 
-        if let tempData = dict["data"]?.dictionaryValue {
+        if let tempData = dict[Fields.data]?.dictionaryValue {
 
-            if let tempLastUpdated = tempData["lastUpdated"]?.stringValue {
+            if let tempLastUpdated = tempData[Fields.lastUpdated]?.stringValue {
 
                 lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
                 protocolLastUpdate = lastUpdated
@@ -149,5 +186,32 @@ public struct HATFacebookSocialFeedObject: HATSocialFeedObject, Comparable {
             data = HATFacebookDataSocialFeedObject(from: tempData)
         }
 
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.name: self.name,
+            Fields.facebookID: recordIDv1,
+            Fields.data: self.data.toJSON(),
+            Fields.lastUpdated: HATFormatterHelper.formatDateToISO(date: Date())
+        ]
     }
 }

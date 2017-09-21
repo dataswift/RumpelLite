@@ -15,7 +15,16 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the user's details that made the post
-public struct HATFacebookDataPostsFromSocialFeedObject: Comparable {
+public struct HATFacebookDataPostsFromSocialFeedObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let dataPostID: String = "id"
+        static let name: String = "name"
+    }
 
     // MARK: - Comparable protocol
 
@@ -72,13 +81,53 @@ public struct HATFacebookDataPostsFromSocialFeedObject: Comparable {
 
         self.init()
 
-        if let tempName = dictionary["name"]?.stringValue {
+        if let tempName = dictionary[Fields.name]?.stringValue {
 
             name = tempName
         }
-        if let tempID = dictionary["id"]?.stringValue {
+        if let tempID = dictionary[Fields.dataPostID]?.stringValue {
 
             userID = tempID
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempName = dict[Fields.name]?.stringValue {
+            
+            name = tempName
+        }
+        if let tempID = dict[Fields.dataPostID]?.stringValue {
+            
+            userID = tempID
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.name: self.name,
+            Fields.dataPostID: self.userID
+        ]
     }
 }

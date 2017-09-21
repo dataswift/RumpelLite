@@ -236,7 +236,7 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
             func deleteNote() {
                 
                 // delete note
-                HATNotablesService.deleteNote(recordID: receivedNote.noteID, tkn: userToken, userDomain: userDomain)
+                NotesCachingWrapperHelper.deleteNote(noteID: receivedNote.noteID, userToken: userToken, userDomain: userDomain, cacheTypeID: "notes-Delete")
                 
                 PresenterOfShareOptionsViewController.checkForImageAndUpload(imagesToUpload: imagesToUpload, viewController: viewController, imageSelected: imageSelected)
             }
@@ -462,18 +462,36 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
         }
     }
     
-    class func checkFilePublicOrPrivate(fileUploaded: FileUploadObject, receivedNote: inout HATNotesData, viewController: ShareOptionsViewController) {
+    class func checkFilePublicOrPrivate(fileUploaded: FileUploadObject, receivedNote: inout HATNotesData, viewController: ShareOptionsViewController?, success: (() -> Void)? = nil) {
         
         if receivedNote.data.shared {
             
             // do another call to make image public
-            HATFileService.makeFilePublic(fileID: fileUploaded.fileID, token: userToken, userDomain: userDomain, successCallback: { (_) -> Void in return }, errorCallBack: {(error) -> Void in
+            HATFileService.makeFilePublic(
+                fileID: fileUploaded.fileID,
+                token: userToken,
+                userDomain: userDomain,
+                successCallback: { boolResult in
+            
+                    if boolResult {
+                        
+                        success?()
+                    }
+                },
+                errorCallBack: {(error) -> Void in
                 
-                CrashLoggerHelper.hatErrorLog(error: error)
-            })
+                    CrashLoggerHelper.hatErrorLog(error: error)
+                }
+            )
         } else {
             
-            HATFileService.makeFilePrivate(fileID: fileUploaded.fileID, token: userToken, userDomain: userDomain, successCallback: { (_) -> Void in return }, errorCallBack: {(error) -> Void in
+            HATFileService.makeFilePrivate(fileID: fileUploaded.fileID, token: userToken, userDomain: userDomain, successCallback: { boolResult in
+                
+                if boolResult {
+                    
+                    success?()
+                }
+            }, errorCallBack: {(error) -> Void in
                 
                 CrashLoggerHelper.hatErrorLog(error: error)
             })
@@ -483,7 +501,7 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
         receivedNote.data.photoData.link = Constants.HATEndpoints.fileInfoURL(fileID: fileUploaded.fileID, userDomain: userDomain)
         
         // post note
-        viewController.postNote()
+        viewController?.postNote()
     }
     
     class func turnButtonOn(button: UIButton) {

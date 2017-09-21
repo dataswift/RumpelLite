@@ -16,6 +16,17 @@ import SwiftyJSON
 
 /// A class representing the locations actual data
 public struct HATLocationsDataLocationsObject: Equatable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let latitude: String = "latitude"
+        static let longitude: String = "longitude"
+        static let accuracy: String = "accuracy"
+        static let timestamp: String = "timestamp"
+    }
 
     // MARK: - Equatable protocol
 
@@ -64,22 +75,22 @@ public struct HATLocationsDataLocationsObject: Equatable {
         self.init()
 
         // this field will always have a value no need to use if let
-        if let tempLatitude = dict["latitude"]?.stringValue {
+        if let tempLatitude = dict[Fields.latitude]?.stringValue {
 
             latitude = tempLatitude
         }
 
-        if let tempLongitude = dict["longitude"]?.stringValue {
+        if let tempLongitude = dict[Fields.longitude]?.stringValue {
 
             longitude = tempLongitude
         }
 
-        if let tempAccuracy = dict["accuracy"]?.stringValue {
+        if let tempAccuracy = dict[Fields.accuracy]?.stringValue {
 
             accuracy = tempAccuracy
         }
 
-        if let tempTimeStamp = dict["timestamp"]?.stringValue {
+        if let tempTimeStamp = dict[Fields.timestamp]?.stringValue {
 
             timeStamp = HATFormatterHelper.formatStringToDate(string: tempTimeStamp)
         }
@@ -96,10 +107,10 @@ public struct HATLocationsDataLocationsObject: Equatable {
 
         return [
 
-            "latitude": self.latitude,
-            "longitude": self.longitude,
-            "accuracy": self.accuracy,
-            "timestamp": Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
+            Fields.latitude: self.latitude,
+            Fields.longitude: self.longitude,
+            Fields.accuracy: self.accuracy,
+            Fields.timestamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
     }
 }

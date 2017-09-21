@@ -16,6 +16,17 @@ import SwiftyJSON
 
 /// A struct representing the location table received from JSON
 public struct HATNotesPhotoData: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let link: String = "link"
+        static let source: String = "source"
+        static let caption: String = "caption"
+        static let shared: String = "shared"
+    }
 
     // MARK: - Comparable protocol
 
@@ -81,7 +92,7 @@ public struct HATNotesPhotoData: Comparable {
     public init(dict: Dictionary<String, JSON>) {
 
         // check if shared exists and if is empty
-        if let tempShared = dict["shared"]?.string {
+        if let tempShared = dict[Fields.shared]?.string {
 
             if let boolResult = Bool(tempShared) {
 
@@ -89,17 +100,17 @@ public struct HATNotesPhotoData: Comparable {
             }
         }
 
-        if let tempLink = dict["link"]?.string {
+        if let tempLink = dict[Fields.link]?.string {
 
             link = tempLink
         }
 
-        if let tempSource = dict["source"]?.string {
+        if let tempSource = dict[Fields.source]?.string {
 
             source = tempSource
         }
 
-        if let tempCaption = dict["caption"]?.string {
+        if let tempCaption = dict[Fields.caption]?.string {
 
             caption = tempCaption
         }
@@ -116,10 +127,10 @@ public struct HATNotesPhotoData: Comparable {
 
         return [
 
-            "shared": String(describing: self.shared),
-            "link": self.link,
-            "source": self.source,
-            "caption": self.caption
+            Fields.shared: String(describing: self.shared),
+            Fields.link: self.link,
+            Fields.source: self.source,
+            Fields.caption: self.caption
         ]
     }
 }

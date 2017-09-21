@@ -24,9 +24,9 @@ internal struct LocationsWrapperHelper {
      
      - parameter userToken: The user's token
      - parameter userDomain: The user's domain
-     - parameter failRespond: A completion function of type (JSONParsingError) -> Void
+     - parameter failRespond: A completion function of type (HATTableError) -> Void
      
-     - returns: A function of type (([HATSystemStatusObject], String?) -> Void)
+     - returns: A function of type (([HATLocationsObject], String?) -> Void)
      */
     static func request(userToken: String, userDomain: String, locationsFromDate: Date?, locationsToDate: Date?, failRespond: @escaping (HATTableError) -> Void) -> ((@escaping (([HATLocationsObject], String?) -> Void)) -> Void) {
         
@@ -34,11 +34,14 @@ internal struct LocationsWrapperHelper {
             
             func getLocationsFromTableID(_ tableID: NSNumber, newToken: String?) {
                 
+                // check dates if nil
                 if locationsFromDate != nil && locationsToDate != nil {
                     
+                    // parse them in Date type
                     let starttime = HATFormatterHelper.formatDateToEpoch(date: locationsFromDate!)
                     let endtime = HATFormatterHelper.formatDateToEpoch(date: locationsToDate!)
                     
+                    // if they are not nil request the data from HAT
                     if starttime != nil && endtime != nil {
                         
                         let parameters: Dictionary<String, String> = [
@@ -55,6 +58,7 @@ internal struct LocationsWrapperHelper {
                             
                                 var array: [HATLocationsObject] = []
                                 
+                                // add the returned data to array and pass it on to the completion function
                                 for item in json {
                                     
                                     array.append(HATLocationsObject(dict: item.dictionaryValue))
@@ -63,7 +67,8 @@ internal struct LocationsWrapperHelper {
                             },
                             errorCallback: { error in
                         
-                                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                                // call failed completion function
+                                CrashLoggerHelper.hatTableErrorLog(error: error)
                                 failRespond(error)
                             }
                         )
@@ -71,6 +76,7 @@ internal struct LocationsWrapperHelper {
                 }
             }
             
+            // check location table exists
             HATAccountService.checkHatTableExists(
                 userDomain: userDomain,
                 tableName: Constants.HATTableName.Location.name,
@@ -79,7 +85,8 @@ internal struct LocationsWrapperHelper {
                 successCallback: getLocationsFromTableID,
                 errorCallback: { error in
                     
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                    // call failed completion function
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
                     failRespond(error)
                 }
             )
@@ -93,11 +100,12 @@ internal struct LocationsWrapperHelper {
      
      - parameter userToken: The user's token
      - parameter userDomain: The user's domain
-     - parameter successRespond: A completion function of type ([HATSystemStatusObject], String?) -> Void
-     - parameter failRespond: A completion function of type (JSONParsingError) -> Void
+     - parameter successRespond: A completion function of type ([HATLocationsObject], String?) -> Void
+     - parameter failRespond: A completion function of type (HATTableError) -> Void
      */
     static func getLocations(userToken: String, userDomain: String, locationsFromDate: Date?, locationsToDate: Date?, successRespond: @escaping ([HATLocationsObject], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
         
+        // construct the type of the cache to save
         let type: String
         
         if locationsToDate != nil && locationsFromDate != nil {
@@ -108,10 +116,17 @@ internal struct LocationsWrapperHelper {
             type = "locations"
         }
         
-        AsyncCachingHelper.decider(type: type,
-                                   expiresIn: Calendar.Component.hour,
-                                   value: 1,
-                                   networkRequest: LocationsWrapperHelper.request(userToken: userToken, userDomain: userDomain, locationsFromDate: locationsFromDate, locationsToDate: locationsToDate, failRespond: failRespond),
-                                   completion: successRespond)
+        // Decide to get data from cache or network
+        AsyncCachingHelper.decider(
+            type: type,
+            expiresIn: Calendar.Component.hour,
+            value: 1,
+            networkRequest: LocationsWrapperHelper.request(
+                userToken: userToken,
+                userDomain: userDomain,
+                locationsFromDate: locationsFromDate,
+                locationsToDate: locationsToDate,
+                failRespond: failRespond),
+            completion: successRespond)
     }
 }

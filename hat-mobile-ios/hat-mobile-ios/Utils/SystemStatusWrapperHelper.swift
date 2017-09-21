@@ -31,6 +31,7 @@ internal struct SystemStatusWrapperHelper {
         
         return { successRespond in
             
+            // get system status from hat
             HATService.getSystemStatus(
                 userDomain: userDomain,
                 authToken: userToken,
@@ -51,6 +52,7 @@ internal struct SystemStatusWrapperHelper {
      */
     static func getSystemStatus(userToken: String, userDomain: String, successRespond: @escaping ([HATSystemStatusObject], String?) -> Void, failRespond: @escaping (JSONParsingError) -> Void) {
         
+        // Decide to get data from cache or network
         AsyncCachingHelper.decider(type: "systemStatus",
                                    networkRequest: SystemStatusWrapperHelper.request(userToken: userToken, userDomain: userDomain, failRespond: failRespond),
                                    completion: successRespond)

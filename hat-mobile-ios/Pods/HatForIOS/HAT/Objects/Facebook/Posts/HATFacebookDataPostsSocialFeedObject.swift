@@ -15,7 +15,30 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the actual data of the post
-public struct HATFacebookDataPostsSocialFeedObject: Comparable {
+public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let from: String = "from"
+        static let postID: String = "id"
+        static let statusType: String = "status_type"
+        static let privacy: String = "privacy"
+        static let updatedTime: String = "updated_time"
+        static let type: String = "type"
+        static let createdTime: String = "created_time"
+        static let message: String = "message"
+        static let fullPicture: String = "full_picture"
+        static let link: String = "link"
+        static let picture: String = "picture"
+        static let story: String = "story"
+        static let description: String = "description"
+        static let objectID: String = "object_id"
+        static let application: String = "application"
+        static let caption: String = "caption"
+    }
 
     // MARK: - Comparable protocol
 
@@ -132,70 +155,181 @@ public struct HATFacebookDataPostsSocialFeedObject: Comparable {
 
         self.init()
 
-        if let tempFrom = dictionary["from"]?.dictionaryValue {
+        if let tempFrom = dictionary[Fields.from]?.dictionaryValue {
 
             from = HATFacebookDataPostsFromSocialFeedObject(from: tempFrom)
         }
-        if let tempID = dictionary["id"]?.stringValue {
+        if let tempID = dictionary[Fields.postID]?.stringValue {
 
             postID = tempID
         }
-        if let tempStatusType = dictionary["status_type"]?.stringValue {
+        if let tempStatusType = dictionary[Fields.statusType]?.stringValue {
 
             statusType = tempStatusType
         }
-        if let tempPrivacy = dictionary["privacy"]?.dictionaryValue {
+        if let tempPrivacy = dictionary[Fields.privacy]?.dictionaryValue {
 
             privacy = HATFacebookDataPostsPrivacySocialFeedObject(from: tempPrivacy)
         }
-        if let tempUpdateTime = dictionary["updated_time"]?.stringValue {
+        if let tempUpdateTime = dictionary[Fields.updatedTime]?.stringValue {
 
             updatedTime = HATFormatterHelper.formatStringToDate(string: tempUpdateTime)
         }
-        if let tempType = dictionary["type"]?.stringValue {
+        if let tempType = dictionary[Fields.type]?.stringValue {
 
             type = tempType
         }
-        if let tempCreatedTime = dictionary["created_time"]?.stringValue {
+        if let tempCreatedTime = dictionary[Fields.createdTime]?.stringValue {
 
             createdTime = HATFormatterHelper.formatStringToDate(string: tempCreatedTime)
         }
-        if let tempMessage = dictionary["message"]?.stringValue {
+        if let tempMessage = dictionary[Fields.message]?.stringValue {
 
             message = tempMessage
         }
 
-        if let tempFullPicture = dictionary["full_picture"]?.stringValue {
+        if let tempFullPicture = dictionary[Fields.fullPicture]?.stringValue {
 
             fullPicture = tempFullPicture
         }
-        if let tempLink = dictionary["link"]?.stringValue {
+        if let tempLink = dictionary[Fields.link]?.stringValue {
 
             link = tempLink
         }
-        if let tempPicture = dictionary["picture"]?.stringValue {
+        if let tempPicture = dictionary[Fields.picture]?.stringValue {
 
             picture = tempPicture
         }
-        if let tempStory = dictionary["story"]?.stringValue {
+        if let tempStory = dictionary[Fields.story]?.stringValue {
 
             story = tempStory
         }
-        if let tempDescription = dictionary["description"]?.stringValue {
+        if let tempDescription = dictionary[Fields.description]?.stringValue {
 
             description = tempDescription
         }
-        if let tempObjectID = dictionary["object_id"]?.stringValue {
+        if let tempObjectID = dictionary[Fields.objectID]?.stringValue {
 
             objectID = tempObjectID
         }
-        if let tempApplication = dictionary["application"]?.dictionaryValue {
+        if let tempApplication = dictionary[Fields.application]?.dictionaryValue {
 
             application = HATFacebookDataPostsApplicationSocialFeedObject(from: tempApplication)
         }
-        if let tempCaption = dictionary["caption"]?.stringValue {
+        if let tempCaption = dictionary[Fields.caption]?.stringValue {
 
             caption = tempCaption
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempFrom = dict[Fields.from]?.dictionaryValue {
+            
+            from = HATFacebookDataPostsFromSocialFeedObject(from: tempFrom)
+        }
+        if let tempID = dict[Fields.postID]?.stringValue {
+            
+            postID = tempID
+        }
+        if let tempStatusType = dict[Fields.statusType]?.stringValue {
+            
+            statusType = tempStatusType
+        }
+        if let tempPrivacy = dict[Fields.privacy]?.dictionaryValue {
+            
+            privacy = HATFacebookDataPostsPrivacySocialFeedObject(from: tempPrivacy)
+        }
+        if let tempUpdateTime = dict[Fields.updatedTime]?.stringValue {
+            
+            updatedTime = HATFormatterHelper.formatStringToDate(string: tempUpdateTime)
+        }
+        if let tempType = dict[Fields.type]?.stringValue {
+            
+            type = tempType
+        }
+        if let tempCreatedTime = dict[Fields.createdTime]?.stringValue {
+            
+            createdTime = HATFormatterHelper.formatStringToDate(string: tempCreatedTime)
+        }
+        if let tempMessage = dict[Fields.message]?.stringValue {
+            
+            message = tempMessage
+        }
+        if let tempFullPicture = dict[Fields.fullPicture]?.stringValue {
+            
+            fullPicture = tempFullPicture
+        }
+        if let tempLink = dict[Fields.link]?.stringValue {
+            
+            link = tempLink
+        }
+        if let tempPicture = dict[Fields.picture]?.stringValue {
+            
+            picture = tempPicture
+        }
+        if let tempStory = dict[Fields.story]?.stringValue {
+            
+            story = tempStory
+        }
+        if let tempDescription = dict[Fields.description]?.stringValue {
+            
+            description = tempDescription
+        }
+        if let tempObjectID = dict[Fields.objectID]?.stringValue {
+            
+            objectID = tempObjectID
+        }
+        if let tempApplication = dict[Fields.application]?.dictionaryValue {
+            
+            application = HATFacebookDataPostsApplicationSocialFeedObject(from: tempApplication)
+        }
+        if let tempCaption = dict[Fields.caption]?.stringValue {
+            
+            caption = tempCaption
+        }
+
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.from: self.from.toJSON(),
+            Fields.postID: self.postID,
+            Fields.statusType: self.statusType,
+            Fields.privacy: self.privacy.toJSON(),
+            Fields.updatedTime: self.updatedTime ?? Date(),
+            Fields.type: self.type,
+            Fields.createdTime: self.createdTime ?? Date(),
+            Fields.createdTime: self.message,
+            Fields.fullPicture: self.fullPicture,
+            Fields.link: self.link,
+            Fields.picture: self.picture,
+            Fields.story: self.story,
+            Fields.description: self.description,
+            Fields.objectID: self.objectID,
+            Fields.application: self.application.toJSON(),
+            Fields.caption: self.caption
+        ]
     }
 }

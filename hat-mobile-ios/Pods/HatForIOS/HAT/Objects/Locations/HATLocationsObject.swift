@@ -16,6 +16,21 @@ import SwiftyJSON
 
 /// A class representing the locations received from server
 public struct HATLocationsObject: Equatable, HatApiType {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let locationID: String = "id"
+        static let recordID: String = "recordId"
+        static let endPoint: String = "endpoint"
+        static let lastUpdated: String = "lastUpdated"
+        static let locations: String = "locations"
+        static let data: String = "data"
+        static let name: String = "name"
+        static let unixTimeStamp: String = "unixTimeStamp"
+    }
 
     // MARK: - Equatable protocol
 
@@ -74,41 +89,44 @@ public struct HATLocationsObject: Equatable, HatApiType {
         self.initialize(from: dict)
     }
     
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
     public mutating func initialize(fromCache: Dictionary<String, Any>) {
         
-        let json = JSON(fromCache)
-        if let tempLocations = json["locations"].dictionary {
-            
-            data.locations = HATLocationsDataLocationsObject(dict: tempLocations)
-        }
-        
-        if let tempUpdatedTime = json["unixTimeStamp"].string {
-            
-            lastUpdate = HATFormatterHelper.formatStringToDate(string: tempUpdatedTime)
-        }
+        let dictionary = JSON(fromCache)
+        self.initialize(from: dictionary.dictionaryValue)
     }
     
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
     public mutating func initialize(from dictionary: Dictionary<String, JSON>) {
         
         // this field will always have a value no need to use if let
-        if let tempID = dictionary["id"]?.intValue {
+        if let tempID = dictionary[Fields.locationID]?.intValue {
             
             locationID = tempID
         }
         
-        if let tempUpdatedTime = dictionary["lastUpdated"]?.string {
+        if let tempUpdatedTime = dictionary[Fields.lastUpdated]?.string {
             
             lastUpdate = HATFormatterHelper.formatStringToDate(string: tempUpdatedTime)
         }
         
-        if let tempName = dictionary["name"]?.string {
+        if let tempName = dictionary[Fields.name]?.string {
             
             name = tempName
         }
         
-        if let tempTables = dictionary["data"]?.dictionaryValue {
+        if let tempTables = dictionary[Fields.data]?.dictionaryValue {
             
             data = HATLocationsDataObject(dict: tempTables)
+        }
+        
+        if dictionary[Fields.locations]?.dictionaryValue != nil {
+            
+            data = HATLocationsDataObject(dict: dictionary)
         }
     }
 
@@ -120,19 +138,19 @@ public struct HATLocationsObject: Equatable, HatApiType {
         // init optional JSON fields to default values
         self.init()
 
-        if let tempEndpoint = dictV2["endpoint"]?.string {
+        if let tempEndpoint = dictV2[Fields.endPoint]?.string {
 
             endPoint = tempEndpoint
         }
 
-        if let tempRecordID = dictV2["recordId"]?.string {
+        if let tempRecordID = dictV2[Fields.recordID]?.string {
 
             recordID = tempRecordID
         }
 
-        if let tempTables = dictV2["data"]?.dictionaryValue {
+        if let tempTables = dictV2[Fields.data]?.dictionaryValue {
 
-            if let tempUpdatedTime = tempTables["lastUpdated"]?.string {
+            if let tempUpdatedTime = tempTables[Fields.lastUpdated]?.string {
 
                 lastUpdate = HATFormatterHelper.formatStringToDate(string: tempUpdatedTime)
             }
@@ -152,8 +170,8 @@ public struct HATLocationsObject: Equatable, HatApiType {
 
         return [
 
-            "locations": self.data.locations.toJSON(),
-            "unixTimeStamp": Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
+            Fields.locations: self.data.locations.toJSON(),
+            Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
     }
 }

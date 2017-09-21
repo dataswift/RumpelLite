@@ -208,9 +208,16 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
             self.receivedNote?.data.locationData.accuracy = 0
             
             self.addLocationButton.setImage(UIImage(named: Constants.ImageNames.addLocation), for: .normal)
-        } else {
+        } else if Reachability.isConnectedToNetwork() {
             
             self.performSegue(withIdentifier: Constants.Segue.checkInSegue, sender: self)
+        } else {
+            
+            self.createClassicOKAlertWith(
+                alertMessage: "Please connect to the internet and try again",
+                alertTitle: "Not connected to the internet",
+                okTitle: "OK",
+                proceedCompletion: {})
         }
     }
     
@@ -308,22 +315,33 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         // save text
         self.receivedNote?.data.message = self.textView.text!
         
-        HATNotablesService.postNote(
-            userDomain: userDomain,
-            userToken: userToken,
+        NotesCachingWrapperHelper.postNote(
             note: self.receivedNote!,
-            successCallBack: {[weak self] () -> Void in
+            userToken: userToken,
+            userDomain: userDomain,
+            successCallback: {[weak self] () -> Void in
                 
-                self?.loadingScr?.removeFromParentViewController()
-                self?.loadingScr?.view.removeFromSuperview()
-                _ = self?.navigationController?.popViewController(animated: true)
-            }
+                if let weakSelf = self {
+                    
+                    weakSelf.loadingScr?.removeFromParentViewController()
+                    weakSelf.loadingScr?.view.removeFromSuperview()
+                    _ = weakSelf.navigationController?.popViewController(animated: true)
+                    if weakSelf.isEditingExistingNote {
+                        
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Constants.NotificationNames.reloadTable), object: nil)
+                        weakSelf.isEditingExistingNote = false
+                    }
+                }
+            },
+            errorCallback: { _ in return }
         )
     }
     
     func uploadImage() {
         
         PresenterOfShareOptionsViewController.showProgressRing(loadingScr: &self.loadingScr, viewController: self)
+        
+        self.receivedNote?.data.photoData.image = self.imageSelected.image
         
         HATFileService.uploadFileToHATWrapper(
             token: userToken,
@@ -345,16 +363,27 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
             },
             errorCallBack: {[weak self](error) -> Void in
                 
-                self?.loadingScr?.removeFromParentViewController()
-                self?.loadingScr?.view.removeFromSuperview()
-                
-                self?.createClassicOKAlertWith(alertMessage: "There was an error with the uploading of the file, please try again later", alertTitle: "Upload failed", okTitle: "OK", proceedCompletion: {})
-                
-                PresenterOfShareOptionsViewController.restorePublishButtonToPreviousState(
-                    isUserInteractionEnabled: true,
-                    previousTitle: (self?.previousPublishButtonTitle!)!,
-                    publishButton: (self?.publishButton)!)
-                CrashLoggerHelper.hatTableErrorLog(error: error)
+                switch error {
+                    
+                case .noInternetConnection:
+                    
+                    self?.loadingScr?.removeFromParentViewController()
+                    self?.loadingScr?.view.removeFromSuperview()
+                    
+                    self?.postNote()
+                default:
+                    
+                    self?.loadingScr?.removeFromParentViewController()
+                    self?.loadingScr?.view.removeFromSuperview()
+                    
+                    self?.createClassicOKAlertWith(alertMessage: "There was an error with the uploading of the file, please try again later", alertTitle: "Upload failed", okTitle: "OK", proceedCompletion: {})
+                    
+                    PresenterOfShareOptionsViewController.restorePublishButtonToPreviousState(
+                        isUserInteractionEnabled: true,
+                        previousTitle: (self?.previousPublishButtonTitle!)!,
+                        publishButton: (self?.publishButton)!)
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
             }
         )
     }
@@ -615,6 +644,9 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
                 switch error {
                     
                 case .offerClaimed:
+                    
+                    break
+                case .noInternetConnection:
                     
                     break
                 default:

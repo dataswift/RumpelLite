@@ -15,7 +15,19 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the privacy settings of the post
-public struct HATFacebookDataPostsPrivacySocialFeedObject: Comparable {
+public struct HATFacebookDataPostsPrivacySocialFeedObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let friends: String = "friends"
+        static let value: String = "value"
+        static let deny: String = "deny"
+        static let description: String = "description"
+        static let allow: String = "allow"
+    }
 
     // MARK: - Comparable protocol
 
@@ -81,25 +93,80 @@ public struct HATFacebookDataPostsPrivacySocialFeedObject: Comparable {
 
         self.init()
 
-        if let tempFriends = dictionary["friends"]?.stringValue {
+        if let tempFriends = dictionary[Fields.friends]?.stringValue {
 
             friends = tempFriends
         }
-        if let tempValue = dictionary["value"]?.stringValue {
+        if let tempValue = dictionary[Fields.value]?.stringValue {
 
             value = tempValue
         }
-        if let tempDeny = dictionary["deny"]?.string {
+        if let tempDeny = dictionary[Fields.deny]?.string {
 
             deny = tempDeny
         }
-        if let tempDescription = dictionary["description"]?.stringValue {
+        if let tempDescription = dictionary[Fields.description]?.stringValue {
 
             description = tempDescription
         }
-        if let tempAllow = dictionary["allow"]?.stringValue {
+        if let tempAllow = dictionary[Fields.allow]?.stringValue {
 
             allow = tempAllow
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempFriends = dict[Fields.friends]?.stringValue {
+            
+            friends = tempFriends
+        }
+        if let tempValue = dict[Fields.value]?.stringValue {
+            
+            value = tempValue
+        }
+        if let tempDeny = dict[Fields.deny]?.string {
+            
+            deny = tempDeny
+        }
+        if let tempDescription = dict[Fields.description]?.stringValue {
+            
+            description = tempDescription
+        }
+        if let tempAllow = dict[Fields.allow]?.stringValue {
+            
+            allow = tempAllow
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.friends: self.friends,
+            Fields.deny: self.deny,
+            Fields.value: self.value,
+            Fields.description: self.description,
+            Fields.allow: self.allow
+        ]
     }
 }

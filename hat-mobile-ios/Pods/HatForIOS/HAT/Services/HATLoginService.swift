@@ -140,8 +140,14 @@ public struct HATLoginService {
 
                     case .error(let error, let statusCode):
 
-                        let message = NSLocalizedString("Server responded with error", comment: "")
-                        failed?(.generalError(message, statusCode, error))
+                        if error.localizedDescription == "The request timed out." {
+                            
+                            failed?(.noInternetConnection)
+                        } else {
+                            
+                            let message = NSLocalizedString("Server responded with error", comment: "")
+                            failed?(.generalError(message, statusCode, error))
+                        }
                     }
                 }
             }

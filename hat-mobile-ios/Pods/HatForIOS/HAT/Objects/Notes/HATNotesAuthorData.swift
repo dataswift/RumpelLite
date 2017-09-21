@@ -17,6 +17,18 @@ import SwiftyJSON
 /// A struct representing the author table received from JSON
 public struct HATNotesAuthorData: Comparable {
 
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let authorID: String = "id"
+        static let phata: String = "phata"
+        static let nick: String = "nick"
+        static let name: String = "name"
+        static let photoURL: String = "photo_url"
+    }
+    
     // MARK: - Comparable protocol
 
     /// Returns a Boolean value indicating whether two values are equal.
@@ -81,16 +93,16 @@ public struct HATNotesAuthorData: Comparable {
     public init(dict: Dictionary<String, JSON>) {
 
         // this field will always have a value no need to use if let
-        if let tempPHATA = dict["phata"]?.string {
+        if let tempPHATA = dict[Fields.phata]?.string {
 
             phata = tempPHATA
         }
 
         // check optional fields for value, if found assign it to the correct variable
-        if let tempID = dict["id"]?.stringValue {
+        if let tempID = dict[Fields.authorID]?.stringValue {
 
             // check if string is "" as well
-            if tempID != ""{
+            if tempID != "" {
 
                 if let intTempID = Int(tempID) {
 
@@ -99,17 +111,17 @@ public struct HATNotesAuthorData: Comparable {
             }
         }
 
-        if let tempNickName = dict["nick"]?.string {
+        if let tempNickName = dict[Fields.nick]?.string {
 
             nickName = tempNickName
         }
 
-        if let tempName = dict["name"]?.string {
+        if let tempName = dict[Fields.name]?.string {
 
             name = tempName
         }
 
-        if let tempPhotoURL = dict["photo_url"]?.string {
+        if let tempPhotoURL = dict[Fields.photoURL]?.string {
 
             photoURL = tempPhotoURL
         }
@@ -126,11 +138,11 @@ public struct HATNotesAuthorData: Comparable {
 
         return [
 
-            "phata": self.phata,
-            "id": self.authorID,
-            "nick": self.nickName,
-            "name": self.name,
-            "photo_url": self.photoURL
+            Fields.phata: self.phata,
+            Fields.authorID: self.authorID,
+            Fields.nick: self.nickName,
+            Fields.name: self.name,
+            Fields.photoURL: self.photoURL
         ]
     }
 }

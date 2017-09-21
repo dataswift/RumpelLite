@@ -17,6 +17,16 @@ import SwiftyJSON
 /// A class representing the system status kind object
 public struct HATSystemStatusKindObject: Comparable {
     
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let metric: String = "metric"
+        static let kind: String = "kind"
+        static let units: String = "units"
+    }
+    
     // MARK: - Comparable protocol
     
     /// Returns a Boolean value indicating whether two values are equal.
@@ -75,15 +85,15 @@ public struct HATSystemStatusKindObject: Comparable {
         
         self.init()
         
-        if let tempMetric = dictionary["metric"]?.stringValue {
+        if let tempMetric = dictionary[Fields.metric]?.stringValue {
             
             metric = tempMetric
         }
-        if let tempKind = dictionary["kind"]?.stringValue {
+        if let tempKind = dictionary[Fields.kind]?.stringValue {
             
             kind = tempKind
         }
-        if let tempUnits = dictionary["units"]?.stringValue {
+        if let tempUnits = dictionary[Fields.units]?.stringValue {
             
             units = tempUnits
         }
@@ -100,9 +110,9 @@ public struct HATSystemStatusKindObject: Comparable {
         
         return [
             
-            "metric": self.metric,
-            "kind": self.kind,
-            "units": self.units ?? ""
+            Fields.metric: self.metric,
+            Fields.kind: self.kind,
+            Fields.units: self.units ?? ""
         ]
     }
 }

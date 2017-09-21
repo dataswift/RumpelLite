@@ -29,12 +29,13 @@ public struct HATFacebookService {
      */
     public static func fetchProfileFacebookPhoto(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
 
-        HATAccountService.checkHatTableExists(userDomain: userDomain,
-                                              tableName: "profile_picture",
-                                              sourceName: "facebook",
-                                              authToken: authToken,
-                                              successCallback: getPosts(token: authToken, userDomain: userDomain, parameters: parameters, success: success),
-                                              errorCallback: { (_: HATTableError) -> Void in return })
+        HATAccountService.checkHatTableExists(
+            userDomain: userDomain,
+            tableName: "profile_picture",
+            sourceName: "facebook",
+            authToken: authToken,
+            successCallback: getPosts(token: authToken, userDomain: userDomain, parameters: parameters, success: success),
+            errorCallback: { (_: HATTableError) -> Void in return })
     }
 
     /**
@@ -58,7 +59,14 @@ public struct HATFacebookService {
             successCallback(array, token)
         }
 
-        HATAccountService.getHatTableValuesv2(token: authToken, userDomain: userDomain, source: Facebook.sourceName, scope: "profile_picture", parameters: parameters, successCallback: sendObjectBack, errorCallback: errorCallback)
+        HATAccountService.getHatTableValuesv2(
+            token: authToken,
+            userDomain: userDomain,
+            source: Facebook.sourceName,
+            scope: "profile_picture",
+            parameters: parameters,
+            successCallback: sendObjectBack,
+            errorCallback: errorCallback)
     }
 
     // MARK: - Facebook data plug
@@ -72,12 +80,13 @@ public struct HATFacebookService {
      */
     public static func facebookDataPlug(authToken: String, userDomain: String, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void) {
 
-        HATAccountService.checkHatTableExists(userDomain: userDomain,
-                                              tableName: Facebook.tableName,
-                                              sourceName: Facebook.sourceName,
-                                              authToken: authToken,
-                                              successCallback: getPosts(token: authToken, userDomain: userDomain, parameters: parameters, success: success),
-                                              errorCallback: { (_: HATTableError) -> Void in return })
+        HATAccountService.checkHatTableExists(
+            userDomain: userDomain,
+            tableName: Facebook.tableName,
+            sourceName: Facebook.sourceName,
+            authToken: authToken,
+            successCallback: getPosts(token: authToken, userDomain: userDomain, parameters: parameters, success: success),
+            errorCallback: { (_: HATTableError) -> Void in return })
     }
 
     /**
@@ -101,7 +110,14 @@ public struct HATFacebookService {
             successCallback(array, token)
         }
 
-        HATAccountService.getHatTableValuesv2(token: authToken, userDomain: userDomain, source: Facebook.sourceName, scope: Facebook.tableName, parameters: parameters, successCallback: sendObjectBack, errorCallback: errorCallback)
+        HATAccountService.getHatTableValuesv2(
+            token: authToken,
+            userDomain: userDomain,
+            source: Facebook.sourceName,
+            scope: Facebook.tableName,
+            parameters: parameters,
+            successCallback: sendObjectBack,
+            errorCallback: errorCallback)
     }
 
     /**
@@ -137,8 +153,14 @@ public struct HATFacebookService {
             // inform user that there was an error
             case .error(let error, let statusCode):
 
-                let message = NSLocalizedString("Server responded with error", comment: "")
-                failed(.generalError(message, statusCode, error))
+                if error.localizedDescription == "The request timed out." {
+                    
+                    failed(.noInternetConnection)
+                } else {
+                    
+                    let message = NSLocalizedString("Server responded with error", comment: "")
+                    failed(.generalError(message, statusCode, error))
+                }
             }
         })
     }
@@ -156,7 +178,13 @@ public struct HATFacebookService {
 
         return {(tableID: NSNumber, returnedToken: String?) -> Void in
 
-            HATAccountService.getHatTableValues(token: token, userDomain: userDomain, tableID: tableID, parameters: parameters, successCallback: success, errorCallback: { (_: HATTableError) -> Void in return })
+            HATAccountService.getHatTableValues(
+                token: token, userDomain:
+                userDomain,
+                tableID: tableID,
+                parameters: parameters,
+                successCallback: success,
+                errorCallback: { (_: HATTableError) -> Void in return })
         }
     }
 
@@ -170,7 +198,13 @@ public struct HATFacebookService {
      */
     public static func getAppTokenForFacebook(token: String, userDomain: String, successful: @escaping (String, String?) -> Void, failed: @escaping (JSONParsingError) -> Void) {
 
-        HATService.getApplicationTokenFor(serviceName: Facebook.serviceName, userDomain: userDomain, token: token, resource: Facebook.dataPlugURL, succesfulCallBack: successful, failCallBack: failed)
+        HATService.getApplicationTokenFor(
+            serviceName: Facebook.serviceName,
+            userDomain: userDomain,
+            token: token,
+            resource: Facebook.dataPlugURL,
+            succesfulCallBack: successful,
+            failCallBack: failed)
     }
 
     // MARK: - Remove duplicates

@@ -162,7 +162,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
+        
         self.tiles = HomeScreenObject.setUpTilesForHomeScreen()
         
         self.ringProgressBar.ringColor = .white
@@ -183,7 +183,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
     override func viewWillAppear(_ animated: Bool) {
         
         super.viewWillAppear(animated)
-        
+                
         self.ringProgressBar.isHidden = true
         
         self.addChildViewController(HomeViewController.authoriseVC)
@@ -327,7 +327,6 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
         
         if !data.isEmpty {
             
-            let test = CachingHelper.getFromRealm(type: "systemStatus")
             self.helloLabel.text = "Hello \(userDomain.components(separatedBy: ".")[0])!"
             
             self.ringProgressBar.isHidden = false
@@ -373,6 +372,7 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
                 vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
                 vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
                 vc.privateNotesOnly = true
+                vc.prefferedCacheType = "notes"
             }
         } else if segue.identifier == Constants.Segue.homeToEditNoteSegue {
             

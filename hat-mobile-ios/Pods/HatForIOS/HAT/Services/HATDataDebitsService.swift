@@ -47,8 +47,14 @@ public struct HATDataDebitsService {
                 // in case of error call the failCallBack
                 case .error(let error, let statusCode):
                     
-                    let message = NSLocalizedString("Server responded with error", comment: "")
-                    failCallBack(.generalError(message, statusCode, error))
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        failCallBack(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        failCallBack(.generalError(message, statusCode, error))
+                    }
                 // in case of success call the succesfulCallBack
                 case .isSuccess(let isSuccess, let statusCode, let result, let token):
                     

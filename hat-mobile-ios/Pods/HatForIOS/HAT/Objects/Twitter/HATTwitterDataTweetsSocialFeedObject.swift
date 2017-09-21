@@ -15,7 +15,26 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the actual data of the tweet
-public struct HATTwitterDataTweetsSocialFeedObject: Comparable {
+public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let source: String = "source"
+        static let truncated: String = "truncated"
+        static let retweetCount: String = "retweet_count"
+        static let retweeted: String = "retweeted"
+        static let favoriteCount: String = "favorite_count"
+        static let tweetID: String = "id"
+        static let text: String = "text"
+        static let createdAt: String = "created_at"
+        static let followersCount: String = "followers_count"
+        static let favorited: String = "favorited"
+        static let language: String = "lang"
+        static let user: String = "user"
+    }
 
     // MARK: - Comparable protocol
 
@@ -111,49 +130,134 @@ public struct HATTwitterDataTweetsSocialFeedObject: Comparable {
 
         self.init()
 
-        if let tempSource = dictionary["source"]?.stringValue {
+        if let tempSource = dictionary[Fields.source]?.stringValue {
 
             source = tempSource
         }
-        if let tempTruncated = dictionary["truncated"]?.stringValue {
+        if let tempTruncated = dictionary[Fields.truncated]?.stringValue {
 
             truncated = tempTruncated
         }
-        if let tempRetweetCount = dictionary["retweet_count"]?.stringValue {
+        if let tempRetweetCount = dictionary[Fields.retweetCount]?.stringValue {
 
             retweetCount = tempRetweetCount
         }
-        if let tempRetweeted = dictionary["retweeted"]?.stringValue {
+        if let tempRetweeted = dictionary[Fields.retweeted]?.stringValue {
 
             retweeted = tempRetweeted
         }
-        if let tempFavouriteCount = dictionary["favorite_count"]?.stringValue {
+        if let tempFavouriteCount = dictionary[Fields.favoriteCount]?.stringValue {
 
             favoriteCount = tempFavouriteCount
         }
-        if let tempID = dictionary["id"]?.stringValue {
+        if let tempID = dictionary[Fields.tweetID]?.stringValue {
 
             tweetID = tempID
         }
-        if let tempText = dictionary["text"]?.stringValue {
+        if let tempText = dictionary[Fields.text]?.stringValue {
 
             text = tempText
         }
-        if let tempCreatedAt = dictionary["created_at"]?.stringValue {
+        if let tempCreatedAt = dictionary[Fields.createdAt]?.stringValue {
 
             createdAt = HATFormatterHelper.formatStringToDate(string: tempCreatedAt)
         }
-        if let tempFavorited = dictionary["favorited"]?.stringValue {
+        if let tempFavorited = dictionary[Fields.favorited]?.stringValue {
 
             favorited = tempFavorited
         }
-        if let tempLang = dictionary["lang"]?.stringValue {
+        if let tempLang = dictionary[Fields.language]?.stringValue {
 
             lang = tempLang
         }
-        if let tempUser = dictionary["user"]?.dictionaryValue {
+        if let tempUser = dictionary[Fields.user]?.dictionaryValue {
 
             user = HATTwitterDataTweetsUsersSocialFeedObject(from: tempUser)
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempSource = dict[Fields.source]?.stringValue {
+            
+            source = tempSource
+        }
+        if let tempTruncated = dict[Fields.truncated]?.stringValue {
+            
+            truncated = tempTruncated
+        }
+        if let tempRetweetCount = dict[Fields.retweetCount]?.stringValue {
+            
+            retweetCount = tempRetweetCount
+        }
+        if let tempRetweeted = dict[Fields.retweeted]?.stringValue {
+            
+            retweeted = tempRetweeted
+        }
+        if let tempFavouriteCount = dict[Fields.favoriteCount]?.stringValue {
+            
+            favoriteCount = tempFavouriteCount
+        }
+        if let tempID = dict[Fields.tweetID]?.stringValue {
+            
+            tweetID = tempID
+        }
+        if let tempText = dict[Fields.text]?.stringValue {
+            
+            text = tempText
+        }
+        if let tempCreatedAt = dict[Fields.createdAt]?.stringValue {
+            
+            createdAt = HATFormatterHelper.formatStringToDate(string: tempCreatedAt)
+        }
+        if let tempFavorited = dict[Fields.favorited]?.stringValue {
+            
+            favorited = tempFavorited
+        }
+        if let tempLang = dict[Fields.language]?.stringValue {
+            
+            lang = tempLang
+        }
+        if let tempUser = dict[Fields.user]?.dictionaryValue {
+            
+            user = HATTwitterDataTweetsUsersSocialFeedObject(from: tempUser)
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.source: self.source,
+            Fields.truncated: self.truncated,
+            Fields.retweetCount: self.retweetCount,
+            Fields.retweeted: self.retweeted,
+            Fields.favoriteCount: self.favoriteCount,
+            Fields.tweetID: self.tweetID,
+            Fields.text: self.text,
+            Fields.createdAt: self.createdAt ?? Date(),
+            Fields.favorited: self.favorited,
+            Fields.language: self.lang,
+            Fields.user: self.user.toJSON()
+        ]
     }
 }

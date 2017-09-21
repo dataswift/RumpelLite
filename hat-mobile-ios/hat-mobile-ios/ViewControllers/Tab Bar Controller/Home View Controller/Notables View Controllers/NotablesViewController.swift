@@ -39,6 +39,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     /// the notables fetch end date
     private var notablesFetchEndDate: String?
     var prefferedTitle: String = "Notes"
+    var prefferedCacheType: String = "notes"
     var prefferedInfoMessage: String = "Daily log, diary and innermost thoughts can all go in here!"
     
     var privateNotesOnly: Bool = false
@@ -167,7 +168,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                             y: weakSelf.tableView.frame.maxY + (calculatedHeight * 0.3) - calculatedHeight,
                             width: weakSelf.view.frame.width - 30,
                             height: calculatedHeight)
-                },
+                    },
                     completion: { _ in return }
                 )
             }
@@ -195,13 +196,16 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         HATDataPlugsService.ensureOffersReady(
             succesfulCallBack: { _ in },
             tokenErrorCallback: failCallBack,
-            failCallBack: {error in
+            failCallBack: { [weak self] error in
                 
                 switch error {
                     
                 case .offerClaimed:
                     
                     break
+                case .noInternetConnection:
+                    
+                    self?.showEmptyTableLabelWith(message: "No internet connection and no cached notes found.")
                 default:
                     
                     failCallBack()
@@ -231,6 +235,8 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
             object: nil)
                 
         self.createNewNoteButton.addBorderToButton(width: 0.5, color: .white)
+        
+        NotesCachingWrapperHelper.checkForUnsyncedCache(userDomain: userDomain, userToken: userToken)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -241,10 +247,15 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         self.addChildViewController(NotablesViewController.authoriseVC)
         NotablesViewController.authoriseVC.checkToken(viewController: self)
         
+        self.ensureNotablesPlugEnabled()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        
+        super.viewDidAppear(animated)
+        
         // fetch notes
         self.connectToServerToGetNotes(result: nil)
-        
-        self.ensureNotablesPlugEnabled()
     }
 
     override func didReceiveMemoryWarning() {
@@ -259,17 +270,15 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      
      - parameter notification: The notification object
      */
-    private func showReceivedNotesFrom(array: [JSON]) {
+    private func showReceivedNotesFrom(array: [HATNotesData]) {
         
         DispatchQueue.global().async { [weak self] () -> Void in
             
             if let weakSelf = self {
                 
                 // for each dictionary parse it and add it to the array
-                for dict in array {
-                    
-                    let note = HATNotesData.init(dict: dict.dictionary!)
-                    
+                for note in array {
+                                        
                     if weakSelf.privateNotesOnly {
                         
                         if !note.data.shared {
@@ -317,7 +326,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      
      - parameter array: The fetched notables
      */
-    private func showNotables(array: [JSON], renewedUserToken: String?) {
+    private func showNotables(notes: [HATNotesData], renewedUserToken: String?) {
         
         if self.isViewLoaded && (self.view.window != nil) {
             
@@ -325,13 +334,13 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                 
                 if let weakSelf = self {
                     
-                    if array.count >= Int(weakSelf.notablesFetchLimit)! {
+                    if notes.count >= Int(weakSelf.notablesFetchLimit)! {
                         
                         // increase limit
                         weakSelf.notablesFetchLimit = "500"
                         
                         // init object from array
-                        let object = HATNotesData(dict: (array.last?.dictionaryValue)!)
+                        let object = notes.last!
                         
                         // set unix date
                         weakSelf.notablesFetchEndDate = HATFormatterHelper.formatDateToEpoch(date: object.lastUpdated)
@@ -342,13 +351,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                                            "limit": weakSelf.notablesFetchLimit]
                         
                         // fetch notes
-                        HATNotablesService.fetchNotables(
-                            userDomain: weakSelf.userDomain,
-                            authToken: weakSelf.userToken,
-                            structure: HATJSONHelper.createNotablesTableJSON(),
-                            parameters: weakSelf.parameters,
-                            success: weakSelf.showNotables,
-                            failure: { _ in })
+                        weakSelf.fetchNotes()
                         
                     } else {
                         
@@ -358,7 +361,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                                            "limit": weakSelf.notablesFetchLimit]
                     }
                     
-                    weakSelf.showReceivedNotesFrom(array: array)
+                    weakSelf.showReceivedNotesFrom(array: notes)
                     
                     // refresh user token
                     KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
@@ -375,7 +378,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         let controller = NotablesTableViewCell()
         controller.notesDelegate = self
         
-        if self.cachedNotesArray[indexPath.row].data.photoData.link != "" {
+        if self.cachedNotesArray[indexPath.row].data.photoData.link != "" || self.cachedNotesArray[indexPath.row].data.photoData.image != nil {
             
             if let tempCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.cellDataWithImage, for: indexPath) as? NotablesTableViewCell {
                 
@@ -424,7 +427,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if self.cachedNotesArray[indexPath.row].data.photoData.link != "" {
+        if self.cachedNotesArray[indexPath.row].data.photoData.link != "" || self.cachedNotesArray[indexPath.row].data.photoData.image != nil {
             
             return 235
         }
@@ -452,15 +455,20 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         func success(token: String?) {
             
             KeychainHelper.setKeychainValue(key: token, value: Constants.Keychain.userToken)
-            HATNotablesService.deleteNote(
-                recordID: self.cachedNotesArray[self.selectedIndex!].noteID,
-                tkn: userToken,
-                userDomain: userDomain
-            )
             
-            self.cachedNotesArray.remove(at: selectedIndex!)
-            tableView.deleteRows(at: [IndexPath(row: selectedIndex!, section: 0)], with: .fade)
-            self.updateUI()
+            if self.cachedNotesArray.count > self.selectedIndex! {
+                
+                NotesCachingWrapperHelper.deleteNote(
+                    noteID: self.cachedNotesArray[self.selectedIndex!].noteID,
+                    userToken: userToken,
+                    userDomain: userDomain,
+                    cacheTypeID: "notes-Delete"
+                )
+                
+                self.cachedNotesArray.remove(at: selectedIndex!)
+                tableView.deleteRows(at: [IndexPath(row: selectedIndex!, section: 0)], with: .fade)
+                self.updateUI()
+            }
         }
         
         // check token
@@ -489,47 +497,49 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      */
     func fetchNotes() {
         
-        HATNotablesService.fetchNotables(
-            userDomain: userDomain,
-            authToken: userToken,
-            structure: HATJSONHelper.createNotablesTableJSON(),
-            parameters: self.parameters,
-            success: self.showNotables,
-            failure: {[weak self] error in
+        func failed(error: HATTableError) {
+            
+            switch error {
                 
-                switch error {
+            case .generalError(_, let statusCode, _) :
+                
+                if statusCode != nil {
                     
-                case .generalError(_, let statusCode, _) :
-                    
-                    if statusCode != nil {
+                    if statusCode != 404 && statusCode != 401 {
                         
-                        if statusCode != 404 && statusCode != 401 {
-                            
-                            self?.showEmptyTableLabelWith(message: "There was an error fetching notes. Please try again later")
-                        }
-                        self?.connectToServerToGetNotes(result: nil)
+                        self.showEmptyTableLabelWith(message: "There was an error fetching notes. Please try again later")
                     }
-                    
-                case .tableDoesNotExist:
-                    
-                    if self != nil {
-                        
-                        HATAccountService.createHatTable(
-                            userDomain: self!.userDomain,
-                            token: self!.userToken,
-                            notablesTableStructure: HATJSONHelper.createNotablesTableJSON(),
-                            failed: {(createTableError: HATTableError) -> Void in
-                                
-                                CrashLoggerHelper.hatTableErrorLog(error: createTableError)
-                            }
-                        )()
-                    }
-                    
-                default:
-                    
-                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                    self.connectToServerToGetNotes(result: nil)
                 }
+                
+            case .tableDoesNotExist:
+                
+                HATAccountService.createHatTable(
+                    userDomain: self.userDomain,
+                    token: self.userToken,
+                    notablesTableStructure: HATJSONHelper.createNotablesTableJSON(),
+                    failed: {(createTableError: HATTableError) -> Void in
+                        
+                        CrashLoggerHelper.hatTableErrorLog(error: createTableError)
+                    }
+                )()
+                
+            case .noInternetConnection:
+                
+                self.showEmptyTableLabelWith(message: "No Notes available. Working offline.")
+            default:
+                
+                CrashLoggerHelper.hatTableErrorLog(error: error)
             }
+        }
+        
+        NotesCachingWrapperHelper.getNotes(
+            userToken: userToken,
+            userDomain: userDomain,
+            cacheTypeID: self.prefferedCacheType,
+            parameters: self.parameters,
+            successRespond: self.showNotables,
+            failRespond: failed
         )
     }
     
@@ -625,11 +635,6 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                     for note in weakSelf.notesArray {
                         
                         temp.append(note)
-                    }
-                    
-                    for (index, item) in temp.enumerated() {
-                        
-                        print("index: \(index) message: \(item.data.message)")
                     }
                     
                     weakSelf.cachedNotesArray.removeAll()

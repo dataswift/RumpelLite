@@ -60,9 +60,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     private var segmentControl: UISegmentedControl?
     
     /// The start date to filter for points
-    private var filterDataPointsFrom: Date?
-    /// The end date to filter for points
-    private var filterDataPointsTo: Date?
+    private var filterDataPointsFrom: Date? = Date().startOfTheDay()
+    private var filterDataPointsTo: Date? = Date().endOfTheDay()
     
     /// The popUpView while downloading locations from hat
     private var popUpView: UIView?
@@ -413,9 +412,23 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         // filter data
         self.timePeriodSelectedEnum = TimePeriodSelected.lastWeek
         
-        let lastWeek = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(7), timeType: TimeType.past).interval)
-        let predicate = NSPredicate(format: "dateAdded >= %@", lastWeek as CVarArg)
-        clusteringManager.fetchAndClusterPoints(predicate, mapView: self.mapView)
+        self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
+        
+        self.filterDataPointsFrom = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(7), timeType: TimeType.past).interval).startOfTheDay()
+        self.filterDataPointsTo = Date().endOfTheDay()
+        
+        LocationsWrapperHelper.getLocations(
+            userToken: userToken,
+            userDomain: userDomain,
+            locationsFromDate: self.filterDataPointsFrom,
+            locationsToDate: self.filterDataPointsTo,
+            successRespond: showLocations,
+            failRespond: { [weak self] (error) in
+                
+                self?.popUpView?.removeFromSuperview()
+                CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
+        )
     }
     
     /**
@@ -429,9 +442,26 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         // filter data
         self.timePeriodSelectedEnum = TimePeriodSelected.today
         
-        let startOfToday = Calendar.current.startOfDay(for: Date())
-        let predicate = NSPredicate(format: "dateAdded >= %@", startOfToday as CVarArg)
-        clusteringManager.fetchAndClusterPoints(predicate, mapView: self.mapView)
+        self.buttonToday.setTitleColor(.white, for: .normal)
+        self.buttonToday.backgroundColor = .teal
+        
+        self.filterDataPointsFrom = Date().startOfTheDay()
+        self.filterDataPointsTo = Date().endOfTheDay()
+        
+        self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
+        
+        LocationsWrapperHelper.getLocations(
+            userToken: userToken,
+            userDomain: userDomain,
+            locationsFromDate: self.filterDataPointsFrom,
+            locationsToDate: self.filterDataPointsTo,
+            successRespond: showLocations,
+            failRespond: { [weak self] (error) in
+                
+                self?.popUpView?.removeFromSuperview()
+                CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
+        )
     }
     
     /**
@@ -445,10 +475,23 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         // filter data
         self.timePeriodSelectedEnum = TimePeriodSelected.yesterday
         
-        let startOfToday = Calendar.current.startOfDay(for: Date())
-        let yesteday = startOfToday.addingTimeInterval(FutureTimeInterval.init(days: Double(1), timeType: TimeType.past).interval) // remove 24hrs
-        let predicate = NSPredicate(format: "dateAdded >= %@ and dateAdded <= %@", yesteday as CVarArg, startOfToday as CVarArg)
-        clusteringManager.fetchAndClusterPoints(predicate, mapView: self.mapView)
+        self.filterDataPointsTo = Date().endOfTheDay()
+        self.filterDataPointsFrom = self.filterDataPointsTo!.addingTimeInterval(FutureTimeInterval.init(days: Double(1), timeType: TimeType.past).interval).startOfTheDay() // remove 24hrs
+        
+        self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
+        
+        LocationsWrapperHelper.getLocations(
+            userToken: userToken,
+            userDomain: userDomain,
+            locationsFromDate: self.filterDataPointsFrom,
+            locationsToDate: self.filterDataPointsTo,
+            successRespond: showLocations,
+            failRespond: { [weak self] (error) in
+                
+                self?.popUpView?.removeFromSuperview()
+                CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
+        )
     }
     
     // MARK: - MapView delegate methods
@@ -518,26 +561,6 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     }
     
     // MARK: - Protocol methods
-    
-    func onUpdateCount(_ count: Int) {
-        
-        // only update if today
-        if self.timePeriodSelectedEnum == TimePeriodSelected.today {
-            
-            // refresh map UI too on changed
-            DispatchQueue.main.async(execute: { [unowned self] () -> Void in
-                
-                // refresh map UI too
-                self.buttonToday.sendActions(for: .touchUpInside)
-            })
-        }
-    }
-    
-    func onUpdateError(_ error: String) {
-        
-        // used for debug only
-        //self.labelErrors.text = error
-    }
     
     func onChanged() {
         

@@ -14,6 +14,14 @@ import SwiftyJSON
 
 /// A class representing the data of the locations object
 public struct HATLocationsDataObject: Equatable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let locations: String = "locations"
+    }
 
     // MARK: - Equatable protocol
 
@@ -53,7 +61,7 @@ public struct HATLocationsDataObject: Equatable {
         // init optional JSON fields to default values
         self.init()
 
-        if let tempFields = dict["locations"]?.dictionaryValue {
+        if let tempFields = dict[Fields.locations]?.dictionaryValue {
 
             locations = HATLocationsDataLocationsObject(dict: tempFields)
         }

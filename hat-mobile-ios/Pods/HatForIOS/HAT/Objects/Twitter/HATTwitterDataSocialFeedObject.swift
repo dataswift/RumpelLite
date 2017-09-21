@@ -15,7 +15,15 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the data of the tweet
-public struct HATTwitterDataSocialFeedObject: Comparable {
+public struct HATTwitterDataSocialFeedObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let tweets: String = "tweets"
+    }
 
     // MARK: - Comparable protocol
 
@@ -69,9 +77,44 @@ public struct HATTwitterDataSocialFeedObject: Comparable {
 
         self.init()
 
-        if let tempTweets = dictionary["tweets"]?.dictionaryValue {
+        if let tempTweets = dictionary[Fields.tweets]?.dictionaryValue {
 
             tweets = HATTwitterDataTweetsSocialFeedObject(from: tempTweets)
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempTweets = dict[Fields.tweets]?.dictionaryValue {
+            
+            tweets = HATTwitterDataTweetsSocialFeedObject(from: tempTweets)
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.tweets: self.tweets.toJSON()
+        ]
     }
 }

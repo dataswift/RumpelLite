@@ -92,18 +92,6 @@ internal class HomeScreenObject: NSObject {
             name: "BeMoji",
             description: "Broadcast my mood",
             image: UIImage(named: Constants.ImageNames.bemoji)!)
-        let doeet = HomeScreenObject(
-            name: "Do-eet",
-            description: "Do stuff. Get rewards",
-            image: UIImage(named: Constants.ImageNames.doImage)!)
-        let watcheet = HomeScreenObject(
-            name: "Watch-eet",
-            description: "Watch stuff. Personalised to me",
-            image: UIImage(named: Constants.ImageNames.watch)!)
-        let readeet = HomeScreenObject(
-            name: "Read-eet",
-            description: "No fake news",
-            image: UIImage(named: Constants.ImageNames.read)!)
         let sso = HomeScreenObject(
             name: "Match Me",
             description: "My preferences",
@@ -112,10 +100,6 @@ internal class HomeScreenObject: NSObject {
             name: "Find your Form",
             description: "No more form filling. Check-in to Hotels, Spas, places",
             image: UIImage(named: Constants.ImageNames.news)!)
-        let goDeep = HomeScreenObject(
-            name: "Go deep",
-            description: "Check out our partner apps, built on the HAT",
-            image: UIImage(named: Constants.ImageNames.goDeep)!)
         let madhatters = HomeScreenObject(
             name: "MadHATTERs",
             description: "Tech news with a HAT perspective",
@@ -133,6 +117,6 @@ internal class HomeScreenObject: NSObject {
             description: "Community Space",
             image: UIImage(named: Constants.ImageNames.hattersOutline)!)
         
-        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, doeet, watcheet, readeet, sso, goDeep, photoView, hatCommunity, madhatters, ideas, hatters]
+        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, sso, photoView, hatCommunity, madhatters, ideas, hatters]
     }
 }

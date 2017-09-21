@@ -52,6 +52,7 @@ internal class TabBarViewController: UITabBarController {
             // delete keys from keychain
             KeychainHelper.clearKeychainKey(key: Constants.Keychain.userToken)
             KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
+            CachingHelper.deleteCache()
             
             // reset the stack to avoid allowing back
             let storyboard = UIStoryboard.init(name: "Main", bundle: nil)

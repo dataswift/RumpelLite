@@ -15,7 +15,23 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the user's info of a tweet
-public struct HATTwitterDataTweetsUsersSocialFeedObject: Comparable {
+public struct HATTwitterDataTweetsUsersSocialFeedObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let friendsCount: String = "friends_count"
+        static let userID: String = "id"
+        static let language: String = "lang"
+        static let favoritesCount: String = "favorites_count"
+        static let statusesCount: String = "statuses_count"
+        static let listedCount: String = "listed_count"
+        static let screenName: String = "screen_name"
+        static let name: String = "name"
+        static let followersCount: String = "followers_count"
+    }
 
     // MARK: - Comparable protocol
 
@@ -93,41 +109,116 @@ public struct HATTwitterDataTweetsUsersSocialFeedObject: Comparable {
 
         self.init()
 
-        if let tempFriendsCount = dictionary["friends_count"]?.stringValue {
+        if let tempFriendsCount = dictionary[Fields.friendsCount]?.stringValue {
 
             friendsCount = tempFriendsCount
         }
-        if let tempID = dictionary["id"]?.stringValue {
+        if let tempID = dictionary[Fields.userID]?.stringValue {
 
             userID = tempID
         }
-        if let tempLang = dictionary["lang"]?.stringValue {
+        if let tempLang = dictionary[Fields.language]?.stringValue {
 
             lang = tempLang
         }
-        if let tempListedCount = dictionary["listed_count"]?.stringValue {
+        if let tempListedCount = dictionary[Fields.listedCount]?.stringValue {
 
             listedCount = tempListedCount
         }
-        if let tempFavouritesCount = dictionary["favorites_count"]?.stringValue {
+        if let tempFavouritesCount = dictionary[Fields.favoritesCount]?.stringValue {
 
             favouritesCount = tempFavouritesCount
         }
-        if let tempStatusesCount = dictionary["statuses_count"]?.stringValue {
+        if let tempStatusesCount = dictionary[Fields.statusesCount]?.stringValue {
 
             statusesCount = tempStatusesCount
         }
-        if let tempScreenName = dictionary["screen_name"]?.stringValue {
+        if let tempScreenName = dictionary[Fields.screenName]?.stringValue {
 
             screenName = tempScreenName
         }
-        if let tempName = dictionary["name"]?.stringValue {
+        if let tempName = dictionary[Fields.name]?.stringValue {
 
             name = tempName
         }
-        if let tempFollowersCount = dictionary["followers_count"]?.stringValue {
+        if let tempFollowersCount = dictionary[Fields.followersCount]?.stringValue {
 
             followersCount = tempFollowersCount
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempFriendsCount = dict[Fields.friendsCount]?.stringValue {
+            
+            friendsCount = tempFriendsCount
+        }
+        if let tempID = dict[Fields.userID]?.stringValue {
+            
+            userID = tempID
+        }
+        if let tempLang = dict[Fields.language]?.stringValue {
+            
+            lang = tempLang
+        }
+        if let tempListedCount = dict[Fields.listedCount]?.stringValue {
+            
+            listedCount = tempListedCount
+        }
+        if let tempFavouritesCount = dict[Fields.favoritesCount]?.stringValue {
+            
+            favouritesCount = tempFavouritesCount
+        }
+        if let tempStatusesCount = dict[Fields.statusesCount]?.stringValue {
+            
+            statusesCount = tempStatusesCount
+        }
+        if let tempScreenName = dict[Fields.screenName]?.stringValue {
+            
+            screenName = tempScreenName
+        }
+        if let tempName = dict[Fields.name]?.stringValue {
+            
+            name = tempName
+        }
+        if let tempFollowersCount = dict[Fields.followersCount]?.stringValue {
+            
+            followersCount = tempFollowersCount
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.friendsCount: self.friendsCount,
+            Fields.userID: self.userID,
+            Fields.language: self.lang,
+            Fields.favoritesCount: self.favouritesCount,
+            Fields.statusesCount: self.statusesCount,
+            Fields.listedCount: self.listedCount,
+            Fields.screenName: self.screenName,
+            Fields.name: self.name,
+            Fields.followersCount: self.followersCount
+        ]
     }
 }

@@ -80,15 +80,19 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
      */
     private func updateCellUI(newCell: NotablesTableViewCell, note: HATNotesData, indexPath: IndexPath) {
         
-        if let url = URL(string: note.data.photoData.link) {
+        if let image = note.data.photoData.image {
             
-            if note.data.photoData.image != nil {
+            if newCell.attachedImage != nil {
                 
-                newCell.attachedImage.image = note.data.photoData.image!
+                newCell.attachedImage.image = image
+                newCell.fullSizeImage = image
                 newCell.attachedImage.cropImage(
                     width: newCell.attachedImage.frame.width,
                     height: newCell.attachedImage.frame.height)
-            } else {
+            }
+        } else {
+            
+            if let url = URL(string: note.data.photoData.link) {
                 
                 self.downloadAttachedImage(
                     cell: newCell,
@@ -181,7 +185,11 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
                     removePreviousLayer: false)
             },
             completion: {
-            
+                
+                var tempNote = note
+                tempNote.data.photoData.image = cell.attachedImage.image
+                NotesCachingWrapperHelper.addImageToNote(note: tempNote)
+
                 cell.ringProgressBar.isHidden = true
                 if cell.attachedImage.image != nil {
                     
@@ -191,8 +199,6 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
                     width: cell.attachedImage.frame.width,
                     height: cell.attachedImage.frame.height)
                 
-                var tempNote = note
-                tempNote.data.photoData.image = cell.attachedImage.image
                 weakSelf.notesDelegate?.updateNote(tempNote, at: row)
             }
         )

@@ -122,33 +122,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
             
             if self.sections[indexPath.section][indexPath.row] == "Clear Cache" {
                 
-                let appDir = "\(NSSearchPathForDirectoriesInDomains(.libraryDirectory, .userDomainMask, true)[0])/Caches/com.hpique.haneke/shared/"
-                
-                func folderSize(folderPath: String) -> UInt {
-                    
-                    //swiftlint:disable force_try
-                    do {
-                        let filesArray = try FileManager.default.subpathsOfDirectory(atPath: folderPath) as [String]
-                        var fileSize: UInt = 0
-                        
-                        for fileName in filesArray {
-                            let filePath = "\(folderPath)/\(fileName)"
-                            let fileDictionary: NSDictionary = try! FileManager.default.attributesOfItem(atPath: filePath) as NSDictionary
-                            fileSize += UInt(fileDictionary.fileSize())
-                            
-                        }
-                    //swiftlint:enable force_try
-                        
-                        return fileSize
-                    } catch {
-                        
-                        print("Error: \(error)")
-                    }
-                    
-                    return 0
-                }
-                
-                let cacheSize = Int(folderSize(folderPath: appDir)) + CachingHelper.getRealmCacheSize(type: "systemStatus")
+                let cacheSize = CachingHelper.getTotalCacheSize()
                 
                 if cacheSize > 0 {
                     
@@ -158,24 +132,7 @@ internal class MoreTableViewController: UIViewController, UITableViewDelegate, U
                         alertTitle: "Do you want to clear cache?",
                         cancelTitle: "Cancel",
                         proceedTitle: "Clear",
-                        proceedCompletion: {
-                            
-                            do {
-                                
-                                CachingHelper.deleteFromRealm(type: "systemStatus")
-                                
-                                let filesArray = try FileManager.default.subpathsOfDirectory(atPath: appDir) as [String]
-                                for fileName in filesArray {
-                                    
-                                    let filePath = "\(appDir)/\(fileName)"
-                                    try FileManager.default.removeItem(atPath: filePath)
-                                }
-                                
-                                HanakeHelper.clearCache()
-                            } catch {
-                                
-                            }
-                        },
+                        proceedCompletion: CachingHelper.deleteCache,
                         cancelCompletion: {})
                 }
             }

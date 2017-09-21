@@ -15,7 +15,20 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the twitter social feed object
-public struct HATTwitterSocialFeedObject: HATSocialFeedObject, Comparable {
+public struct HATTwitterSocialFeedObject: HatApiType, HATSocialFeedObject, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let name: String = "name"
+        static let data: String = "data"
+        static let tweetID: String = "id"
+        static let recordID: String = "recordId"
+        static let lastUpdated: String = "lastUpdated"
+        static let endPoint: String = "endpoint"
+    }
 
     // MARK: - Comparable protocol
 
@@ -102,19 +115,19 @@ public struct HATTwitterSocialFeedObject: HATSocialFeedObject, Comparable {
 
         self.init()
 
-        if let tempName = dictionary["name"]?.stringValue {
+        if let tempName = dictionary[Fields.name]?.stringValue {
 
             name = tempName
         }
-        if let tempData = dictionary["data"]?.dictionaryValue {
+        if let tempData = dictionary[Fields.data]?.dictionaryValue {
 
             data = HATTwitterDataSocialFeedObject(from: tempData)
         }
-        if let tempID = dictionary["id"]?.stringValue {
+        if let tempID = dictionary[Fields.tweetID]?.stringValue {
 
             recordIDv1 = tempID
         }
-        if let tempLastUpdated = dictionary["lastUpdated"]?.stringValue {
+        if let tempLastUpdated = dictionary[Fields.lastUpdated]?.stringValue {
 
             lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
             protocolLastUpdate = lastUpdated
@@ -128,19 +141,19 @@ public struct HATTwitterSocialFeedObject: HATSocialFeedObject, Comparable {
 
         self.init()
 
-        if let tempEndpoint = dictionary["endpoint"]?.string {
+        if let tempEndpoint = dictionary[Fields.endPoint]?.string {
 
             endPoint = tempEndpoint
         }
 
-        if let tempRecordID = dictionary["recordId"]?.string {
+        if let tempRecordID = dictionary[Fields.recordID]?.string {
 
             recordID = tempRecordID
         }
 
-        if let tempData = dictionary["data"]?.dictionaryValue {
+        if let tempData = dictionary[Fields.data]?.dictionaryValue {
 
-            if let tempLastUpdated = tempData["lastUpdated"]?.stringValue {
+            if let tempLastUpdated = tempData[Fields.lastUpdated]?.stringValue {
 
                 lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
                 protocolLastUpdate = lastUpdated
@@ -148,5 +161,56 @@ public struct HATTwitterSocialFeedObject: HATSocialFeedObject, Comparable {
 
             data = HATTwitterDataSocialFeedObject(from: tempData)
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempName = dict[Fields.name]?.stringValue {
+            
+            name = tempName
+        }
+        if let tempData = dict[Fields.data]?.dictionaryValue {
+            
+            data = HATTwitterDataSocialFeedObject(from: tempData)
+        }
+        if let tempID = dict[Fields.tweetID]?.stringValue {
+            
+            recordIDv1 = tempID
+        }
+        if let tempLastUpdated = dict[Fields.lastUpdated]?.stringValue {
+            
+            lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
+            protocolLastUpdate = lastUpdated
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.data: self.data.toJSON(),
+            Fields.name: self.name,
+            Fields.lastUpdated: self.lastUpdated ?? Date(),
+            Fields.tweetID: self.recordIDv1
+        ]
     }
 }

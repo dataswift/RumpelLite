@@ -15,7 +15,15 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the data of facebook
-public struct HATFacebookDataSocialFeedObject: Comparable, HATSocialFeedObject {
+public struct HATFacebookDataSocialFeedObject: HatApiType, Comparable, HATSocialFeedObject {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let posts: String = "posts"
+    }
 
     /// The last date updated of the record
     public var protocolLastUpdate: Date?
@@ -70,9 +78,44 @@ public struct HATFacebookDataSocialFeedObject: Comparable, HATSocialFeedObject {
      */
     public init(from dictionary: Dictionary<String, JSON>) {
 
-        if let tempPosts = dictionary["posts"]?.dictionaryValue {
+        if let tempPosts = dictionary[Fields.posts]?.dictionaryValue {
 
             posts = HATFacebookDataPostsSocialFeedObject(from: tempPosts)
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempPosts = dict[Fields.posts]?.dictionaryValue {
+            
+            posts = HATFacebookDataPostsSocialFeedObject(from: tempPosts)
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.posts: self.posts.toJSON()
+        ]
     }
 }

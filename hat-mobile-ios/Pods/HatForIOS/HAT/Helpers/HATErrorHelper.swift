@@ -23,13 +23,14 @@ import Foundation
  - tokenValidationFailed: Token cannot be validated. Includes a description(String)
  */
 public enum AuthenicationError: Error {
-
+    
     case noTokenDetectedError
     case noIssuerDetectedError(String)
     case generalError(String, Int?, Error?)
     case cannotDecodeToken(String)
     case cannotSplitToken([String])
     case tokenValidationFailed(String)
+    case noInternetConnection
 }
 
 /**
@@ -39,9 +40,10 @@ public enum AuthenicationError: Error {
  - generalError: General error. Includes a description(String), the statusCode(Int?) and the error(Error?)
  */
 public enum JSONParsingError: Error {
-
+    
     case expectedFieldNotFound
     case generalError(String, Int?, Error?)
+    case noInternetConnection
 }
 
 /**
@@ -53,11 +55,12 @@ public enum JSONParsingError: Error {
  - generalError: General error. Includes a description(String), the statusCode(Int?) and the error(Error?)
  */
 public enum HATTableError: Error {
-
+    
     case noValuesFound
     case tableDoesNotExist
     case noTableIDFound
     case generalError(String, Int?, Error?)
+    case noInternetConnection
 }
 
 /**
@@ -69,8 +72,9 @@ public enum HATTableError: Error {
  - generalError: General error. Includes a description(String), the statusCode(Int?) and the error(Error?)
  */
 public enum HATError: Error {
-
+    
     case generalError(String, Int?, Error?)
+    case noInternetConnection
 }
 
 /**
@@ -80,8 +84,9 @@ public enum HATError: Error {
  - noValueFound: No value found in the response
  */
 public enum DataPlugError: Error {
-
+    
     case generalError(String, Int?, Error?)
     case offerClaimed
     case noValueFound
+    case noInternetConnection
 }

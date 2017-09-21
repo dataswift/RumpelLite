@@ -15,7 +15,19 @@ import SwiftyJSON
 // MARK: Class
 
 /// A class representing the application that this post came from
-public struct HATFacebookDataPostsApplicationSocialFeedObject: Comparable {
+public struct HATFacebookDataPostsApplicationSocialFeedObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let applicationID: String = "id"
+        static let namespace: String = "namespace"
+        static let name: String = "name"
+        static let category: String = "category"
+        static let link: String = "link"
+    }
 
     // MARK: - Comparable protocol
 
@@ -81,25 +93,79 @@ public struct HATFacebookDataPostsApplicationSocialFeedObject: Comparable {
 
         self.init()
 
-        if let tempID = dictionary["id"]?.stringValue {
+        if let tempID = dictionary[Fields.applicationID]?.stringValue {
 
             applicationID = tempID
         }
-        if let tempNameSpace = dictionary["namespace"]?.stringValue {
+        if let tempNameSpace = dictionary[Fields.namespace]?.stringValue {
 
             namespace = tempNameSpace
         }
-        if let tempName = dictionary["name"]?.string {
+        if let tempName = dictionary[Fields.name]?.string {
 
             name = tempName
         }
-        if let tempCategory = dictionary["category"]?.stringValue {
+        if let tempCategory = dictionary[Fields.category]?.stringValue {
 
             category = tempCategory
         }
-        if let tempLink = dictionary["link"]?.stringValue {
+        if let tempLink = dictionary[Fields.link]?.stringValue {
 
             link = tempLink
         }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public mutating func inititialize(dict: Dictionary<String, JSON>) {
+        
+        if let tempID = dict[Fields.applicationID]?.stringValue {
+            
+            applicationID = tempID
+        }
+        if let tempNameSpace = dict[Fields.namespace]?.stringValue {
+            
+            namespace = tempNameSpace
+        }
+        if let tempName = dict[Fields.name]?.string {
+            
+            name = tempName
+        }
+        if let tempCategory = dict[Fields.category]?.stringValue {
+            
+            category = tempCategory
+        }
+        if let tempLink = dict[Fields.link]?.stringValue {
+            
+            link = tempLink
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let dictionary = JSON(fromCache)
+        self.inititialize(dict: dictionary.dictionaryValue)
+    }
+    
+    // MARK: - JSON Mapper
+    
+    /**
+     Returns the object as Dictionary, JSON
+     
+     - returns: Dictionary<String, String>
+     */
+    public func toJSON() -> Dictionary<String, Any> {
+        
+        return [
+            
+            Fields.name: self.name,
+            Fields.applicationID: self.applicationID,
+            Fields.category: self.category,
+            Fields.link: self.link
+        ]
     }
 }

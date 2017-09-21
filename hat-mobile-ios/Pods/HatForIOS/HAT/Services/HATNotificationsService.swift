@@ -46,8 +46,14 @@ public struct HATNotificationsService {
                     
                 case .error(let error, let statusCode):
                     
-                    let message = NSLocalizedString("Server responded with error", comment: "")
-                    errorCallback(.generalError(message, statusCode, error))
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        errorCallback(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        errorCallback(.generalError(message, statusCode, error))
+                    }
                 case .isSuccess(let isSuccess, _, let result, let token):
                     
                     if isSuccess {
@@ -101,8 +107,14 @@ public struct HATNotificationsService {
                     
                 case .error(let error, let statusCode):
                     
-                    let message = NSLocalizedString("Server responded with error", comment: "")
-                    errorCallback(.generalError(message, statusCode, error))
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        errorCallback(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        errorCallback(.generalError(message, statusCode, error))
+                    }
                 case .isSuccess(let isSuccess, let statusCode, _, let token):
                     
                     if isSuccess {

@@ -75,8 +75,14 @@ public struct HATFileService {
                 
             case .error(let error, let statusCode):
                 
-                let message = "Server returned unexpected respone"
-                errorCallBack(.generalError(message, statusCode, error))
+                if error.localizedDescription == "The request timed out." {
+                    
+                    errorCallBack(.noInternetConnection)
+                } else {
+                    
+                    let message = NSLocalizedString("Server responded with error", comment: "")
+                    errorCallBack(.generalError(message, statusCode, error))
+                }
             }
         })
     }
@@ -119,8 +125,14 @@ public struct HATFileService {
                 
             case .error(let error, let statusCode):
                 
-                let message = "Server returned unexpected respone"
-                errorCallBack(.generalError(message, statusCode, error))
+                if error.localizedDescription == "The request timed out." {
+                    
+                    errorCallBack(.noInternetConnection)
+                } else {
+                    
+                    let message = NSLocalizedString("Server responded with error", comment: "")
+                    errorCallBack(.generalError(message, statusCode, error))
+                }
             }
         })
     }
@@ -163,8 +175,14 @@ public struct HATFileService {
                 
             case .error(let error, let statusCode):
                 
-                let message = "Server returned unexpected respone"
-                errorCallBack(.generalError(message, statusCode, error))
+                if error.localizedDescription == "The request timed out." {
+                    
+                    errorCallBack(.noInternetConnection)
+                } else {
+                    
+                    let message = NSLocalizedString("Server responded with error", comment: "")
+                    errorCallBack(.generalError(message, statusCode, error))
+                }
             }
         })
     }
@@ -207,8 +225,14 @@ public struct HATFileService {
                 
             case .error(let error, let statusCode):
                 
-                let message = "Server returned unexpected respone"
-                errorCallBack(.generalError(message, statusCode, error))
+                if error.localizedDescription == "The request timed out." {
+                    
+                    errorCallBack(.noInternetConnection)
+                } else {
+                    
+                    let message = NSLocalizedString("Server responded with error", comment: "")
+                    errorCallBack(.generalError(message, statusCode, error))
+                }
             }
         })
     }
@@ -247,8 +271,14 @@ public struct HATFileService {
                     
                 case .error(let error, let statusCode):
                     
-                    let message = NSLocalizedString("Server responded with error", comment: "")
-                    errorCallback(.generalError(message, statusCode, error))
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        errorCallback(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        errorCallback(.generalError(message, statusCode, error))
+                    }
                 case .isSuccess(let isSuccess, let statusCode, let result, let token):
                     
                     if isSuccess {
@@ -305,8 +335,14 @@ public struct HATFileService {
                     
                 case .error(let error, let statusCode):
                     
-                    let message = NSLocalizedString("Server responded with error", comment: "")
-                    errorCallback(.generalError(message, statusCode, error))
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        errorCallback(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        errorCallback(.generalError(message, statusCode, error))
+                    }
                 case .isSuccess(let isSuccess, let statusCode, let result, let token):
                     
                     if isSuccess {
@@ -363,8 +399,14 @@ public struct HATFileService {
                     
                 case .error(let error, let statusCode):
                     
-                    let message = NSLocalizedString("Server responded with error", comment: "")
-                    errorCallback(.generalError(message, statusCode, error))
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        errorCallback(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        errorCallback(.generalError(message, statusCode, error))
+                    }
                 case .isSuccess(let isSuccess, let statusCode, let result, let token):
                     
                     if isSuccess {

@@ -106,6 +106,8 @@
 		604F32EC1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32EB1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift */; };
 		604F32EE1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32ED1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift */; };
 		604F32F01F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604F32EF1F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift */; };
+		604FE85E1F6D4D4400998A2C /* NotesCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */; };
+		604FE85F1F6D4D4500998A2C /* NotesCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */; };
 		6050E2DF1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2DE1ED2E968002AD0C9 /* DataStoreInfoTableViewController.swift */; };
 		6050E2E11ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E01ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift */; };
 		6050E2E31ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E21ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift */; };
@@ -113,6 +115,14 @@
 		6050E2E71ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */; };
 		6054B35A1EF970D4004BD104 /* SelectedPhotosProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6054B3591EF970D4004BD104 /* SelectedPhotosProtocol.swift */; };
 		60550D721F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */; };
+		6055C1821F6FBDB900877547 /* CheckCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A26A1F6C26E600F3884F /* CheckCache.swift */; };
+		6055C1831F6FBDB900877547 /* CheckCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A26A1F6C26E600F3884F /* CheckCache.swift */; };
+		6055C1851F6FC9BD00877547 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055C1841F6FC9BD00877547 /* Reachability.swift */; };
+		6055C1861F6FC9E400877547 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055C1841F6FC9BD00877547 /* Reachability.swift */; };
+		6055C1871F6FC9E500877547 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055C1841F6FC9BD00877547 /* Reachability.swift */; };
+		6055C18D1F7009B700877547 /* AsyncCacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */; };
+		6055C18E1F7009D500877547 /* AsyncCacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */; };
+		6055C18F1F7009D600877547 /* AsyncCacheHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */; };
 		6055D9831EC9F16E00461C75 /* UITableViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6055D9821EC9F16E00461C75 /* UITableViewExtension.swift */; };
 		605D84041F2F715A00CA44F5 /* ProfileImageObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */; };
 		605EE0341E8DBF8600B265F6 /* UpdateLocationsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE0331E8DBF8600B265F6 /* UpdateLocationsDelegate.swift */; };
@@ -125,10 +135,14 @@
 		6067536D1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */; };
 		6067536E1F68152E0042CC71 /* CachingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536A1F66E6980042CC71 /* CachingHelper.swift */; };
 		6067536F1F68152E0042CC71 /* SystemStatusWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */; };
-		606753701F68152E0042CC71 /* CachingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536A1F66E6980042CC71 /* CachingHelper.swift */; };
-		606753711F68152E0042CC71 /* SystemStatusWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */; };
 		606B559F1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */; };
 		6079A2621F6AD11B00F3884F /* LocationsWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */; };
+		6079A2641F6BCE5400F3884F /* CachingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536A1F66E6980042CC71 /* CachingHelper.swift */; };
+		6079A2651F6BCE5400F3884F /* SystemStatusWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */; };
+		6079A2661F6BCE5400F3884F /* LocationsWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */; };
+		6079A2671F6BCE5500F3884F /* LocationsWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */; };
+		6079A2691F6BD7C300F3884F /* NotesCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */; };
+		6079A26B1F6C26E600F3884F /* CheckCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A26A1F6C26E600F3884F /* CheckCache.swift */; };
 		607A36FE1F55C284007406EF /* CustomHanakeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607A36FD1F55C284007406EF /* CustomHanakeFetcher.swift */; };
 		607C107B1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */; };
 		607C107D1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */; };
@@ -648,6 +662,8 @@
 		6050E2E61ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreEducationTableViewController.swift; path = DataStore/DataStoreEducationTableViewController.swift; sourceTree = "<group>"; };
 		6054B3591EF970D4004BD104 /* SelectedPhotosProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedPhotosProtocol.swift; sourceTree = "<group>"; };
 		60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlugDetailsTableViewCell.swift; sourceTree = "<group>"; };
+		6055C1841F6FC9BD00877547 /* Reachability.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
+		6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AsyncCacheHelper.swift; sourceTree = "<group>"; };
 		6055D9821EC9F16E00461C75 /* UITableViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UITableViewExtension.swift; sourceTree = "<group>"; };
 		605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileImageObject.swift; sourceTree = "<group>"; };
 		605EE0331E8DBF8600B265F6 /* UpdateLocationsDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateLocationsDelegate.swift; sourceTree = "<group>"; };
@@ -660,6 +676,8 @@
 		6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemStatusWrapperHelper.swift; sourceTree = "<group>"; };
 		606B559E1F1E4C42004B5D4D /* DataOffersSummaryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataOffersSummaryCollectionViewCell.swift; sourceTree = "<group>"; };
 		6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsWrapperHelper.swift; sourceTree = "<group>"; };
+		6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		6079A26A1F6C26E600F3884F /* CheckCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckCache.swift; sourceTree = "<group>"; };
 		607A36FD1F55C284007406EF /* CustomHanakeFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHanakeFetcher.swift; sourceTree = "<group>"; };
 		607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingTileCollectionViewCell.swift; sourceTree = "<group>"; };
 		607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAHATInfoViewController.swift; sourceTree = "<group>"; };
@@ -1221,10 +1239,14 @@
 			children = (
 				603D08B01E6D5E340077E90C /* AnimationHelper.swift */,
 				60F1D7E61E6828DA0009CF1F /* AuthenticationHelper.swift */,
+				6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */,
 				B59136841D19D3BB00E9EDD0 /* Constants.swift */,
 				6067536A1F66E6980042CC71 /* CachingHelper.swift */,
+				6079A26A1F6C26E600F3884F /* CheckCache.swift */,
 				6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */,
 				6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */,
+				6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */,
+				6055C1841F6FC9BD00877547 /* Reachability.swift */,
 				605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */,
 				60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */,
 				606528D21DDA037400026EA6 /* JSONHelper.swift */,
@@ -1811,6 +1833,7 @@
 				6028B4F31EA616B800018D49 /* MoreTableViewController.swift in Sources */,
 				6041B20D1DD4AC040018CC31 /* NotablesViewController.swift in Sources */,
 				60938DBE1E9BD2750058F6CC /* PhotoFullScreenViewerViewController.swift in Sources */,
+				6079A2691F6BD7C300F3884F /* NotesCachingWrapperHelper.swift in Sources */,
 				6041474B1EE0554A008C9293 /* DataOfferDetailsViewController.swift in Sources */,
 				605D84041F2F715A00CA44F5 /* ProfileImageObject.swift in Sources */,
 				60B486311E1D6E7B00914AD2 /* UIImageViewExtension.swift in Sources */,
@@ -1826,6 +1849,7 @@
 				B54EA61A1D19F5450018EE47 /* DataPointTableViewCell.swift in Sources */,
 				60FAC7691E223A1D00532C01 /* DataPlugsCollectionViewController.swift in Sources */,
 				60938DC01E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */,
+				6055C1851F6FC9BD00877547 /* Reachability.swift in Sources */,
 				603D08B11E6D5E350077E90C /* AnimationHelper.swift in Sources */,
 				6050E2E31ED2E990002AD0C9 /* DataStoreEmploymentStatusTableViewController.swift in Sources */,
 				604237DF1E114F2D00E19109 /* UIColorExtension.swift in Sources */,
@@ -1878,6 +1902,7 @@
 				60A727BD1DDF47ED008AF409 /* FormatterHelper.swift in Sources */,
 				604F32E81F3DFF1B00F48201 /* ImagePopUpViewController.swift in Sources */,
 				60CDCBEA1EAACA9500035882 /* PhataTableViewController.swift in Sources */,
+				6055C18D1F7009B700877547 /* AsyncCacheHelper.swift in Sources */,
 				60F1D7E71E6828DA0009CF1F /* AuthenticationHelper.swift in Sources */,
 				60494ADA1EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift in Sources */,
 				603CE74A1DF6FA7400421429 /* PageViewController.swift in Sources */,
@@ -1901,6 +1926,7 @@
 				6067536B1F66E6980042CC71 /* CachingHelper.swift in Sources */,
 				604F32EC1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift in Sources */,
 				604504D51EAE10A7003B76C3 /* EmergencyContactTableViewController.swift in Sources */,
+				6079A26B1F6C26E600F3884F /* CheckCache.swift in Sources */,
 				60FB24081F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift in Sources */,
 				60DDE1711E31006600AB9E18 /* MapsHelper.swift in Sources */,
 				60AAA5B81E83D70A0080D0D5 /* HATProviderObjectExtension.swift in Sources */,
@@ -1972,6 +1998,7 @@
 				60905BC21F645ACB004EBB63 /* ShareOptionsViewController.swift in Sources */,
 				60905B0D1F645A78004EBB63 /* MapSettingsDelegate.swift in Sources */,
 				60905B861F645AB3004EBB63 /* ProfileInfoTableViewController.swift in Sources */,
+				604FE85E1F6D4D4400998A2C /* NotesCachingWrapperHelper.swift in Sources */,
 				60905A8F1F645A5D004EBB63 /* CustomSwitch.swift in Sources */,
 				60905B371F645A84004EBB63 /* SyncDataHelper.swift in Sources */,
 				60905BBC1F645AC6004EBB63 /* DataPlugsCollectionViewController.swift in Sources */,
@@ -1987,6 +2014,7 @@
 				60905AFD1F645A74004EBB63 /* FutureTimeIntervalObject.swift in Sources */,
 				60905B9C1F645ABB004EBB63 /* DataStoreTableViewController.swift in Sources */,
 				60905B361F645A84004EBB63 /* RealmHelper.swift in Sources */,
+				6055C1861F6FC9E400877547 /* Reachability.swift in Sources */,
 				60DE414E1F697131003F0E02 /* JSONCacheObject.swift in Sources */,
 				60905A811F645A5A004EBB63 /* DataPointTableViewCell.swift in Sources */,
 				60905AB31F645A63004EBB63 /* UIButtonExtension.swift in Sources */,
@@ -2014,16 +2042,17 @@
 				60905A6F1F645A55004EBB63 /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */,
 				60905B7C1F645AB3004EBB63 /* EmailTableViewController.swift in Sources */,
 				60905A6A1F645A55004EBB63 /* HomeHeaderCollectionReusableView.swift in Sources */,
+				6079A2661F6BCE5400F3884F /* LocationsWrapperHelper.swift in Sources */,
 				60905B6C1F645AA5004EBB63 /* TextPopUpViewController.swift in Sources */,
 				60905BC31F645ACB004EBB63 /* PresenterOfShareOptionsViewController.swift in Sources */,
 				60905B611F645A9D004EBB63 /* LearnMorePHATAViewController.swift in Sources */,
 				60905BBD1F645AC6004EBB63 /* DetailsDataPlugViewController.swift in Sources */,
 				60905A841F645A5A004EBB63 /* PhataTableViewCell.swift in Sources */,
 				60905B471F645A89004EBB63 /* DataViewController.swift in Sources */,
-				606753701F68152E0042CC71 /* CachingHelper.swift in Sources */,
 				60905AFE1F645A74004EBB63 /* SurveyObject.swift in Sources */,
 				60905B2C1F645A84004EBB63 /* Constants.swift in Sources */,
 				60905B501F645A96004EBB63 /* CompletePurchaseViewController.swift in Sources */,
+				6079A2651F6BCE5400F3884F /* SystemStatusWrapperHelper.swift in Sources */,
 				60905B101F645A78004EBB63 /* UpdateLocationsDelegate.swift in Sources */,
 				60905AA61F645A63004EBB63 /* DateExtension.swift in Sources */,
 				60905B4A1F645A89004EBB63 /* TermsAndConditionsViewController.swift in Sources */,
@@ -2038,6 +2067,7 @@
 				60905ABA1F645A63004EBB63 /* ViewControllerExtension.swift in Sources */,
 				60905B531F645A96004EBB63 /* InfoHatProvidersViewController.swift in Sources */,
 				60905AFB1F645A74004EBB63 /* GoDeepObject.swift in Sources */,
+				6055C18E1F7009D500877547 /* AsyncCacheHelper.swift in Sources */,
 				60905B461F645A89004EBB63 /* DataPointsTableView.swift in Sources */,
 				60905BCB1F645AD0004EBB63 /* PhotoViewerViewController.swift in Sources */,
 				60905AAD1F645A63004EBB63 /* MFMailComposeViewControllerExtension.swift in Sources */,
@@ -2051,7 +2081,6 @@
 				60905BC01F645ACB004EBB63 /* CheckInMapViewController.swift in Sources */,
 				60905A711F645A55004EBB63 /* SocialImageCollectionViewCell.swift in Sources */,
 				60905BAB1F645AC0004EBB63 /* DataStoreForDataOffersTableViewController.swift in Sources */,
-				606753711F68152E0042CC71 /* SystemStatusWrapperHelper.swift in Sources */,
 				60905A661F645A55004EBB63 /* DataOffersCollectionViewCell.swift in Sources */,
 				60905B1B1F645A7D004EBB63 /* UpdateLocations.swift in Sources */,
 				60905B2A1F645A84004EBB63 /* AnimationHelper.swift in Sources */,
@@ -2059,8 +2088,10 @@
 				60905B121F645A78004EBB63 /* UserCredentialsProtocol.swift in Sources */,
 				60905B851F645AB3004EBB63 /* PhoneTableViewController.swift in Sources */,
 				60905B9E1F645ABB004EBB63 /* DataSourceNameTableViewController.swift in Sources */,
+				6079A2641F6BCE5400F3884F /* CachingHelper.swift in Sources */,
 				60905AB71F645A63004EBB63 /* UIPageViewController.swift in Sources */,
 				60905AAF1F645A63004EBB63 /* SafariViewControllerExtension.swift in Sources */,
+				6055C1821F6FBDB900877547 /* CheckCache.swift in Sources */,
 				60905B681F645AA5004EBB63 /* ImagePopUpViewController.swift in Sources */,
 				60905B541F645A96004EBB63 /* StripeViewController.swift in Sources */,
 				60905BD01F645AD5004EBB63 /* SocialFeedViewController.swift in Sources */,
@@ -2099,6 +2130,7 @@
 				60905B651F645AA0004EBB63 /* FirstOnboardingViewController.swift in Sources */,
 				60905B961F645AB3004EBB63 /* ResetPasswordTableViewController.swift in Sources */,
 				60905A741F645A56004EBB63 /* DataPlugCollectionViewCell.swift in Sources */,
+				6055C1871F6FC9E500877547 /* Reachability.swift in Sources */,
 				60905B1D1F645A7E004EBB63 /* UpdateLocations.swift in Sources */,
 				60905B451F645A84004EBB63 /* ZXCVBNHelper.swift in Sources */,
 				60905B3A1F645A84004EBB63 /* AuthenticationHelper.swift in Sources */,
@@ -2191,6 +2223,8 @@
 				604E0C951F644948007DA3AA /* FastlaneScreenshots.swift in Sources */,
 				60905ABB1F645A64004EBB63 /* DateExtension.swift in Sources */,
 				60905B6E1F645AA5004EBB63 /* ImageSlidePopUpViewController.swift in Sources */,
+				6055C1831F6FBDB900877547 /* CheckCache.swift in Sources */,
+				6055C18F1F7009D600877547 /* AsyncCacheHelper.swift in Sources */,
 				604E0C981F64500E007DA3AA /* Constants.swift in Sources */,
 				60905A771F645A56004EBB63 /* HomeHeaderCollectionReusableView.swift in Sources */,
 				60905B0B1F645A75004EBB63 /* PurchaseModel.swift in Sources */,
@@ -2210,6 +2244,7 @@
 				60905B5E1F645A9D004EBB63 /* LearnMorePHATAViewController.swift in Sources */,
 				60905B3D1F645A84004EBB63 /* JSONHelper.swift in Sources */,
 				60905A791F645A56004EBB63 /* OnboardingTileCollectionViewCell.swift in Sources */,
+				6079A2671F6BCE5500F3884F /* LocationsWrapperHelper.swift in Sources */,
 				60905A721F645A56004EBB63 /* DataOffersCollectionViewCell.swift in Sources */,
 				60905B151F645A79004EBB63 /* PhotoPickerDelegate.swift in Sources */,
 				60905AC71F645A64004EBB63 /* UIAlertControllerExtension.swift in Sources */,
@@ -2235,6 +2270,7 @@
 				60905B441F645A84004EBB63 /* SyncDataHelper.swift in Sources */,
 				60905B561F645A97004EBB63 /* GetAHATInfoViewController.swift in Sources */,
 				60905B8C1F645AB3004EBB63 /* EmergencyContactTableViewController.swift in Sources */,
+				604FE85F1F6D4D4500998A2C /* NotesCachingWrapperHelper.swift in Sources */,
 				60905B0A1F645A75004EBB63 /* LearnMoreObject.swift in Sources */,
 				60905A7E1F645A56004EBB63 /* SocialImageCollectionViewCell.swift in Sources */,
 				60905A881F645A5A004EBB63 /* DataPlugDetailsTableViewCell.swift in Sources */,

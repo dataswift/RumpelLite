@@ -122,12 +122,6 @@ public class HATNetworkHelper: NSObject {
                 // in case of failure return the error but check for internet connection or unauthorised status and let the user know
                 case .failure(let error):
                     
-                    if error.localizedDescription == "The Internet connection appears to be offline." {
-                        
-                    } else if response.response?.statusCode == 401 {
-                        
-                    }
-                    
                     completion(HATNetworkHelper.ResultType.error(error: error, statusCode: response.response?.statusCode))
                 }
                 

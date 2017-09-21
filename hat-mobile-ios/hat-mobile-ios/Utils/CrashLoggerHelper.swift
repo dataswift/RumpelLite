@@ -125,6 +125,13 @@ internal struct CrashLoggerHelper {
                 alertTitle: NSLocalizedString("error_label", comment: "error"),
                 okTitle: "OK",
                 proceedCompletion: {})
+        case .noInternetConnection:
+            
+            return UIAlertController.createOKAlert(
+                alertMessage: "You need internet access to log in",
+                alertTitle: "No internet access",
+                okTitle: "OK",
+                proceedCompletion: {})
         }
     }
     
@@ -192,6 +199,9 @@ internal struct CrashLoggerHelper {
         case .offerClaimed:
             
             return nil
+        default:
+            
+            return nil
         }
     }
     
@@ -253,6 +263,15 @@ internal struct CrashLoggerHelper {
                 alertTitle: NSLocalizedString("error_label", comment: "error"),
                 okTitle: "OK",
                 proceedCompletion: {})
+        default:
+            
+            // no token in url callback redirect
+            let msg = "No internet connection"
+            return UIAlertController.createOKAlert(
+                alertMessage: msg,
+                alertTitle: NSLocalizedString("error_label", comment: "error"),
+                okTitle: "OK",
+                proceedCompletion: {})
         }
     }
     
@@ -298,7 +317,11 @@ internal struct CrashLoggerHelper {
                         "General error. Error: ": "\(errorReturned!)",
                         "description: ": "\(description)"])
             }
+        default:
+            
+            break
         }
+        
     }
     
     /**
@@ -382,6 +405,15 @@ internal struct CrashLoggerHelper {
                 alertTitle: NSLocalizedString("error_label", comment: "error"),
                 okTitle: "OK",
                 proceedCompletion: {})
+        default:
+            
+            // no token in url callback redirect
+            let msg = "No internet connection"
+            return UIAlertController.createOKAlert(
+                alertMessage: msg,
+                alertTitle: NSLocalizedString("error_label", comment: "error"),
+                okTitle: "OK",
+                proceedCompletion: {})
         }
     }
     
@@ -425,6 +457,15 @@ internal struct CrashLoggerHelper {
             
             // no token in url callback redirect
             let msg = NetworkHelper.exceptionFriendlyMessage(statusCode, defaultMessage: error.localizedDescription)
+            return UIAlertController.createOKAlert(
+                alertMessage: msg,
+                alertTitle: NSLocalizedString("error_label", comment: "error"),
+                okTitle: "OK",
+                proceedCompletion: {})
+        default:
+            
+            // no token in url callback redirect
+            let msg = "No internet connection"
             return UIAlertController.createOKAlert(
                 alertMessage: msg,
                 alertTitle: NSLocalizedString("error_label", comment: "error"),

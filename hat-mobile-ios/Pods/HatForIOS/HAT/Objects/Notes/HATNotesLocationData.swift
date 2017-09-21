@@ -16,6 +16,21 @@ import SwiftyJSON
 
 /// A struct representing the location table received from JSON
 public struct HATNotesLocationData: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let altitude: String = "altitude"
+        static let altitudeAccuracy: String = "altitude_accuracy"
+        static let latitude: String = "latitude"
+        static let heading: String = "heading"
+        static let shared: String = "shared"
+        static let accuracy: String = "accuracy"
+        static let longitude: String = "longitude"
+        static let speed: String = "speed"
+    }
 
     // MARK: - Comparable protocol
 
@@ -97,7 +112,7 @@ public struct HATNotesLocationData: Comparable {
     public init(dict: Dictionary<String, JSON>) {
 
         // check for values and assign them if not empty
-        if let tempAltitude = dict["altitude"]?.string {
+        if let tempAltitude = dict[Fields.altitude]?.string {
 
             if tempAltitude != "" {
 
@@ -108,7 +123,7 @@ public struct HATNotesLocationData: Comparable {
             }
         }
 
-        if let tempAltitudeAccuracy = dict["altitude_accuracy"]?.string {
+        if let tempAltitudeAccuracy = dict[Fields.altitudeAccuracy]?.string {
 
             if tempAltitudeAccuracy != "" {
 
@@ -119,7 +134,7 @@ public struct HATNotesLocationData: Comparable {
             }
         }
 
-        if let tempLatitude = dict["latitude"]?.string {
+        if let tempLatitude = dict[Fields.latitude]?.string {
 
             if tempLatitude != "" {
 
@@ -129,12 +144,12 @@ public struct HATNotesLocationData: Comparable {
                 }
             }
         }
-        if let tempHeading = dict["heading"]?.string {
+        if let tempHeading = dict[Fields.heading]?.string {
 
             heading = tempHeading
         }
 
-        if let tempShared = dict["shared"]?.string {
+        if let tempShared = dict[Fields.shared]?.string {
 
             if tempShared != "" {
 
@@ -144,7 +159,7 @@ public struct HATNotesLocationData: Comparable {
                 }
             }
         }
-        if let tempAccuracy = dict["accuracy"]?.string {
+        if let tempAccuracy = dict[Fields.accuracy]?.string {
 
             if tempAccuracy != "" {
 
@@ -154,7 +169,7 @@ public struct HATNotesLocationData: Comparable {
                 }
             }
         }
-        if let tempLongitude = dict["longitude"]?.string {
+        if let tempLongitude = dict[Fields.longitude]?.string {
 
             if tempLongitude != "" {
 
@@ -164,7 +179,7 @@ public struct HATNotesLocationData: Comparable {
                 }
             }
         }
-        if let tempSpeed = dict["speed"]?.string {
+        if let tempSpeed = dict[Fields.speed]?.string {
 
             if tempSpeed != "" {
 
@@ -187,14 +202,14 @@ public struct HATNotesLocationData: Comparable {
 
         return [
 
-            "altitude": self.altitude,
-            "altitude_accuracy": self.altitudeAccuracy,
-            "latitude": self.latitude ?? 0,
-            "heading": self.heading,
-            "shared": String(describing: self.shared),
-            "accuracy": self.accuracy,
-            "longitude": self.longitude ?? 0,
-            "speed": self.speed
+            Fields.altitude: self.altitude,
+            Fields.altitudeAccuracy: self.altitudeAccuracy,
+            Fields.latitude: self.latitude ?? 0,
+            Fields.heading: self.heading,
+            Fields.shared: String(describing: self.shared),
+            Fields.accuracy: self.accuracy,
+            Fields.longitude: self.longitude ?? 0,
+            Fields.speed: self.speed
         ]
     }
 }

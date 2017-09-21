@@ -14,27 +14,17 @@ import SwiftyJSON
 
 // MARK: Class
 
-public protocol HatApiType {
-    
-    func toJSON() -> Dictionary<String, Any>
-    
-    mutating func initialize(fromCache: Dictionary<String, Any>)
-    
-    init()
-}
-
-extension HatApiType {
-    
-    public init(fromCache: Dictionary<String, Any>) {
-        
-        self.init()
-        
-        self.initialize(fromCache: fromCache)
-    }
-}
-
 /// A class representing the system status object
 public struct HATSystemStatusObject: HatApiType {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let title: String = "title"
+        static let kind: String = "kind"
+    }
     
     // MARK: - Comparable protocol
     
@@ -102,11 +92,11 @@ public struct HATSystemStatusObject: HatApiType {
     
     public mutating func initialize(from dictionary: Dictionary<String, JSON>) {
         
-        if let tempTitle = dictionary["title"]?.stringValue {
+        if let tempTitle = dictionary[Fields.title]?.stringValue {
             
             title = tempTitle
         }
-        if let tempKind = dictionary["kind"]?.dictionaryValue {
+        if let tempKind = dictionary[Fields.kind]?.dictionaryValue {
             
             kind = HATSystemStatusKindObject(from: tempKind)
         }
@@ -123,8 +113,8 @@ public struct HATSystemStatusObject: HatApiType {
         
         return [
             
-            "title": self.title,
-            "kind": self.kind.toJSON()
+            Fields.title: self.title,
+            Fields.kind: self.kind.toJSON()
         ]
     }
 }

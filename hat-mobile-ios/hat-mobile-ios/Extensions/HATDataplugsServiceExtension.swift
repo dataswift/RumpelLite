@@ -48,8 +48,16 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             succesfulCallBack: checkPlugForToken,
             failCallBack: { (error) in
             
-                tokenErrorCallback()
-                CrashLoggerHelper.JSONParsingErrorLogWithoutAlert(error: error)
+                switch error {
+                    
+                case .noInternetConnection:
+                    
+                    failCallBack(.noInternetConnection)
+                default:
+                    
+                    tokenErrorCallback()
+                    CrashLoggerHelper.JSONParsingErrorLogWithoutAlert(error: error)
+                }
             }
         )
     }
@@ -85,8 +93,16 @@ extension HATDataPlugsService: UserCredentialsProtocol {
                 succesfulCallBack: offerClaimForToken,
                 failCallBack: { (error) in
                 
-                    tokenErrorCallback()
-                    CrashLoggerHelper.JSONParsingErrorLogWithoutAlert(error: error)
+                    switch error {
+                        
+                    case .noInternetConnection:
+                        
+                        failCallBack(.noInternetConnection)
+                    default:
+                        
+                        tokenErrorCallback()
+                        CrashLoggerHelper.JSONParsingErrorLogWithoutAlert(error: error)
+                    }
                 }
             )
         }

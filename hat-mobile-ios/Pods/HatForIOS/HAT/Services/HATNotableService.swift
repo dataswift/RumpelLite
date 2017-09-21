@@ -27,11 +27,12 @@ public struct HATNotablesService {
      */
     public static func fetchNotables(userDomain: String, authToken: String, structure: Dictionary<String, Any>, parameters: Dictionary<String, String>, success: @escaping (_ array: [JSON], String?) -> Void, failure: @escaping (HATTableError) -> Void ) {
 
-        HATAccountService.checkHatTableExists(userDomain: userDomain, tableName: "notablesv1",
-                                              sourceName: "rumpel",
-                                              authToken: authToken,
-                                              successCallback: getNotes(userDomain: userDomain, token: authToken, parameters: parameters, success: success),
-                                              errorCallback: failure)
+        HATAccountService.checkHatTableExists(
+            userDomain: userDomain, tableName: "notablesv1",
+            sourceName: "rumpel",
+            authToken: authToken,
+            successCallback: getNotes(userDomain: userDomain, token: authToken, parameters: parameters, success: success),
+            errorCallback: failure)
     }
 
     /**
@@ -44,7 +45,13 @@ public struct HATNotablesService {
 
         return { (tableID: NSNumber, returnedToken: String?) -> Void in
 
-            HATAccountService.getHatTableValues(token: token, userDomain: userDomain, tableID: tableID, parameters: parameters, successCallback: success, errorCallback: showNotablesFetchError)
+            HATAccountService.getHatTableValues(
+                token: token,
+                userDomain: userDomain,
+                tableID: tableID,
+                parameters: parameters,
+                successCallback: success,
+                errorCallback: showNotablesFetchError)
         }
     }
 
@@ -64,9 +71,9 @@ public struct HATNotablesService {
      - parameter id: the id of the note to delete
      - parameter tkn: the user's token as a string
      */
-    public static func deleteNote(recordID: Int, tkn: String, userDomain: String) {
+    public static func deleteNote(recordID: Int, tkn: String, userDomain: String, success: @escaping ((String) -> Void) = { _ in }, failed: @escaping ((HATTableError) -> Void) = { _ in }) {
 
-        HATAccountService.deleteHatRecord(userDomain: userDomain, token: tkn, recordId: recordID, success: { _ in }, failed: { (_) -> Void in return })
+        HATAccountService.deleteHatRecord(userDomain: userDomain, token: tkn, recordId: recordID, success: success, failed: failed)
     }
 
     // MARK: - Post note
@@ -77,7 +84,7 @@ public struct HATNotablesService {
      - parameter token: The token returned from the hat
      - parameter json: The json file as a Dictionary<String, Any>
      */
-    public static func postNote(userDomain: String, userToken: String, note: HATNotesData, successCallBack: @escaping () -> Void) {
+    public static func postNote(userDomain: String, userToken: String, note: HATNotesData, successCallBack: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
 
         func posting(resultJSON: Dictionary<String, Any>, token: String?) {
 
@@ -107,18 +114,21 @@ public struct HATNotablesService {
                         HATAccountService.triggerHatUpdate(userDomain: userDomain, completion: { () })
                     }
 
-                case .error(let error, _):
+                case .error(let error, let statusCode):
 
-                    print("error res: \(error)")
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        errorCallback(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        errorCallback(.generalError(message, statusCode, error))
+                    }
                 }
             })
         }
 
-        func errorCall(error: HATTableError) {
-
-        }
-
-        HATAccountService.checkHatTableExistsForUploading(userDomain: userDomain, tableName: "notablesv1", sourceName: "rumpel", authToken: userToken, successCallback: posting, errorCallback: errorCall)
+        HATAccountService.checkHatTableExistsForUploading(userDomain: userDomain, tableName: "notablesv1", sourceName: "rumpel", authToken: userToken, successCallback: posting, errorCallback: errorCallback)
     }
 
     // MARK: - Remove duplicates
@@ -157,22 +167,22 @@ public struct HATNotablesService {
             }
         }
 
-        for (outterIndex, note) in arrayToReturn.enumerated().reversed() {
-
-            for (innerIndex, innerNote) in arrayToReturn.enumerated().reversed() where outterIndex != innerIndex {
-
-                if innerNote.data.createdTime == note.data.createdTime && innerNote.lastUpdated != note.lastUpdated {
-                    
-                    if innerNote.lastUpdated > note.lastUpdated && outterIndex < arrayToReturn.count {
-                        
-                        arrayToReturn.remove(at: outterIndex)
-                    } else if innerNote.lastUpdated <= note.lastUpdated && innerIndex < arrayToReturn.count {
-                        
-                        arrayToReturn.remove(at: innerIndex)
-                    }
-                }
-            }
-        }
+//        for (outterIndex, note) in arrayToReturn.enumerated().reversed() {
+//
+//            for (innerIndex, innerNote) in arrayToReturn.enumerated().reversed() where outterIndex != innerIndex {
+//
+//                if innerNote.data.createdTime == note.data.createdTime && innerNote.lastUpdated != note.lastUpdated {
+//                    
+//                    if innerNote.lastUpdated > note.lastUpdated && outterIndex < arrayToReturn.count {
+//                        
+//                        arrayToReturn.remove(at: outterIndex)
+//                    } else if innerNote.lastUpdated <= note.lastUpdated && innerIndex < arrayToReturn.count {
+//                        
+//                        arrayToReturn.remove(at: innerIndex)
+//                    }
+//                }
+//            }
+//        }
 
         return arrayToReturn
     }

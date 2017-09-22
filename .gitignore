@@ -64,13 +64,13 @@ Carthage/Build
 # For more information about the recommended setup visit:
 # https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
 
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
-fastlane/test_output
-fastlane/Gymfile
-fastlane/Appfile
-fastlane/Deliverfile
+hat-mobile-ios/fastlane/report.xml
+hat-mobile-ios/fastlane/Preview.html
+hat-mobile-ios/fastlane/screenshots
+hat-mobile-ios/fastlane/test_output
+hat-mobile-ios/fastlane/Gymfile
+hat-mobile-ios/fastlane/Appfile
+hat-mobile-ios/fastlane/Deliverfile
 
 ### Xcode ###
 build

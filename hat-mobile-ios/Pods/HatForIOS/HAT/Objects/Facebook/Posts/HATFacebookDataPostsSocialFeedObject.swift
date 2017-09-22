@@ -321,7 +321,7 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
             Fields.updatedTime: self.updatedTime ?? Date(),
             Fields.type: self.type,
             Fields.createdTime: self.createdTime ?? Date(),
-            Fields.createdTime: self.message,
+            Fields.message: self.message,
             Fields.fullPicture: self.fullPicture,
             Fields.link: self.link,
             Fields.picture: self.picture,

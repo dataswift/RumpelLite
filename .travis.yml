@@ -4,6 +4,10 @@ xcode_workspace: hat-mobile-ios.xcworkspace
 xcode_scheme: hat-mobile-ios
 xcode_sdk: iphonesimulator10.3
 before_install:
-   - rvm use system
-   - sudo gem install cocoapods
-script: xcodebuild clean build -workspace hat-mobile-ios/hat-mobile-ios.xcworkspace -scheme hat-mobile-ios -destination 'platform=iOS Simulator,name=iPhone 7'
+- rvm use system
+- sudo gem install cocoapods
+script: xcodebuild clean build -workspace hat-mobile-ios/hat-mobile-ios.xcworkspace
+  -scheme hat-mobile-ios -destination 'platform=iOS Simulator,name=iPhone 7'
+env:
+  global:
+    secure: I7rfw7RtepF7IbLQOo0n5fsFnVjKpTZOGsa5FFktZRSQe6Fhz70nbtE+w+JvEZglSA+Z4USJaAwSiAQjULIXsPcTISWxuz1Y6ZBKCRy3J/T1kFkGe7j3DpfUxUvrZmBdVyEBAuq18Lq8AwsqW3jJZ+s7I4Olf9iQ7W1mNLWm7MkX62Y1WOF+SpEyOnH+9NtU5msRD0aLqsOrtgxtZ4CNCBW1MgeJvVvuhu+LWATjBKWnUYxyFm998+uv5X2dNjKReMyifVAdTbJfVt/pJAzjo6jUoZqqbsyFSpbA+REIqgyS5UefPoIAN1Pvb1lCD/Ky2+KZ8zCFgX5L0sJ/hY4/lEJHWm9sNko6Vaz8tDG0+RLLe0rziRJdUdo1bzuk+zQ93/nSXHiMTCswZKCzdsW+Nd2Uz5gB3pLZcDc9tGMkbEK5VyvpDSsAbRINFgdLMrhEJ9IId7U9gPCFUfig+k+VYbIHvKDtIG220TcSZJhRoH/U/S2bRyLLPhTPB/m2HGuqanP0eXJu/0shkfIbSN95JhrPGbwKEz2Cdd9BlqoBNBHo7geqeIFzA+pkrshGkjJKopfZAsKMG3L09p11d4/Zc/L8zbPWGQLyNkzBU9RiB50atMl2eJCIAT2BvBW1aOk9KAXaGm3iykfoB1AwIfjOkfvkeqCr5p4TXlE1wvyIPGU=

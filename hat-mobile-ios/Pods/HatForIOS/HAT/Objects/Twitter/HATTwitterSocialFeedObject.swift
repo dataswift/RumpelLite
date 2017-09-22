@@ -209,7 +209,7 @@ public struct HATTwitterSocialFeedObject: HatApiType, HATSocialFeedObject, Compa
             
             Fields.data: self.data.toJSON(),
             Fields.name: self.name,
-            Fields.lastUpdated: self.lastUpdated ?? Date(),
+            Fields.lastUpdated: HATFormatterHelper.formatDateToISO(date: self.lastUpdated ?? Date()),
             Fields.tweetID: self.recordIDv1
         ]
     }

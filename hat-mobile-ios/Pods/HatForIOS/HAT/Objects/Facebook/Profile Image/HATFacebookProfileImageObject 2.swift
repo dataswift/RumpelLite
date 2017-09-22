@@ -31,9 +31,9 @@ public struct HATFacebookProfileImageObject: HatApiType {
         static let lastUpdated: String = "lastUpdated"
         static let imageData: String = "imageData"
     }
-
+    
     // MARK: - Variables
-
+    
     public var isSilhouette: Bool = false
     public var url: String = ""
     public var imageHeight: Int = 0
@@ -42,14 +42,14 @@ public struct HATFacebookProfileImageObject: HatApiType {
     public var recordID: String?
     public var endPoint: String = "profile_picture"
     public var image: UIImage? = nil
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         isSilhouette = false
         url = ""
         imageWidth = 0
@@ -59,48 +59,48 @@ public struct HATFacebookProfileImageObject: HatApiType {
         endPoint = "profile_picture"
         image = nil
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(from dictionary: Dictionary<String, JSON>) {
-
+        
         self.init()
-
+        
         if let tempRecordID = dictionary[Fields.recordID]?.stringValue {
-
+            
             recordID = tempRecordID
         }
-
+        
         if let tempEndPoint = dictionary[Fields.endPoint]?.stringValue {
-
+            
             endPoint = tempEndPoint
         }
-
+        
         if let data = dictionary[Fields.data]?.dictionaryValue {
-
+            
             // In new v2 API last updated will be inside data
             if let tempLastUpdated = data[Fields.lastUpdated]?.stringValue {
-
+                
                 if let date = HATFormatterHelper.formatStringToDate(string: tempLastUpdated) {
-
+                    
                     lastUpdated = Int(HATFormatterHelper.formatDateToEpoch(date: date)!)!
                 }
             }
             if let tempSilhouette = dictionary[Fields.isSilhouette]?.boolValue {
-
+                
                 isSilhouette = tempSilhouette
             }
             if let tempHeight = dictionary[Fields.height]?.string {
-
+                
                 imageHeight = Int(tempHeight)!
             }
             if let tempWidth = dictionary[Fields.width]?.stringValue {
-
+                
                 imageWidth = Int(tempWidth)!
             }
             if let tempLink = dictionary[Fields.url]?.stringValue {
-
+                
                 url = tempLink
             }
         }

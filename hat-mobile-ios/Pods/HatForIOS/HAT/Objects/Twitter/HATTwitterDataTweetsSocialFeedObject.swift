@@ -254,7 +254,7 @@ public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
             Fields.favoriteCount: self.favoriteCount,
             Fields.tweetID: self.tweetID,
             Fields.text: self.text,
-            Fields.createdAt: self.createdAt ?? Date(),
+            Fields.createdAt: HATFormatterHelper.formatDateToISO(date: self.createdAt ?? Date()),
             Fields.favorited: self.favorited,
             Fields.language: self.lang,
             Fields.user: self.user.toJSON()

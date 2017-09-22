@@ -272,30 +272,27 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      */
     private func showReceivedNotesFrom(array: [HATNotesData]) {
         
-        DispatchQueue.global().async { [weak self] () -> Void in
+        if self.isViewLoaded && (self.view.window != nil) {
             
-            if let weakSelf = self {
+            // for each dictionary parse it and add it to the array
+            for note in array {
                 
-                // for each dictionary parse it and add it to the array
-                for note in array {
-                                        
-                    if weakSelf.privateNotesOnly {
-                        
-                        if !note.data.shared {
-                            
-                            weakSelf.notesArray.append(note)
-                        }
-                    } else {
-                        
-                        weakSelf.notesArray.append(note)
-                    }
-                }
-                
-                DispatchQueue.main.async {
+                if self.privateNotesOnly {
                     
-                    // update UI
-                    weakSelf.updateUI()
+                    if !note.data.shared {
+                        
+                        self.notesArray.append(note)
+                    }
+                } else {
+                    
+                    self.notesArray.append(note)
                 }
+            }
+            
+            DispatchQueue.main.async { [weak self] in
+                
+                // update UI
+                self?.updateUI()
             }
         }
     }

@@ -92,6 +92,9 @@
 		60494ADA1EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */; };
 		604AC7B61ECF50B90066414E /* DataStoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AC7B51ECF50B90066414E /* DataStoreTableViewController.swift */; };
 		604AC7B91ECF57650066414E /* DataSourceNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AC7B81ECF57650066414E /* DataSourceNameTableViewController.swift */; };
+		604B91781F741A670099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */; };
+		604B91791F74263E0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */; };
+		604B917A1F74263F0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */; };
 		604D68DE1DFAD2B300D7FFED /* HATCapabilitiesPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604D68DD1DFAD2B300D7FFED /* HATCapabilitiesPageViewController.swift */; };
 		604D68E01DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604D68DF1DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift */; };
 		604DF81E1EC3B6F500805F8E /* PHATASettingsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604DF81D1EC3B6F500805F8E /* PHATASettingsTableViewController.swift */; };
@@ -643,6 +646,7 @@
 		60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFMailComposeViewControllerExtension.swift; sourceTree = "<group>"; };
 		604AC7B51ECF50B90066414E /* DataStoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreTableViewController.swift; sourceTree = "<group>"; };
 		604AC7B81ECF57650066414E /* DataSourceNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataSourceNameTableViewController.swift; path = DataStore/DataSourceNameTableViewController.swift; sourceTree = "<group>"; };
+		604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialFeedCachingWrapperHelper.swift; sourceTree = "<group>"; };
 		604D68DD1DFAD2B300D7FFED /* HATCapabilitiesPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATCapabilitiesPageViewController.swift; sourceTree = "<group>"; };
 		604D68DF1DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATCapabilitiesViewController.swift; sourceTree = "<group>"; };
 		604DF81D1EC3B6F500805F8E /* PHATASettingsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PHATASettingsTableViewController.swift; sourceTree = "<group>"; };
@@ -989,6 +993,20 @@
 			name = DataStore;
 			sourceTree = "<group>";
 		};
+		604B91761F741A410099A58A /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */,
+				6067536A1F66E6980042CC71 /* CachingHelper.swift */,
+				6079A26A1F6C26E600F3884F /* CheckCache.swift */,
+				6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */,
+				6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */,
+				6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */,
+				604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */,
+			);
+			name = Cache;
+			sourceTree = "<group>";
+		};
 		604E0C8F1F643CC4007DA3AA /* Fastlane */ = {
 			isa = PBXGroup;
 			children = (
@@ -1237,15 +1255,10 @@
 		B59136811D19D33400E9EDD0 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				604B91761F741A410099A58A /* Cache */,
 				603D08B01E6D5E340077E90C /* AnimationHelper.swift */,
 				60F1D7E61E6828DA0009CF1F /* AuthenticationHelper.swift */,
-				6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */,
 				B59136841D19D3BB00E9EDD0 /* Constants.swift */,
-				6067536A1F66E6980042CC71 /* CachingHelper.swift */,
-				6079A26A1F6C26E600F3884F /* CheckCache.swift */,
-				6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */,
-				6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */,
-				6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */,
 				6055C1841F6FC9BD00877547 /* Reachability.swift */,
 				605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */,
 				60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */,
@@ -1945,6 +1958,7 @@
 				6041B2101DD4AC190018CC31 /* NotablesTableViewCell.swift in Sources */,
 				60D317691E35FE52008E0A5F /* SocialFeedCollectionViewCell.swift in Sources */,
 				60415B8F1EC4663A00CC5EE0 /* ZXCVBNHelper.swift in Sources */,
+				604B91781F741A670099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */,
 				60CDCC0B1EAB731100035882 /* EmailTableViewController.swift in Sources */,
 				B51CC9261D1D620C000C9E48 /* MapSettingsDelegate.swift in Sources */,
 				607DC4551E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift in Sources */,
@@ -2110,6 +2124,7 @@
 				60905AFC1F645A74004EBB63 /* HomeScreenSegueObject.swift in Sources */,
 				60905A6D1F645A55004EBB63 /* PhotosCollectionViewCell.swift in Sources */,
 				60905B301F645A84004EBB63 /* KeychainHelper.swift in Sources */,
+				604B91791F74263E0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */,
 				60905B6B1F645AA5004EBB63 /* LoadingScreenWithProgressRingViewController.swift in Sources */,
 				60905A831F645A5A004EBB63 /* NotificationsTableViewCell.swift in Sources */,
 				60905B821F645AB3004EBB63 /* PhataPictureViewController.swift in Sources */,
@@ -2259,6 +2274,7 @@
 				60905B131F645A79004EBB63 /* DataSyncDelegate.swift in Sources */,
 				60905B091F645A75004EBB63 /* JSONDataSourceRequestField.swift in Sources */,
 				60905B951F645AB3004EBB63 /* ProfileInfoTableViewController.swift in Sources */,
+				604B917A1F74263F0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */,
 				60905ABC1F645A64004EBB63 /* CustomHanakeFetcher.swift in Sources */,
 				60905B4F1F645A8A004EBB63 /* TermsAndConditionsViewController.swift in Sources */,
 				60905AC01F645A64004EBB63 /* HATProviderObjectExtension.swift in Sources */,

@@ -24,9 +24,9 @@ public struct HATProfileEducationObject: HatApiType, Comparable {
         static let data: String = "data"
         static let recordID: String = "recordId"
     }
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -36,10 +36,10 @@ public struct HATProfileEducationObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATProfileEducationObject, rhs: HATProfileEducationObject) -> Bool {
-
+        
         return (lhs.highestAcademicQualification == rhs.highestAcademicQualification && lhs.unixTimeStamp == rhs.unixTimeStamp)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -51,74 +51,71 @@ public struct HATProfileEducationObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATProfileEducationObject, rhs: HATProfileEducationObject) -> Bool {
-
+        
         return lhs.unixTimeStamp! < rhs.unixTimeStamp!
     }
-
+    
     // MARK: - Variables
-
+    
     public var highestAcademicQualification: String = ""
     public var recordID: String = ""
-
+    
     public var unixTimeStamp: Int?
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         highestAcademicQualification = ""
         recordID = ""
         unixTimeStamp = nil
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(from dict: JSON) {
-
+        
         if let data = (dict[Fields.data].dictionary) {
-
+            
             highestAcademicQualification = (data[Fields.highestAcademicQualification]!.stringValue)
             if let time = (data[Fields.unixTimeStamp]?.stringValue) {
-
+                
                 unixTimeStamp = Int(time)
             }
         }
-
+        
         recordID = (dict[Fields.recordID].stringValue)
     }
     
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
     public mutating func initialize(fromCache: Dictionary<String, Any>) {
         
         if let tempQualification = fromCache[Fields.highestAcademicQualification] {
             
             self.highestAcademicQualification = String(describing: tempQualification)
         }
-        
-        if let tempUnixTimeStamp = fromCache[Fields.unixTimeStamp] {
-            
-            let temp = String(describing: tempUnixTimeStamp)
-            self.unixTimeStamp = Int(temp)
-        }
     }
-
+    
     // MARK: - JSON Mapper
-
+    
     /**
      Returns the object as Dictionary, JSON
      
      - returns: Dictionary<String, String>
      */
     public func toJSON() -> Dictionary<String, Any> {
-
+        
         return [
-
+            
             Fields.highestAcademicQualification: self.highestAcademicQualification,
             Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
-
+        
     }
 }

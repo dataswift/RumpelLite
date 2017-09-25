@@ -16,7 +16,7 @@ import SwiftyJSON
 
 /// A struct representing the profile data Facebook Profile Photo object from the received profile JSON file
 public struct HATProfileDataProfileFacebookProfilePhotoObject: Equatable {
-
+    
     // MARK: - Fields
     
     /// The possible Fields of the JSON struct
@@ -31,7 +31,7 @@ public struct HATProfileDataProfileFacebookProfilePhotoObject: Equatable {
     }
     
     // MARK: - Equatable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -41,36 +41,36 @@ public struct HATProfileDataProfileFacebookProfilePhotoObject: Equatable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATProfileDataProfileFacebookProfilePhotoObject, rhs: HATProfileDataProfileFacebookProfilePhotoObject) -> Bool {
-
+        
         return (lhs.isPrivate == rhs.isPrivate)
     }
-
+    
     // MARK: - Variables
-
+    
     /// Indicates if the object, HATProfileDataProfileFacebookProfilePhotoObject, is private
     public var isPrivate: Bool = true {
-
+        
         didSet {
-
+            
             isPrivateTuple = (isPrivate, isPrivateTuple.1)
         }
     }
-
+    
     /// A tuple containing the isPrivate and the ID of the value
     var isPrivateTuple: (Bool, Int) = (true, 0)
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         isPrivate = true
-
+        
         isPrivateTuple = (true, 0)
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
@@ -154,5 +154,5 @@ public struct HATProfileDataProfileFacebookProfilePhotoObject: Equatable {
             Fields.isPrivateID: isPrivateTuple.1
         ]
     }
-
+    
 }

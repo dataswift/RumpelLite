@@ -30,9 +30,9 @@ public struct HATProfileDataProfileNickObject: Comparable {
         static let values: String = "values"
         static let value: String = "value"
     }
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -42,10 +42,10 @@ public struct HATProfileDataProfileNickObject: Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATProfileDataProfileNickObject, rhs: HATProfileDataProfileNickObject) -> Bool {
-
+        
         return (lhs.isPrivate == rhs.isPrivate && lhs.name == rhs.name)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -57,50 +57,50 @@ public struct HATProfileDataProfileNickObject: Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATProfileDataProfileNickObject, rhs: HATProfileDataProfileNickObject) -> Bool {
-
+        
         return lhs.name < rhs.name
     }
-
+    
     // MARK: - Variables
-
+    
     /// Indicates if the object, HATProfileDataProfileNickObject, is private
     public var isPrivate: Bool = true {
-
+        
         didSet {
-
+            
             isPrivateTuple = (isPrivate, isPrivateTuple.1)
         }
     }
-
+    
     /// The user's nickname
     public var name: String = "" {
-
+        
         didSet {
-
+            
             nameTuple = (name, nameTuple.1)
         }
     }
-
+    
     /// A tuple containing the isPrivate and the ID of the value
     var isPrivateTuple: (Bool, Int) = (true, 0)
-
+    
     /// A tuple containing the value and the ID of the value
     var nameTuple: (String, Int) = ("", 0)
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         isPrivate = true
         name = ""
-
+        
         isPrivateTuple = (true, 0)
         nameTuple = ("", 0)
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */

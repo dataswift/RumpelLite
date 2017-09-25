@@ -31,9 +31,9 @@ public struct HATProfileDataProfileLinkedInObject: Comparable {
         static let values: String = "values"
         static let value: String = "value"
     }
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -43,10 +43,10 @@ public struct HATProfileDataProfileLinkedInObject: Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATProfileDataProfileLinkedInObject, rhs: HATProfileDataProfileLinkedInObject) -> Bool {
-
+        
         return (lhs.isPrivate == rhs.isPrivate && lhs.link == rhs.link)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -58,50 +58,50 @@ public struct HATProfileDataProfileLinkedInObject: Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATProfileDataProfileLinkedInObject, rhs: HATProfileDataProfileLinkedInObject) -> Bool {
-
+        
         return lhs.link < rhs.link
     }
-
+    
     // MARK: - Variables
-
+    
     /// Indicates if the object, HATProfileDataProfileLinkedInObject, is private
     public var isPrivate: Bool = true {
-
+        
         didSet {
-
+            
             isPrivateTuple = (isPrivate, isPrivateTuple.1)
         }
     }
-
+    
     /// Link to user's profile in LinkedIn
     public var link: String = "" {
-
+        
         didSet {
-
+            
             linkTuple = (link, linkTuple.1)
         }
     }
-
+    
     /// A tuple containing the isPrivate and the ID of the value
     var isPrivateTuple: (Bool, Int) = (true, 0)
-
+    
     /// A tuple containing the value and the ID of the value
     var linkTuple: (String, Int) = ("", 0)
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         isPrivate = true
         link = ""
-
+        
         isPrivateTuple = (true, 0)
         linkTuple = ("", 0)
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
@@ -215,5 +215,5 @@ public struct HATProfileDataProfileLinkedInObject: Comparable {
             Fields.linkID: linkTuple.1
         ]
     }
-
+    
 }

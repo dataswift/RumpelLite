@@ -103,13 +103,16 @@ public struct UKSpecificInfo: HatApiType, Comparable {
         
         if let data = (dict["data"].dictionary) {
             
-
+            
             self.initialize(fromCache: data)
         }
         
         recordID = (dict[Fields.recordId].stringValue)
     }
     
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
     public mutating func initialize(fromCache: Dictionary<String, Any>) {
         
         if let tempNationalInsuranceNumber = fromCache[Fields.nationalInsuranceNumber] {

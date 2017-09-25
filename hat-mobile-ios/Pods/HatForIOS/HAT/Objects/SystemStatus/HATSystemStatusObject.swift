@@ -96,7 +96,6 @@ public struct HATSystemStatusObject: HatApiType {
             
             title = tempTitle
         }
-        
         if let tempKind = dictionary[Fields.kind]?.dictionaryValue {
             
             kind = HATSystemStatusKindObject(from: tempKind)

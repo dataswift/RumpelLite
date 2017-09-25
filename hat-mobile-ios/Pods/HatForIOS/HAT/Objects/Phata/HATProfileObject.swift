@@ -153,7 +153,7 @@ public struct HATProfileObject: HatApiType, Comparable {
         let json = JSON(fromCache)
         if let data = json[Fields.profile].dictionary {
             
-            self.data = HATProfileDataProfileObject(fromCache: data)
+            self.data = HATProfileDataProfileObject(from: data)
         }
     }
 

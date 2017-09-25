@@ -30,9 +30,9 @@ public struct HATProfileDataProfilePrimaryEmailObject: Comparable {
         static let values: String = "values"
         static let value: String = "value"
     }
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -42,10 +42,10 @@ public struct HATProfileDataProfilePrimaryEmailObject: Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATProfileDataProfilePrimaryEmailObject, rhs: HATProfileDataProfilePrimaryEmailObject) -> Bool {
-
+        
         return (lhs.isPrivate == rhs.isPrivate && lhs.value == rhs.value)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -57,50 +57,50 @@ public struct HATProfileDataProfilePrimaryEmailObject: Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATProfileDataProfilePrimaryEmailObject, rhs: HATProfileDataProfilePrimaryEmailObject) -> Bool {
-
+        
         return lhs.value < rhs.value
     }
-
+    
     // MARK: - Variables
-
+    
     /// Indicates if the object, HATProfileDataProfilePrimaryEmailObject, is private
     public var isPrivate: Bool = true {
-
+        
         didSet {
-
+            
             isPrivateTuple = (isPrivate, isPrivateTuple.1)
         }
     }
-
+    
     /// User's primary email address
     public var value: String = "" {
-
+        
         didSet {
-
+            
             valueTuple = (value, valueTuple.1)
         }
     }
-
+    
     /// A tuple containing the isPrivate and the ID of the value
     var isPrivateTuple: (Bool, Int) = (true, 0)
-
+    
     /// A tuple containing the value and the ID of the value
     var valueTuple: (String, Int) = ("", 0)
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         isPrivate = true
         value = ""
-
+        
         isPrivateTuple = (true, 0)
         valueTuple = ("", 0)
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
@@ -214,5 +214,5 @@ public struct HATProfileDataProfilePrimaryEmailObject: Comparable {
             Fields.valueID: valueTuple.1
         ]
     }
-
+    
 }

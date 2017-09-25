@@ -28,9 +28,9 @@ public struct HATNationalityObject: HatApiType, Comparable {
         static let data: String = "data"
         static let recordID: String = "recordId"
     }
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -40,10 +40,10 @@ public struct HATNationalityObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATNationalityObject, rhs: HATNationalityObject) -> Bool {
-
+        
         return (lhs.nationality == rhs.nationality && lhs.passportNumber == rhs.passportNumber && lhs.unixTimeStamp == rhs.unixTimeStamp)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -55,12 +55,12 @@ public struct HATNationalityObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATNationalityObject, rhs: HATNationalityObject) -> Bool {
-
+        
         return lhs.unixTimeStamp! < rhs.unixTimeStamp!
     }
-
+    
     // MARK: - Variables
-
+    
     /// Indicates if the object, HATProfileDataProfilePrimaryEmailObject, is private
     public var nationality: String = ""
     public var passportHeld: String = ""
@@ -68,16 +68,16 @@ public struct HATNationalityObject: HatApiType, Comparable {
     public var placeOfBirth: String = ""
     public var language: String = ""
     public var recordID: String = ""
-
+    
     public var unixTimeStamp: Int?
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         nationality = ""
         passportHeld = ""
         passportNumber = ""
@@ -86,28 +86,31 @@ public struct HATNationalityObject: HatApiType, Comparable {
         recordID = ""
         unixTimeStamp = nil
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(from dict: JSON) {
-
+        
         if let data = (dict[Fields.data].dictionary) {
-
+            
             nationality = (data[Fields.nationality]!.stringValue)
             passportHeld = (data[Fields.passportHeld]!.stringValue)
             passportNumber = (data[Fields.passportNumber]!.stringValue)
             placeOfBirth = (data[Fields.placeOfBirth]!.stringValue)
             language = (data[Fields.language]!.stringValue)
             if let time = (data[Fields.unixTimeStamp]?.stringValue) {
-
+                
                 unixTimeStamp = Int(time)
             }
         }
-
+        
         recordID = (dict[Fields.recordID].stringValue)
     }
     
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
     public mutating func initialize(fromCache: Dictionary<String, Any>) {
         
         if let tempNationality = fromCache[Fields.nationality] {
@@ -135,18 +138,18 @@ public struct HATNationalityObject: HatApiType, Comparable {
             self.language = String(describing: tempLanguage)
         }
     }
-
+    
     // MARK: - JSON Mapper
-
+    
     /**
      Returns the object as Dictionary, JSON
      
      - returns: Dictionary<String, String>
      */
     public func toJSON() -> Dictionary<String, Any> {
-
+        
         return [
-
+            
             Fields.nationality: self.nationality,
             Fields.passportHeld: self.passportHeld,
             Fields.passportNumber: self.passportNumber,
@@ -155,5 +158,5 @@ public struct HATNationalityObject: HatApiType, Comparable {
             Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
     }
-
+    
 }

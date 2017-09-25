@@ -12,7 +12,7 @@ PODS:
     - SwiftyJSON
     - SwiftyRSA
   - JWTDecode (2.0.0)
-  - KeychainSwift (8.0.2)
+  - KeychainSwift (9.0.0)
   - MarkdownView (1.0.3)
   - Mockingjay (2.0.0):
     - Mockingjay/Core (= 2.0.0)
@@ -32,7 +32,7 @@ PODS:
     - SwiftyRSA/ObjC (= 1.2.0)
   - SwiftyRSA/ObjC (1.2.0)
   - Toaster (2.1.0)
-  - URITemplate (2.0.1)
+  - URITemplate (2.0.2)
   - zxcvbn-ios (1.0.4)
 
 DEPENDENCIES:
@@ -66,7 +66,7 @@ CHECKOUT OPTIONS:
     :commit: cc3b6524156f8e0d8653688423fba2fdf0944bc8
     :git: https://github.com/ribl/FBAnnotationClusteringSwift/
   HatForIOS:
-    :commit: 51b0b3c9adf37fc523df8c86cc289df2ba4887cd
+    :commit: 577faf5ad48f53f927a1e85376c12fc1b7dc369f
     :git: https://github.com/whiteshadow-gr/HatForIOS.git
 
 SPEC CHECKSUMS:
@@ -78,7 +78,7 @@ SPEC CHECKSUMS:
   Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
   HatForIOS: 741a6aa226fb96e93042b6b31d5429b89671f49e
   JWTDecode: 178e47e5d28d3abcff778bacced8342858cd6cb5
-  KeychainSwift: 213db04dfe7244988e61f77c72a2afb2f775954a
+  KeychainSwift: 1b426e37c28c5036be2566de0938bd047441ffb2
   MarkdownView: 95619a575e13cffa334528696e405142048dd951
   Mockingjay: 7122a3fc0597aa63438e4cd9b71b7bc8aac05b87
   Realm: fc7a317a5c2c9ba91f5f235ede4e2ea76e9eba0c
@@ -87,9 +87,9 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   SwiftyRSA: 29221dba76837bf09e965ba7584e5919ea153c6f
   Toaster: 8c3225dc465bef4aa57e147a288724576df8e439
-  URITemplate: 720b8a56a281494d7c2d31ee33183986eaed2c67
+  URITemplate: d822aaa2f8ec9dcffffd13baa58bf9ee007e96cb
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
 PODFILE CHECKSUM: f639fae0e484eb414b6d790a55678d9d32b905ef
 
-COCOAPODS: 1.3.1
+COCOAPODS: 1.4.0.beta.1

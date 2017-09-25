@@ -39,9 +39,9 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
         static let application: String = "application"
         static let caption: String = "caption"
     }
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -51,10 +51,10 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATFacebookDataPostsSocialFeedObject, rhs: HATFacebookDataPostsSocialFeedObject) -> Bool {
-
+        
         return (lhs.from == rhs.from && lhs.privacy == rhs.privacy && lhs.updatedTime == rhs.updatedTime && lhs.createdTime == rhs.createdTime && lhs.postID == rhs.postID && lhs.message == rhs.message && lhs.statusType == rhs.statusType && lhs.type == rhs.type && lhs.fullPicture == rhs.fullPicture && lhs.link == rhs.link && lhs.picture == rhs.picture && lhs.story == rhs.story && lhs.name == rhs.name && lhs.description == rhs.description && lhs.objectID == rhs.objectID && lhs.caption == rhs.caption && lhs.application == rhs.application)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -66,32 +66,32 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATFacebookDataPostsSocialFeedObject, rhs: HATFacebookDataPostsSocialFeedObject) -> Bool {
-
+        
         if lhs.updatedTime != nil && rhs.updatedTime != nil {
-
+            
             return lhs.updatedTime! < rhs.updatedTime!
         } else if lhs.updatedTime != nil && rhs.updatedTime == nil {
-
+            
             return false
         } else {
-
+            
             return true
         }
     }
-
+    
     // MARK: - Variables
-
+    
     /// The user that made the post
     public var from: HATFacebookDataPostsFromSocialFeedObject = HATFacebookDataPostsFromSocialFeedObject()
-
+    
     /// The privacy settings for the post
     public var privacy: HATFacebookDataPostsPrivacySocialFeedObject = HATFacebookDataPostsPrivacySocialFeedObject()
-
+    
     /// The updated time of the post
     public var updatedTime: Date?
     /// The created time of the post
     public var createdTime: Date?
-
+    
     /// The message of the post
     public var message: String = ""
     /// The id of the post
@@ -100,7 +100,7 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
     public var statusType: String = ""
     /// The type of the post, status, video, image, etc,
     public var type: String = ""
-
+    
     /// The full picture url
     public var fullPicture: String = ""
     /// If the post has a link to somewhere has the url
@@ -117,17 +117,17 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
     public var objectID: String = ""
     /// The caption of the post
     public var caption: String = ""
-
+    
     /// The application details of the post
     public var application: HATFacebookDataPostsApplicationSocialFeedObject = HATFacebookDataPostsApplicationSocialFeedObject()
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         from = HATFacebookDataPostsFromSocialFeedObject()
         postID = ""
         statusType = ""
@@ -136,7 +136,7 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
         type = ""
         createdTime = nil
         message = ""
-
+        
         fullPicture = ""
         link = ""
         picture = ""
@@ -147,77 +147,77 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
         application = HATFacebookDataPostsApplicationSocialFeedObject()
         caption = ""
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(from dictionary: Dictionary<String, JSON>) {
-
+        
         self.init()
-
+        
         if let tempFrom = dictionary[Fields.from]?.dictionaryValue {
-
+            
             from = HATFacebookDataPostsFromSocialFeedObject(from: tempFrom)
         }
         if let tempID = dictionary[Fields.postID]?.stringValue {
-
+            
             postID = tempID
         }
         if let tempStatusType = dictionary[Fields.statusType]?.stringValue {
-
+            
             statusType = tempStatusType
         }
         if let tempPrivacy = dictionary[Fields.privacy]?.dictionaryValue {
-
+            
             privacy = HATFacebookDataPostsPrivacySocialFeedObject(from: tempPrivacy)
         }
         if let tempUpdateTime = dictionary[Fields.updatedTime]?.stringValue {
-
+            
             updatedTime = HATFormatterHelper.formatStringToDate(string: tempUpdateTime)
         }
         if let tempType = dictionary[Fields.type]?.stringValue {
-
+            
             type = tempType
         }
         if let tempCreatedTime = dictionary[Fields.createdTime]?.stringValue {
-
+            
             createdTime = HATFormatterHelper.formatStringToDate(string: tempCreatedTime)
         }
         if let tempMessage = dictionary[Fields.message]?.stringValue {
-
+            
             message = tempMessage
         }
-
+        
         if let tempFullPicture = dictionary[Fields.fullPicture]?.stringValue {
-
+            
             fullPicture = tempFullPicture
         }
         if let tempLink = dictionary[Fields.link]?.stringValue {
-
+            
             link = tempLink
         }
         if let tempPicture = dictionary[Fields.picture]?.stringValue {
-
+            
             picture = tempPicture
         }
         if let tempStory = dictionary[Fields.story]?.stringValue {
-
+            
             story = tempStory
         }
         if let tempDescription = dictionary[Fields.description]?.stringValue {
-
+            
             description = tempDescription
         }
         if let tempObjectID = dictionary[Fields.objectID]?.stringValue {
-
+            
             objectID = tempObjectID
         }
         if let tempApplication = dictionary[Fields.application]?.dictionaryValue {
-
+            
             application = HATFacebookDataPostsApplicationSocialFeedObject(from: tempApplication)
         }
         if let tempCaption = dictionary[Fields.caption]?.stringValue {
-
+            
             caption = tempCaption
         }
     }
@@ -291,7 +291,7 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
             
             caption = tempCaption
         }
-
+        
     }
     
     /**

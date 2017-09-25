@@ -105,6 +105,9 @@ public struct HATProfileInfo: HatApiType, Comparable {
         recordID = (dict[Fields.recordId].stringValue)
     }
     
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
     public mutating func initialize(fromCache: Dictionary<String, Any>) {
         
         if let tempGender = fromCache[Fields.gender] {
@@ -120,7 +123,7 @@ public struct HATProfileInfo: HatApiType, Comparable {
         if let tempDateOfBirth = fromCache[Fields.dateOfBirth] {
             
             let temp = String(describing: tempDateOfBirth)
-            dateOfBirth = HATFormatterHelper.formatStringToDate(string: temp)!
+            dateOfBirth = Date(timeIntervalSince1970: TimeInterval(temp)!)
         }
     }
     
@@ -140,5 +143,6 @@ public struct HATProfileInfo: HatApiType, Comparable {
             Fields.incomeGroup: self.incomeGroup,
             Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
+
     }
 }

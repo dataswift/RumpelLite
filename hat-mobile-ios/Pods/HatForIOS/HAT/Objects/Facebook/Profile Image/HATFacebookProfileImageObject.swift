@@ -41,7 +41,7 @@ public struct HATFacebookProfileImageObject: HatApiType {
     public var lastUpdated: Int = 0
     public var recordID: String?
     public var endPoint: String = "profile_picture"
-    public var image: UIImage? = nil
+    public var image: UIImage?
 
     // MARK: - Initialisers
 

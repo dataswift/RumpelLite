@@ -79,23 +79,28 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
         
         func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
             
-            HATPhataService.postProfile(
-                userDomain: userDomain,
+            ProfileCachingHelper.postProfile(
+                profile: self.profile!,
                 userToken: userToken,
-                hatProfile: self.profile!,
-                successCallBack: {
+                userDomain: userDomain,
+                successCallback: { [weak self] in
                     
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
+                    self?.loadingView.removeFromSuperview()
+                    self?.darkView.removeFromSuperview()
                     
-                    _ = self.navigationController?.popViewController(animated: true)
+                    self?.navigationController?.popViewController(animated: true)
                 },
-                errorCallback: { error in
+                errorCallback: { [weak self] error in
                     
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
+                    self?.loadingView.removeFromSuperview()
+                    self?.darkView.removeFromSuperview()
                     
-                    self.createErrorAlertWith(title: "Error", message: "There was an error posting profile", error: error)
+                    self?.createClassicOKAlertWith(
+                        alertMessage: "There was an error posting profile",
+                        alertTitle: "Error",
+                        okTitle: "OK",
+                        proceedCompletion: {})
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
                 }
             )
         }

@@ -150,6 +150,9 @@
 		607C107B1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */; };
 		607C107D1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */; };
 		607DC4551E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */; };
+		6083BF3A1F754B8900F9B92E /* ProfileCachingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083BF391F754B8900F9B92E /* ProfileCachingHelper.swift */; };
+		6083BF3B1F7557C800F9B92E /* ProfileCachingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083BF391F754B8900F9B92E /* ProfileCachingHelper.swift */; };
+		6083BF3C1F7557C800F9B92E /* ProfileCachingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083BF391F754B8900F9B92E /* ProfileCachingHelper.swift */; };
 		6088ED191E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6088ED181E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift */; };
 		608DCF791F41B41F0069BB6E /* HomeScreenSegueObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608DCF781F41B41F0069BB6E /* HomeScreenSegueObject.swift */; };
 		608EAAA61DFEA7ED00234C60 /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608EAAA51DFEA7ED00234C60 /* StringExtension.swift */; };
@@ -487,6 +490,15 @@
 		60938DC01E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */; };
 		609491311F57167800169A3C /* HanakeHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609491301F57167800169A3C /* HanakeHelper.swift */; };
 		6097C0691E327506000E771A /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */; };
+		60A5BBBC1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBBB1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift */; };
+		60A5BBBD1F7906A1004C494F /* UKSpecificInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBBB1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift */; };
+		60A5BBBE1F7906A1004C494F /* UKSpecificInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBBB1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift */; };
+		60A5BBC01F791530004C494F /* EducationCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */; };
+		60A5BBC11F791C1C004C494F /* EducationCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */; };
+		60A5BBC21F791C1C004C494F /* EducationCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */; };
+		60A5BBC41F791F74004C494F /* InfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBC31F791F74004C494F /* InfoCachingWrapperHelper.swift */; };
+		60A5BBC61F791F78004C494F /* InfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBC31F791F74004C494F /* InfoCachingWrapperHelper.swift */; };
+		60A5BBC71F791F79004C494F /* InfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A5BBC31F791F74004C494F /* InfoCachingWrapperHelper.swift */; };
 		60A727BD1DDF47ED008AF409 /* FormatterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */; };
 		60A81D5D1F65CB48004C0E2E /* DataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59136871D19DC2700E9EDD0 /* DataPoint.swift */; };
 		60AAA5B81E83D70A0080D0D5 /* HATProviderObjectExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */; };
@@ -495,6 +507,39 @@
 		60B486311E1D6E7B00914AD2 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B486301E1D6E7B00914AD2 /* UIImageViewExtension.swift */; };
 		60BAEEB31EE01C23001F8381 /* DataOffersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BAEEB21EE01C23001F8381 /* DataOffersViewController.swift */; };
 		60BAEEB51EE01CB1001F8381 /* DataOffersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */; };
+		60C081351F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */; };
+		60C081361F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */; };
+		60C081371F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */; };
+		60C081391F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081381F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift */; };
+		60C0813A1F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081381F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift */; };
+		60C0813B1F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081381F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift */; };
+		60C0813D1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0813C1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift */; };
+		60C0813E1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0813C1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift */; };
+		60C0813F1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0813C1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift */; };
+		60C081411F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081401F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift */; };
+		60C081421F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081401F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift */; };
+		60C081431F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081401F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift */; };
+		60C081451F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081441F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift */; };
+		60C081461F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081441F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift */; };
+		60C081471F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081441F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift */; };
+		60C081491F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081481F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift */; };
+		60C0814A1F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081481F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift */; };
+		60C0814B1F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081481F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift */; };
+		60C0814D1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0814C1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift */; };
+		60C0814E1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0814C1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift */; };
+		60C0814F1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0814C1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift */; };
+		60C081511F79640D003B0500 /* InterestsObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081501F79640D003B0500 /* InterestsObject.swift */; };
+		60C081521F79640D003B0500 /* InterestsObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081501F79640D003B0500 /* InterestsObject.swift */; };
+		60C081531F79640D003B0500 /* InterestsObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081501F79640D003B0500 /* InterestsObject.swift */; };
+		60C081551F79661F003B0500 /* InterestsCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081541F79661F003B0500 /* InterestsCachingWrapperHelper.swift */; };
+		60C081561F79661F003B0500 /* InterestsCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081541F79661F003B0500 /* InterestsCachingWrapperHelper.swift */; };
+		60C081571F79661F003B0500 /* InterestsCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081541F79661F003B0500 /* InterestsCachingWrapperHelper.swift */; };
+		60C081591F7970AF003B0500 /* MatchMeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081581F7970AF003B0500 /* MatchMeObject.swift */; };
+		60C0815A1F7970AF003B0500 /* MatchMeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081581F7970AF003B0500 /* MatchMeObject.swift */; };
+		60C0815B1F7970AF003B0500 /* MatchMeObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081581F7970AF003B0500 /* MatchMeObject.swift */; };
+		60C0815D1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0815C1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift */; };
+		60C0815E1F7970FB003B0500 /* MatchMeCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0815C1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift */; };
+		60C0815F1F7970FB003B0500 /* MatchMeCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C0815C1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift */; };
 		60CC29A81EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CC29A71EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift */; };
 		60CDCBEA1EAACA9500035882 /* PhataTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CDCBE91EAACA9500035882 /* PhataTableViewController.swift */; };
 		60CDCBEC1EAAE92500035882 /* PhataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */; };
@@ -686,6 +731,7 @@
 		607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingTileCollectionViewCell.swift; sourceTree = "<group>"; };
 		607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAHATInfoViewController.swift; sourceTree = "<group>"; };
 		607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScreenWithProgressRingViewController.swift; sourceTree = "<group>"; };
+		6083BF391F754B8900F9B92E /* ProfileCachingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileCachingHelper.swift; sourceTree = "<group>"; };
 		6088ED181E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FirstOnboardingPageViewController.swift; sourceTree = "<group>"; };
 		608DCF781F41B41F0069BB6E /* HomeScreenSegueObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeScreenSegueObject.swift; sourceTree = "<group>"; };
 		608EAAA51DFEA7ED00234C60 /* StringExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
@@ -699,6 +745,9 @@
 		60938DBF1E9CE60E0058F6CC /* ShareOptionsSelectedImageCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShareOptionsSelectedImageCollectionViewCell.swift; sourceTree = "<group>"; };
 		609491301F57167800169A3C /* HanakeHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HanakeHelper.swift; sourceTree = "<group>"; };
 		6097C0681E327506000E771A /* TermsAndConditionsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TermsAndConditionsViewController.swift; sourceTree = "<group>"; };
+		60A5BBBB1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UKSpecificInfoCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EducationCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60A5BBC31F791F74004C494F /* InfoCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoCachingWrapperHelper.swift; sourceTree = "<group>"; };
 		60A727BC1DDF47EC008AF409 /* FormatterHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FormatterHelper.swift; sourceTree = "<group>"; };
 		60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATProviderObjectExtension.swift; sourceTree = "<group>"; };
 		60AFA1E71E9F6CE100AFA28B /* SendLocationDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendLocationDataDelegate.swift; sourceTree = "<group>"; };
@@ -706,6 +755,17 @@
 		60B486301E1D6E7B00914AD2 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		60BAEEB21EE01C23001F8381 /* DataOffersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataOffersViewController.swift; path = "Data Offers/DataOffersViewController.swift"; sourceTree = "<group>"; };
 		60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataOffersCollectionViewCell.swift; sourceTree = "<group>"; };
+		60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmploymentCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C081381F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LivingInfoCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C0813C1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DietaryInfoCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C081401F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicalActivityCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C081441F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LifestyleHabitsCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C081481F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HappinessAndMentalCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C0814C1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FinancialManagementCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C081501F79640D003B0500 /* InterestsObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestsObject.swift; sourceTree = "<group>"; };
+		60C081541F79661F003B0500 /* InterestsCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InterestsCachingWrapperHelper.swift; sourceTree = "<group>"; };
+		60C081581F7970AF003B0500 /* MatchMeObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchMeObject.swift; sourceTree = "<group>"; };
+		60C0815C1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MatchMeCachingWrapperHelper.swift; sourceTree = "<group>"; };
 		60CC29A71EE97A6B0083C6D8 /* PhotosHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		60CD68431E47C71300E60429 /* SwiftyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyJSON.framework; path = "../../../../../../Library/Developer/Xcode/DerivedData/hat-mobile-ios-frfzhyzzkbkdtfefxyylmuufmmbq/Build/Products/Debug-iphonesimulator/SwiftyJSON/SwiftyJSON.framework"; sourceTree = "<group>"; };
 		60CDCBE91EAACA9500035882 /* PhataTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhataTableViewController.swift; sourceTree = "<group>"; };
@@ -1003,6 +1063,19 @@
 				6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */,
 				6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */,
 				604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */,
+				6083BF391F754B8900F9B92E /* ProfileCachingHelper.swift */,
+				60A5BBBB1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift */,
+				60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */,
+				60A5BBC31F791F74004C494F /* InfoCachingWrapperHelper.swift */,
+				60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */,
+				60C081381F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift */,
+				60C0813C1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift */,
+				60C081401F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift */,
+				60C081441F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift */,
+				60C081481F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift */,
+				60C0814C1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift */,
+				60C081541F79661F003B0500 /* InterestsCachingWrapperHelper.swift */,
+				60C0815C1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift */,
 			);
 			name = Cache;
 			sourceTree = "<group>";
@@ -1286,6 +1359,8 @@
 				605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */,
 				B56E2FA21D22D1C400546C7E /* JSONDataSourceRequestField.swift */,
 				603CE74D1DF85E1600421429 /* LearnMoreObject.swift */,
+				60C081501F79640D003B0500 /* InterestsObject.swift */,
+				60C081581F7970AF003B0500 /* MatchMeObject.swift */,
 				60B486241E1D341000914AD2 /* PurchaseModel.swift */,
 			);
 			path = Objects;
@@ -1380,13 +1455,13 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0810;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = HATDeX;
 				TargetAttributes = {
 					B564E9641D19717900EDB8F1 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 84XHE3A5BA;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
@@ -1412,13 +1487,13 @@
 					B564E9781D19717900EDB8F1 = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 84XHE3A5BA;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = B564E9641D19717900EDB8F1;
 					};
 					B564E9831D19717900EDB8F1 = {
 						CreatedOnToolsVersion = 7.3.1;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = B564E9641D19717900EDB8F1;
 					};
@@ -1824,6 +1899,7 @@
 				60494AD81EB9C2A2005D5C85 /* MailHelper.swift in Sources */,
 				607C107D1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift in Sources */,
 				60D3176B1E35FF7F008E0A5F /* SocialFeedViewController.swift in Sources */,
+				60C0813D1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */,
 				60236C751E1BA2A6003B4B92 /* GetAHATViewController.swift in Sources */,
 				B56E2FA31D22D1C400546C7E /* JSONDataSourceRequestField.swift in Sources */,
 				6044931B1DE9FE5C00B2FE7B /* UIButtonExtension.swift in Sources */,
@@ -1835,6 +1911,7 @@
 				60314E7C1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift in Sources */,
 				B591368C1D19F13500E9EDD0 /* DataViewController.swift in Sources */,
 				60938DB81E9B96AA0058F6CC /* PhotoViewerViewController.swift in Sources */,
+				60C081391F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */,
 				6033DAF31F34C92200A9048B /* DataDebitTableViewCell.swift in Sources */,
 				6090D4661E31316F004FD1E2 /* MarketSquareService.swift in Sources */,
 				B564E9A01D198C4D00EDB8F1 /* MapViewController.swift in Sources */,
@@ -1850,11 +1927,13 @@
 				6041474B1EE0554A008C9293 /* DataOfferDetailsViewController.swift in Sources */,
 				605D84041F2F715A00CA44F5 /* ProfileImageObject.swift in Sources */,
 				60B486311E1D6E7B00914AD2 /* UIImageViewExtension.swift in Sources */,
+				60A5BBBC1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift in Sources */,
 				60CDCC0F1EAB798A00035882 /* AddressTableViewController.swift in Sources */,
 				604D68DE1DFAD2B300D7FFED /* HATCapabilitiesPageViewController.swift in Sources */,
 				603CE74E1DF85E1600421429 /* LearnMoreObject.swift in Sources */,
 				600FA3141F66A46A00C31DAD /* JSONCacheObject.swift in Sources */,
 				60D8DAB41F3219C20055CEAC /* NotificationDetailsViewController.swift in Sources */,
+				60C0814D1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift in Sources */,
 				605EE03E1E93EB3500B265F6 /* CrashLoggerHelper.swift in Sources */,
 				6041B20E1DD4AC040018CC31 /* ShareOptionsViewController.swift in Sources */,
 				B56E2FAA1D23D9FF00546C7E /* SyncDataHelper.swift in Sources */,
@@ -1869,12 +1948,15 @@
 				600E14FB1F3F64C900505205 /* DataStoreInterestsTableViewController.swift in Sources */,
 				60E2679E1E55B9B900B6D626 /* AuthoriseUserViewController.swift in Sources */,
 				607C107B1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift in Sources */,
+				60C081511F79640D003B0500 /* InterestsObject.swift in Sources */,
+				60C081491F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift in Sources */,
 				60387A8A1EC7C83000CD8309 /* AppDelegate.swift in Sources */,
 				601142791E5F967D00A9D982 /* HomeCollectionViewCell.swift in Sources */,
 				B51CC9241D1D5749000C9E48 /* SettingsViewController.swift in Sources */,
 				601FFD791E3A7E3600441EAD /* FirstOnboardingViewController.swift in Sources */,
 				6041DB0B1E2914EA00FF6D32 /* CustomSwitch.swift in Sources */,
 				604504D31EAE0DBB003B76C3 /* ProfileInfoTableViewController.swift in Sources */,
+				60A5BBC01F791530004C494F /* EducationCachingWrapperHelper.swift in Sources */,
 				603A10071E720FA0003B62D4 /* SafariViewControllerExtension.swift in Sources */,
 				6054B35A1EF970D4004BD104 /* SelectedPhotosProtocol.swift in Sources */,
 				60DE1DD41F3475C600E031F6 /* DetailsDataPlugViewController.swift in Sources */,
@@ -1891,6 +1973,7 @@
 				603FDD511E43E7840086559B /* InfoHatProvidersViewController.swift in Sources */,
 				602934051F39CECF00515926 /* SurveyObject.swift in Sources */,
 				6079A2621F6AD11B00F3884F /* LocationsWrapperHelper.swift in Sources */,
+				6083BF3A1F754B8900F9B92E /* ProfileCachingHelper.swift in Sources */,
 				60EA32F11ECDECCA008ABD41 /* UIImageExtension.swift in Sources */,
 				60550D721F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift in Sources */,
 				604F32EE1F3F36FB00F48201 /* DataStoreLifestyleHabitsTableViewController.swift in Sources */,
@@ -1921,12 +2004,14 @@
 				603CE74A1DF6FA7400421429 /* PageViewController.swift in Sources */,
 				B5138ACE1D1ECA2C00CD1530 /* NetworkHelper.swift in Sources */,
 				60314E6B1F3873F2004383AA /* DataStoreUKSpecificTableViewController.swift in Sources */,
+				60C081591F7970AF003B0500 /* MatchMeObject.swift in Sources */,
 				603D55BD1E69861D00CCEBEB /* UIViewExtension.swift in Sources */,
 				6050E2E11ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift in Sources */,
 				604504CF1EAE0872003B76C3 /* AboutTableViewController.swift in Sources */,
 				6090D4681E3140D4004FD1E2 /* FutureTimeIntervalObject.swift in Sources */,
 				60DDE16D1E30E19300AB9E18 /* CompletePurchaseViewController.swift in Sources */,
 				60938DBA1E9BA3B10058F6CC /* PhotosHelperViewController.swift in Sources */,
+				60C081411F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift in Sources */,
 				603D55BF1E69879300CCEBEB /* LabelExtension.swift in Sources */,
 				60FAC76B1E223AA700532C01 /* DataPlugCollectionViewCell.swift in Sources */,
 				60FB24061F3A0C75001A5EFD /* GoDeepObject.swift in Sources */,
@@ -1940,9 +2025,11 @@
 				604F32EC1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift in Sources */,
 				604504D51EAE10A7003B76C3 /* EmergencyContactTableViewController.swift in Sources */,
 				6079A26B1F6C26E600F3884F /* CheckCache.swift in Sources */,
+				60A5BBC41F791F74004C494F /* InfoCachingWrapperHelper.swift in Sources */,
 				60FB24081F3A0F99001A5EFD /* GoDeepCollectionViewCell.swift in Sources */,
 				60DDE1711E31006600AB9E18 /* MapsHelper.swift in Sources */,
 				60AAA5B81E83D70A0080D0D5 /* HATProviderObjectExtension.swift in Sources */,
+				60C081451F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift in Sources */,
 				602934001F39B80E00515926 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift in Sources */,
 				60113D2F1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift in Sources */,
 				604D68E01DFAD2CC00D7FFED /* HATCapabilitiesViewController.swift in Sources */,
@@ -1950,6 +2037,7 @@
 				6043F6D71E1D114D00C5BAD9 /* StripeViewController.swift in Sources */,
 				60A81D5D1F65CB48004C0E2E /* DataPoint.swift in Sources */,
 				603D55C11E69962E00CCEBEB /* UIPageViewController.swift in Sources */,
+				60C081551F79661F003B0500 /* InterestsCachingWrapperHelper.swift in Sources */,
 				60275BA01E6DB3740098B66C /* TextPopUpViewController.swift in Sources */,
 				605EE03C1E92A5BF00B265F6 /* PhotosHelper.swift in Sources */,
 				602934031F39BDFD00515926 /* SurveyTableViewCell.swift in Sources */,
@@ -1960,6 +2048,7 @@
 				60415B8F1EC4663A00CC5EE0 /* ZXCVBNHelper.swift in Sources */,
 				604B91781F741A670099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */,
 				60CDCC0B1EAB731100035882 /* EmailTableViewController.swift in Sources */,
+				60C0815D1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift in Sources */,
 				B51CC9261D1D620C000C9E48 /* MapSettingsDelegate.swift in Sources */,
 				607DC4551E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift in Sources */,
 				603926D21E603D3600DC1816 /* HomeScreenObject.swift in Sources */,
@@ -1967,6 +2056,7 @@
 				602933FE1F39AEE400515926 /* DataStorePrioritiesTableViewController.swift in Sources */,
 				6088ED191E3A66FE00BCE607 /* FirstOnboardingPageViewController.swift in Sources */,
 				60DDE16F1E30FCD200AB9E18 /* KeychainHelper.swift in Sources */,
+				60C081351F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1990,6 +2080,7 @@
 				60905B001F645A74004EBB63 /* JSONDataSourceRequestField.swift in Sources */,
 				60905A851F645A5A004EBB63 /* ResetPasswordTableViewCell.swift in Sources */,
 				60905B881F645AB3004EBB63 /* SocialLinksTableViewController.swift in Sources */,
+				60C0813E1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */,
 				60905A821F645A5A004EBB63 /* NotablesTableViewCell.swift in Sources */,
 				60905B381F645A84004EBB63 /* ZXCVBNHelper.swift in Sources */,
 				60905B0E1F645A78004EBB63 /* PhotoPickerDelegate.swift in Sources */,
@@ -2001,6 +2092,7 @@
 				60905A7F1F645A5A004EBB63 /* DataDebitTableViewCell.swift in Sources */,
 				60905B351F645A84004EBB63 /* PhotosHelper.swift in Sources */,
 				60905B0C1F645A78004EBB63 /* DataSyncDelegate.swift in Sources */,
+				60C0813A1F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */,
 				60905AFF1F645A74004EBB63 /* ProfileImageObject.swift in Sources */,
 				60905B7D1F645AB3004EBB63 /* EmergencyContactTableViewController.swift in Sources */,
 				60905AB61F645A63004EBB63 /* UIImageViewExtension.swift in Sources */,
@@ -2016,11 +2108,13 @@
 				60905A8F1F645A5D004EBB63 /* CustomSwitch.swift in Sources */,
 				60905B371F645A84004EBB63 /* SyncDataHelper.swift in Sources */,
 				60905BBC1F645AC6004EBB63 /* DataPlugsCollectionViewController.swift in Sources */,
+				60A5BBBD1F7906A1004C494F /* UKSpecificInfoCachingWrapperHelper.swift in Sources */,
 				60905B2E1F645A84004EBB63 /* FormatterHelper.swift in Sources */,
 				60905B491F645A89004EBB63 /* SettingsViewController.swift in Sources */,
 				60905B7B1F645AB3004EBB63 /* AddressTableViewController.swift in Sources */,
 				60905AA91F645A63004EBB63 /* HATAccountServiceExtension.swift in Sources */,
 				60905AAA1F645A63004EBB63 /* HATDataplugsServiceExtension.swift in Sources */,
+				60C0814E1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift in Sources */,
 				60905B781F645AAF004EBB63 /* DataDebitsTableViewController.swift in Sources */,
 				60905A901F645A5D004EBB63 /* RingProgressCircle.swift in Sources */,
 				60905BC41F645ACC004EBB63 /* DataPlugsResponseInteractor.swift in Sources */,
@@ -2035,12 +2129,15 @@
 				60905BA71F645AC0004EBB63 /* DataStoreLifestyleHabitsTableViewController.swift in Sources */,
 				60905A6B1F645A55004EBB63 /* ListDataOffersCollectionViewCell.swift in Sources */,
 				60905AB11F645A63004EBB63 /* StringExtension.swift in Sources */,
+				60C081521F79640D003B0500 /* InterestsObject.swift in Sources */,
+				60C0814A1F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift in Sources */,
 				60905BCA1F645AD0004EBB63 /* PhotoFullScreenViewerViewController.swift in Sources */,
 				60905B341F645A84004EBB63 /* NetworkHelper.swift in Sources */,
 				60905AB51F645A63004EBB63 /* UIImageExtension.swift in Sources */,
 				60905B841F645AB3004EBB63 /* PhataTableViewController.swift in Sources */,
 				60905B831F645AB3004EBB63 /* PHATASettingsTableViewController.swift in Sources */,
 				60905B5A1F645A99004EBB63 /* HATCapabilitiesPageViewController.swift in Sources */,
+				60A5BBC11F791C1C004C494F /* EducationCachingWrapperHelper.swift in Sources */,
 				60905A6C1F645A55004EBB63 /* OnboardingTileCollectionViewCell.swift in Sources */,
 				60905BCC1F645AD0004EBB63 /* PhotosHelperViewController.swift in Sources */,
 				60905AA81F645A63004EBB63 /* FBAnotationsExtension.swift in Sources */,
@@ -2057,6 +2154,7 @@
 				60905B7C1F645AB3004EBB63 /* EmailTableViewController.swift in Sources */,
 				60905A6A1F645A55004EBB63 /* HomeHeaderCollectionReusableView.swift in Sources */,
 				6079A2661F6BCE5400F3884F /* LocationsWrapperHelper.swift in Sources */,
+				6083BF3B1F7557C800F9B92E /* ProfileCachingHelper.swift in Sources */,
 				60905B6C1F645AA5004EBB63 /* TextPopUpViewController.swift in Sources */,
 				60905BC31F645ACB004EBB63 /* PresenterOfShareOptionsViewController.swift in Sources */,
 				60905B611F645A9D004EBB63 /* LearnMorePHATAViewController.swift in Sources */,
@@ -2087,12 +2185,14 @@
 				60905AAD1F645A63004EBB63 /* MFMailComposeViewControllerExtension.swift in Sources */,
 				60905B111F645A78004EBB63 /* SelectedPhotosProtocol.swift in Sources */,
 				60905B731F645AAA004EBB63 /* MapViewController.swift in Sources */,
+				60C0815A1F7970AF003B0500 /* MatchMeObject.swift in Sources */,
 				60905B321F645A84004EBB63 /* HanakeHelper.swift in Sources */,
 				60905B011F645A74004EBB63 /* LearnMoreObject.swift in Sources */,
 				60905B021F645A74004EBB63 /* PurchaseModel.swift in Sources */,
 				60905BAA1F645AC0004EBB63 /* DataStoreEmploymentStatusTableViewController.swift in Sources */,
 				60905AAC1F645A63004EBB63 /* LabelExtension.swift in Sources */,
 				60905BC01F645ACB004EBB63 /* CheckInMapViewController.swift in Sources */,
+				60C081421F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift in Sources */,
 				60905A711F645A55004EBB63 /* SocialImageCollectionViewCell.swift in Sources */,
 				60905BAB1F645AC0004EBB63 /* DataStoreForDataOffersTableViewController.swift in Sources */,
 				60905A661F645A55004EBB63 /* DataOffersCollectionViewCell.swift in Sources */,
@@ -2106,9 +2206,11 @@
 				60905AB71F645A63004EBB63 /* UIPageViewController.swift in Sources */,
 				60905AAF1F645A63004EBB63 /* SafariViewControllerExtension.swift in Sources */,
 				6055C1821F6FBDB900877547 /* CheckCache.swift in Sources */,
+				60A5BBC71F791F79004C494F /* InfoCachingWrapperHelper.swift in Sources */,
 				60905B681F645AA5004EBB63 /* ImagePopUpViewController.swift in Sources */,
 				60905B541F645A96004EBB63 /* StripeViewController.swift in Sources */,
 				60905BD01F645AD5004EBB63 /* SocialFeedViewController.swift in Sources */,
+				60C081461F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift in Sources */,
 				60905B741F645AAA004EBB63 /* TabBarViewController.swift in Sources */,
 				60905AA71F645A63004EBB63 /* CustomHanakeFetcher.swift in Sources */,
 				60905B521F645A96004EBB63 /* GetAHATViewController.swift in Sources */,
@@ -2116,6 +2218,7 @@
 				60905B871F645AB3004EBB63 /* ResetPasswordTableViewController.swift in Sources */,
 				60DE414F1F697134003F0E02 /* DataPoint.swift in Sources */,
 				60905AAB1F645A63004EBB63 /* HATProviderObjectExtension.swift in Sources */,
+				60C081561F79661F003B0500 /* InterestsCachingWrapperHelper.swift in Sources */,
 				60905A801F645A5A004EBB63 /* DataPlugDetailsTableViewCell.swift in Sources */,
 				60905A671F645A55004EBB63 /* DataOffersSummaryCollectionViewCell.swift in Sources */,
 				60905B331F645A84004EBB63 /* MapsHelper.swift in Sources */,
@@ -2126,6 +2229,7 @@
 				60905B301F645A84004EBB63 /* KeychainHelper.swift in Sources */,
 				604B91791F74263E0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */,
 				60905B6B1F645AA5004EBB63 /* LoadingScreenWithProgressRingViewController.swift in Sources */,
+				60C0815E1F7970FB003B0500 /* MatchMeCachingWrapperHelper.swift in Sources */,
 				60905A831F645A5A004EBB63 /* NotificationsTableViewCell.swift in Sources */,
 				60905B821F645AB3004EBB63 /* PhataPictureViewController.swift in Sources */,
 				60905A861F645A5A004EBB63 /* SurveyTableViewCell.swift in Sources */,
@@ -2133,6 +2237,7 @@
 				60905B7A1F645AB3004EBB63 /* AboutTableViewController.swift in Sources */,
 				60905B811F645AB3004EBB63 /* NotificationDetailsViewController.swift in Sources */,
 				60905A6E1F645A55004EBB63 /* PhotosHeaderCollectionReusableView.swift in Sources */,
+				60C081361F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2147,15 +2252,18 @@
 				60905A741F645A56004EBB63 /* DataPlugCollectionViewCell.swift in Sources */,
 				6055C1871F6FC9E500877547 /* Reachability.swift in Sources */,
 				60905B1D1F645A7E004EBB63 /* UpdateLocations.swift in Sources */,
+				60C081571F79661F003B0500 /* InterestsCachingWrapperHelper.swift in Sources */,
 				60905B451F645A84004EBB63 /* ZXCVBNHelper.swift in Sources */,
 				60905B3A1F645A84004EBB63 /* AuthenticationHelper.swift in Sources */,
 				60905B751F645AAB004EBB63 /* HomeViewController.swift in Sources */,
+				60C0815F1F7970FB003B0500 /* MatchMeCachingWrapperHelper.swift in Sources */,
 				60905B401F645A84004EBB63 /* MapsHelper.swift in Sources */,
 				6067536E1F68152E0042CC71 /* CachingHelper.swift in Sources */,
 				60905B051F645A75004EBB63 /* HomeScreenSegueObject.swift in Sources */,
 				60905BB51F645AC1004EBB63 /* DataStoreEducationTableViewController.swift in Sources */,
 				60905B071F645A75004EBB63 /* SurveyObject.swift in Sources */,
 				60905BBA1F645AC1004EBB63 /* DataStoreInterestsTableViewController.swift in Sources */,
+				60C0814F1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift in Sources */,
 				6067536F1F68152E0042CC71 /* SystemStatusWrapperHelper.swift in Sources */,
 				60905B761F645AAB004EBB63 /* MapViewController.swift in Sources */,
 				60905BB11F645AC1004EBB63 /* DataStorePhysicalActivityTableViewController.swift in Sources */,
@@ -2168,6 +2276,7 @@
 				60905B031F645A75004EBB63 /* HomeScreenObject.swift in Sources */,
 				60905A8B1F645A5A004EBB63 /* NotificationsTableViewCell.swift in Sources */,
 				60905B8A1F645AB3004EBB63 /* AddressTableViewController.swift in Sources */,
+				60C0813F1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */,
 				60905A7A1F645A56004EBB63 /* PhotosCollectionViewCell.swift in Sources */,
 				60905A8E1F645A5A004EBB63 /* SurveyTableViewCell.swift in Sources */,
 				60905BA21F645ABC004EBB63 /* DataSourceNameTableViewController.swift in Sources */,
@@ -2214,6 +2323,7 @@
 				60905BC91F645ACC004EBB63 /* DataPlugsResponseInteractor.swift in Sources */,
 				60905AC61F645A64004EBB63 /* StringExtension.swift in Sources */,
 				60DE41501F697134003F0E02 /* DataPoint.swift in Sources */,
+				60C081431F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift in Sources */,
 				60905B041F645A75004EBB63 /* GoDeepObject.swift in Sources */,
 				60905BB01F645AC1004EBB63 /* DataStoreDietaryHabitsAndBehaviorsTableViewController.swift in Sources */,
 				60905B591F645A97004EBB63 /* StripeViewController.swift in Sources */,
@@ -2232,10 +2342,12 @@
 				60905AC31F645A64004EBB63 /* NSAttributedStringExtension.swift in Sources */,
 				60905AC91F645A64004EBB63 /* UIColorExtension.swift in Sources */,
 				60905A911F645A5D004EBB63 /* CustomSwitch.swift in Sources */,
+				60C0813B1F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */,
 				60905A891F645A5A004EBB63 /* DataPointTableViewCell.swift in Sources */,
 				60905B5C1F645A9A004EBB63 /* HATCapabilitiesPageViewController.swift in Sources */,
 				60905B3F1F645A84004EBB63 /* HanakeHelper.swift in Sources */,
 				604E0C951F644948007DA3AA /* FastlaneScreenshots.swift in Sources */,
+				60C0814B1F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift in Sources */,
 				60905ABB1F645A64004EBB63 /* DateExtension.swift in Sources */,
 				60905B6E1F645AA5004EBB63 /* ImageSlidePopUpViewController.swift in Sources */,
 				6055C1831F6FBDB900877547 /* CheckCache.swift in Sources */,
@@ -2257,20 +2369,24 @@
 				60905B921F645AB3004EBB63 /* PHATASettingsTableViewController.swift in Sources */,
 				60905B9A1F645AB8004EBB63 /* DataOffersViewController.swift in Sources */,
 				60905B5E1F645A9D004EBB63 /* LearnMorePHATAViewController.swift in Sources */,
+				6083BF3C1F7557C800F9B92E /* ProfileCachingHelper.swift in Sources */,
 				60905B3D1F645A84004EBB63 /* JSONHelper.swift in Sources */,
 				60905A791F645A56004EBB63 /* OnboardingTileCollectionViewCell.swift in Sources */,
 				6079A2671F6BCE5500F3884F /* LocationsWrapperHelper.swift in Sources */,
+				60A5BBBE1F7906A1004C494F /* UKSpecificInfoCachingWrapperHelper.swift in Sources */,
 				60905A721F645A56004EBB63 /* DataOffersCollectionViewCell.swift in Sources */,
 				60905B151F645A79004EBB63 /* PhotoPickerDelegate.swift in Sources */,
 				60905AC71F645A64004EBB63 /* UIAlertControllerExtension.swift in Sources */,
 				60905B431F645A84004EBB63 /* RealmHelper.swift in Sources */,
 				60905B551F645A97004EBB63 /* CompletePurchaseViewController.swift in Sources */,
 				60905B4C1F645A8A004EBB63 /* DataViewController.swift in Sources */,
+				60C0815B1F7970AF003B0500 /* MatchMeObject.swift in Sources */,
 				60905B081F645A75004EBB63 /* ProfileImageObject.swift in Sources */,
 				60905BBF1F645AC6004EBB63 /* DetailsDataPlugViewController.swift in Sources */,
 				60905ACC1F645A64004EBB63 /* UIPageViewController.swift in Sources */,
 				60905B8B1F645AB3004EBB63 /* EmailTableViewController.swift in Sources */,
 				60905AC41F645A64004EBB63 /* SafariViewControllerExtension.swift in Sources */,
+				60C081471F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift in Sources */,
 				60905B131F645A79004EBB63 /* DataSyncDelegate.swift in Sources */,
 				60905B091F645A75004EBB63 /* JSONDataSourceRequestField.swift in Sources */,
 				60905B951F645AB3004EBB63 /* ProfileInfoTableViewController.swift in Sources */,
@@ -2281,15 +2397,19 @@
 				60905BC51F645ACC004EBB63 /* CheckInMapViewController.swift in Sources */,
 				60905B601F645A9D004EBB63 /* ParentPageViewController.swift in Sources */,
 				60905A7C1F645A56004EBB63 /* ShareOptionsSelectedImageCollectionViewCell.swift in Sources */,
+				60C081371F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift in Sources */,
 				60905BBE1F645AC6004EBB63 /* DataPlugsCollectionViewController.swift in Sources */,
 				60905BC71F645ACC004EBB63 /* ShareOptionsViewController.swift in Sources */,
 				60905B441F645A84004EBB63 /* SyncDataHelper.swift in Sources */,
+				60A5BBC61F791F78004C494F /* InfoCachingWrapperHelper.swift in Sources */,
 				60905B561F645A97004EBB63 /* GetAHATInfoViewController.swift in Sources */,
 				60905B8C1F645AB3004EBB63 /* EmergencyContactTableViewController.swift in Sources */,
 				604FE85F1F6D4D4500998A2C /* NotesCachingWrapperHelper.swift in Sources */,
 				60905B0A1F645A75004EBB63 /* LearnMoreObject.swift in Sources */,
 				60905A7E1F645A56004EBB63 /* SocialImageCollectionViewCell.swift in Sources */,
 				60905A881F645A5A004EBB63 /* DataPlugDetailsTableViewCell.swift in Sources */,
+				60C081531F79640D003B0500 /* InterestsObject.swift in Sources */,
+				60A5BBC21F791C1C004C494F /* EducationCachingWrapperHelper.swift in Sources */,
 				60905BA01F645ABC004EBB63 /* DataStoreTableViewController.swift in Sources */,
 				60905B911F645AB3004EBB63 /* PhataPictureViewController.swift in Sources */,
 				60905A871F645A5A004EBB63 /* DataDebitTableViewCell.swift in Sources */,
@@ -2341,14 +2461,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2392,14 +2518,20 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
@@ -2449,7 +2581,8 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -2476,7 +2609,8 @@
 				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				RUN_CLANG_STATIC_ANALYZER = NO;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -2499,7 +2633,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.green-custard.hat-mobile-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hat-mobile-ios.app/hat-mobile-ios";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -2523,7 +2658,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.green-custard.hat-mobile-iosTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hat-mobile-ios.app/hat-mobile-ios";
 				VALID_ARCHS = "arm64 armv7 armv7s";
 			};
@@ -2538,7 +2674,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.green-custard.hat-mobile-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = "hat-mobile-ios";
 			};
 			name = Debug;
@@ -2552,7 +2689,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.green-custard.hat-mobile-iosUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
 				TEST_TARGET_NAME = "hat-mobile-ios";
 			};
 			name = Release;

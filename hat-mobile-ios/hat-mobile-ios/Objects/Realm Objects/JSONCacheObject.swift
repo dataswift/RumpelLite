@@ -19,19 +19,19 @@ public class JSONCacheObject: Object {
     // MARK: - Variables
     
     /// The object's dictionary of type <String, Any> converted to Data
-    dynamic var jsonData: Data?
+    @objc dynamic var jsonData: Data?
     
     /// The date that this object was created
-    dynamic var dateAdded: Date?
+    @objc dynamic var dateAdded: Date?
     /// The date that this object was synced
-    dynamic var lastSyncedDate: Date?
+    @objc dynamic var lastSyncedDate: Date?
     /// The date that this object will expire
-    dynamic var expiryDate: Date?
+    @objc dynamic var expiryDate: Date?
     
     /// A String to identify what kind of object is this (note, locations etc)
-    dynamic var type: String = ""
+    @objc dynamic var type: String = ""
     /// A String to identify each record
-    dynamic var uniqueKey: String = ""
+    @objc dynamic var uniqueKey: String = ""
     
     // MARK: - Initialiser
     

@@ -14,7 +14,7 @@ import SwiftyJSON
 
 // MARK: Struct
 
-public struct HATLivingInfoObject: Comparable {
+public struct HATLivingInfoObject: HatApiType, Comparable {
     
     // MARK: - Comparable protocol
     
@@ -64,9 +64,9 @@ public struct HATLivingInfoObject: Comparable {
     
     public var relationshipStatus: String = ""
     public var typeOfAccomodation: String = ""
-    public var livingSituation: String = "-1"
+    public var livingSituation: String = ""
     public var numberOfPeopleInHousehold: String = ""
-    public var numberOfDecendants: String = "-1"
+    public var numberOfDecendants: String = ""
     public var numberOfChildren: String = ""
     public var recordID: String = "-1"
     
@@ -125,6 +125,39 @@ public struct HATLivingInfoObject: Comparable {
         }
         
         recordID = (dict[Fields.recordId].stringValue)
+    }
+    
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        if let tempRelationshipStatus = fromCache[Fields.relationshipStatus] {
+            
+            relationshipStatus = String(describing: tempRelationshipStatus)
+        }
+        
+        if let tempTypeOfAccomodation = fromCache[Fields.typeOfAccomodation] {
+            
+            typeOfAccomodation = String(describing: tempTypeOfAccomodation)
+        }
+        
+        if let tempLivingSituation = fromCache[Fields.livingSituation] {
+            
+            livingSituation = String(describing: tempLivingSituation)
+        }
+        
+        if let tempNumberOfPeopleInHousehold = fromCache[Fields.numberOfPeopleInHousehold] {
+            
+            numberOfPeopleInHousehold = String(describing: tempNumberOfPeopleInHousehold)
+        }
+        
+        if let tempNumberOfDecendants = fromCache[Fields.numberOfDecendants] {
+            
+            numberOfDecendants = String(describing: tempNumberOfDecendants)
+        }
+        
+        if let tempNumberOfChildren = fromCache[Fields.numberOfChildren] {
+            
+            numberOfChildren = String(describing: tempNumberOfChildren)
+        }
     }
     
     // MARK: - JSON Mapper

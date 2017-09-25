@@ -31,7 +31,7 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
     
     @IBAction func saveHabits(_ sender: Any) {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.loadingView?.removeFromSuperview()
             self.tableView.isUserInteractionEnabled = true
@@ -65,20 +65,11 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
             }
             self.surveyObjects[index].answer = (cell?.getSelectedAnswer())!
         }
-        
-        var array: [Dictionary<String, Any>] = []
-        for survey in surveyObjects {
-            
-            array.append(survey.toJSON())
-        }
 
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        DietaryInfoCachingWrapperHelper.postSurveyObject(
+            surveyObjects: self.surveyObjects,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.DietaryAnswers.source,
-            dataPath: Constants.HATTableName.DietaryAnswers.name,
-            parameters: ["array": array,
-                         "unixTimeStamp": SurveyObject.createUnixTimeStamp()],
             successCallback: success,
             errorCallback: accessingHATTableFail)
     }
@@ -173,7 +164,7 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
      */
     private func getSurveyQuestionsAndAnswers() {
         
-        func gotValues(jsonArray: [JSON], newToken: String?) {
+        func gotValues(jsonArray: [SurveyObject], newToken: String?) {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView?.removeFromSuperview()
@@ -182,12 +173,9 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
                 
                 self.surveyObjects.removeAll()
                 
-                if let array = jsonArray[0].dictionary?["data"]?["array"].array {
+                for item in jsonArray {
                     
-                    for item in array {
-                        
-                        self.surveyObjects.append(SurveyObject(from: item))
-                    }
+                    self.surveyObjects.append(item)
                 }
                 
                 self.tableView.reloadData()
@@ -204,14 +192,12 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        DietaryInfoCachingWrapperHelper.getSurveyObject(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.DietaryAnswers.source,
-            scope: Constants.HATTableName.DietaryAnswers.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: gotValues,
-            errorCallback: accessingHATTableFail)
+            cacheTypeID: "dietaryInfo",
+            successRespond: gotValues,
+            failRespond: accessingHATTableFail)
     }
 
 }

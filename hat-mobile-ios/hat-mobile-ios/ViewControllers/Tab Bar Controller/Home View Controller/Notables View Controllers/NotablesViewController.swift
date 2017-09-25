@@ -17,7 +17,7 @@ import SwiftyJSON
 // MARK: Notables ViewController
 
 /// The notables view controller
-internal class NotablesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UserCredentialsProtocol {
+internal class NotablesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UserCredentialsProtocol {
     
     // MARK: - Variables
     
@@ -274,22 +274,22 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
         
         if self.isViewLoaded && (self.view.window != nil) {
             
-            // for each dictionary parse it and add it to the array
-            for note in array {
-                
-                if self.privateNotesOnly {
-                    
-                    if !note.data.shared {
-                        
-                        self.notesArray.append(note)
-                    }
-                } else {
-                    
-                    self.notesArray.append(note)
-                }
-            }
-            
             DispatchQueue.main.async { [weak self] in
+                
+                // for each dictionary parse it and add it to the array
+                for note in array {
+                    
+                    if (self?.privateNotesOnly)! {
+                        
+                        if !note.data.shared {
+                            
+                            self?.notesArray.append(note)
+                        }
+                    } else {
+                        
+                        self?.notesArray.append(note)
+                    }
+                }
                 
                 // update UI
                 self?.updateUI()
@@ -519,7 +519,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                         
                         CrashLoggerHelper.hatTableErrorLog(error: createTableError)
                     }
-                )()
+                    )(())
                 
             case .noInternetConnection:
                 

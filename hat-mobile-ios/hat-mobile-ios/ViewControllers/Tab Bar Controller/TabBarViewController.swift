@@ -33,8 +33,8 @@ internal class TabBarViewController: UITabBarController {
         
         // change navigation bar title
         self.navigationController?.navigationBar.titleTextAttributes =
-            [NSForegroundColorAttributeName: UIColor.white,
-             NSFontAttributeName: UIFont(name: Constants.FontNames.openSansBold, size: 21)!]
+            [NSAttributedStringKey.foregroundColor: UIColor.white,
+             NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSansBold, size: 21)!]
     }
 
     override func didReceiveMemoryWarning() {

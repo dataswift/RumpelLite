@@ -77,7 +77,7 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      */
     private func uploadInfoToHat() {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.loadingView.removeFromSuperview()
             self.darkView.removeFromSuperview()
@@ -93,12 +93,10 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
             CrashLoggerHelper.hatTableErrorLog(error: error)
         }
 
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        LivingInfoCachingWrapperHelper.postLivingInfo(
+            livingInfo: self.livingInfo,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.LivingInfo.source,
-            dataPath: Constants.HATTableName.LivingInfo.name,
-            parameters: self.livingInfo.toJSON(),
             successCallback: success,
             errorCallback: failed)
     }
@@ -181,14 +179,12 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
     
     private func getLivingInfo () {
         
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        LivingInfoCachingWrapperHelper.getLivingInfo(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.LivingInfo.source,
-            scope: Constants.HATTableName.LivingInfo.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: updateTableWithValuesFrom,
-            errorCallback: errorFetching)
+            cacheTypeID: "livingInfo",
+            successRespond: updateTableWithValuesFrom,
+            failRespond: errorFetching)
     }
     // MARK: - Completion handlers
     
@@ -197,11 +193,11 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      
      - parameter nationalityObject: The nationality object returned from HAT
      */
-    func updateTableWithValuesFrom(array: [JSON], newToken: String?) {
+    func updateTableWithValuesFrom(array: [HATLivingInfoObject], newToken: String?) {
         
         if !array.isEmpty {
             
-            self.livingInfo = HATLivingInfoObject(from: array[0])
+            self.livingInfo = array[0]
             self.tableView.reloadData()
         }
     }

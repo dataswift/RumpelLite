@@ -14,7 +14,7 @@ import SwiftyJSON
 
 // MARK: Struct
 
-public struct HATProfileInfo: Comparable {
+public struct HATProfileInfo: HatApiType, Comparable {
     
     // MARK: - Comparable protocol
     
@@ -105,6 +105,25 @@ public struct HATProfileInfo: Comparable {
         recordID = (dict[Fields.recordId].stringValue)
     }
     
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        if let tempGender = fromCache[Fields.gender] {
+            
+            gender = String(describing: tempGender)
+        }
+        
+        if let tempIncomeGroup = fromCache[Fields.incomeGroup] {
+            
+            incomeGroup = String(describing: tempIncomeGroup)
+        }
+        
+        if let tempDateOfBirth = fromCache[Fields.dateOfBirth] {
+            
+            let temp = String(describing: tempDateOfBirth)
+            dateOfBirth = HATFormatterHelper.formatStringToDate(string: temp)!
+        }
+    }
+    
     // MARK: - JSON Mapper
     
     /**
@@ -121,6 +140,5 @@ public struct HATProfileInfo: Comparable {
             Fields.incomeGroup: self.incomeGroup,
             Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
-        
     }
 }

@@ -415,7 +415,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
             expiredCallBack: PresenterOfShareOptionsViewController.checkIfReauthorisationIsNeeded(
                 viewController: self,
                 publishButton: self.publishButton,
-                completion: post),
+                completion: post) as () -> Void,
             tokenValidCallBack: post,
             errorCallBack: self.createClassicOKAlertWith)
     }
@@ -448,7 +448,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         // check if the token has expired
         HATAccountService.checkIfTokenExpired(
             token: userToken,
-            expiredCallBack: PresenterOfShareOptionsViewController.checkIfReauthorisationIsNeeded(viewController: self, publishButton: self.publishButton, completion: delete),
+            expiredCallBack: PresenterOfShareOptionsViewController.checkIfReauthorisationIsNeeded(viewController: self, publishButton: self.publishButton, completion: delete) as () -> Void,
             tokenValidCallBack: delete,
             errorCallBack: self.createClassicOKAlertWith)
     }
@@ -819,6 +819,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
     
     // MARK: - Safari View controller notification
     
+    @objc
     func showAlertForDataPlug(notif: Notification) {
         
         dataPlugsResponseInteractor.dismissSafari(publishButton: self.publishButton)
@@ -943,12 +944,14 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
     
     // MARK: - Keyboard handling
     
+    @objc
     override func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder()
         return true
     }
     
+    @objc
     func keyboardWillShow2(notification: NSNotification) {
         
         var userInfo = notification.userInfo!
@@ -965,6 +968,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         }
     }
     
+    @objc
     func keyboardDidShow(notification: NSNotification) {
         
         var userInfo = notification.userInfo!
@@ -981,6 +985,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         }
     }
     
+    @objc
     func keyboardWillHide2(notification: NSNotification) {
         
         var userInfo = notification.userInfo!
@@ -1055,6 +1060,7 @@ internal class ShareOptionsViewController: UIViewController, UITextViewDelegate,
         }))!
     }
     
+    @objc
     func didTapOnCell(sender: UITapGestureRecognizer) {
         
         //using sender, we can get the point in respect to the table view

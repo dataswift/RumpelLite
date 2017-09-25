@@ -38,10 +38,10 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         
         // change tab bar item font
-        UITabBarItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 11)!], for: UIControlState.normal)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 11)!], for: UIControlState.normal)
         
         // change bar button item font
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSFontAttributeName: UIFont(name: Constants.FontNames.openSansBold, size: 17)!], for: UIControlState.normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSansBold, size: 17)!], for: UIControlState.normal)
         
         // define the interval for background fetch interval
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
@@ -55,9 +55,9 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().isOpaque = true
         UINavigationBar.appearance().barTintColor = .teal
         UINavigationBar.appearance().tintColor = .white
-        UINavigationBar.appearance().titleTextAttributes = [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 20)!]
+        UINavigationBar.appearance().titleTextAttributes = [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 20)!]
         UIBarButtonItem.appearance()
-            .setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 17)!], for: UIControlState.normal)
+            .setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 17)!], for: UIControlState.normal)
         
         UIApplication.shared.registerUserNotificationSettings(UIUserNotificationSettings(types: [.badge, .sound, .alert], categories: nil))
         

@@ -16,6 +16,21 @@ import SwiftyJSON
 
 /// A struct representing the profile data Age object from the received profile JSON file
 public struct HATProfileDataProfileAgeObject: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    struct Fields {
+        
+        static let isPrivate: String = "private"
+        static let isPrivateID: String = "privateID"
+        static let group: String = "group"
+        static let groupID: String = "groupID"
+        static let name: String = "name"
+        static let id: String = "id"
+        static let values: String = "values"
+        static let value: String = "value"
+    }
 
     // MARK: - Comparable protocol
 
@@ -153,6 +168,35 @@ public struct HATProfileDataProfileAgeObject: Comparable {
             }
         }
     }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public init (fromCache: Dictionary<String, JSON>) {
+        
+        if let tempPrivate = (fromCache[Fields.isPrivate]?.stringValue) {
+            
+            if let isPrivateResult = Bool(tempPrivate) {
+                
+                isPrivate = isPrivateResult
+            }
+        }
+        
+        if let tempPrivateID = (fromCache[Fields.isPrivateID]?.intValue) {
+            
+            isPrivateTuple = (isPrivate, tempPrivateID)
+        }
+        
+        if let tempAge = (fromCache[Fields.group]?.stringValue) {
+            
+            group = tempAge
+        }
+        
+        if let tempGroupID = (fromCache[Fields.groupID]?.intValue) {
+            
+            groupTuple = (group, tempGroupID)
+        }
+    }
 
     // MARK: - JSON Mapper
 
@@ -165,8 +209,10 @@ public struct HATProfileDataProfileAgeObject: Comparable {
 
         return [
 
-            "private": String(describing: self.isPrivate),
-            "group": self.group
+            Fields.isPrivate: String(describing: self.isPrivate),
+            Fields.isPrivateID: isPrivateTuple.1,
+            Fields.group: self.group,
+            Fields.groupID: groupTuple.1
         ]
     }
 

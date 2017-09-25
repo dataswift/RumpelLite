@@ -47,29 +47,6 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
         self.uploadInfoToHat()
     }
     
-    // MARK: - Create error Alert
-    
-    /**
-     Creates an error alert based on when the error occured
-     
-     - parameter title: The title of the alert
-     - parameter message: The message of the alert
-     - parameter error: The error to log on crashlytics
-     */
-    private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
-        
-        self.loadingView.removeFromSuperview()
-        self.darkView.removeFromSuperview()
-        
-        self.createClassicOKAlertWith(
-            alertMessage: message,
-            alertTitle: title,
-            okTitle: "OK",
-            proceedCompletion: {})
-        
-        CrashLoggerHelper.hatTableErrorLog(error: error)
-    }
-    
     // MARK: - Upload info
     
     /**
@@ -77,7 +54,7 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
      */
     private func uploadInfoToHat() {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.loadingView.removeFromSuperview()
             self.darkView.removeFromSuperview()
@@ -93,12 +70,10 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
             CrashLoggerHelper.hatTableErrorLog(error: error)
         }
         
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        EmploymentCachingWrapperHelper.postEmployment(
+            employmentStatus: self.employmentStatus,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.EmploymentStatus.source,
-            dataPath: Constants.HATTableName.EmploymentStatus.name,
-            parameters: self.employmentStatus.toJSON(),
             successCallback: success,
             errorCallback: error)
     }
@@ -182,14 +157,12 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        EmploymentCachingWrapperHelper.getEmployment(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.EmploymentStatus.source,
-            scope: Constants.HATTableName.EmploymentStatus.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: updateTableWithValuesFrom,
-            errorCallback: errorFetching)
+            cacheTypeID: "employment",
+            successRespond: updateTableWithValuesFrom,
+            failRespond: errorFetching)
     }
     // MARK: - Completion handlers
     
@@ -198,14 +171,14 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
      
      - parameter nationalityObject: The nationality object returned from HAT
      */
-    func updateTableWithValuesFrom(array: [JSON], newToken: String?) {
+    func updateTableWithValuesFrom(array: [HATEmployementStatusObject], newToken: String?) {
         
         self.tableView.isUserInteractionEnabled = true
         self.loadingView.removeFromSuperview()
         
         if !array.isEmpty {
             
-            self.employmentStatus = HATEmployementStatusObject(from: array[0])
+            self.employmentStatus = array[0]
             self.tableView.reloadData()
         }
     }

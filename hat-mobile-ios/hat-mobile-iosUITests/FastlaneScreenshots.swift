@@ -46,7 +46,7 @@ internal class FastlaneScreenshots: XCTestCase {
     func testTakeScreeshots() {
         
         let app = XCUIApplication()
-        XCUIDevice.shared().orientation = .portrait
+        XCUIDevice.shared.orientation = .portrait
         
         if app.textFields["HAT address"].exists {
             

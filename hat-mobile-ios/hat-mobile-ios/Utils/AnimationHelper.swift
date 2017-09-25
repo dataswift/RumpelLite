@@ -72,7 +72,7 @@ internal struct AnimationHelper {
                 
                 UIView.animate(
                     withDuration: duration,
-                    animations: {_ in
+                    animations: {
                         
                         animations()
                     },

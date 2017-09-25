@@ -167,22 +167,22 @@ public struct HATNotablesService {
             }
         }
 
-        for (outterIndex, note) in arrayToReturn.enumerated().reversed() {
-
-            for (innerIndex, innerNote) in arrayToReturn.enumerated().reversed() where outterIndex != innerIndex {
-
-                if innerNote.data.createdTime == note.data.createdTime && innerNote.lastUpdated != note.lastUpdated {
-                    
-                    if innerNote.lastUpdated > note.lastUpdated && outterIndex < arrayToReturn.count {
-                        
-                        arrayToReturn.remove(at: outterIndex)
-                    } else if innerNote.lastUpdated <= note.lastUpdated && innerIndex < arrayToReturn.count {
-                        
-                        arrayToReturn.remove(at: innerIndex)
-                    }
-                }
-            }
-        }
+//        for (outterIndex, note) in arrayToReturn.enumerated().reversed() {
+//
+//            for (innerIndex, innerNote) in arrayToReturn.enumerated().reversed() where outterIndex != innerIndex {
+//
+//                if innerNote.data.createdTime == note.data.createdTime && innerNote.lastUpdated != note.lastUpdated {
+//                    
+//                    if innerNote.lastUpdated > note.lastUpdated && outterIndex < arrayToReturn.count {
+//                        
+//                        arrayToReturn.remove(at: outterIndex)
+//                    } else if innerNote.lastUpdated <= note.lastUpdated && innerIndex < arrayToReturn.count {
+//                        
+//                        arrayToReturn.remove(at: innerIndex)
+//                    }
+//                }
+//            }
+//        }
 
         return arrayToReturn
     }

@@ -16,6 +16,23 @@ import SwiftyJSON
 
 /// A struct representing the profile data About object from the received profile JSON file
 public struct HATProfileDataProfileAboutObject: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    struct Fields {
+        
+        static let isPrivate: String = "private"
+        static let isPrivateID: String = "privateID"
+        static let title: String = "title"
+        static let titleID: String = "titleID"
+        static let body: String = "body"
+        static let bodyID: String = "bodyID"
+        static let name: String = "name"
+        static let id: String = "id"
+        static let values: String = "values"
+        static let value: String = "value"
+    }
 
     // MARK: - Comparable protocol
 
@@ -110,28 +127,32 @@ public struct HATProfileDataProfileAboutObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             if let result = Bool(stringValue) {
 
                                 isPrivate = result
-                                isPrivateTuple = (isPrivate, id)
+                            } else {
+                                
+                                isPrivate = false
                             }
+                            
+                            isPrivateTuple = (isPrivate, id)
                         }
                     }
                 }
 
                 if tempName == "title" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             title = stringValue
                             titleTuple = (title, id)
@@ -141,9 +162,9 @@ public struct HATProfileDataProfileAboutObject: Comparable {
 
                 if tempName == "body" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             body = stringValue
                             bodyTuple = (body, id)
@@ -163,7 +184,7 @@ public struct HATProfileDataProfileAboutObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
@@ -185,6 +206,45 @@ public struct HATProfileDataProfileAboutObject: Comparable {
             }
         }
     }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public init (fromCache: Dictionary<String, JSON>) {
+        
+        if let tempPrivate = (fromCache[Fields.isPrivate]?.stringValue) {
+            
+            if let isPrivateResult = Bool(tempPrivate) {
+                
+                isPrivate = isPrivateResult
+            }
+        }
+        
+        if let tempPrivateID = (fromCache[Fields.isPrivateID]?.intValue) {
+            
+            isPrivateTuple = (isPrivate, tempPrivateID)
+        }
+        
+        if let tempTitle = (fromCache[Fields.title]?.stringValue) {
+            
+            title = tempTitle
+        }
+        
+        if let tempTitleID = (fromCache[Fields.titleID]?.intValue) {
+            
+            titleTuple = (title, tempTitleID)
+        }
+        
+        if let tempBody = (fromCache[Fields.body]?.stringValue) {
+            
+            body = tempBody
+        }
+        
+        if let tempBodyID = (fromCache[Fields.bodyID]?.intValue) {
+            
+            bodyTuple = (body, tempBodyID)
+        }
+    }
 
     // MARK: - JSON Mapper
 
@@ -197,9 +257,12 @@ public struct HATProfileDataProfileAboutObject: Comparable {
 
         return [
 
-            "private": String(describing: self.isPrivate),
-            "title": self.title,
-            "body": self.body
+            Fields.isPrivate: String(describing: self.isPrivate),
+            Fields.isPrivateID: isPrivateTuple.1,
+            Fields.title: self.title,
+            Fields.titleID: titleTuple.1,
+            Fields.body: self.body,
+            Fields.bodyID: bodyTuple.1
         ]
     }
 

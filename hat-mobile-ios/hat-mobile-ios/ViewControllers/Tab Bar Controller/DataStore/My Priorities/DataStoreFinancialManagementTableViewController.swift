@@ -31,7 +31,7 @@ internal class DataStoreFinancialManagementTableViewController: UITableViewContr
     
     @IBAction func saveHabits(_ sender: Any) {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.loadingView?.removeFromSuperview()
             self.tableView.isUserInteractionEnabled = true
@@ -66,19 +66,10 @@ internal class DataStoreFinancialManagementTableViewController: UITableViewContr
             self.surveyObjects[index].answer = (cell?.getSelectedAnswer())!
         }
         
-        var array: [Dictionary<String, Any>] = []
-        for survey in surveyObjects {
-            
-            array.append(survey.toJSON())
-        }
-        
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        FinancialManagementCachingWrapperHelper.postSurveyObject(
+            surveyObjects: self.surveyObjects,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.FinancialManagementAnswers.source,
-            dataPath: Constants.HATTableName.FinancialManagementAnswers.name,
-            parameters: ["array": array,
-                         "unixTimeStamp": SurveyObject.createUnixTimeStamp()],
             successCallback: success,
             errorCallback: accessingHATTableFail)
     }
@@ -173,7 +164,7 @@ internal class DataStoreFinancialManagementTableViewController: UITableViewContr
      */
     private func getSurveyQuestionsAndAnswers() {
         
-        func gotValues(jsonArray: [JSON], newToken: String?) {
+        func gotValues(jsonArray: [SurveyObject], newToken: String?) {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView?.removeFromSuperview()
@@ -182,12 +173,9 @@ internal class DataStoreFinancialManagementTableViewController: UITableViewContr
                 
                 self.surveyObjects.removeAll()
                 
-                if let array = jsonArray[0].dictionary?["data"]?["array"].array {
+                for item in jsonArray {
                     
-                    for item in array {
-                        
-                        self.surveyObjects.append(SurveyObject(from: item))
-                    }
+                    self.surveyObjects.append(item)
                 }
                 
                 self.tableView.reloadData()
@@ -204,14 +192,12 @@ internal class DataStoreFinancialManagementTableViewController: UITableViewContr
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        FinancialManagementCachingWrapperHelper.getSurveyObject(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.FinancialManagementAnswers.source,
-            scope: Constants.HATTableName.FinancialManagementAnswers.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: gotValues,
-            errorCallback: accessingHATTableFail)
+            cacheTypeID: "financialManagement",
+            successRespond: gotValues,
+            failRespond: accessingHATTableFail)
     }
     
 }

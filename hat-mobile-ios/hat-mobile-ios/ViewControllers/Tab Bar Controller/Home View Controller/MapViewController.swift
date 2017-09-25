@@ -169,16 +169,16 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             style: .done,
             target: self,
             action: #selector(self.donePickerButton(sender:)))
-        doneButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        doneButton.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.teal], for: .normal)
         
         let spaceButton = UIBarButtonItem(
             barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
             target: nil,
             action: nil)
-        spaceButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        spaceButton.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.teal], for: .normal)
         
         self.segmentControl = UISegmentedControl(items: ["From", "To"])
-        self.segmentControl!.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        self.segmentControl!.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.teal], for: .normal)
         self.segmentControl!.selectedSegmentIndex = 0
         self.segmentControl!.addTarget(self, action: #selector(segmentedControlDidChange(sender:)), for: UIControlEvents.valueChanged)
         self.segmentControl!.tintColor = .teal
@@ -189,14 +189,14 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
             barButtonSystemItem: UIBarButtonSystemItem.flexibleSpace,
             target: nil,
             action: nil)
-        spaceButton2.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        spaceButton2.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.teal], for: .normal)
         
         let cancelButton = UIBarButtonItem(
             title: "Cancel",
             style: .done,
             target: self,
             action: #selector(self.cancelPickerButton(sender:)))
-        cancelButton.setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.teal], for: .normal)
+        cancelButton.setTitleTextAttributes([NSAttributedStringKey.foregroundColor: UIColor.teal], for: .normal)
         
         let toolBar = UIToolbar()
         toolBar.barStyle = UIBarStyle.default
@@ -218,6 +218,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      
      - parameter sender: The object that called this method
      */
+    @objc
     func segmentedControlDidChange(sender: UISegmentedControl) {
         
         if self.segmentControl!.selectedSegmentIndex == 0 {
@@ -240,6 +241,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
  
      - parameter sender: The object that called this method
      */
+    @objc
     func donePickerButton(sender: UIBarButtonItem) {
         
         self.textField.resignFirstResponder()
@@ -265,6 +267,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      
      - parameter sender: The object that called this method
      */
+    @objc
     func cancelPickerButton(sender: UIBarButtonItem) {
         
         self.textField.resignFirstResponder()
@@ -353,6 +356,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      
      - parameter sender: The object that called this method
      */
+    @objc
     func datePickerValueChanged(sender: UIDatePicker) {
         
         if self.segmentControl!.selectedSegmentIndex == 0 {
@@ -378,6 +382,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      
     - parameter sender: The object that called this method
      */
+    @objc
     func selectDatesToViewLocations(gesture: UITapGestureRecognizer) {
         
         self.textField.becomeFirstResponder()

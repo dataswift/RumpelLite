@@ -222,6 +222,7 @@ open class RingProgressCircle: UIView {
     /**
      A function to execute after the specified time in timer has elapsed
      */
+    @objc
     func animationFisnished() {
         
         self.hasAnimationFinished = true

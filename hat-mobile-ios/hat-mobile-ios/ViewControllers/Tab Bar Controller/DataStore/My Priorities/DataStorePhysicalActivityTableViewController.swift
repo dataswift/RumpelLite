@@ -31,7 +31,7 @@ internal class DataStorePhysicalActivityTableViewController: UITableViewControll
     
     @IBAction func saveHabits(_ sender: Any) {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.loadingView?.removeFromSuperview()
             self.tableView.isUserInteractionEnabled = true
@@ -66,19 +66,10 @@ internal class DataStorePhysicalActivityTableViewController: UITableViewControll
             self.surveyObjects[index].answer = (cell?.getSelectedAnswer())!
         }
         
-        var array: [Dictionary<String, Any>] = []
-        for survey in surveyObjects {
-            
-            array.append(survey.toJSON())
-        }
-        
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        PhysicalActivityCachingWrapperHelper.postSurveyObject(
+            surveyObjects: self.surveyObjects,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.PhysicalActivityAnswers.source,
-            dataPath: Constants.HATTableName.PhysicalActivityAnswers.name,
-            parameters: ["array": array,
-                         "unixTimeStamp": SurveyObject.createUnixTimeStamp()],
             successCallback: success,
             errorCallback: accessingHATTableFail)
     }
@@ -172,7 +163,7 @@ internal class DataStorePhysicalActivityTableViewController: UITableViewControll
      */
     private func getSurveyQuestionsAndAnswers() {
         
-        func gotValues(jsonArray: [JSON], newToken: String?) {
+        func gotValues(jsonArray: [SurveyObject], newToken: String?) {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView?.removeFromSuperview()
@@ -180,13 +171,10 @@ internal class DataStorePhysicalActivityTableViewController: UITableViewControll
             if !jsonArray.isEmpty {
                 
                 self.surveyObjects.removeAll()
-
-                if let array = jsonArray[0].dictionary?["data"]?["array"].array {
+                
+                for item in jsonArray {
                     
-                    for item in array {
-                        
-                        self.surveyObjects.append(SurveyObject(from: item))
-                    }
+                    self.surveyObjects.append(item)
                 }
                 
                 self.tableView.reloadData()
@@ -203,14 +191,12 @@ internal class DataStorePhysicalActivityTableViewController: UITableViewControll
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        PhysicalActivityCachingWrapperHelper.getSurveyObject(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.PhysicalActivityAnswers.source,
-            scope: Constants.HATTableName.PhysicalActivityAnswers.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: gotValues,
-            errorCallback: accessingHATTableFail)
+            cacheTypeID: "physicalActivity",
+            successRespond: gotValues,
+            failRespond: accessingHATTableFail)
     }
     
 }

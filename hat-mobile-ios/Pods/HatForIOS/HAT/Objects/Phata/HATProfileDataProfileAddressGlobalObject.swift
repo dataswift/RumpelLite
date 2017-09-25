@@ -16,6 +16,25 @@ import SwiftyJSON
 
 /// A struct representing the profile data Address Global object from the received profile JSON file
 public struct HATProfileDataProfileAddressGlobalObject: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    struct Fields {
+        
+        static let isPrivate: String = "private"
+        static let isPrivateID: String = "privateID"
+        static let city: String = "city"
+        static let cityID: String = "cityID"
+        static let county: String = "county"
+        static let countyID: String = "countyID"
+        static let country: String = "country"
+        static let countryID: String = "countryID"
+        static let name: String = "name"
+        static let id: String = "id"
+        static let values: String = "values"
+        static let value: String = "value"
+    }
 
     // MARK: - Comparable protocol
 
@@ -122,13 +141,13 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             if let boolResult = Bool(stringValue) {
 
@@ -141,9 +160,9 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
 
                 if tempName == "city" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             city = stringValue
                             cityTuple = (city, id)
@@ -153,9 +172,9 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
 
                 if tempName == "county" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             county = stringValue
                             countyTuple = (county, id)
@@ -165,9 +184,9 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
 
                 if tempName == "country" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             country = stringValue
                             countryTuple = (country, id)
@@ -187,7 +206,7 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
@@ -216,6 +235,55 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
         }
     }
 
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public init (fromCache: Dictionary<String, JSON>) {
+        
+        if let tempPrivate = (fromCache[Fields.isPrivate]?.stringValue) {
+            
+            if let isPrivateResult = Bool(tempPrivate) {
+                
+                isPrivate = isPrivateResult
+            }
+        }
+        
+        if let tempPrivateID = (fromCache[Fields.isPrivateID]?.intValue) {
+            
+            isPrivateTuple = (isPrivate, tempPrivateID)
+        }
+        
+        if let tempCity = (fromCache[Fields.city]?.stringValue) {
+            
+            city = tempCity
+        }
+        
+        if let tempCityID = (fromCache[Fields.cityID]?.intValue) {
+            
+            cityTuple = (city, tempCityID)
+        }
+        
+        if let tempCounty = (fromCache[Fields.county]?.stringValue) {
+            
+            county = tempCounty
+        }
+        
+        if let tempCountyID = (fromCache[Fields.countyID]?.intValue) {
+            
+            countyTuple = (county, tempCountyID)
+        }
+        
+        if let tempCountry = (fromCache[Fields.country]?.stringValue) {
+            
+            country = tempCountry
+        }
+        
+        if let tempCountryID = (fromCache[Fields.countryID]?.intValue) {
+            
+            countryTuple = (country, tempCountryID)
+        }
+    }
+
     // MARK: - JSON Mapper
 
     /**
@@ -227,10 +295,14 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
 
         return [
 
-            "private": String(describing: self.isPrivate),
-            "city": self.city,
-            "county": self.county,
-            "country": self.country
+            Fields.isPrivate: String(describing: self.isPrivate),
+            Fields.isPrivateID: isPrivateTuple.1,
+            Fields.city: self.city,
+            Fields.cityID: cityTuple.1,
+            Fields.county: self.county,
+            Fields.countyID: countyTuple.1,
+            Fields.country: self.country,
+            Fields.countryID: countryTuple.1
         ]
     }
 }

@@ -77,7 +77,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
      */
     private func uploadInfoToHat() {
         
-        func recordCreated(json: JSON, newToken: String?) {
+        func recordCreated() {
             
             self.loadingView.removeFromSuperview()
             self.darkView.removeFromSuperview()
@@ -85,14 +85,10 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             _ = self.navigationController?.popViewController(animated: true)
         }
         
-        let json = self.ukSpecificInfo.toJSON()
-        
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        UKSpecificInfoCachingWrapperHelper.postUKSpecificInfo(
+            ukSpecificInfo: self.ukSpecificInfo,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.UKSpecificInfo.source,
-            dataPath: Constants.HATTableName.UKSpecificInfo.name,
-            parameters: json,
             successCallback: recordCreated,
             errorCallback: failedGettingInfo)
     }
@@ -134,7 +130,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             // passportExpiryDate
             } else if index == 4 {
                 
-                if let date = HATFormatterHelper.formatStringToDate(string: cell!.getTextFromTextField()) {
+                if let date = cell?.getDateFromDatePicker() {
                     
                     self.ukSpecificInfo.passportExpiryDate = date
                 }
@@ -149,7 +145,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             // secondPassportExpiryDate
             } else if index == 7 {
                 
-                if let date = HATFormatterHelper.formatStringToDate(string: cell!.getTextFromTextField()) {
+                if let date = cell?.getDateFromDatePicker() {
                     
                     self.ukSpecificInfo.secondPassportExpiryDate = date
                 }
@@ -295,14 +291,14 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
     
     func getUKInfoFromHAT() {
         
-        func gotInfo(array: [JSON], newToken: String?) {
+        func gotInfo(array: [UKSpecificInfo], newToken: String?) {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView.removeFromSuperview()
             
             if !array.isEmpty {
                 
-                self.ukSpecificInfo = UKSpecificInfo(from: array[0])
+                self.ukSpecificInfo = array[0]
                 self.tableView.reloadData()
             }
         }
@@ -317,14 +313,12 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
 
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        UKSpecificInfoCachingWrapperHelper.getUKSpecificInfo(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.UKSpecificInfo.source,
-            scope: Constants.HATTableName.UKSpecificInfo.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: gotInfo,
-            errorCallback: failedGettingInfo)
+            cacheTypeID: "ukSpecificInfo",
+            successRespond: gotInfo,
+            failRespond: failedGettingInfo)
     }
     
 }

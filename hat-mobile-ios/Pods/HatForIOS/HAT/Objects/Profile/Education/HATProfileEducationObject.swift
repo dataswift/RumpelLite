@@ -14,7 +14,16 @@ import SwiftyJSON
 
 // MARK: Struct
 
-public struct HATProfileEducationObject: Comparable {
+public struct HATProfileEducationObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    struct Fields{
+        
+        static let highestAcademicQualification: String = "highestAcademicQualification"
+        static let unixTimeStamp: String = "unixTimeStamp"
+        static let data: String = "data"
+        static let recordID: String = "recordId"
+    }
 
     // MARK: - Comparable protocol
 
@@ -70,16 +79,30 @@ public struct HATProfileEducationObject: Comparable {
      */
     public init(from dict: JSON) {
 
-        if let data = (dict["data"].dictionary) {
+        if let data = (dict[Fields.data].dictionary) {
 
-            highestAcademicQualification = (data["highestAcademicQualification"]!.stringValue)
-            if let time = (data["unixTimeStamp"]?.stringValue) {
+            highestAcademicQualification = (data[Fields.highestAcademicQualification]!.stringValue)
+            if let time = (data[Fields.unixTimeStamp]?.stringValue) {
 
                 unixTimeStamp = Int(time)
             }
         }
 
-        recordID = (dict["recordId"].stringValue)
+        recordID = (dict[Fields.recordID].stringValue)
+    }
+    
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        if let tempQualification = fromCache[Fields.highestAcademicQualification] {
+            
+            self.highestAcademicQualification = String(describing: tempQualification)
+        }
+        
+        if let tempUnixTimeStamp = fromCache[Fields.unixTimeStamp] {
+            
+            let temp = String(describing: tempUnixTimeStamp)
+            self.unixTimeStamp = Int(temp)
+        }
     }
 
     // MARK: - JSON Mapper
@@ -93,8 +116,8 @@ public struct HATProfileEducationObject: Comparable {
 
         return [
 
-            "highestAcademicQualification": self.highestAcademicQualification,
-            "unixTimeStamp": Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
+            Fields.highestAcademicQualification: self.highestAcademicQualification,
+            Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
 
     }

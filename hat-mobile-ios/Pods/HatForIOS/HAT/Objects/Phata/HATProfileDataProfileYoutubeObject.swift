@@ -16,6 +16,21 @@ import SwiftyJSON
 
 /// A struct representing the profile data Youtube object from the received profile JSON file
 public struct HATProfileDataProfileYoutubeObject: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    struct Fields {
+        
+        static let isPrivate: String = "private"
+        static let isPrivateID: String = "privateID"
+        static let link: String = "link"
+        static let linkID: String = "linkID"
+        static let name: String = "name"
+        static let id: String = "id"
+        static let values: String = "values"
+        static let value: String = "value"
+    }
 
     // MARK: - Comparable protocol
 
@@ -91,34 +106,34 @@ public struct HATProfileDataProfileYoutubeObject: Comparable {
      It initialises everything from the received JSON file from the HAT
      */
     public init(from array: [JSON]) {
-
+        
         for json in array {
-
+            
             let dict = json.dictionaryValue
-
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
-
+            
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
+                
                 if tempName == "private" {
-
-                    if let tempValues = dict["values"]?.arrayValue {
-
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
-
+                    
+                    if let tempValues = dict[Fields.values]?.arrayValue {
+                        
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
+                            
                             if let result = Bool(stringValue) {
-
+                                
                                 isPrivate = result
                                 isPrivateTuple = (isPrivate, id)
                             }
                         }
                     }
                 }
-
+                
                 if tempName == "link" {
-
-                    if let tempValues = dict["values"]?.arrayValue {
-
-                        if let result = tempValues[0].dictionaryValue["value"]?.stringValue {
-
+                    
+                    if let tempValues = dict[Fields.values]?.arrayValue {
+                        
+                        if let result = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
+                            
                             link = result
                             linkTuple = (link, id)
                         }
@@ -127,46 +142,77 @@ public struct HATProfileDataProfileYoutubeObject: Comparable {
             }
         }
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(alternativeArray: [JSON]) {
-
+        
         for json in alternativeArray {
-
+            
             let dict = json.dictionaryValue
-
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
-
+            
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
+                
                 if tempName == "private" {
-
+                    
                     isPrivate = true
                     isPrivateTuple = (isPrivate, id)
                 }
-
+                
                 if tempName == "link" {
-
+                    
                     link = ""
                     linkTuple = (link, id)
                 }
             }
         }
     }
-
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public init (fromCache: Dictionary<String, JSON>) {
+        
+        if let tempPrivate = (fromCache[Fields.isPrivate]?.stringValue) {
+            
+            if let isPrivateResult = Bool(tempPrivate) {
+                
+                isPrivate = isPrivateResult
+            }
+        }
+        
+        if let tempPrivateID = (fromCache[Fields.isPrivateID]?.intValue) {
+            
+            isPrivateTuple = (isPrivate, tempPrivateID)
+        }
+        
+        if let tempLink = (fromCache[Fields.link]?.stringValue) {
+            
+            link = tempLink
+        }
+        
+        if let tempLinkID = (fromCache[Fields.linkID]?.intValue) {
+            
+            linkTuple = (link, tempLinkID)
+        }
+    }
+    
     // MARK: - JSON Mapper
-
+    
     /**
      Returns the object as Dictionary, JSON
      
      - returns: Dictionary<String, String>
      */
     public func toJSON() -> Dictionary<String, Any> {
-
+        
         return [
-
-            "private": String(describing: self.isPrivate),
-            "link": self.link
+            
+            Fields.isPrivate: String(describing: self.isPrivate),
+            Fields.isPrivateID: isPrivateTuple.1,
+            Fields.link: self.link,
+            Fields.linkID: linkTuple.1
         ]
     }
 

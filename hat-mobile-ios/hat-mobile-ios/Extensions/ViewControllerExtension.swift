@@ -35,6 +35,7 @@ extension UIViewController {
     /**
      Hides keyboard
      */
+    @objc
     public func dismissKeyboard() {
         
         view.endEditing(true)
@@ -63,6 +64,7 @@ extension UIViewController {
      
      - parameter sender: The object that called this method
      */
+    @objc
     public func keyboardWillShow(sender: NSNotification) {
         
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -79,6 +81,7 @@ extension UIViewController {
      
      - parameter sender: The object that called this method
      */
+    @objc
     func keyboardWillHide(sender: NSNotification) {
         
         if let keyboardSize = (sender.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
@@ -128,6 +131,7 @@ extension UIViewController {
      
      - returns: Bool
      */
+    @objc
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         self.view.endEditing(true)
@@ -151,10 +155,10 @@ extension UIViewController {
         //change font
         let attrTitleString = NSAttributedString(
             string: alertTitle,
-            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 32)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 32)!])
         let attrMessageString = NSAttributedString(
             string: alertMessage,
-            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 32)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 32)!])
         
         // create the alert
         let alert = UIAlertController(
@@ -197,10 +201,10 @@ extension UIViewController {
         //change font
         let attrTitleString = NSAttributedString(
             string: alertTitle,
-            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 32)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 32)!])
         let attrMessageString = NSAttributedString(
             string: alertMessage,
-            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 32)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 32)!])
         
         // create the alert
         let alert = UIAlertController(

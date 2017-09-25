@@ -253,10 +253,10 @@ internal class CustomSwitch: UIControl {
         // set their icons
         self.labelOff.attributedText = NSAttributedString(
             string: "\u{1F512}",
-            attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
+            attributes: [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
         self.labelOn.attributedText = NSAttributedString(
             string: "\u{1F513}",
-            attributes: [NSForegroundColorAttributeName: UIColor.white, NSFontAttributeName: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
+            attributes: [NSAttributedStringKey.foregroundColor: UIColor.white, NSAttributedStringKey.font: UIFont(name: "SSGlyphish-Filled", size: 15.5)!])
         
         // align them in center
         self.labelOff.textAlignment = .center

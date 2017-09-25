@@ -61,16 +61,19 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
      
      - parameter receivedProfile: The received HATProfileObject from HAT
      */
-    private func getProfile(receivedProfile: HATProfileObject) {
+    private func getProfile(receivedProfile: [HATProfileObject], newToken: String?) {
         
-        self.loadingView?.removeFromSuperview()
-        self.tableView.isUserInteractionEnabled = true
-
-        self.profile = receivedProfile
-        
-        self.isProfileDownloaded = true
-        
-        self.tableView.reloadData()
+        if !receivedProfile.isEmpty {
+            
+            self.loadingView?.removeFromSuperview()
+            self.tableView.isUserInteractionEnabled = true
+            
+            self.profile = receivedProfile[0]
+            
+            self.isProfileDownloaded = true
+            
+            self.tableView.reloadData()
+        }
     }
     
     /**
@@ -81,7 +84,12 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
      */
     func tableCreated(dictionary: Dictionary<String, Any>, renewedToken: String?) {
         
-        HATPhataService.getProfileFromHAT(userDomain: userDomain, userToken: userToken, successCallback: getProfile, failCallback: logError)
+        ProfileCachingHelper.getProfile(
+            userToken: userToken,
+            userDomain: userDomain,
+            cacheTypeID: "profile",
+            successRespond: getProfile,
+            failRespond: logError)
     }
     
     /**
@@ -100,10 +108,15 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
         case .tableDoesNotExist:
             
             let tableJSON = HATJSONHelper.createProfileTableJSON()
-            HATAccountService.createHatTable(userDomain: userDomain, token: userToken, notablesTableStructure: tableJSON, failed: {(error) in
+            HATAccountService.createHatTable(
+                userDomain: userDomain,
+                token: userToken,
+                notablesTableStructure: tableJSON,
+                failed: {(error) in
             
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-            })(
+                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
+            )(
             
                 HATAccountService.checkHatTableExistsForUploading(
                     userDomain: userDomain,
@@ -154,11 +167,12 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATPhataService.getProfileFromHAT(
-            userDomain: userDomain,
+        ProfileCachingHelper.getProfile(
             userToken: userToken,
-            successCallback: getProfile,
-            failCallback: logError)
+            userDomain: userDomain,
+            cacheTypeID: "profile",
+            successRespond: getProfile,
+            failRespond: logError)
     }
 
     override func didReceiveMemoryWarning() {

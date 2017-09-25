@@ -73,7 +73,7 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
      */
     private func uploadInfoToHat() {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.loadingView.removeFromSuperview()
             self.darkView.removeFromSuperview()
@@ -85,16 +85,12 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
             
             self.loadingView.removeFromSuperview()
             self.darkView.removeFromSuperview()
-            
-            CrashLoggerHelper.hatTableErrorLog(error: error)
         }
         
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        InfoCachingWrapperHelper.postInfo(
+            info: self.profile,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.ProfileInfo.source,
-            dataPath: Constants.HATTableName.ProfileInfo.name,
-            parameters: self.profile.toJSON(),
             successCallback: success,
             errorCallback: failed)
     }
@@ -120,7 +116,7 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
             // birth
             if index == 0 {
                 
-                if let date = HATFormatterHelper.formatStringToDate(string: cell!.getTextFromTextField()) {
+                if let date = cell?.getDateFromDatePicker() {
                     
                     profile.dateOfBirth = date
                 }
@@ -250,14 +246,14 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
     
     func getProfileInfo() {
         
-        func gotInfo(array: [JSON], newToken: String?) {
+        func gotInfo(array: [HATProfileInfo], newToken: String?) {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView.removeFromSuperview()
             
             if !array.isEmpty {
                 
-                self.profile = HATProfileInfo(from: array[0])
+                self.profile = array[0]
                 self.tableView.reloadData()
             }
         }
@@ -272,14 +268,12 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        InfoCachingWrapperHelper.getInfo(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.ProfileInfo.source,
-            scope: Constants.HATTableName.ProfileInfo.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: gotInfo,
-            errorCallback: failedGettingInfo)
+            cacheTypeID: "info",
+            successRespond: gotInfo,
+            failRespond: failedGettingInfo)
     }
 
 }

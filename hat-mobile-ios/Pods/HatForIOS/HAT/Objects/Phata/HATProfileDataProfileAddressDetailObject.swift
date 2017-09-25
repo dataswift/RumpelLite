@@ -16,6 +16,25 @@ import SwiftyJSON
 
 /// A struct representing the profile data Address Detail object from the received profile JSON file
 public struct HATProfileDataProfileAddressDetailObject: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    struct Fields {
+        
+        static let isPrivate: String = "private"
+        static let isPrivateID: String = "privateID"
+        static let number: String = "no"
+        static let numberID: String = "numberID"
+        static let street: String = "street"
+        static let streetID: String = "streetID"
+        static let postcode: String = "postcode"
+        static let postcodeID: String = "postcodeID"
+        static let name: String = "name"
+        static let id: String = "id"
+        static let values: String = "values"
+        static let value: String = "value"
+    }
 
     // MARK: - Comparable protocol
 
@@ -122,13 +141,13 @@ public struct HATProfileDataProfileAddressDetailObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             if let result = Bool(stringValue) {
 
@@ -141,9 +160,9 @@ public struct HATProfileDataProfileAddressDetailObject: Comparable {
 
                 if tempName == "no" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             number = stringValue
                             numberTuple = (number, id)
@@ -153,9 +172,9 @@ public struct HATProfileDataProfileAddressDetailObject: Comparable {
 
                 if tempName == "street" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             street = stringValue
                             streetTuple = (street, id)
@@ -165,9 +184,9 @@ public struct HATProfileDataProfileAddressDetailObject: Comparable {
 
                 if tempName == "postcode" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             postCode = stringValue
                             postCodeTuple = (postCode, id)
@@ -187,7 +206,7 @@ public struct HATProfileDataProfileAddressDetailObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
@@ -215,6 +234,55 @@ public struct HATProfileDataProfileAddressDetailObject: Comparable {
             }
         }
     }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public init (fromCache: Dictionary<String, JSON>) {
+        
+        if let tempPrivate = (fromCache[Fields.isPrivate]?.stringValue) {
+            
+            if let isPrivateResult = Bool(tempPrivate) {
+                
+                isPrivate = isPrivateResult
+            }
+        }
+        
+        if let tempPrivateID = (fromCache[Fields.isPrivateID]?.intValue) {
+            
+            isPrivateTuple = (isPrivate, tempPrivateID)
+        }
+        
+        if let tempNumber = (fromCache[Fields.number]?.stringValue) {
+            
+            number = tempNumber
+        }
+        
+        if let tempNumberID = (fromCache[Fields.numberID]?.intValue) {
+            
+            numberTuple = (number, tempNumberID)
+        }
+        
+        if let tempStreet = (fromCache[Fields.street]?.stringValue) {
+            
+            street = tempStreet
+        }
+        
+        if let tempStreetID = (fromCache[Fields.streetID]?.intValue) {
+            
+            streetTuple = (street, tempStreetID)
+        }
+        
+        if let tempPostcode = (fromCache[Fields.postcode]?.stringValue) {
+            
+            postCode = tempPostcode
+        }
+        
+        if let tempPostcodeID = (fromCache[Fields.postcodeID]?.intValue) {
+            
+            postCodeTuple = (postCode, tempPostcodeID)
+        }
+    }
 
     // MARK: - JSON Mapper
 
@@ -227,10 +295,14 @@ public struct HATProfileDataProfileAddressDetailObject: Comparable {
 
         return [
 
-            "private": String(describing: self.isPrivate),
-            "no": self.number,
-            "street": self.street,
-            "postcode": self.postCode
+            Fields.isPrivate: String(describing: self.isPrivate),
+            Fields.isPrivateID: isPrivateTuple.1,
+            Fields.number: self.number,
+            Fields.numberID: numberTuple.1,
+            Fields.street: self.street,
+            Fields.streetID: streetTuple.1,
+            Fields.postcode: self.postCode,
+            Fields.postcodeID: postCodeTuple.1
         ]
     }
 

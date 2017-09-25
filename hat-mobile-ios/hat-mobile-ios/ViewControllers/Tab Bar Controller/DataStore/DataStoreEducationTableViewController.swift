@@ -46,29 +46,6 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
         self.uploadInfoToHat()
     }
     
-    // MARK: - Create error Alert
-    
-    /**
-     Creates an error alert based on when the error occured
-     
-     - parameter title: The title of the alert
-     - parameter message: The message of the alert
-     - parameter error: The error to log on crashlytics
-     */
-    private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
-        
-        self.loadingView.removeFromSuperview()
-        self.darkView.removeFromSuperview()
-        
-        self.createClassicOKAlertWith(
-            alertMessage: message,
-            alertTitle: title,
-            okTitle: "OK",
-            proceedCompletion: {})
-        
-        CrashLoggerHelper.hatTableErrorLog(error: error)
-    }
-    
     // MARK: - Upload info
     
     /**
@@ -76,44 +53,25 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      */
     private func uploadInfoToHat() {
         
-        func gotApplicationToken(appToken: String, newUserToken: String?) {
-            
-            HATProfileService.postEducationToHAT(
-                userDomain: userDomain,
-                userToken: userToken,
-                education: self.education,
-                successCallback: {_ in
-                    
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                failCallback: {error in
-                    
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    self.createErrorAlertWith(title: "Error", message: "There was an error posting profile", error: error)
-                }
-            )
-        }
-        
-        func gotErrorWhenGettingApplicationToken(error: JSONParsingError) {
-            
-            self.loadingView.removeFromSuperview()
-            self.darkView.removeFromSuperview()
-            
-            CrashLoggerHelper.JSONParsingErrorLog(error: error)
-        }
-        
-        HATService.getApplicationTokenFor(
-            serviceName: Constants.ApplicationToken.Rumpel.name,
-            userDomain: self.userDomain,
-            token: self.userToken,
-            resource: Constants.ApplicationToken.Rumpel.source,
-            succesfulCallBack: gotApplicationToken,
-            failCallBack: gotErrorWhenGettingApplicationToken)
+        EducationCachingWrapperHelper.postEducation(
+            education: self.education,
+            userToken: userToken,
+            userDomain: userDomain,
+            successCallback: {
+                
+                self.loadingView.removeFromSuperview()
+                self.darkView.removeFromSuperview()
+                
+                _ = self.navigationController?.popViewController(animated: true)
+            },
+            errorCallback: { error in
+                
+                self.loadingView.removeFromSuperview()
+                self.darkView.removeFromSuperview()
+                
+                CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
+        )
     }
     
     // MARK: - Update Model
@@ -183,11 +141,12 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATProfileService.getEducationFromHAT(
-            userDomain: userDomain,
+        EducationCachingWrapperHelper.getEducation(
             userToken: userToken,
-            successCallback: updateTableWithValuesFrom,
-            failCallback: errorFetching)
+            userDomain: userDomain,
+            cacheTypeID: "education",
+            successRespond: updateTableWithValuesFrom,
+            failRespond: errorFetching)
     }
     
     override func didReceiveMemoryWarning() {
@@ -202,11 +161,11 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      
      - parameter nationalityObject: The nationality object returned from HAT
      */
-    func updateTableWithValuesFrom(education: HATProfileEducationObject) {
+    func updateTableWithValuesFrom(education: [HATProfileEducationObject], newString: String?) {
         
         self.tableView.isUserInteractionEnabled = true
         self.loadingView.removeFromSuperview()
-        self.education = education
+        self.education = education[0]
         self.tableView.reloadData()
     }
     

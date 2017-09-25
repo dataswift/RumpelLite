@@ -15,7 +15,20 @@ import SwiftyJSON
 // MARK: Struct
 
 /// A struct representing the profile object from the received profile JSON file
-public struct HATProfileObject: Comparable {
+public struct HATProfileObject: HatApiType, Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    public struct Fields {
+        
+        static let recordID: String = "id"
+        static let name: String = "name"
+        static let dateCreated: String = "dateCreated"
+        static let lastUpdated: String = "lastUpdated"
+        static let tables: String = "tables"
+        static let profile: String = "profile"
+    }
 
     // MARK: - Comparable protocol
 
@@ -84,23 +97,23 @@ public struct HATProfileObject: Comparable {
      */
     public init(from dict: Dictionary<String, JSON>) {
 
-        if let tempId = (dict["id"]?.intValue) {
+        if let tempId = (dict[Fields.recordID]?.intValue) {
 
             databaseRecordID = tempId
         }
-        if let tempName = (dict["name"]?.stringValue) {
+        if let tempName = (dict[Fields.name]?.stringValue) {
 
             name = tempName
         }
-        if let tempDateCreated = (dict["dateCreated"]?.stringValue) {
+        if let tempDateCreated = (dict[Fields.dateCreated]?.stringValue) {
 
             dateCreated = HATFormatterHelper.formatStringToDate(string: String(tempDateCreated))
         }
-        if let tempLastUpdated = (dict["lastUpdated"]?.stringValue) {
+        if let tempLastUpdated = (dict[Fields.lastUpdated]?.stringValue) {
 
             lastUpdate = HATFormatterHelper.formatStringToDate(string: String(tempLastUpdated))
         }
-        if let tempData = (dict["tables"]?.arrayValue) {
+        if let tempData = (dict[Fields.tables]?.arrayValue) {
 
             let tempData2 = tempData[0].dictionaryValue
             data = HATProfileDataProfileObject(from: tempData2)
@@ -112,24 +125,36 @@ public struct HATProfileObject: Comparable {
      */
     public init(alternativeDictionary: Dictionary<String, JSON>) {
 
-        if let tempId = (alternativeDictionary["id"]?.intValue) {
+        if let tempId = (alternativeDictionary[Fields.recordID]?.intValue) {
 
             databaseRecordID = tempId
         }
-        if let tempName = (alternativeDictionary["name"]?.stringValue) {
+        if let tempName = (alternativeDictionary[Fields.name]?.stringValue) {
 
             name = tempName
         }
-        if let tempDateCreated = (alternativeDictionary["dateCreated"]?.stringValue) {
+        if let tempDateCreated = (alternativeDictionary[Fields.dateCreated]?.stringValue) {
 
             dateCreated = HATFormatterHelper.formatStringToDate(string: String(tempDateCreated))
         }
-        if let tempLastUpdated = (alternativeDictionary["lastUpdated"]?.stringValue) {
+        if let tempLastUpdated = (alternativeDictionary[Fields.lastUpdated]?.stringValue) {
 
             lastUpdate = HATFormatterHelper.formatStringToDate(string: String(tempLastUpdated))
         }
 
         data = HATProfileDataProfileObject(alternativeDictionary: alternativeDictionary)
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let json = JSON(fromCache)
+        if let data = json[Fields.profile].dictionary {
+            
+            self.data = HATProfileDataProfileObject(fromCache: data)
+        }
     }
 
     // MARK: - JSON Mapper
@@ -143,7 +168,7 @@ public struct HATProfileObject: Comparable {
 
         return [
 
-            "profile": self.data.toJSON()
+            Fields.profile: self.data.toJSON()
         ]
     }
 }

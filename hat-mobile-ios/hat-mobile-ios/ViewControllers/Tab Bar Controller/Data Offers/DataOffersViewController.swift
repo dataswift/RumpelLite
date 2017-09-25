@@ -331,6 +331,7 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
      
      - parameter gesture: The UITapGestureRecognizer that triggered this method
      */
+    @objc
     func filterCollectionView(gesture: UITapGestureRecognizer) {
         
         func animation(index: Int) {

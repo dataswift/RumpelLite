@@ -78,10 +78,10 @@ extension UIAlertController {
         //change font
         let attrTitleString = NSAttributedString(
             string: alertTitle,
-            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 32)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 32)!])
         let attrMessageString = NSAttributedString(
             string: alertMessage,
-            attributes: [NSFontAttributeName: UIFont(name: Constants.FontNames.openSans, size: 32)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 32)!])
         
         // create the alert
         let alert = UIAlertController(

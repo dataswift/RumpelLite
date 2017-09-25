@@ -21,6 +21,7 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     
     /// The options of the picker view
     var dataSourceForPickerView: [String] = ["", "Mr.", "Mrs.", "Miss", "Dr."]
+    private var selectedDate: Date?
     
     // MARK: - IBOutlets
     
@@ -76,8 +77,10 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      
      - parameter datePicker: The datePicker that called this method
      */
+    @objc
     func datePickerDidUpdateDate(datePicker: UIDatePicker) {
         
+        self.selectedDate = datePicker.date
         self.textField.text = FormatterHelper.formatDateStringToUsersDefinedDate(
             date: datePicker.date,
             dateStyle: .short,
@@ -86,6 +89,7 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
     
     // MARK: - TextField delegate method
     
+    @objc
     func textFieldValueChanged(textField: UITextField) {
         
         if textField.tag == 5 {
@@ -98,7 +102,7 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
                 cursorPosition = textField.offset(from: textField.beginningOfDocument, to: selectedRange.start)
                 
                 let index = text.index(text.startIndex, offsetBy: cursorPosition)
-                text = text.substring(to: index)
+                text = String(text[..<index])
             }
             
             let countries = self.getCountries()
@@ -237,6 +241,23 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
         }
         
         return ""
+    }
+    
+    // MARK: - Get date from date picker
+    
+    /**
+     Returns the text in the UITextField or empty string if there is no text
+     
+     - returns: A Sting the text in the UITextField
+     */
+    func getDateFromDatePicker() -> Date {
+        
+        if self.selectedDate != nil {
+            
+            return self.selectedDate!
+        }
+        
+        return Date()
     }
     
     // MARK: - Get switch value

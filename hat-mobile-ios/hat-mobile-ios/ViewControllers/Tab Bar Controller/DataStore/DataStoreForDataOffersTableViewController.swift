@@ -236,24 +236,24 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
         
         func success(dataBundleCreated: Bool) {
             
-            func profileReceived(profile: HATProfileObject) {
+            func profileReceived(profile: [HATProfileObject], newToken: String?) {
                 
-                func countCompletness(dictionary: Dictionary<String, JSON>) {
+                func countCompletness(matchMe: [MatchMeObject], newFakeToken: String?) {
                     
                     self.tableView.isUserInteractionEnabled = true
                     self.loadingView?.removeFromSuperview()
                     
-                    if profile.data.addressGlobal.city != "" {
+                    if profile[0].data.addressGlobal.city != "" {
                         
                         count += 1
                     }
                     
-                    if profile.data.addressGlobal.county != "" {
+                    if profile[0].data.addressGlobal.county != "" {
                         
                         count += 1
                     }
                     
-                    if profile.data.addressGlobal.country != "" {
+                    if profile[0].data.addressGlobal.country != "" {
                         
                         count += 1
                     }
@@ -261,13 +261,37 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
                     // 3 fields of profile above
                     totalQuestions += 3
                     
-                    if !dictionary.isEmpty {
+                    if !matchMe.isEmpty {
                         
-                        for (key, value) in dictionary {
+                        for (key, value) in JSON(matchMe[0].dictionary) {
                             
                             if key == "interests" && !value.arrayValue.isEmpty {
                                 
                                 if let array = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue {
+                                    
+                                    var countAdded: Bool = false
+                                    var countPossibleAnswers: Int = 0
+                                    
+                                    for interest in array where interest.key != "unixTimeStamp" {
+                                        
+                                        totalQuestions += 1
+                                        countPossibleAnswers += 1
+                                        
+                                        if interest.value == 1  && !countAdded {
+                                            
+                                            countAdded = true
+                                        }
+                                    }
+                                    
+                                    if countAdded {
+                                        
+                                        count += countPossibleAnswers
+                                    }
+                                    
+                                }
+                            } else if key == "interests" && !value.dictionaryValue.isEmpty {
+                                
+                                if let array = value.dictionaryValue["values"]?.dictionaryValue {
                                     
                                     var countAdded: Bool = false
                                     var countPossibleAnswers: Int = 0
@@ -314,6 +338,42 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
                                             count += 1
                                         }
                                     }
+                                } else if let array = value.array {
+                                    
+                                    for item in array {
+                                        
+                                        totalQuestions += 1
+                                        if item.dictionaryValue["interest"]?.intValue != 0 {
+                                            
+                                            count += 1
+                                        }
+                                    }
+                                }
+                            } else if (key == "education" || key == "livingInfo" || key == "profileInfo" || key == "employmentStatus") && !value.dictionaryValue.isEmpty {
+                                
+                                if let dict = value.dictionary {
+                                    
+                                    for question in dict where question.key != "unixTimeStamp" && question.key != "numberOfDecendants" {
+                                        
+                                        totalQuestions += 1
+                                        if question.value.stringValue != "" {
+                                            
+                                            count += 1
+                                        }
+                                    }
+                                }
+                            } else if !value.dictionaryValue.isEmpty {
+                                
+                                if let array = value.dictionary {
+                                    
+                                    for item in array {
+                                        
+                                        totalQuestions += 1
+                                        if item.key == "interest" && item.value.intValue != 0 {
+                                            
+                                            count += 1
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -336,19 +396,23 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
                 
                 if dataBundleCreated {
                     
-                    HATAccountService.getMatchMeCompletion(
-                        success: countCompletness,
-                        fail: failed)
+                    MatchMeCachingWrapperHelper.getMatchMeObject(
+                        userToken: userToken,
+                        userDomain: userDomain,
+                        cacheTypeID: "matchMe",
+                        successRespond: countCompletness,
+                        failRespond: failed)
                 }
                 
-                self.profile = profile
+                self.profile = profile[0]
             }
             
-            HATPhataService.getProfileFromHAT(
-                userDomain: userDomain,
+            ProfileCachingHelper.getProfile(
                 userToken: userToken,
-                successCallback: profileReceived,
-                failCallback: failed)
+                userDomain: userDomain,
+                cacheTypeID: "profile",
+                successRespond: profileReceived,
+                failRespond: failed)
         }
         
         func failed(error: HATTableError) {
@@ -356,7 +420,25 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
             self.tableView.isUserInteractionEnabled = true
             self.loadingView?.removeFromSuperview()
             
+            headers[0] = "Couldn't calculate your completion score. Connect to the internet and try again"
+            self.tableView.reloadData()
+            
             CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+        
+        func failedMatchMe(error: HATTableError) {
+            
+            switch error {
+            case .noInternetConnection:
+                
+                success(dataBundleCreated: true)
+            default:
+                
+                self.tableView.isUserInteractionEnabled = true
+                self.loadingView?.removeFromSuperview()
+                
+                CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
         }
         
         self.tableView.isUserInteractionEnabled = false
@@ -371,7 +453,7 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
         
         HATAccountService.createMatchMeCompletion(
             success: success,
-            fail: failed)
+            fail: failedMatchMe)
     }
     
     // MARK: - Navigation

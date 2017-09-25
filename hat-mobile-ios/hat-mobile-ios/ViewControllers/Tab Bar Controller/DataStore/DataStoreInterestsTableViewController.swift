@@ -34,7 +34,7 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
                                     "Technology"]
     
     /// The dictionary to send to hat
-    private var dictionary: Dictionary<String, Any> = [
+    private var interests: InterestsObject = InterestsObject(from: [
         "Modern European": 0,
         "Fusion": 0,
         "Halal": 0,
@@ -72,7 +72,7 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
         "Consumer electronics": 0,
         "Programming": 0,
         "Mobile Apps": 0,
-        "unixTimeStamp": SurveyObject.createUnixTimeStamp()]
+        "unixTimeStamp": SurveyObject.createUnixTimeStamp()])
     
     /// A variable for holding the loading UIView
     private var loadingView: UIView = UIView()
@@ -86,7 +86,7 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
      */
     @IBAction func saveHabits(_ sender: Any) {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView.removeFromSuperview()
@@ -104,14 +104,10 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
 
-        let unixTime = SurveyObject.createUnixTimeStamp()
-        self.dictionary.updateValue(unixTime, forKey: "unixTimeStamp")
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        InterestsCachingWrapperHelper.postInterestObject(
+            interestObject: self.interests,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.Interests.source,
-            dataPath: Constants.HATTableName.Interests.name,
-            parameters: dictionary,
             successCallback: success,
             errorCallback: accessingHATTableFail)
     }
@@ -152,7 +148,7 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
         cell.textLabel?.text = self.sections[indexPath.section][indexPath.row]
         cell.accessoryType = .none
         
-        for (key, value) in self.dictionary where key == cell.textLabel?.text && String(describing: value) == "1" {
+        for (key, value) in self.interests.dictionary where key == cell.textLabel?.text && String(describing: value) == "1" {
             
             cell.accessoryType = .checkmark
         }
@@ -165,7 +161,7 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
         let cell = tableView.cellForRow(at: indexPath)
         
         cell?.accessoryType = .checkmark
-        self.dictionary.updateValue(1, forKey: (cell?.textLabel?.text)!)
+        self.interests.dictionary.updateValue(1, forKey: (cell?.textLabel?.text)!)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -173,7 +169,7 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
         let cell = tableView.cellForRow(at: indexPath)
         
         cell?.accessoryType = .none
-        self.dictionary.updateValue(0, forKey: (cell?.textLabel?.text)!)
+        self.interests.dictionary.updateValue(0, forKey: (cell?.textLabel?.text)!)
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
@@ -206,20 +202,14 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
      */
     private func getSurveyQuestionsAndAnswers() {
         
-        func gotValues(jsonArray: [JSON], newToken: String?) {
+        func gotValues(jsonArray: [InterestsObject], newToken: String?) {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView.removeFromSuperview()
             
             if !jsonArray.isEmpty {
                 
-                if let tempDictionary = jsonArray[0].dictionary?["data"]?.dictionaryValue {
-                    
-                    for (key, value) in tempDictionary where value.int != nil {
-                        
-                        self.dictionary.updateValue(value.intValue, forKey: key)
-                    }
-                }
+                self.interests = jsonArray[0]
                 
                 self.tableView.reloadData()
             }
@@ -235,14 +225,12 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
 
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        InterestsCachingWrapperHelper.getInterestObject(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.Interests.source,
-            scope: Constants.HATTableName.Interests.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: gotValues,
-            errorCallback: accessingHATTableFail)
+            cacheTypeID: "interests",
+            successRespond: gotValues,
+            failRespond: accessingHATTableFail)
     }
     
 }

@@ -14,7 +14,7 @@ import SwiftyJSON
 
 // MARK: Struct
 
-public struct HATEmployementStatusObject: Comparable {
+public struct HATEmployementStatusObject: HatApiType, Comparable {
     
     // MARK: - Comparable protocol
     
@@ -53,6 +53,7 @@ public struct HATEmployementStatusObject: Comparable {
         static let status: String = "status"
         static let recordId: String = "recordId"
         static let unixTimeStamp: String = "unixTimeStamp"
+        static let data: String = "data"
     }
     
     // MARK: - Variables
@@ -76,7 +77,7 @@ public struct HATEmployementStatusObject: Comparable {
      */
     public init(from dict: JSON) {
         
-        if let data = (dict["data"].dictionary) {
+        if let data = (dict[Fields.data].dictionary) {
             
             if let tempStatus = (data[Fields.status]?.stringValue) {
                 
@@ -85,6 +86,17 @@ public struct HATEmployementStatusObject: Comparable {
         }
         
         recordID = (dict[Fields.recordId].stringValue)
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        if let tempStatus = fromCache[Fields.status] {
+            
+            self.status = String(describing: tempStatus)
+        }
     }
     
     // MARK: - JSON Mapper

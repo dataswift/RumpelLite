@@ -28,7 +28,7 @@ internal class AsyncCachingHelper<T: HatApiType> {
      - parameter networkRequest: A function of type ([T], String?) returning an array of cache objects and the new Token executed in network request
      - parameter completion: A function of type ([T], String?) returning an array of cache objects and the new Token executed upon completion
      */
-    class func decider(type: String, expiresIn: Calendar.Component? = .day, value: Int? = 1, networkRequest: ((@escaping (([T], String?) -> Void)) -> Void)?, completion: (([T], String?) -> Void)?) {
+    class func decider(type: String, expiresIn: Calendar.Component = .day, value: Int = 1, networkRequest: ((@escaping (([T], String?) -> Void)) -> Void)?, completion: (([T], String?) -> Void)?) {
         
         func asyncCacheResponse(data: [T], token: String?) {
             

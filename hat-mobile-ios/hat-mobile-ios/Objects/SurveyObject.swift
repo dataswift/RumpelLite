@@ -15,7 +15,7 @@ import SwiftyJSON
 
 // MARK: Struct
 
-internal struct SurveyObject {
+internal struct SurveyObject: HatApiType {
     
     // MARK: - Fields
     
@@ -74,6 +74,19 @@ internal struct SurveyObject {
         
         date = HATFormatterHelper.formatStringToDate(string: String(describing: dict[Fields.unixTimeStamp].intValue))!
         recordID = (dict[Fields.recordID].stringValue)
+    }
+    
+    mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        if let tempQuestion = fromCache[Fields.question] {
+            
+            question = String(describing: tempQuestion)
+        }
+        
+        if let tempAnswer = fromCache[Fields.interest] {
+            
+            answer = Int(String(describing: tempAnswer))!
+        }
     }
     
     // MARK: - JSON Mapper

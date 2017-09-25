@@ -16,6 +16,29 @@ import SwiftyJSON
 
 /// A struct representing the profile data Personal object from the received profile JSON file
 public struct HATProfileDataProfilePersonalObject: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    struct Fields {
+        
+        static let isPrivate: String = "private"
+        static let isPrivateID: String = "privateID"
+        static let firstName: String = "first_name"
+        static let firstNameID: String = "firstNameID"
+        static let lastName: String = "last_name"
+        static let lastNameID: String = "lastNameID"
+        static let preferredName: String = "preferred_name"
+        static let preferredNameID: String = "preferredNameID"
+        static let middleName: String = "middle_name"
+        static let middleNameID: String = "middleNameID"
+        static let title: String = "title"
+        static let titleID: String = "titleID"
+        static let name: String = "name"
+        static let id: String = "id"
+        static let values: String = "values"
+        static let value: String = "value"
+    }
 
     // MARK: - Comparable protocol
 
@@ -148,13 +171,13 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             if let result = Bool(stringValue) {
 
@@ -167,9 +190,9 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
                 if tempName == "first_name" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringResult = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringResult = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             firstName = stringResult
                             firstNameTuple = (firstName, id)
@@ -179,9 +202,9 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
                 if tempName == "last_name" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringResult = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringResult = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             lastName = stringResult
                             lastNameTuple = (lastName, id)
@@ -191,9 +214,9 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
                 if tempName == "preferred_name" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringResult = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringResult = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             prefferedName = stringResult
                             prefferedNameTuple = (prefferedName, id)
@@ -203,9 +226,9 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
                 if tempName == "middle_name" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringResult = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringResult = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             middleName = stringResult
                             middleNameTuple = (middleName, id)
@@ -215,9 +238,9 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
                 if tempName == "title" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringResult = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringResult = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             title = stringResult
                             titleTuple = (title, id)
@@ -237,7 +260,7 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
@@ -277,6 +300,75 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
             }
         }
     }
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public init (fromCache: Dictionary<String, JSON>) {
+        
+        if let tempPrivate = (fromCache[Fields.isPrivate]?.stringValue) {
+            
+            if let isPrivateResult = Bool(tempPrivate) {
+                
+                isPrivate = isPrivateResult
+            }
+        }
+        
+        if let tempPrivateID = (fromCache[Fields.isPrivateID]?.intValue) {
+            
+            isPrivateTuple = (isPrivate, tempPrivateID)
+        }
+        
+        if let tempFirstName = (fromCache[Fields.firstName]?.stringValue) {
+            
+            firstName = tempFirstName
+        }
+        
+        if let tempFirstNameID = (fromCache[Fields.firstNameID]?.intValue) {
+            
+            firstNameTuple = (firstName, tempFirstNameID)
+        }
+        
+        if let tempLastName = (fromCache[Fields.lastName]?.stringValue) {
+            
+            lastName = tempLastName
+        }
+        
+        if let tempLastNameID = (fromCache[Fields.lastNameID]?.intValue) {
+            
+            lastNameTuple = (lastName, tempLastNameID)
+        }
+        
+        if let tempPreferredName = (fromCache[Fields.preferredName]?.stringValue) {
+            
+            prefferedName = tempPreferredName
+        }
+        
+        if let tempPreferredNameID = (fromCache[Fields.preferredNameID]?.intValue) {
+            
+            prefferedNameTuple = (prefferedName, tempPreferredNameID)
+        }
+        
+        if let tempMiddleName = (fromCache[Fields.middleName]?.stringValue) {
+            
+            middleName = tempMiddleName
+        }
+        
+        if let tempMiddleNameID = (fromCache[Fields.middleNameID]?.intValue) {
+            
+            middleNameTuple = (middleName, tempMiddleNameID)
+        }
+        
+        if let tempTitle = (fromCache[Fields.title]?.stringValue) {
+            
+            title = tempTitle
+        }
+        
+        if let tempTitleID = (fromCache[Fields.titleID]?.intValue) {
+            
+            titleTuple = (title, tempTitleID)
+        }
+    }
 
     // MARK: - JSON Mapper
 
@@ -289,12 +381,18 @@ public struct HATProfileDataProfilePersonalObject: Comparable {
 
         return [
 
-            "private": String(describing: self.isPrivate),
-            "first_name": self.firstName,
-            "last_name": self.lastName,
-            "preferred_name": self.prefferedName,
-            "middle_name": self.middleName,
-            "title": self.title
+            Fields.isPrivate: String(describing: self.isPrivate),
+            Fields.isPrivateID: self.isPrivateTuple.1,
+            Fields.firstName: self.firstName,
+            Fields.firstNameID: self.firstNameTuple.1,
+            Fields.lastName: self.lastName,
+            Fields.lastNameID: self.lastNameTuple.1,
+            Fields.preferredName: self.prefferedName,
+            Fields.preferredNameID: self.prefferedNameTuple.1,
+            Fields.middleName: self.middleName,
+            Fields.middleNameID: self.middleNameTuple.1,
+            Fields.title: self.title,
+            Fields.titleID: self.titleTuple.1
         ]
     }
 

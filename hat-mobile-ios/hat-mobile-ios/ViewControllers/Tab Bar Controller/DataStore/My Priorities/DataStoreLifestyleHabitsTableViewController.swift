@@ -31,7 +31,7 @@ internal class DataStoreLifestyleHabitsTableViewController: UITableViewControlle
     
     @IBAction func saveHabits(_ sender: Any) {
         
-        func success(json: JSON, newToken: String?) {
+        func success() {
             
             self.loadingView?.removeFromSuperview()
             self.tableView.isUserInteractionEnabled = true
@@ -72,13 +72,10 @@ internal class DataStoreLifestyleHabitsTableViewController: UITableViewControlle
             array.append(survey.toJSON())
         }
         
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        LifestyleHabitsCachingWrapperHelper.postSurveyObject(
+            surveyObjects: self.surveyObjects,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.LifestyleHabitsAnswers.source,
-            dataPath: Constants.HATTableName.LifestyleHabitsAnswers.name,
-            parameters: ["array": array,
-                         "unixTimeStamp": SurveyObject.createUnixTimeStamp()],
             successCallback: success,
             errorCallback: accessingHATTableFail)
     }
@@ -172,7 +169,7 @@ internal class DataStoreLifestyleHabitsTableViewController: UITableViewControlle
      */
     private func getSurveyQuestionsAndAnswers() {
         
-        func gotValues(jsonArray: [JSON], newToken: String?) {
+        func gotValues(jsonArray: [SurveyObject], newToken: String?) {
             
             self.tableView.isUserInteractionEnabled = true
             self.loadingView?.removeFromSuperview()
@@ -180,13 +177,10 @@ internal class DataStoreLifestyleHabitsTableViewController: UITableViewControlle
             if !jsonArray.isEmpty {
                 
                 self.surveyObjects.removeAll()
-
-                if let array = jsonArray[0].dictionary?["data"]?["array"].array {
+                
+                for item in jsonArray {
                     
-                    for item in array {
-                        
-                        self.surveyObjects.append(SurveyObject(from: item))
-                    }
+                    self.surveyObjects.append(item)
                 }
                 
                 self.tableView.reloadData()
@@ -203,14 +197,12 @@ internal class DataStoreLifestyleHabitsTableViewController: UITableViewControlle
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        LifestyleHabitsCachingWrapperHelper.getSurveyObject(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.LifestyleHabitsAnswers.source,
-            scope: Constants.HATTableName.LifestyleHabitsAnswers.name,
-            parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
-            successCallback: gotValues,
-            errorCallback: accessingHATTableFail)
+            cacheTypeID: "lifestyleHabits",
+            successRespond: gotValues,
+            failRespond: accessingHATTableFail)
     }
     
 }

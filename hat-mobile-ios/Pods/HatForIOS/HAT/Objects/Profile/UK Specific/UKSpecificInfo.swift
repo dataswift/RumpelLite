@@ -14,7 +14,7 @@ import SwiftyJSON
 
 // MARK: Struct
 
-public struct UKSpecificInfo: Comparable {
+public struct UKSpecificInfo: HatApiType, Comparable {
     
     // MARK: - Comparable protocol
     
@@ -103,48 +103,60 @@ public struct UKSpecificInfo: Comparable {
         
         if let data = (dict["data"].dictionary) {
             
-            if let tempNationalInsuranceNumber = (data[Fields.nationalInsuranceNumber]?.stringValue) {
-                
-                nationalInsuranceNumber = tempNationalInsuranceNumber
-            }
-            
-            if let tempNhsNumber = (data[Fields.nhsNumber]?.stringValue) {
-                
-                nhsNumber = tempNhsNumber
-            }
-            
-            if let tempDrivingLicenseNumber = (data[Fields.drivingLicenseNumber]?.stringValue) {
-                
-                drivingLicenseNumber = tempDrivingLicenseNumber
-            }
-            
-            if let tempPassportNumber = (data[Fields.passportNumber]?.stringValue) {
-                
-                passportNumber = tempPassportNumber
-            }
-            
-            if let tempPlaceOfBirth = (data[Fields.placeOfBirth]?.stringValue) {
-                
-                placeOfBirth = tempPlaceOfBirth
-            }
-            
-            if let tempSecondPassportNumber = (data[Fields.secondPassportNumber]?.stringValue) {
-                
-                secondPassportNumber = tempSecondPassportNumber
-            }
-            
-            if let tempPassportExpiryDate = (data[Fields.passportExpiryDate]?.intValue) {
-                
-                passportExpiryDate = Date(timeIntervalSince1970: TimeInterval(tempPassportExpiryDate))
-            }
-            
-            if let tempSecondPassportNumber = (data[Fields.secondPassportExpiryDate]?.intValue) {
-                
-                secondPassportExpiryDate = Date(timeIntervalSince1970: TimeInterval(tempSecondPassportNumber))
-            }
+
+            self.initialize(fromCache: data)
         }
         
         recordID = (dict[Fields.recordId].stringValue)
+    }
+    
+    public mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        if let tempNationalInsuranceNumber = fromCache[Fields.nationalInsuranceNumber] {
+            
+            nationalInsuranceNumber = String(describing: tempNationalInsuranceNumber)
+        }
+        
+        if let tempNhsNumber = fromCache[Fields.nhsNumber] {
+            
+            nhsNumber = String(describing: tempNhsNumber)
+        }
+        
+        if let tempDrivingLicenseNumber = fromCache[Fields.drivingLicenseNumber] {
+            
+            drivingLicenseNumber = String(describing: tempDrivingLicenseNumber)
+        }
+        
+        if let tempPassportNumber = fromCache[Fields.passportNumber] {
+            
+            passportNumber = String(describing: tempPassportNumber)
+        }
+        
+        if let tempPlaceOfBirth = fromCache[Fields.placeOfBirth] {
+            
+            placeOfBirth = String(describing: tempPlaceOfBirth)
+        }
+        
+        if let tempSecondPassportNumber = fromCache[Fields.secondPassportNumber] {
+            
+            secondPassportNumber = String(describing: tempSecondPassportNumber)
+        }
+        
+        if let tempPassportExpiryDate = fromCache[Fields.passportExpiryDate] {
+            
+            if let date = Int(String(describing: tempPassportExpiryDate)) {
+                
+                passportExpiryDate = Date(timeIntervalSince1970: TimeInterval(date))
+            }
+        }
+        
+        if let tempSecondPassportNumber = fromCache[Fields.secondPassportExpiryDate] {
+            
+            if let date = Int(String(describing: tempSecondPassportNumber)) {
+                
+                secondPassportExpiryDate = Date(timeIntervalSince1970: TimeInterval(date))
+            }
+        }
     }
     
     // MARK: - JSON Mapper

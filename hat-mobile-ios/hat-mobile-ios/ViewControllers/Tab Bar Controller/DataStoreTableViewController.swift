@@ -86,11 +86,12 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        HATPhataService.getProfileFromHAT(
-            userDomain: userDomain,
+        ProfileCachingHelper.getProfile(
             userToken: userToken,
-            successCallback: getProfile,
-            failCallback: logError)
+            userDomain: userDomain,
+            cacheTypeID: "profile",
+            successRespond: getProfile,
+            failRespond: logError)
     }
     
     /**
@@ -101,11 +102,12 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
      */
     func tableCreated(dictionary: Dictionary<String, Any>, renewedToken: String?) {
         
-        HATPhataService.getProfileFromHAT(
-            userDomain: userDomain,
+        ProfileCachingHelper.getProfile(
             userToken: userToken,
-            successCallback: getProfile,
-            failCallback: logError)
+            userDomain: userDomain,
+            cacheTypeID: "profile",
+            successRespond: getProfile,
+            failRespond: logError)
     }
     
     /**
@@ -113,14 +115,17 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
      
      - parameter receivedProfile: The received HATProfileObject from HAT
      */
-    private func getProfile(receivedProfile: HATProfileObject) {
+    private func getProfile(receivedProfile: [HATProfileObject], newToken: String?) {
         
-        self.profile = receivedProfile
-        
-        self.tableView.isUserInteractionEnabled = true
-
-        self.loadingView.removeFromSuperview()
-        self.darkView2.removeFromSuperview()
+        if !receivedProfile.isEmpty {
+            
+            self.profile = receivedProfile[0]
+            
+            self.tableView.isUserInteractionEnabled = true
+            
+            self.loadingView.removeFromSuperview()
+            self.darkView2.removeFromSuperview()
+        }
     }
     
     /**
@@ -149,16 +154,16 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
                 
                     CrashLoggerHelper.hatTableErrorLog(error: error)
                 }
-            )(
+                )(
                 
-                HATAccountService.checkHatTableExistsForUploading(
-                    userDomain: userDomain,
-                    tableName: Constants.HATTableName.Profile.name,
-                    sourceName: Constants.HATTableName.Profile.source,
-                    authToken: userToken,
-                    successCallback: tableCreated,
-                    errorCallback: logError)
-            )
+                    HATAccountService.checkHatTableExistsForUploading(
+                        userDomain: userDomain,
+                        tableName: Constants.HATTableName.Profile.name,
+                        sourceName: Constants.HATTableName.Profile.source,
+                        authToken: userToken,
+                        successCallback: tableCreated,
+                        errorCallback: logError)
+                )
         default:
             
             CrashLoggerHelper.hatTableErrorLog(error: error)

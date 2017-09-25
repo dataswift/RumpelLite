@@ -146,8 +146,11 @@ public struct HATProfileDataProfileObject: Comparable {
 
             if let tempPrivateValue = tempFieldsDictionary["values"]?[0]["value"].stringValue {
 
-                isPrivate = Bool(tempPrivateValue)!
-                isPrivateTuple = (isPrivate, (tempFieldsDictionary["id"]?.intValue)!)
+                if let boolResult = Bool(tempPrivateValue) {
+                    
+                    isPrivate = boolResult
+                    isPrivateTuple = (isPrivate, (tempFieldsDictionary["id"]?.intValue)!)
+                }
             }
         }
 
@@ -386,6 +389,122 @@ public struct HATProfileDataProfileObject: Comparable {
 
                     gender = HATProfileDataProfileGenderObject(alternativeArray: (subtable["fields"].arrayValue))
                 }
+            }
+        }
+    }
+    
+    public init(fromCache: Dictionary<String, JSON>) {
+        
+        if let tempWebsite = fromCache["website"]?.dictionary {
+            
+            website = HATProfileDataProfileWebsiteObject(fromCache: tempWebsite)
+        }
+        
+        if let tempNick = fromCache["nick"]?.dictionary {
+            
+            nick = HATProfileDataProfileNickObject(fromCache: tempNick)
+        }
+        
+        if let tempPrimaryEmail = fromCache["primary_email"]?.dictionary {
+            
+            primaryEmail = HATProfileDataProfilePrimaryEmailObject(fromCache: tempPrimaryEmail)
+        }
+        
+        if let tempYoutube = fromCache["youtube"]?.dictionary {
+            
+            youtube = HATProfileDataProfileYoutubeObject(fromCache: tempYoutube)
+        }
+        
+        if let tempAddressGlobal = fromCache["address_global"]?.dictionary {
+            
+            addressGlobal = HATProfileDataProfileAddressGlobalObject(fromCache: tempAddressGlobal)
+        }
+        
+        if let tempLinkedIn = fromCache["linkedin"]?.dictionary {
+            
+            linkedIn = HATProfileDataProfileLinkedInObject(fromCache: tempLinkedIn)
+        }
+        
+        if let tempBirthday = fromCache["birth"]?.dictionary {
+            
+            birth = HATProfileDataProfileBirthObject(fromCache: tempBirthday)
+        }
+        
+        if let tempHomePhone = fromCache["home_phone"]?.dictionary {
+            
+            homePhone = HATProfileDataProfileHomePhoneObject(fromCache: tempHomePhone)
+        }
+        
+        if let tempGoogle = fromCache["google"]?.dictionary {
+            
+            google = HATProfileDataProfileGoogleObject(fromCache: tempGoogle)
+        }
+        
+        if let tempAge = fromCache["age"]?.dictionary {
+            
+            age = HATProfileDataProfileAgeObject(fromCache: tempAge)
+        }
+        
+        if let tempPersonal = fromCache["personal"]?.dictionary {
+            
+            personal = HATProfileDataProfilePersonalObject(fromCache: tempPersonal)
+        }
+        
+        if let tempBlog = fromCache["blog"]?.dictionary {
+            
+            blog = HATProfileDataProfileBlogObject(fromCache: tempBlog)
+        }
+        
+        if let tempFacebook = fromCache["facebook"]?.dictionary {
+            
+            facebook = HATProfileDataProfileFacebookObject(fromCache: tempFacebook)
+        }
+        
+        if let tempAddressDetails = fromCache["address_details"]?.dictionary {
+            
+            addressDetails = HATProfileDataProfileAddressDetailObject(fromCache: tempAddressDetails)
+        }
+        
+        if let tempEmergencyContact = fromCache["emergency_contact"]?.dictionary {
+            
+            emergencyContact = HATProfileDataProfileEmergencyContactObject(fromCache: tempEmergencyContact)
+        }
+        
+        if let tempAlternativeEmail = fromCache["alternative_email"]?.dictionary {
+            
+            alternativeEmail = HATProfileDataProfileAlternativeEmailObject(fromCache: tempAlternativeEmail)
+        }
+        
+        if let tempFacebookProfile = fromCache["fb_profile_photo"]?.dictionary {
+            
+            facebookProfilePhoto = HATProfileDataProfileFacebookProfilePhotoObject(fromCache: tempFacebookProfile)
+        }
+        
+        if let tempTwitter = fromCache["twitter"]?.dictionary {
+            
+            twitter = HATProfileDataProfileTwitterObject(fromCache: tempTwitter)
+        }
+        
+        if let tempAbout = fromCache["about"]?.dictionary {
+            
+            about = HATProfileDataProfileAboutObject(fromCache: tempAbout)
+        }
+        
+        if let tempMobile = fromCache["mobile"]?.dictionary {
+            
+            mobile = HATProfileDataProfileMobileObject(fromCache: tempMobile)
+        }
+        
+        if let tempGender = fromCache["gender"]?.dictionary {
+            
+            gender = HATProfileDataProfileGenderObject(fromCache: tempGender)
+        }
+        
+        if let tempPrivate = fromCache["private"]?.string {
+            
+            if let boolResult = Bool(tempPrivate) {
+                
+                isPrivate = boolResult
             }
         }
     }

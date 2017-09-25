@@ -16,6 +16,21 @@ import SwiftyJSON
 
 /// A struct representing the profile data Birth object from the received profile JSON file
 public struct HATProfileDataProfileBirthObject: Comparable {
+    
+    // MARK: - Fields
+    
+    /// The possible Fields of the JSON struct
+    struct Fields {
+        
+        static let isPrivate: String = "private"
+        static let isPrivateID: String = "privateID"
+        static let date: String = "date"
+        static let dateID: String = "dateID"
+        static let name: String = "name"
+        static let id: String = "id"
+        static let values: String = "values"
+        static let value: String = "value"
+    }
 
     // MARK: - Comparable protocol
 
@@ -96,13 +111,13 @@ public struct HATProfileDataProfileBirthObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             if let result = Bool(stringValue) {
 
@@ -115,9 +130,9 @@ public struct HATProfileDataProfileBirthObject: Comparable {
 
                 if tempName == "date" {
 
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
 
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
 
                             date = stringValue
                             dateTuple = (date, id)
@@ -137,7 +152,7 @@ public struct HATProfileDataProfileBirthObject: Comparable {
 
             let dict = json.dictionaryValue
 
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
 
                 if tempName == "private" {
 
@@ -153,20 +168,51 @@ public struct HATProfileDataProfileBirthObject: Comparable {
             }
         }
     }
-
+    
+    /**
+     It initialises everything from the received JSON file from the HAT
+     */
+    public init (fromCache: Dictionary<String, JSON>) {
+        
+        if let tempPrivate = (fromCache[Fields.isPrivate]?.stringValue) {
+            
+            if let isPrivateResult = Bool(tempPrivate) {
+                
+                isPrivate = isPrivateResult
+            }
+        }
+        
+        if let tempPrivateID = (fromCache[Fields.isPrivateID]?.intValue) {
+            
+            isPrivateTuple = (isPrivate, tempPrivateID)
+        }
+        
+        if let tempDate = (fromCache[Fields.date]?.stringValue) {
+            
+            date = tempDate
+        }
+        
+        if let tempDateID = (fromCache[Fields.dateID]?.intValue) {
+            
+            dateTuple = (date, tempDateID)
+        }
+    }
+    
     // MARK: - JSON Mapper
-
+    
     /**
      Returns the object as Dictionary, JSON
      
      - returns: Dictionary<String, String>
      */
     public func toJSON() -> Dictionary<String, Any> {
-
+        
         return [
-
-            "private": String(describing: self.isPrivate),
-            "date": self.date
+            
+            Fields.isPrivate: String(describing: self.isPrivate),
+            Fields.isPrivateID: isPrivateTuple.1,
+            Fields.date: self.date,
+            Fields.dateID: dateTuple.1
         ]
     }
 

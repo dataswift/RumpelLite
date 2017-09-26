@@ -1116,13 +1116,6 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		6097C0631E3273AA000E771A /* Assets */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Assets;
-			sourceTree = "<group>";
-		};
 		60BAEEB11EE01BFC001F8381 /* Data Offers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1245,7 +1238,6 @@
 			isa = PBXGroup;
 			children = (
 				604E0C8F1F643CC4007DA3AA /* Fastlane */,
-				6097C0631E3273AA000E771A /* Assets */,
 				08D0D14BBCEF6FAAACE465BA /* Frameworks */,
 				B564E9661D19717900EDB8F1 /* Products */,
 				B564E9671D19717900EDB8F1 /* hat-mobile-ios */,
@@ -2478,8 +2470,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Xiao Ma (UQKPN745LZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Xiao Ma (UQKPN745LZ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Marios-Andreas Tsekis (83LR36F55T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Marios-Andreas Tsekis (83LR36F55T)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -2535,7 +2527,8 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Marios-Andreas Tsekis (83LR36F55T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Marios-Andreas Tsekis (83LR36F55T)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;

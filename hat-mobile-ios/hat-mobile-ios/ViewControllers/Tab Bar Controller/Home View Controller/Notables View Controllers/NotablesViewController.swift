@@ -519,7 +519,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                         
                         CrashLoggerHelper.hatTableErrorLog(error: createTableError)
                     }
-                    )(())
+                    )({}())
                 
             case .noInternetConnection:
                 

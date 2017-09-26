@@ -505,7 +505,7 @@ public struct HATJSONHelper {
                     // create the message fields
                     let messageFieldDictionary: Dictionary = [
 
-                        "id": Int(dict.dictionary!["id"]!.number!),
+                        "id": Int(truncating: dict.dictionary!["id"]!.number!),
                         "name": dict.dictionary!["name"]!.string!
                         ] as [String : Any]
 
@@ -540,7 +540,7 @@ public struct HATJSONHelper {
                         // create the message field
                         let messageFieldDictionary: Dictionary = [
 
-                            "id": Int(field.dictionary!["id"]!.number!),
+                            "id": Int(truncating: field.dictionary!["id"]!.number!),
                             "name": field.dictionary!["name"]!.string!
                             ] as [String : Any]
 

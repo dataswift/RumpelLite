@@ -28,6 +28,7 @@ extension UIColor {
     static let rumpelDarkGray: UIColor = UIColor(red: 29 / 255, green: 49 / 255, blue: 53 / 255, alpha: 1)
     static let rumpelLighterDarkGray: UIColor = UIColor(red: 39 / 255, green: 72 / 255, blue: 80 / 255, alpha: 1)
     static let rumpelVeryLightGray: UIColor = UIColor(red: 244 / 255, green: 244 / 255, blue: 244 / 255, alpha: 1)
+    static let dataOffersBorderColor: UIColor = UIColor(red: 231 / 255, green: 231 / 255, blue: 231 / 255, alpha: 1.0)
     
     static let onSwitchTintColor: UIColor = UIColor(red: 144 / 255, green: 202 / 255, blue: 119 / 255, alpha: 1)
     // swiftlint:enable object_literal

@@ -17,7 +17,7 @@ import SwiftyJSON
 public struct HATProfileEducationObject: HatApiType, Comparable {
     
     // MARK: - Fields
-    struct Fields{
+    struct Fields {
         
         static let highestAcademicQualification: String = "highestAcademicQualification"
         static let unixTimeStamp: String = "unixTimeStamp"

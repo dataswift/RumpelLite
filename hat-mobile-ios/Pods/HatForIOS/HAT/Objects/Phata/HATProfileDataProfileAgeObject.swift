@@ -27,7 +27,7 @@ public struct HATProfileDataProfileAgeObject: Comparable {
         static let group: String = "group"
         static let groupID: String = "groupID"
         static let name: String = "name"
-        static let id: String = "id"
+        static let fieldID: String = "id"
         static let values: String = "values"
         static let value: String = "value"
     }
@@ -111,13 +111,13 @@ public struct HATProfileDataProfileAgeObject: Comparable {
             
             let dict = json.dictionaryValue
             
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.fieldID]?.intValue {
                 
                 if tempName == "private" {
                     
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
                         
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
                             
                             if let result = Bool(stringValue) {
                                 
@@ -130,9 +130,9 @@ public struct HATProfileDataProfileAgeObject: Comparable {
                 
                 if tempName == "group" {
                     
-                    if let tempValues = dict["values"]?.arrayValue {
+                    if let tempValues = dict[Fields.values]?.arrayValue {
                         
-                        if let stringValue = tempValues[0].dictionaryValue["value"]?.stringValue {
+                        if let stringValue = tempValues[0].dictionaryValue[Fields.value]?.stringValue {
                             
                             group = stringValue
                             groupTuple = (group, id)
@@ -152,7 +152,7 @@ public struct HATProfileDataProfileAgeObject: Comparable {
             
             let dict = json.dictionaryValue
             
-            if let tempName = (dict["name"]?.stringValue), let id = dict["id"]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.fieldID]?.intValue {
                 
                 if tempName == "private" {
                     

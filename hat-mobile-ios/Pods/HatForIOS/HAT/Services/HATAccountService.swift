@@ -294,7 +294,7 @@ public struct HATAccountService {
      
      - parameter token: The token returned from the hat
      */
-    public static func createHatTable(userDomain: String, token: String, notablesTableStructure: Dictionary<String, Any>, failed: @escaping (HATTableError) -> Void) -> (_ callback: Void) -> Void {
+    public static func createHatTable(userDomain: String, token: String, notablesTableStructure: Dictionary<String, Any>, failed: @escaping (HATTableError) -> Void) -> (()) -> Void {
         
         return { (_ callback: Void) -> Void in
             

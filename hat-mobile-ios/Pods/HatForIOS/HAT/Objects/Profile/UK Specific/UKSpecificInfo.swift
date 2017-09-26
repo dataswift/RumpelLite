@@ -103,7 +103,6 @@ public struct UKSpecificInfo: HatApiType, Comparable {
         
         if let data = (dict["data"].dictionary) {
             
-            
             self.initialize(fromCache: data)
         }
         

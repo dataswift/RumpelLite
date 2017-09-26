@@ -22,7 +22,7 @@ public protocol HatApiType {
 }
 
 // MARK: - Extension
-
+//swiftlint:disable extension_access_modifier
 extension HatApiType {
     
     public init(fromCache: Dictionary<String, Any>) {
@@ -32,3 +32,4 @@ extension HatApiType {
         self.initialize(fromCache: fromCache)
     }
 }
+//swiftlint:enable extension_access_modifier

@@ -46,9 +46,9 @@ public struct HATPhataService {
                         tableName: "profile",
                         sourceName: "rumpel",
                         authToken: userToken,
-                        successCallback: { (dict) in
+                        successCallback: { (dict, _) in
 
-                            if let unwrappedDictionary = dict.0 as? Dictionary<String, JSON> {
+                            if let unwrappedDictionary = dict as? Dictionary<String, JSON> {
                                 
                                 let array = HATProfileObject(alternativeDictionary: unwrappedDictionary)
                                 successCallback(array)

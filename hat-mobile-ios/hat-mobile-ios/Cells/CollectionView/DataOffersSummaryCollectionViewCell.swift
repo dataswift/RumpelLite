@@ -81,7 +81,7 @@ internal class DataOffersSummaryCollectionViewCell: UICollectionViewCell {
         
         cell.layer.cornerRadius = 5
         cell.layer.borderWidth = 2
-        cell.layer.borderColor = UIColor(red: 231 / 255, green: 231 / 255, blue: 231 / 255, alpha: 1.0).cgColor
+        cell.layer.borderColor = UIColor.dataOffersBorderColor.cgColor
         
         cell.statsView.addLine(
             view: cell.statsView,

@@ -26,7 +26,7 @@ public struct HATProfileDataProfilePrimaryEmailObject: Comparable {
         static let isPrivateID: String = "privateID"
         static let valueID: String = "valueID"
         static let name: String = "name"
-        static let id: String = "id"
+        static let fieldID: String = "id"
         static let values: String = "values"
         static let value: String = "value"
     }
@@ -110,7 +110,7 @@ public struct HATProfileDataProfilePrimaryEmailObject: Comparable {
             
             let dict = json.dictionaryValue
             
-            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.fieldID]?.intValue {
                 
                 if tempName == "private" {
                     
@@ -151,7 +151,7 @@ public struct HATProfileDataProfilePrimaryEmailObject: Comparable {
             
             let dict = json.dictionaryValue
             
-            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.fieldID]?.intValue {
                 
                 if tempName == "private" {
                     

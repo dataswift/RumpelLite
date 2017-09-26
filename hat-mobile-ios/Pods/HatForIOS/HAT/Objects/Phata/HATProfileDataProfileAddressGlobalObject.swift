@@ -31,7 +31,7 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
         static let country: String = "country"
         static let countryID: String = "countryID"
         static let name: String = "name"
-        static let id: String = "id"
+        static let fieldID: String = "id"
         static let values: String = "values"
         static let value: String = "value"
     }
@@ -141,7 +141,7 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
             
             let dict = json.dictionaryValue
             
-            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.fieldID]?.intValue {
                 
                 if tempName == "private" {
                     
@@ -206,7 +206,7 @@ public struct HATProfileDataProfileAddressGlobalObject: Comparable {
             
             let dict = json.dictionaryValue
             
-            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.id]?.intValue {
+            if let tempName = (dict[Fields.name]?.stringValue), let id = dict[Fields.fieldID]?.intValue {
                 
                 if tempName == "private" {
                     

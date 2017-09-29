@@ -21,9 +21,9 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["National Insurance Number"], ["NHS Number"], ["Driving License Number"], ["Passport Number"], ["Expiry date"], ["Place of birth"], ["Second passport Number"], ["Second passport Expiry date"]]
+    private let sections: [[String]] = [["National Insurance Number"], ["Unique Tax Reference"], ["NHS Number"], ["Driving License Number"], ["Passport Number"], ["Expiry date"], ["Place of birth"], ["Second passport Number"], ["Second passport Expiry date"]]
     /// The headers of the table view
-    private let headers: [String] = ["National Insurance Number", "NHS Number", "Driving License Number", "Passport Number", "Expiry date", "Place of birth", "Second passport Number", "Second passport Expiry date"]
+    private let headers: [String] = ["National Insurance Number", "Unique Tax Reference", "NHS Number", "Driving License Number", "Passport Number", "Expiry date", "Place of birth", "Second passport Number", "Second passport Expiry date"]
     
     /// The loading view pop up
     private var loadingView: UIView = UIView()
@@ -31,7 +31,7 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
     private var darkView: UIView = UIView()
     
     /// The profile, used in PHATA table
-    private var ukSpecificInfo: UKSpecificInfo = UKSpecificInfo()
+    private var ukSpecificInfo: UKSpecificInfo?
     
     // MARK: - IBAction
     
@@ -85,8 +85,13 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             _ = self.navigationController?.popViewController(animated: true)
         }
         
+        guard self.ukSpecificInfo != nil else {
+            
+            return
+        }
+        
         UKSpecificInfoCachingWrapperHelper.postUKSpecificInfo(
-            ukSpecificInfo: self.ukSpecificInfo,
+            ukSpecificInfo: self.ukSpecificInfo!,
             userToken: userToken,
             userDomain: userDomain,
             successCallback: recordCreated,
@@ -114,40 +119,44 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             // nationalInsuranceNumber
             if index == 0 {
                 
-                self.ukSpecificInfo.nationalInsuranceNumber = cell!.getTextFromTextField()
-            // nhsNumber
+                self.ukSpecificInfo?.nationalInsuranceNumber = cell!.getTextFromTextField()
+            // Unique Tax Reference
             } else if index == 1 {
                 
-                self.ukSpecificInfo.nhsNumber = cell!.getTextFromTextField()
-            // drivingLicenseNumber
+                self.ukSpecificInfo?.uniqueTaxReference = cell!.getTextFromTextField()
+            // nhsNumber
             } else if index == 2 {
                 
-                self.ukSpecificInfo.drivingLicenseNumber = cell!.getTextFromTextField()
-            // passportNumber
+                self.ukSpecificInfo?.nhsNumber = cell!.getTextFromTextField()
+            // drivingLicenseNumber
             } else if index == 3 {
                 
-                self.ukSpecificInfo.passportNumber = cell!.getTextFromTextField()
-            // passportExpiryDate
+                self.ukSpecificInfo?.drivingLicenseNumber = cell!.getTextFromTextField()
+            // passportNumber
             } else if index == 4 {
                 
-                if let date = cell?.getDateFromDatePicker() {
-                    
-                    self.ukSpecificInfo.passportExpiryDate = date
-                }
-            // placeOfBirth
+                self.ukSpecificInfo?.passportNumber = cell!.getTextFromTextField()
+            // passportExpiryDate
             } else if index == 5 {
                 
-                self.ukSpecificInfo.placeOfBirth = cell!.getTextFromTextField()
-            // secondPassportNumber
+                if let date = cell?.getDateFromDatePicker() {
+                    
+                    self.ukSpecificInfo?.passportExpiryDate = date
+                }
+            // placeOfBirth
             } else if index == 6 {
                 
-                self.ukSpecificInfo.secondPassportNumber = cell!.getTextFromTextField()
-            // secondPassportExpiryDate
+                self.ukSpecificInfo?.placeOfBirth = cell!.getTextFromTextField()
+            // secondPassportNumber
             } else if index == 7 {
+                
+                self.ukSpecificInfo?.secondPassportNumber = cell!.getTextFromTextField()
+            // secondPassportExpiryDate
+            } else if index == 8 {
                 
                 if let date = cell?.getDateFromDatePicker() {
                     
-                    self.ukSpecificInfo.secondPassportExpiryDate = date
+                    self.ukSpecificInfo?.secondPassportExpiryDate = date
                 }
             }
         }
@@ -237,40 +246,54 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
         
         cell.accessoryType = .none
         
+        guard self.ukSpecificInfo != nil else {
+            
+            cell.setTagInTextField(tag: 1)
+            return cell
+        }
+        
         if indexPath.section == 0 {
             
-            cell.setTextToTextField(text: self.ukSpecificInfo.nationalInsuranceNumber)
+            cell.setTextToTextField(text: self.ukSpecificInfo!.nationalInsuranceNumber)
+            cell.setTagInTextField(tag: 1)
         } else if indexPath.section == 1 {
             
-            cell.setTextToTextField(text: self.ukSpecificInfo.nhsNumber)
+            cell.setTextToTextField(text: self.ukSpecificInfo!.uniqueTaxReference)
+            cell.setTagInTextField(tag: 1)
         } else if indexPath.section == 2 {
             
-            cell.setTextToTextField(text: self.ukSpecificInfo.drivingLicenseNumber)
+            cell.setTextToTextField(text: self.ukSpecificInfo!.nhsNumber)
+            cell.setTagInTextField(tag: 1)
         } else if indexPath.section == 3 {
             
-            cell.setTextToTextField(text: self.ukSpecificInfo.passportNumber)
+            cell.setTextToTextField(text: self.ukSpecificInfo!.drivingLicenseNumber)
+            cell.setTagInTextField(tag: 1)
         } else if indexPath.section == 4 {
+            
+            cell.setTextToTextField(text: self.ukSpecificInfo!.passportNumber)
+            cell.setTagInTextField(tag: 1)
+        } else if indexPath.section == 5 {
             
             cell.setTextToTextField(
                 text: FormatterHelper.formatDateStringToUsersDefinedDate(
-                date: self.ukSpecificInfo.passportExpiryDate,
+                date: self.ukSpecificInfo!.passportExpiryDate,
                 dateStyle: .short,
                 timeStyle: .none)
             )
             cell.setKeyboardType(.default)
             cell.setTagInTextField(tag: 12)
-        } else if indexPath.section == 5 {
-            
-            cell.setTextToTextField(text: self.ukSpecificInfo.placeOfBirth)
-            cell.setTagInTextField(tag: 5)
         } else if indexPath.section == 6 {
             
-            cell.setTextToTextField(text: self.ukSpecificInfo.secondPassportNumber)
+            cell.setTextToTextField(text: self.ukSpecificInfo!.placeOfBirth)
+            cell.setTagInTextField(tag: 5)
         } else if indexPath.section == 7 {
+            
+            cell.setTextToTextField(text: self.ukSpecificInfo!.secondPassportNumber)
+        } else if indexPath.section == 8 {
             
             cell.setTextToTextField(
                 text: FormatterHelper.formatDateStringToUsersDefinedDate(
-                    date: self.ukSpecificInfo.secondPassportExpiryDate,
+                    date: self.ukSpecificInfo!.secondPassportExpiryDate,
                     dateStyle: .short,
                     timeStyle: .none)
             )

@@ -146,8 +146,15 @@ public struct HATProfileDataProfileObject: Comparable {
             
             if let tempPrivateValue = tempFieldsDictionary["values"]?[0]["value"].stringValue {
                 
-                isPrivate = Bool(tempPrivateValue)!
-                isPrivateTuple = (isPrivate, (tempFieldsDictionary["id"]?.intValue)!)
+                if tempPrivateValue != nil && tempPrivateValue != "" {
+                    
+                    isPrivate = Bool(tempPrivateValue)!
+                    isPrivateTuple = (isPrivate, (tempFieldsDictionary["id"]?.intValue)!)
+                } else {
+                    
+                    isPrivate = true
+                    isPrivateTuple = (isPrivate, (tempFieldsDictionary["id"]?.intValue)!)
+                }
             }
         }
         
@@ -541,5 +548,4 @@ public struct HATProfileDataProfileObject: Comparable {
             "gender": self.gender.toJSON()
         ]
     }
-    
 }

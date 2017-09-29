@@ -325,43 +325,46 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      */
     private func showNotables(notes: [HATNotesData], renewedUserToken: String?) {
         
-        if self.isViewLoaded && (self.view.window != nil) {
+        DispatchQueue.main.async { [weak self] in
             
-            DispatchQueue.global().async { [weak self] () -> Void in
+            if let weakSelf = self {
                 
-                if let weakSelf = self {
+                if self!.isViewLoaded && (self!.view.window != nil) {
                     
-                    if notes.count >= Int(weakSelf.notablesFetchLimit)! {
+                    DispatchQueue.global().async { () -> Void in
                         
-                        // increase limit
-                        weakSelf.notablesFetchLimit = "500"
+                        if notes.count >= Int(weakSelf.notablesFetchLimit)! {
+                            
+                            // increase limit
+                            weakSelf.notablesFetchLimit = "500"
+                            
+                            // init object from array
+                            let object = notes.last!
+                            
+                            // set unix date
+                            weakSelf.notablesFetchEndDate = HATFormatterHelper.formatDateToEpoch(date: object.lastUpdated)
+                            
+                            // change parameters
+                            weakSelf.parameters = ["starttime": "0",
+                                                   "endtime": weakSelf.notablesFetchEndDate!,
+                                                   "limit": weakSelf.notablesFetchLimit]
+                            
+                            // fetch notes
+                            weakSelf.fetchNotes()
+                            
+                        } else {
+                            
+                            // revert parameters to initial values
+                            weakSelf.notablesFetchEndDate = nil
+                            weakSelf.parameters = ["starttime": "0",
+                                                   "limit": weakSelf.notablesFetchLimit]
+                        }
                         
-                        // init object from array
-                        let object = notes.last!
+                        weakSelf.showReceivedNotesFrom(array: notes)
                         
-                        // set unix date
-                        weakSelf.notablesFetchEndDate = HATFormatterHelper.formatDateToEpoch(date: object.lastUpdated)
-                        
-                        // change parameters
-                        weakSelf.parameters = ["starttime": "0",
-                                           "endtime": weakSelf.notablesFetchEndDate!,
-                                           "limit": weakSelf.notablesFetchLimit]
-                        
-                        // fetch notes
-                        weakSelf.fetchNotes()
-                        
-                    } else {
-                        
-                        // revert parameters to initial values
-                        weakSelf.notablesFetchEndDate = nil
-                        weakSelf.parameters = ["starttime": "0",
-                                           "limit": weakSelf.notablesFetchLimit]
+                        // refresh user token
+                        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
                     }
-                    
-                    weakSelf.showReceivedNotesFrom(array: notes)
-                    
-                    // refresh user token
-                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
                 }
             }
         }

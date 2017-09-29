@@ -244,12 +244,17 @@ open class RingProgressCircle: UIView {
         let Y = self.bounds.midY
         let offset = -Double.pi / 2
         
-        self.path = UIBezierPath(
-            arcCenter: CGPoint(x: X, y: Y),
-            radius: self.ringRadius,
-            startAngle: (CGFloat(0 + offset)),
-            endAngle: (CGFloat(Double(end) * (Double.pi * 2) + offset)),
-            clockwise: true).cgPath
+        let startAngle = (CGFloat(0 + offset))
+        let endAngle = (CGFloat(Double(end) * (Double.pi * 2) + offset))
+        if endAngle >= startAngle {
+            
+            self.path = UIBezierPath(
+                arcCenter: CGPoint(x: X, y: Y),
+                radius: self.ringRadius,
+                startAngle: startAngle,
+                endAngle: endAngle,
+                clockwise: true).cgPath
+        }
         
         if self.previousArc != nil && removePreviousLayer {
     

@@ -60,6 +60,7 @@ public struct UKSpecificInfo: HatApiType, Comparable {
         static let secondPassportExpiryDate: String = "secondPassportExpiryDate"
         static let recordId: String = "recordId"
         static let unixTimeStamp: String = "unixTimeStamp"
+        static let uniqueTaxReference: String = "uniqueTaxReference"
     }
     
     // MARK: - Variables
@@ -70,6 +71,7 @@ public struct UKSpecificInfo: HatApiType, Comparable {
     public var passportNumber: String = ""
     public var placeOfBirth: String = ""
     public var secondPassportNumber: String = ""
+    public var uniqueTaxReference: String = ""
     
     public var passportExpiryDate: Date = Date()
     public var secondPassportExpiryDate: Date = Date()
@@ -89,6 +91,7 @@ public struct UKSpecificInfo: HatApiType, Comparable {
         passportNumber = ""
         placeOfBirth = ""
         secondPassportNumber = ""
+        uniqueTaxReference = ""
         
         passportExpiryDate = Date()
         secondPassportExpiryDate = Date()
@@ -117,6 +120,11 @@ public struct UKSpecificInfo: HatApiType, Comparable {
         if let tempNationalInsuranceNumber = fromCache[Fields.nationalInsuranceNumber] {
             
             nationalInsuranceNumber = String(describing: tempNationalInsuranceNumber)
+        }
+        
+        if let tempUniqueTaxReference = fromCache[Fields.uniqueTaxReference] {
+            
+            uniqueTaxReference = String(describing: tempUniqueTaxReference)
         }
         
         if let tempNhsNumber = fromCache[Fields.nhsNumber] {
@@ -173,6 +181,7 @@ public struct UKSpecificInfo: HatApiType, Comparable {
         return [
             
             Fields.nationalInsuranceNumber: self.nationalInsuranceNumber,
+            Fields.uniqueTaxReference: self.uniqueTaxReference,
             Fields.nhsNumber: self.nhsNumber,
             Fields.drivingLicenseNumber: self.drivingLicenseNumber,
             Fields.passportNumber: self.passportNumber,

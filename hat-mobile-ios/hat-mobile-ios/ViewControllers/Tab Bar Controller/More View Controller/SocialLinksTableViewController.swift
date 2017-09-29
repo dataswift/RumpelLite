@@ -125,44 +125,28 @@ internal class SocialLinksTableViewController: UITableViewController, UserCreden
             }
         }
         
-        func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
-            
-            HATPhataService.postProfile(
-                userDomain: userDomain,
-                userToken: userToken,
-                hatProfile: self.profile!,
-                successCallBack: {
-                
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    _ = self.navigationController?.popViewController(animated: true)
-                },
-                errorCallback: { error in
-                
-                    self.loadingView.removeFromSuperview()
-                    self.darkView.removeFromSuperview()
-                    
-                    self.createClassicOKAlertWith(alertMessage: "There was an error posting profile", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-            )
-        }
-        
-        HATAccountService.checkHatTableExistsForUploading(
+        ProfileCachingHelper.postProfile(
+            profile: self.profile!,
+            userToken: userToken,
             userDomain: userDomain,
-            tableName: Constants.HATTableName.Profile.name,
-            sourceName: Constants.HATTableName.Profile.source,
-            authToken: userToken,
-            successCallback: tableExists,
-            errorCallback: { error in
-            
-                self.loadingView.removeFromSuperview()
-                self.darkView.removeFromSuperview()
+            successCallback: { [weak self] in
                 
-                self.createClassicOKAlertWith(alertMessage: "There was an error checking if it's possible to post the data", alertTitle: "Error", okTitle: "OK", proceedCompletion: {})
+                self?.loadingView.removeFromSuperview()
+                self?.darkView.removeFromSuperview()
                 
-                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                self?.navigationController?.popViewController(animated: true)
+            },
+            errorCallback: { [weak self] error in
+                
+                self?.loadingView.removeFromSuperview()
+                self?.darkView.removeFromSuperview()
+                
+                self?.createClassicOKAlertWith(
+                    alertMessage: "There was an error posting profile",
+                    alertTitle: "Error",
+                    okTitle: "OK",
+                    proceedCompletion: {})
+                CrashLoggerHelper.hatTableErrorLog(error: error)
             }
         )
     }

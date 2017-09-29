@@ -69,6 +69,8 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     /// A String to filter the social feed by, Twitter, Facebook and All
     var filterBy: String = "All"
+    /// A Bool to indicate if the filtering is enabled or not
+    var isFilteringHidden: Bool = false
     
     /// A Bool to determine if twitter is available
     private var isTwitterAvailable: Bool = false
@@ -179,6 +181,8 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         self.calendarImageView.addGestureRecognizer(recogniser)
         
         self.createDatePickerAccessoryView()
+        
+        self.filterFeedButton.isHidden = self.isFilteringHidden
     }
     
     override func viewWillAppear(_ animated: Bool) {

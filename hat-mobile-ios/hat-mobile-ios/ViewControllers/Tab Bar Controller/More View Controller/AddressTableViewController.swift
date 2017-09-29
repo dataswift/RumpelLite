@@ -197,6 +197,7 @@ internal class AddressTableViewController: UITableViewController, UserCredential
                 
                 cell.setTextToTextField(text: self.profile!.data.addressGlobal.country)
                 cell.isSwitchHidden(true)
+                cell.setDelegate(delegate: self)
                 cell.setTagInTextField(tag: 5)
             } else if indexPath.section == 3 {
                 

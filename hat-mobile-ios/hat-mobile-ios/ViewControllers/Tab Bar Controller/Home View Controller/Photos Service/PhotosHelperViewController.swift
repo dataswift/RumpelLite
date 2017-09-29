@@ -128,18 +128,21 @@ internal class PhotosHelperViewController: UIViewController, UIImagePickerContro
             
             self.showProgressRing()
             
-            HATFileService.uploadFileToHATWrapper(
-                token: self.userToken,
-                userDomain: self.userDomain,
-                fileToUpload: image,
-                tags: tags,
+            ProfileImageCachingWrapperHelper.tryToUpload(
+                image: image,
                 name: name,
-                progressUpdater: {progress in
+                tags: tags,
+                userToken: userToken,
+                userDomain: userDomain,
+                progressUpdater: { [weak self] progress in
                     
-                    let endPoint = self.loadingScr?.getRingEndPoint()
-                    self.loadingScr?.updateView(completion: progress, animateFrom: Float((endPoint)!), removePreviousRingLayer: false)
+                    if self != nil {
+                        
+                        let endPoint = self!.loadingScr?.getRingEndPoint()
+                        self?.loadingScr?.updateView(completion: progress, animateFrom: Float((endPoint)!), removePreviousRingLayer: false)
+                    }
                 },
-                completion: {[weak self] (file, renewedUserToken) in
+                successCallback: { [weak self] (file, renewedUserToken) in
                     
                     self?.removeProgressRing()
                     
@@ -150,9 +153,9 @@ internal class PhotosHelperViewController: UIViewController, UIImagePickerContro
                     completion(file)
                     
                     // refresh user token
-                    _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
                 },
-                errorCallBack: {[weak self] error in
+                errorCallback: { [weak self] error in
                     
                     if self != nil {
                         
@@ -162,9 +165,9 @@ internal class PhotosHelperViewController: UIViewController, UIImagePickerContro
                         fromReference.willMove(toParentViewController: callingViewController)
                         fromReference.removeViewController()
                         
-                        self!.createClassicOKAlertWith(alertMessage: "There was an error with the uploading of the file, please try again later", alertTitle: "Upload failed", okTitle: "OK", proceedCompletion: {})
+                        self?.createClassicOKAlertWith(alertMessage: "There was an error with the uploading of the file, please try again later", alertTitle: "Upload failed", okTitle: "OK", proceedCompletion: {})
                         
-                        _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+                        CrashLoggerHelper.hatTableErrorLog(error: error)
                     }
                 }
             )

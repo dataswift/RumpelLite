@@ -294,7 +294,23 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             
                 cell?.cropImage()
                 
-                self?.image.selectedImages[indexPath.row].image = image
+                if self != nil {
+                    
+                    if self!.image.selectedImages.count > indexPath.row {
+                        
+                        self!.image.selectedImages[indexPath.row].image = image
+                    }
+                }
+            },
+            errorCallBack: { [weak self] in
+                
+                if self != nil {
+                    
+                    if self!.image.selectedImages.count > indexPath.row {
+                        
+                        self!.image.selectedImages[indexPath.row].image = UIImage(named: Constants.ImageNames.imageDeleted)
+                    }
+                }
             })
         )!
     }
@@ -341,16 +357,33 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             
             self.makeFilePublic(
                 file: file,
-                completion: { [weak self] file in
+                completion: { file2 in
             
-                    self?.image.selectedImages.append(file)
-                    self?.collectionView.backgroundColor? = .white
-                    self?.reloadCollectionView()
-                    
-                    self?.setAsProfile()
+                    self.image.selectedImages.append(file2)
+                    self.collectionView.backgroundColor? = .white
+                    self.reloadCollectionView()
+                    self.setAsProfile()
                 },
                 failed: { _ in return }
             )
+        }
+        
+        if !Reachability.isConnectedToNetwork() {
+            
+            if let image = (info[UIImagePickerControllerOriginalImage] as? UIImage) {
+                
+                var fileObject = FileUploadObject()
+                fileObject.image = image
+                fileObject.source = "iPhone"
+                fileObject.name = String.random()
+                fileObject.fileID = "\(fileObject.source.lowercased())\(fileObject.name.lowercased())"
+                fileObject.contentURL = "https://\(userDomain)/api/v2/files/content/\(fileObject.fileID)"
+                fileObject.tags = ["iphone", "profile", "rumpel", "photo"]
+                self.image.selectedImages.append(fileObject)
+                self.collectionView.backgroundColor? = .white
+                self.reloadCollectionView()
+                self.setAsProfile()
+            }
         }
         
         photoPicker.handleUploadImage(
@@ -456,13 +489,20 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     
     func deleteImage(file: FileUploadObject) {
         
+        for (index, tempFile) in self.image.selectedImages.enumerated() where file == tempFile && self.image.selectedImages.count > index {
+            
+            self.image.selectedImages.remove(at: index)
+            self.collectionView.reloadData()
+        }
+        
+        self.setAsProfile()
     }
     
     func setAsProfile() {
         
-        func valueCreated(result: JSON, renewedUserToken: String?) {
+        func valueCreated() {
             
-            print(result)
+            print("")
         }
         
         func failed(error: HATTableError) {
@@ -475,14 +515,10 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             self.image.selectedImages[index].contentURL = Constants.HATEndpoints.fileInfoURL(fileID: file.fileID, userDomain: userDomain)
         }
         
-        let parameters = self.image.toJSON()
-        
-        HATAccountService.createTableValuev2(
-            token: userToken,
+        ProfileImageCachingWrapperHelper.postProfileObject(
+            profile: self.image,
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.ProfileImage.source,
-            dataPath: Constants.HATTableName.ProfileImage.name,
-            parameters: parameters,
             successCallback: valueCreated,
             errorCallback: failed)
     }
@@ -497,34 +533,49 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     
     func getProfileImages() {
         
-        func success(json: [JSON], newToken: String?) {
+        func success(profileObjects: [ProfileImageObject], newToken: String?) {
             
-            if !json.isEmpty {
+            DispatchQueue.main.async { [weak self] in
 
-                if let dict = (json[0].dictionary)?["data"]?.dictionary {
+                if self != nil {
+
+                    if !profileObjects.isEmpty && profileObjects[0].profileImage != nil {
                     
-                    self.image = ProfileImageObject(dictionary: dict)
-                    if self.image.profileImage != nil {
+                        self!.image = profileObjects[0]
+                        self!.image.profileImage = profileObjects[0].profileImage
                         
-                        if let url = URL(string: self.image.profileImage!.contentURL) {
-                            
-                            self.imageView.downloadedFrom(
-                                url: url,
-                                userToken: userToken,
-                                progressUpdater: nil,
-                                completion: {
-                                    
-                                    self.imageView.cropImage(width: self.imageView.frame.width, height: self.imageView.frame.height)
+                        self!.imageView.hnk_setImage(
+                            from: URL(string: profileObjects[0].profileImage!.contentURL),
+                            placeholder: UIImage(named: Constants.ImageNames.placeholderImage),
+                            headers: ["x-auth-token": self!.userToken],
+                            success: {_ in
+                                
+                                self!.imageView!.image = self!.image.profileImage?.image
+                                self?.imageView!.cropImage(width: self!.imageView!.frame.width, height: self!.imageView!.frame.height)
+                            },
+                            failure: { error in
+                                
+                                if error != nil {
+                                    self?.imageView!.cropImage(width: self!.imageView!.frame.width, height: self!.imageView!.frame.height)
+                                    CrashLoggerHelper.customErrorLog(message: "", error: error!)
                                 }
-                            )
-                        }
-                    }
-                    self.collectionView.backgroundColor? = .white
-                    self.reloadCollectionView()
-                }
-            } else {
+                            },
+                            update: nil
+                        )
+                    
+                        self!.collectionView.backgroundColor? = .white
+                        self?.reloadCollectionView()
+                    } else if !profileObjects.isEmpty && !profileObjects[0].selectedImages.isEmpty {
+                        
+                        self?.image.selectedImages = profileObjects[0].selectedImages
+                        
+                        self!.collectionView.backgroundColor? = .white
+                        self?.reloadCollectionView()
+                    } else {
                 
-                self.collectionView.backgroundColor? = .clear
+                        self!.collectionView.backgroundColor? = .clear
+                    }
+                }
             }
         }
         
@@ -532,15 +583,13 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             
             CrashLoggerHelper.hatTableErrorLog(error: error)
         }
-    
-        HATAccountService.getHatTableValuesv2(
-            token: userToken,
+        
+        ProfileImageCachingWrapperHelper.getProfileObject(
+            userToken: userToken,
             userDomain: userDomain,
-            source: Constants.HATTableName.ProfileImage.source,
-            scope: Constants.HATTableName.ProfileImage.name,
-            parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
-            successCallback: success,
-            errorCallback: failed)
+            cacheTypeID: "profileImageObject",
+            successRespond: success,
+            failRespond: failed)
     }
     
 }

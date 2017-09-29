@@ -20,11 +20,11 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
     // MARK: - Variables
 
     /// The sections of the table view
-    private let sections: [[String]] = [["Name", "Contact Info"], ["UK Specific"]]
+    private let sections: [[String]] = [["Name", "Contact Info"], ["UK Specific"], ["Stuff To Remember"]]
     /// The headers of the table view
     private let headers: [String] = ["My Profile"]
     /// The footers of the table view
-    private let footers: [String] = ["", "Want more fields? Ping us at contact@hatdex.org!"]
+    private let footers: [String] = ["", "", "Want more fields? Ping us at contact@hatdex.org!"]
     
     /// The profile, used in PHATA table
     private var profile: HATProfileObject?

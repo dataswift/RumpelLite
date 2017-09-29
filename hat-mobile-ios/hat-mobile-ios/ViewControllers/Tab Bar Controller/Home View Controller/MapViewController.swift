@@ -509,37 +509,37 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      */
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
         
-        if self.textField.isFirstResponder {
-            
-            DispatchQueue.main.async { [unowned self] () -> Void in
+        DispatchQueue.main.async { [unowned self] () -> Void in
+
+            let mapBoundsWidth = Double(self.mapView.bounds.size.width)
+            if self.textField.isFirstResponder {
                 
                 self.textField.resignFirstResponder()
                 self.filterDataPointsFrom = nil
                 self.filterDataPointsTo = nil
             }
-        }
-        
-        OperationQueue().addOperation({ [weak self] () -> Void in
             
-            if let wSelf = self {
+            OperationQueue().addOperation({ [weak self] () -> Void in
                 
-                // calculate map size and scale
-                let mapBoundsWidth = Double(wSelf.mapView.bounds.size.width)
-                let mapRectWidth: Double = wSelf.mapView.visibleMapRect.size.width
-                let scale: Double = mapBoundsWidth / mapRectWidth
-                let annotationArray = wSelf.clusteringManager.clusteredAnnotations(withinMapRect: wSelf.mapView.visibleMapRect, zoomScale: scale)
-                DispatchQueue.main.sync(
-                    execute: { [weak self] () -> Void in
+                if let wSelf = self {
                     
-                        if let weakSelf = self {
+                    // calculate map size and scale
+                    let mapRectWidth: Double = wSelf.mapView.visibleMapRect.size.width
+                    let scale: Double = mapBoundsWidth / mapRectWidth
+                    let annotationArray = wSelf.clusteringManager.clusteredAnnotations(withinMapRect: wSelf.mapView.visibleMapRect, zoomScale: scale)
+                    DispatchQueue.main.sync(
+                        execute: { [weak self] () -> Void in
                             
-                            // display map
-                            weakSelf.clusteringManager.display(annotations: annotationArray, onMapView: weakSelf.mapView)
+                            if let weakSelf = self {
+                                
+                                // display map
+                                weakSelf.clusteringManager.display(annotations: annotationArray, onMapView: weakSelf.mapView)
+                            }
                         }
-                    }
-                )
-            }
-        })
+                    )
+                }
+            })
+        }
     }
     
     /**

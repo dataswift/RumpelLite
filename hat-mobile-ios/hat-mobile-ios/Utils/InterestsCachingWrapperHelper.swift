@@ -13,6 +13,8 @@
 import HatForIOS
 import SwiftyJSON
 
+// MARK: Struct
+
 internal struct InterestsCachingWrapperHelper {
 
     // MARK: - Network Request

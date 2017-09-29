@@ -111,12 +111,12 @@ extension String {
     func createTextAttributes(foregroundColor: UIColor, strokeColor: UIColor, font: UIFont) -> NSAttributedString {
         
         //swiftlint:disable force_cast
-        let textAttributes = [
-            NSAttributedStringKey.foregroundColor.rawValue: foregroundColor,
+        let textAttributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.foregroundColor: foregroundColor,
             NSAttributedStringKey.strokeColor: strokeColor,
             NSAttributedStringKey.font: font,
             NSAttributedStringKey.strokeWidth: -1.0
-            ] as! [NSAttributedStringKey : Any]
+            ]
         //swiftlint:enable force_cast
 
         return NSAttributedString(string: self, attributes: textAttributes)

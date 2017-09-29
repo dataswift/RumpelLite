@@ -15,7 +15,7 @@ import SwiftyJSON
 
 // MARK: Struct
 
-internal struct ProfileImageObject {
+internal struct ProfileImageObject: HatApiType {
     
     // MARK: - Fields
     
@@ -54,6 +54,14 @@ internal struct ProfileImageObject {
      */
     init(dictionary: Dictionary<String, JSON>) {
         
+        self.assignValues(dictionary: dictionary)
+    }
+    
+    /**
+     It initialises everything from the received JSON file
+     */
+    mutating private func assignValues(dictionary: Dictionary<String, JSON>) {
+        
         if let tempProfileImage = dictionary[Fields.profile]?.dictionary {
             
             profileImage = FileUploadObject(from: tempProfileImage)
@@ -69,6 +77,26 @@ internal struct ProfileImageObject {
             for image in tempSelectedImages {
                 
                 selectedImages.append(FileUploadObject(from: image.dictionaryValue))
+            }
+        }
+    }
+    
+    /**
+     It initialises everything from the received JSON file from the cache
+     */
+    mutating func initialize(fromCache: Dictionary<String, Any>) {
+        
+        let json = JSON(fromCache)
+        self.assignValues(dictionary: json.dictionaryValue)
+        
+        if let tempDict = fromCache[Fields.profile] as? Dictionary<String, Any> {
+            
+            if let tempImage = tempDict["image"] {
+                
+                if let data = tempImage as? Data {
+                    
+                    profileImage?.image = UIImage(data: data)
+                }
             }
         }
     }

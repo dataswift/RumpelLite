@@ -227,18 +227,24 @@ internal class PhotoViewerViewController: UIViewController, UICollectionViewData
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.CellReuseIDs.photosCell, for: indexPath) as? PhotosCollectionViewCell
         
-        return (cell?.setUpCell(userDomain: userDomain, userToken: userToken, files: self.files, indexPath: indexPath, completion: { [weak self] image in
+        return (cell?.setUpCell(
+            userDomain: userDomain,
+            userToken: userToken,
+            files: self.files,
+            indexPath: indexPath,
+            completion: { [weak self] image in
             
-            cell?.cropImage()
+                cell?.cropImage()
 
-            if let weakSelf = self {
-                
-                if indexPath.row <= weakSelf.files.count {
+                if let weakSelf = self {
                     
-                    weakSelf.files[indexPath.row].image = image
+                    if indexPath.row <= weakSelf.files.count {
+                        
+                        weakSelf.files[indexPath.row].image = image
+                    }
                 }
-            }
-        }))!
+            },
+            errorCallBack: {}))!
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

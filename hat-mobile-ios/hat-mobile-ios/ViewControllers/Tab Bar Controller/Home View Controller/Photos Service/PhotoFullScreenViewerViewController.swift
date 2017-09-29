@@ -95,7 +95,11 @@ internal class PhotoFullScreenViewerViewController: UIViewController, UserCreden
             
             func delete() {
                 
-                HATFileService.deleteFile(fileID: file!.fileID, token: self.userToken, userDomain: self.userDomain, successCallback: success, errorCallBack: fail)
+                ProfileImageCachingWrapperHelper.tryToDelete(
+                    fileID: file!.fileID,
+                    userToken: self.userToken,
+                    userDomain: self.userDomain,
+                    successCallback: success, errorCallback: fail)
                 profileViewControllerDelegate?.deleteImage(file: self.file!)
             }
             

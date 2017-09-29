@@ -57,7 +57,7 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
      
      - returns: Returns an already set up cell
      */
-    func setUpCell(userDomain: String, userToken: String, files: [FileUploadObject], indexPath: IndexPath, completion: @escaping (UIImage) -> Void) -> UICollectionViewCell {
+    func setUpCell(userDomain: String, userToken: String, files: [FileUploadObject], indexPath: IndexPath, completion: @escaping (UIImage) -> Void, errorCallBack: @escaping () -> Void) -> UICollectionViewCell {
         
         let imageURL: String = Constants.HATEndpoints.fileInfoURL(
             fileID: files[indexPath.row].fileID,
@@ -78,7 +78,15 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
             self.downloadImageFrom(
                 imageURL: imageURL,
                 userToken: userToken,
-                completion: completion)
+                completion: completion,
+                errorCallBack: { error in
+                    
+                    if error.localizedDescription == "not found" || error.localizedDescription == "forbidden" {
+                        
+                        errorCallBack()
+                    }
+                }
+            )
         } else if self.ringProgressView.isHidden {
             
             self.image.image = files[indexPath.row].image
@@ -116,7 +124,7 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
      - parameter userToken: The user token
      - parameter completion: A function to execute on completion returning the UIImage
      */
-    private func downloadImageFrom(imageURL: String, userToken: String, completion: @escaping (UIImage) -> Void) {
+    private func downloadImageFrom(imageURL: String, userToken: String, completion: @escaping (UIImage) -> Void, errorCallBack: ((Error) -> Void)? = nil) {
         
         if let url = URL(string: imageURL) {
             
@@ -140,11 +148,18 @@ internal class PhotosCollectionViewCell: UICollectionViewCell {
                         }
                     }
                 },
-                failure: { error in
+                failure: { [weak self] error in
                 
-                    if error != nil {
+                    if let weakSelf = self {
                         
-                        CrashLoggerHelper.customErrorLog(message: "", error: error!)
+                        weakSelf.ringProgressView.isHidden = true
+                        weakSelf.setImageInUIImageView(image: UIImage(named: Constants.ImageNames.imageDeleted)!)
+                        if error != nil {
+                            
+                            CrashLoggerHelper.customErrorLog(message: "", error: error!)
+                        }
+                        
+                        errorCallBack?(error!)
                     }
                 },
                 update: { [weak self] completionProgress in

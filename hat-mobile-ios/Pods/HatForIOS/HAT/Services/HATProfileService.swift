@@ -243,5 +243,75 @@ public struct HATProfileService {
             errorCallback: failCallback
         )
     }
+    
+    // MARK: - Get Stuff To Remember
+    
+    /**
+     Gets the stuff to remember of the user from the hat, if it's there already
+     
+     - parameter userDomain: The user's HAT domain
+     - parameter userToken: The user's token
+     - parameter successCallback: A function to call on success
+     - parameter failCallback: A fuction to call on fail
+     */
+    public static func getStuffToRememberFromHAT(userDomain: String, userToken: String, successCallback: @escaping ([StuffToRememberObject], String?) -> Void, failCallback: @escaping (HATTableError) -> Void) {
+        
+        func stuffToRemember(json: [JSON], renewedToken: String?) {
+            
+            // if we have values return them
+            if !json.isEmpty {
+                
+                var arrayToReturn: [StuffToRememberObject] = []
+                
+                for item in json {
+                    
+                    arrayToReturn.append(StuffToRememberObject(dictionary: item.dictionaryValue))
+                }
+                
+                successCallback(arrayToReturn, renewedToken)
+            } else {
+                
+                failCallback(.noValuesFound)
+            }
+        }
+        
+        HATAccountService.getHatTableValuesv2(
+            token: userToken,
+            userDomain: userDomain,
+            source: "rumpel",
+            scope: "stufftoremember",
+            parameters: ["starttime": "0"],
+            successCallback: stuffToRemember,
+            errorCallback: failCallback)
+    }
+    
+    // MARK: - Post Stuff To Remember
+    
+    /**
+     Posts user's stuff to remember
+     
+     - parameter userDomain: The user's HAT domain
+     - parameter userToken: The user's token
+     - parameter stuffToRemember: The user's stuff to remember
+     - parameter successCallback: A function to call on success
+     - parameter failCallback: A fuction to call on fail
+     */
+    public static func postStuffToRememberToHAT(userDomain: String, userToken: String, stuffToRemember: StuffToRememberObject, successCallback: @escaping (StuffToRememberObject, String?) -> Void, failCallback: @escaping (HATTableError) -> Void) {
+        
+        let json = stuffToRemember.toJSON()
+        
+        HATAccountService.createTableValuev2(
+            token: userToken,
+            userDomain: userDomain,
+            source: "rumpel",
+            dataPath: "stufftoremember",
+            parameters: json,
+            successCallback: { (json, newToken) in
+                
+                successCallback(StuffToRememberObject(dictionary: json.dictionaryValue), newToken)
+            },
+            errorCallback: failCallback
+        )
+    }
 
 }

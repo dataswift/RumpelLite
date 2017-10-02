@@ -92,6 +92,9 @@
 		60494ADA1EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */; };
 		604AC7B61ECF50B90066414E /* DataStoreTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AC7B51ECF50B90066414E /* DataStoreTableViewController.swift */; };
 		604AC7B91ECF57650066414E /* DataSourceNameTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AC7B81ECF57650066414E /* DataSourceNameTableViewController.swift */; };
+		604AD5591F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AD5581F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift */; };
+		604AD55A1F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AD5581F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift */; };
+		604AD55B1F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604AD5581F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift */; };
 		604B91781F741A670099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */; };
 		604B91791F74263E0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */; };
 		604B917A1F74263F0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */; };
@@ -697,6 +700,7 @@
 		60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFMailComposeViewControllerExtension.swift; sourceTree = "<group>"; };
 		604AC7B51ECF50B90066414E /* DataStoreTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataStoreTableViewController.swift; sourceTree = "<group>"; };
 		604AC7B81ECF57650066414E /* DataSourceNameTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataSourceNameTableViewController.swift; path = DataStore/DataSourceNameTableViewController.swift; sourceTree = "<group>"; };
+		604AD5581F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StuffToRememberCachingWrapper.swift; sourceTree = "<group>"; };
 		604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialFeedCachingWrapperHelper.swift; sourceTree = "<group>"; };
 		604CD5191F7EA08A004BF453 /* StuffToRememberTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = StuffToRememberTableViewController.swift; path = DataStore/StuffToRememberTableViewController.swift; sourceTree = "<group>"; };
 		604D68DD1DFAD2B300D7FFED /* HATCapabilitiesPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATCapabilitiesPageViewController.swift; sourceTree = "<group>"; };
@@ -1068,24 +1072,25 @@
 				6055C18C1F7009B700877547 /* AsyncCacheHelper.swift */,
 				6067536A1F66E6980042CC71 /* CachingHelper.swift */,
 				6079A26A1F6C26E600F3884F /* CheckCache.swift */,
-				6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */,
-				6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */,
-				6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */,
-				604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */,
-				6083BF391F754B8900F9B92E /* ProfileCachingHelper.swift */,
-				60A5BBBB1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift */,
-				60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */,
-				60A5BBC31F791F74004C494F /* InfoCachingWrapperHelper.swift */,
-				60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */,
-				60C081381F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift */,
 				60C0813C1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift */,
-				60C081401F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift */,
-				60C081441F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift */,
-				60C081481F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift */,
+				60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */,
+				60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */,
 				60C0814C1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift */,
+				60C081481F796003003B0500 /* HappinessAndMentalCachingWrapperHelper.swift */,
+				60A5BBC31F791F74004C494F /* InfoCachingWrapperHelper.swift */,
 				60C081541F79661F003B0500 /* InterestsCachingWrapperHelper.swift */,
+				60C081441F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift */,
+				60C081381F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift */,
+				6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */,
 				60C0815C1F7970FA003B0500 /* MatchMeCachingWrapperHelper.swift */,
+				6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */,
+				60C081401F7957BD003B0500 /* PhysicalActivityCachingWrapperHelper.swift */,
+				6083BF391F754B8900F9B92E /* ProfileCachingHelper.swift */,
 				60AA7E8B1F7B9C0100ACAD60 /* ProfileImageCachingWrapperHelper.swift */,
+				604B91771F741A670099A58A /* SocialFeedCachingWrapperHelper.swift */,
+				604AD5581F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift */,
+				6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */,
+				60A5BBBB1F7866ED004C494F /* UKSpecificInfoCachingWrapperHelper.swift */,
 			);
 			name = Cache;
 			sourceTree = "<group>";
@@ -1911,6 +1916,7 @@
 				60113D331E856EB2000EAF89 /* HATAccountServiceExtension.swift in Sources */,
 				601BDFD01E8D4D5A00213E37 /* CheckInMapViewController.swift in Sources */,
 				60314E7C1F38ACF4004383AA /* DataStoreForDataOffersTableViewController.swift in Sources */,
+				604AD5591F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift in Sources */,
 				B591368C1D19F13500E9EDD0 /* DataViewController.swift in Sources */,
 				60938DB81E9B96AA0058F6CC /* PhotoViewerViewController.swift in Sources */,
 				60C081391F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */,
@@ -2094,6 +2100,7 @@
 				60905BAC1F645AC0004EBB63 /* DataStoreInfoTableViewController.swift in Sources */,
 				60905BAE1F645AC0004EBB63 /* DataStoreInterestsTableViewController.swift in Sources */,
 				60905A7F1F645A5A004EBB63 /* DataDebitTableViewCell.swift in Sources */,
+				604AD55A1F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift in Sources */,
 				60905B351F645A84004EBB63 /* PhotosHelper.swift in Sources */,
 				60905B0C1F645A78004EBB63 /* DataSyncDelegate.swift in Sources */,
 				60C0813A1F793B5F003B0500 /* LivingInfoCachingWrapperHelper.swift in Sources */,
@@ -2327,6 +2334,7 @@
 				60905B6F1F645AA5004EBB63 /* AuthoriseUserViewController.swift in Sources */,
 				60905B4E1F645A8A004EBB63 /* SettingsViewController.swift in Sources */,
 				60905A7B1F645A56004EBB63 /* PhotosHeaderCollectionReusableView.swift in Sources */,
+				604AD55B1F7F0C3E00841502 /* StuffToRememberCachingWrapper.swift in Sources */,
 				60905BC91F645ACC004EBB63 /* DataPlugsResponseInteractor.swift in Sources */,
 				60905AC61F645A64004EBB63 /* StringExtension.swift in Sources */,
 				60DE41501F697134003F0E02 /* DataPoint.swift in Sources */,

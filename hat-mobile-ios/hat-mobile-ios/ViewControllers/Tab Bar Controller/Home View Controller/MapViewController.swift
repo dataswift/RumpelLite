@@ -323,7 +323,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         if array.isEmpty {
             
-            if self.filterDataPointsTo! > Date() {
+            if self.filterDataPointsTo! > Date().endOfTheDay()! {
                 
                 self.createClassicOKAlertWith(
                     alertMessage: "There are no points for the selected dates, time travelling mode is deactivated",

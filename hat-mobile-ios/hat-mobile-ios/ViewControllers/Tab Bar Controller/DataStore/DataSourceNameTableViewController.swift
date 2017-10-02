@@ -132,30 +132,34 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
             if cell == nil {
                 
                 let indexPath = IndexPath(row: 0, section: index)
-                cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.nameCell, for: indexPath) as? PhataTableViewCell
-                cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? PhataTableViewCell
+                if let tempCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.nameCell, for: indexPath) as? PhataTableViewCell {
+                    
+                    cell = self.setUpCell(cell: tempCell, indexPath: indexPath) as? PhataTableViewCell
+                }
             }
-            
-            // first name
-            if index == 0 {
+            if cell != nil {
                 
-                profile?.data.personal.firstName = cell!.getTextFromTextField()
-                // Middle name
-            } else if index == 1 {
-                
-                profile?.data.personal.middleName = cell!.getTextFromTextField()
-                // Last name
-            } else if index == 2 {
-                
-                profile?.data.personal.lastName = cell!.getTextFromTextField()
-                // Preffered name
-            } else if index == 3 {
-                
-                profile?.data.personal.prefferedName = cell!.getTextFromTextField()
-                // Title
-            } else if index == 4 {
-                
-                profile?.data.personal.title = cell!.getTextFromTextField()
+                // first name
+                if index == 0 {
+                    
+                    profile?.data.personal.firstName = cell!.getTextFromTextField()
+                    // Middle name
+                } else if index == 1 {
+                    
+                    profile?.data.personal.middleName = cell!.getTextFromTextField()
+                    // Last name
+                } else if index == 2 {
+                    
+                    profile?.data.personal.lastName = cell!.getTextFromTextField()
+                    // Preffered name
+                } else if index == 3 {
+                    
+                    profile?.data.personal.prefferedName = cell!.getTextFromTextField()
+                    // Title
+                } else if index == 4 {
+                    
+                    profile?.data.personal.title = cell!.getTextFromTextField()
+                }
             }
         }
     }

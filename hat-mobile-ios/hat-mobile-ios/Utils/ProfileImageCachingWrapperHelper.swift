@@ -35,11 +35,13 @@ internal struct ProfileImageCachingWrapperHelper {
             
             func success(json: [JSON], newToken: String?) {
                 
+                var profileImageObject = ProfileImageObject()
+
                 if !json.isEmpty {
                     
                     if let dict = (json[0].dictionary)?["data"]?.dictionary {
                         
-                        var profileImageObject = ProfileImageObject(dictionary: dict)
+                        profileImageObject = ProfileImageObject(dictionary: dict)
                         if profileImageObject.profileImage != nil {
                             
                             if let url = URL(string: profileImageObject.profileImage!.contentURL) {
@@ -57,10 +59,10 @@ internal struct ProfileImageCachingWrapperHelper {
                                 }.resume()
                             }
                         }
-                        
-                        successRespond([profileImageObject], newToken)
                     }
                 }
+                
+                successRespond([profileImageObject], newToken)
             }
             
             func failed(error: HATTableError) {
@@ -332,6 +334,7 @@ internal struct ProfileImageCachingWrapperHelper {
                                 errorCallBack: { error in
                                     
                                     deleteFromCache(object: object)
+                                    completion(false, nil)
                                     errorCallback?(error)
                                 }
                             )

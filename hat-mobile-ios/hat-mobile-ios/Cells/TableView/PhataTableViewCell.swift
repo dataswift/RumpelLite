@@ -195,6 +195,24 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
         return true
     }
     
+    // MARK: - Text View delegate
+    
+    func textViewDidChange(_ textView: UITextView) {
+        
+        textView.sizeToFit()
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "updateTableViewRow"), object: "\(textView.tag) \(textView.frame.height)")
+    }
+    
+    func getTextViewSize() -> Int {
+        
+        if self.textView != nil {
+            
+            return Int(self.textView.frame.height)
+        }
+        
+        return 0
+    }
+    
     // MARK: - Find Row in picker view for this item
     
     /**
@@ -347,10 +365,16 @@ internal class PhataTableViewCell: UITableViewCell, UITextFieldDelegate, UITextV
      */
     func setTagInTextField(tag: Int) {
         
-        self.textField.tag = tag
-        if tag == 5 {
+        if self.textField != nil {
             
-            self.textField.addTarget(self, action: #selector(self.textFieldValueChanged(textField:)), for: UIControlEvents.allEditingEvents)
+            self.textField.tag = tag
+            if tag == 5 {
+                
+                self.textField.addTarget(self, action: #selector(self.textFieldValueChanged(textField:)), for: UIControlEvents.allEditingEvents)
+            }
+        } else if self.textView != nil {
+            
+            self.textView.tag = tag
         }
     }
     

@@ -40,121 +40,151 @@ internal struct MatchMeCachingWrapperHelper {
                     
                     if let dietary = dictionary["dietary"]?.arrayValue {
                         
-                        if let array = dietary[0].dictionary?["data"]?["array"].array {
+                        if !dietary.isEmpty {
                             
-                            var tempDict: [Dictionary<String, Any>] = []
-                            for item in array {
+                            if let array = dietary[0].dictionary?["data"]?["array"].array {
                                 
-                                let object = SurveyObject(from: item)
-                                tempDict.append(object.toJSON())
+                                var tempDict: [Dictionary<String, Any>] = []
+                                for item in array {
+                                    
+                                    let object = SurveyObject(from: item)
+                                    tempDict.append(object.toJSON())
+                                }
+                                
+                                matchMe.dictionary.updateValue(tempDict, forKey: "dietary")
                             }
-                            
-                            matchMe.dictionary.updateValue(tempDict, forKey: "dietary")
                         }
                     }
                     
                     if let profileInfo = dictionary["profileInfo"]?.arrayValue {
                         
-                        if let array = profileInfo[0].dictionary {
+                        if !profileInfo.isEmpty {
                             
-                            let object = HATProfileInfo(from: JSON(array))
-                            matchMe.dictionary.updateValue(object.toJSON(), forKey: "profileInfo")
+                            if let array = profileInfo[0].dictionary {
+                                
+                                let object = HATProfileInfo(from: JSON(array))
+                                matchMe.dictionary.updateValue(object.toJSON(), forKey: "profileInfo")
+                            }
                         }
                     }
                     
                     if let employmentStatus = dictionary["employmentStatus"]?.arrayValue {
                         
-                        if let array = employmentStatus[0].dictionary {
+                        if !employmentStatus.isEmpty {
                             
-                            let object = HATEmployementStatusObject(from: JSON(array))
-                            matchMe.dictionary.updateValue(object.toJSON(), forKey: "employmentStatus")
+                            if let array = employmentStatus[0].dictionary {
+                                
+                                let object = HATEmployementStatusObject(from: JSON(array))
+                                matchMe.dictionary.updateValue(object.toJSON(), forKey: "employmentStatus")
+                            }
                         }
                     }
                     
                     if let happinessAndHealth = dictionary["happinessAndHealth"]?.arrayValue {
                         
-                        if let array = happinessAndHealth[0].dictionary?["data"]?["array"].array {
+                        if !happinessAndHealth.isEmpty {
                             
-                            var tempDict: [Dictionary<String, Any>] = []
-                            for item in array {
+                            if let array = happinessAndHealth[0].dictionary?["data"]?["array"].array {
                                 
-                                let object = SurveyObject(from: item)
-                                tempDict.append(object.toJSON())
+                                var tempDict: [Dictionary<String, Any>] = []
+                                for item in array {
+                                    
+                                    let object = SurveyObject(from: item)
+                                    tempDict.append(object.toJSON())
+                                }
+                                
+                                matchMe.dictionary.updateValue(tempDict, forKey: "happinessAndHealth")
                             }
-                            
-                            matchMe.dictionary.updateValue(tempDict, forKey: "happinessAndHealth")
                         }
                     }
                     
                     if let livingInfo = dictionary["livingInfo"]?.arrayValue {
                         
-                        if let array = livingInfo[0].dictionary {
+                        if !livingInfo.isEmpty {
                             
-                            let object = HATLivingInfoObject(from: JSON(array))
-                            matchMe.dictionary.updateValue(object.toJSON(), forKey: "livingInfo")
+                            if let array = livingInfo[0].dictionary {
+                                
+                                let object = HATLivingInfoObject(from: JSON(array))
+                                matchMe.dictionary.updateValue(object.toJSON(), forKey: "livingInfo")
+                            }
                         }
                     }
                     
                     if let physicalActivities = dictionary["physicalactivities"]?.arrayValue {
                         
-                        if let array = physicalActivities[0].dictionary?["data"]?["array"].array {
+                        if !physicalActivities.isEmpty {
                             
-                            var tempDict: [Dictionary<String, Any>] = []
-                            for item in array {
+                            if let array = physicalActivities[0].dictionary?["data"]?["array"].array {
                                 
-                                let object = SurveyObject(from: item)
-                                tempDict.append(object.toJSON())
+                                var tempDict: [Dictionary<String, Any>] = []
+                                for item in array {
+                                    
+                                    let object = SurveyObject(from: item)
+                                    tempDict.append(object.toJSON())
+                                }
+                                
+                                matchMe.dictionary.updateValue(tempDict, forKey: "physicalactivities")
                             }
-                            
-                            matchMe.dictionary.updateValue(tempDict, forKey: "physicalactivities")
                         }
                     }
                     
                     if let education = dictionary["education"]?.arrayValue {
                         
-                        if let array = education[0].dictionary {
+                        if !education.isEmpty {
                             
-                            let object = HATProfileEducationObject(from: JSON(array))
-                            matchMe.dictionary.updateValue(object.toJSON(), forKey: "education")
+                            if let array = education[0].dictionary {
+                                
+                                let object = HATProfileEducationObject(from: JSON(array))
+                                matchMe.dictionary.updateValue(object.toJSON(), forKey: "education")
+                            }
                         }
                     }
                     
                     if let interests = dictionary["interests"]?.arrayValue {
                         
-                        if let array = interests[0].dictionary {
+                        if !interests.isEmpty {
                             
-                            let object = InterestsObject(from: array)
-                            matchMe.dictionary.updateValue(object.toJSON(), forKey: "interests")
+                            if let array = interests[0].dictionary {
+                                
+                                let object = InterestsObject(from: array)
+                                matchMe.dictionary.updateValue(object.toJSON(), forKey: "interests")
+                            }
                         }
                     }
                     
                     if let financialManagement = dictionary["financialManagement"]?.arrayValue {
                         
-                        if let array = financialManagement[0].dictionary?["data"]?["array"].array {
+                        if !financialManagement.isEmpty {
                             
-                            var tempDict: [Dictionary<String, Any>] = []
-                            for item in array {
+                            if let array = financialManagement[0].dictionary?["data"]?["array"].array {
                                 
-                                let object = SurveyObject(from: item)
-                                tempDict.append(object.toJSON())
+                                var tempDict: [Dictionary<String, Any>] = []
+                                for item in array {
+                                    
+                                    let object = SurveyObject(from: item)
+                                    tempDict.append(object.toJSON())
+                                }
+                                
+                                matchMe.dictionary.updateValue(tempDict, forKey: "financialManagement")
                             }
-                            
-                            matchMe.dictionary.updateValue(tempDict, forKey: "financialManagement")
                         }
                     }
                     
                     if let lifestyle = dictionary["lifestyle"]?.arrayValue {
                         
-                        if let array = lifestyle[0].dictionary?["data"]?["array"].array {
+                        if !lifestyle.isEmpty {
                             
-                            var tempDict: [Dictionary<String, Any>] = []
-                            for item in array {
+                            if let array = lifestyle[0].dictionary?["data"]?["array"].array {
                                 
-                                let object = SurveyObject(from: item)
-                                tempDict.append(object.toJSON())
+                                var tempDict: [Dictionary<String, Any>] = []
+                                for item in array {
+                                    
+                                    let object = SurveyObject(from: item)
+                                    tempDict.append(object.toJSON())
+                                }
+                                
+                                matchMe.dictionary.updateValue(tempDict, forKey: "lifestyle")
                             }
-                            
-                            matchMe.dictionary.updateValue(tempDict, forKey: "lifestyle")
                         }
                     }
                     

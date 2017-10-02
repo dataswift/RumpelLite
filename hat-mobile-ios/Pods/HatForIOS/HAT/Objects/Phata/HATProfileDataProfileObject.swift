@@ -146,7 +146,7 @@ public struct HATProfileDataProfileObject: Comparable {
             
             if let tempPrivateValue = tempFieldsDictionary["values"]?[0]["value"].stringValue {
                 
-                if tempPrivateValue != nil && tempPrivateValue != "" {
+                if tempPrivateValue != "" {
                     
                     isPrivate = Bool(tempPrivateValue)!
                     isPrivateTuple = (isPrivate, (tempFieldsDictionary["id"]?.intValue)!)

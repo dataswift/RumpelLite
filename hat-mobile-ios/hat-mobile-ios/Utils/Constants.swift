@@ -186,6 +186,7 @@ internal class Constants {
         static let happinesAndMentalHealthCell: String = "happinesAndMentalHealthCell"
         static let interestsCell: String = "interestsCell"
         static let plugDetailsCell: String = "PlugDetailsCell"
+        static let stuffToRemember: String = "stuffToRememberCell"
     }
     
     struct TermsURL {
@@ -809,6 +810,7 @@ internal class Constants {
         static let imagePageViewController: String = "ImagePageViewController"
         static let loadingScreen: String = "loadingScreen"
         static let textPopUpViewController: String = "textPopUpViewController"
+        static let stuffToRememberSegue: String = "stuffToRememberSegue"
     }
     
     // MARK: - HAT Endpoints

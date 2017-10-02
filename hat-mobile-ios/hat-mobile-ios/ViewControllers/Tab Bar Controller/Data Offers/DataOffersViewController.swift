@@ -211,7 +211,18 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                     
                     // remove the loading screen from the view
                     self.loadingView.removeFromSuperview()
-                    CrashLoggerHelper.dataPlugErrorLog(error: error)
+                    switch error {
+                    case .noInternetConnection:
+                        
+                        self.createClassicOKAlertWith(
+                            alertMessage: "You need internet access to access data plugs.",
+                            alertTitle: "No internet connection",
+                            okTitle: "OK",
+                            proceedCompletion: {})
+                    default:
+                        
+                        CrashLoggerHelper.dataPlugErrorLog(error: error)
+                    }
                 }
                 
                 self.appToken = appToken
@@ -238,7 +249,19 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                 
                 // remove the loading screen from the view
                 self.loadingView.removeFromSuperview()
-                CrashLoggerHelper.JSONParsingErrorLog(error: error)
+                
+                switch error {
+                case .noInternetConnection:
+                    
+                    self.createClassicOKAlertWith(
+                        alertMessage: "You need internet access to access data plugs.",
+                        alertTitle: "No internet connection",
+                        okTitle: "OK",
+                        proceedCompletion: {})
+                default:
+                    
+                    CrashLoggerHelper.JSONParsingErrorLog(error: error)
+                }
             }
             
             HATService.getApplicationTokenFor(
@@ -264,7 +287,25 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
             userToken: userToken,
             userDomain: userDomain,
             succesfulCallBack: merchantsReceived,
-            failCallBack: { error in CrashLoggerHelper.dataPlugErrorLog(error: error) })
+            failCallBack: { error in
+                
+                // remove the loading screen from the view
+                self.loadingView.removeFromSuperview()
+                
+                switch error {
+                case .noInternetConnection:
+                    
+                    self.createClassicOKAlertWith(
+                        alertMessage: "You need internet access to access data plugs.",
+                        alertTitle: "No internet connection",
+                        okTitle: "OK",
+                        proceedCompletion: {})
+                default:
+                    
+                    CrashLoggerHelper.dataPlugErrorLog(error: error)
+                }
+            }
+        )
     }
     
     // MARK: - Count offers

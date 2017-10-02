@@ -220,20 +220,19 @@ public struct FileUploadObject: HatApiType, Comparable {
         
         return [
             
-            Fields.fileId:          self.fileID,
-            Fields.name:            self.name,
-            Fields.source:          self.source,
-            Fields.tags:            self.tags,
-            Fields.title:           self.title,
-            Fields.description:     self.fileDescription,
-            Fields.dateCreated:     tempDateCreated,
-            Fields.lastUpdated:     tempLastUpdated,
-            Fields.contentUrl:      self.contentURL,
-            Fields.contentPublic:   self.contentPublic,
-            Fields.status:          self.status.toJSON(),
-            Fields.permissions:     array,
-            Fields.unixTimeStamp:   Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!,
+            Fields.fileId: self.fileID,
+            Fields.name: self.name,
+            Fields.source: self.source,
+            Fields.tags: self.tags,
+            Fields.title: self.title,
+            Fields.description: self.fileDescription,
+            Fields.dateCreated: tempDateCreated,
+            Fields.lastUpdated: tempLastUpdated,
+            Fields.contentUrl: self.contentURL,
+            Fields.contentPublic: self.contentPublic,
+            Fields.status: self.status.toJSON(),
+            Fields.permissions: array,
+            Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
     }
 }
-

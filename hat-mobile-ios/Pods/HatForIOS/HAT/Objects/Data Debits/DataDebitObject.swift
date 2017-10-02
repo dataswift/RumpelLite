@@ -18,6 +18,7 @@ public struct DataDebitObject {
     
     // MARK: - Fields
     
+    /// The possible Fields of the JSON struct
     private struct Fields {
         
         static let key: String = "key"

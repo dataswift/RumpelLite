@@ -235,7 +235,7 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
             
             if indexPath.row == 0 {
                 
-                self.performSegue(withIdentifier: Constants.Segue.dataStoreToForDataOffersInfoSegue, sender: self)
+                self.performSegue(withIdentifier: Constants.Segue.stuffToRememberSegue, sender: self)
             }
         }
     }

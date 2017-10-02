@@ -41,9 +41,9 @@ internal struct HappinessAndMentalCachingWrapperHelper {
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { json, newToken in
                     
+                    var arrayToReturn: [SurveyObject] = []
+
                     if !json.isEmpty {
-                        
-                        var arrayToReturn: [SurveyObject] = []
                         
                         if let array = json[0].dictionary?["data"]?["array"].array {
                             
@@ -52,10 +52,10 @@ internal struct HappinessAndMentalCachingWrapperHelper {
                                 arrayToReturn.append(SurveyObject(from: item))
                             }
                         }
-                        
-                        successRespond(arrayToReturn, newToken)
                     }
-            },
+                    
+                    successRespond(arrayToReturn, newToken)
+                },
                 errorCallback: failRespond)
         }
     }

@@ -174,6 +174,10 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
         if let tempUpdateTime = dictionary[Fields.updatedTime]?.stringValue {
             
             updatedTime = HATFormatterHelper.formatStringToDate(string: tempUpdateTime)
+            if updatedTime == nil {
+                
+                updatedTime = Date()
+            }
         }
         if let tempType = dictionary[Fields.type]?.stringValue {
             
@@ -182,6 +186,10 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
         if let tempCreatedTime = dictionary[Fields.createdTime]?.stringValue {
             
             createdTime = HATFormatterHelper.formatStringToDate(string: tempCreatedTime)
+            if createdTime == nil {
+                
+                createdTime = Date()
+            }
         }
         if let tempMessage = dictionary[Fields.message]?.stringValue {
             
@@ -312,15 +320,28 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
      */
     public func toJSON() -> Dictionary<String, Any> {
         
+        var createdTime = Date()
+        var updatedTime = Date()
+        
+        if self.updatedTime != nil {
+            
+            updatedTime = self.updatedTime!
+        }
+        
+        if self.createdTime != nil {
+            
+            createdTime = self.createdTime!
+        }
+        
         return [
             
             Fields.from: self.from.toJSON(),
             Fields.postID: self.postID,
             Fields.statusType: self.statusType,
             Fields.privacy: self.privacy.toJSON(),
-            Fields.updatedTime: self.updatedTime ?? Date(),
+            Fields.updatedTime: HATFormatterHelper.formatDateToISO(date: updatedTime),
             Fields.type: self.type,
-            Fields.createdTime: self.createdTime ?? Date(),
+            Fields.createdTime: HATFormatterHelper.formatDateToISO(date: createdTime),
             Fields.message: self.message,
             Fields.fullPicture: self.fullPicture,
             Fields.link: self.link,

@@ -121,7 +121,19 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             
             // remove the loading screen from the view
             self.loadingView.removeFromSuperview()
-            CrashLoggerHelper.dataPlugErrorLog(error: error)
+            
+            switch error {
+            case .noInternetConnection:
+                
+                self.createClassicOKAlertWith(
+                    alertMessage: "You need internet access to access data plugs.",
+                    alertTitle: "No internet connection",
+                    okTitle: "OK",
+                    proceedCompletion: {})
+            default:
+                
+                CrashLoggerHelper.dataPlugErrorLog(error: error)
+            }
         }
         
         // create loading pop up screen

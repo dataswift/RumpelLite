@@ -143,7 +143,13 @@ internal class SurveyTableViewCell: UITableViewCell {
         if index > 0 && index < 6 {
 
             let realIndex = index - 1
-            self.buttons[realIndex].setImage(UIImage(named: Constants.ImageNames.circleFilled), for: .normal)
+            DispatchQueue.main.async { [weak self] in
+                
+                if self != nil {
+                    
+                    self!.buttons[realIndex].setImage(UIImage(named: Constants.ImageNames.circleFilled), for: .normal)
+                }
+            }
         }
     }
     
@@ -157,6 +163,18 @@ internal class SurveyTableViewCell: UITableViewCell {
     func getSelectedAnswer() -> Int {
         
         return self.selectedButton
+    }
+    
+    // MARK: - Get question
+    
+    /**
+     Returns the number of the selected button
+     
+     - returns: The number of the selected button
+     */
+    func getQuestion() -> String {
+        
+        return self.questionLabel.text!
     }
     
     // MARK: - Set question in label

@@ -126,16 +126,16 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
         
         cell.selectionStyle = .none
         cell.setQuestionInLabel(question: self.sections[indexPath.section][indexPath.row])
-        if self.surveyObjects.count > indexPath.section {
-            
-            cell.setSelectedAnswer(self.surveyObjects[indexPath.section + indexPath.row].answer)
-        } else {
+        
+        if self.surveyObjects.count < indexPath.section {
             
             var surveyObject = SurveyObject()
             surveyObject.question = self.sections[indexPath.section][indexPath.row]
             
             self.surveyObjects.append(surveyObject)
         }
+        
+        cell.setSelectedAnswer(self.surveyObjects[indexPath.section].answer)
         
         return cell
     }

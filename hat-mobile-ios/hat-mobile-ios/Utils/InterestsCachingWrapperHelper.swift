@@ -41,19 +41,20 @@ internal struct InterestsCachingWrapperHelper {
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { jsonArray, newToken in
             
+                    var interestObject = InterestsObject()
+
                     if !jsonArray.isEmpty {
                         
                         if let tempDictionary = jsonArray[0].dictionary?["data"]?.dictionaryValue {
                             
-                            var interestObject = InterestsObject()
                             for (key, value) in tempDictionary where value.int != nil {
                                 
                                 interestObject.dictionary.updateValue(value.intValue, forKey: key)
                             }
-                            
-                            successRespond([interestObject], newToken)
                         }
                     }
+                    
+                    successRespond([interestObject], newToken)
                 },
                 errorCallback: failRespond)
         }

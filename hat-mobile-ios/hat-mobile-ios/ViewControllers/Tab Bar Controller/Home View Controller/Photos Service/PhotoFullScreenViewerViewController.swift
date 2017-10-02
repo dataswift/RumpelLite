@@ -83,7 +83,7 @@ internal class PhotoFullScreenViewerViewController: UIViewController, UserCreden
             func success(isSuccess: Bool, renewedUserToken: String?) {
                 
                 // refresh user token
-                _ = KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+                KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
                 
                 _ = self.navigationController?.popViewController(animated: true)
             }

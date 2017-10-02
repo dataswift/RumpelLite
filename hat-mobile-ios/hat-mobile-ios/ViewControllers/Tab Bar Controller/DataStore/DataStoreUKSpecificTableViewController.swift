@@ -322,8 +322,12 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
             if !array.isEmpty {
                 
                 self.ukSpecificInfo = array[0]
-                self.tableView.reloadData()
+            } else {
+                
+                self.ukSpecificInfo = UKSpecificInfo()
             }
+            
+            self.tableView.reloadData()
         }
         
         self.tableView.isUserInteractionEnabled = false

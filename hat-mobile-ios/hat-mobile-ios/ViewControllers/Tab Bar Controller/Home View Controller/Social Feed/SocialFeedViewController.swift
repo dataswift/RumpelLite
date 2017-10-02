@@ -874,31 +874,56 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                 // if second is FacebookSocialFeedObject
                 if let postB = second as? HATFacebookSocialFeedObject {
                     
-                    // return true of false based on this result
-                    return (postA.data.posts.createdTime)! > (postB.data.posts.createdTime)!
+                    return postA > postB
                 // else second is TwitterSocialFeedObject
                 } else {
                     
-                    let tweetB = second as? HATTwitterSocialFeedObject
-                    // return true of false based on this result
-                    return (postA.data.posts.createdTime)! > (tweetB!.data.tweets.createdAt)!
+                    if let tweetB = second as? HATTwitterSocialFeedObject {
+                        
+                        if postA.data.posts.createdTime != nil && tweetB.data.tweets.createdAt != nil {
+                            
+                            // return true of false based on this result
+                            return (postA.data.posts.createdTime)! > tweetB.data.tweets.createdAt!
+                        } else {
+                            
+                            return false
+                        }
+                    } else {
+                        
+                        return false
+                    }
                 }
             // else first is TwitterSocialFeedObject
             } else {
                 
-                let tweetA = first as? HATTwitterSocialFeedObject
-                
-                // if second is FacebookSocialFeedObject
-                if let postB = second as? HATFacebookSocialFeedObject {
+                if let tweetA = first as? HATTwitterSocialFeedObject {
                     
-                    // return true of false based on this result
-                    return (tweetA!.data.tweets.createdAt)! > (postB.data.posts.createdTime)!
-                // if second is TwitterSocialFeedObject
+                    // if second is FacebookSocialFeedObject
+                    if let postB = second as? HATFacebookSocialFeedObject {
+                        
+                        if tweetA.data.tweets.createdAt != nil && postB.data.posts.createdTime != nil {
+                            
+                            // return true of false based on this result
+                            return tweetA.data.tweets.createdAt! > postB.data.posts.createdTime!
+                        } else {
+                            
+                            return false
+                        }
+                        // if second is TwitterSocialFeedObject
+                    } else {
+                        
+                        if let tweetB = second as? HATTwitterSocialFeedObject {
+                            
+                            // return true of false based on this result
+                            return tweetA > tweetB
+                        } else {
+                            
+                            return false
+                        }
+                    }
                 } else {
                     
-                    let tweetB = second as? HATTwitterSocialFeedObject
-                    // return true of false based on this result
-                    return (tweetA?.data.tweets.createdAt)! > (tweetB!.data.tweets.createdAt)!
+                    return false
                 }
             }
         }

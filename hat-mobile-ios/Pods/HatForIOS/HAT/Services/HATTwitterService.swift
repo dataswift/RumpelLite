@@ -114,7 +114,7 @@ public struct HATTwitterService {
             successCallback(array, token)
         }
 
-        HATAccountService.getHatTableValuesv2(token: authToken, userDomain: userDomain, source: Twitter.sourceName, scope: Twitter.tableName, parameters: parameters, successCallback: sendObjectBack, errorCallback: errorCallback)
+        HATAccountService.getHatTableValuesv2(token: authToken, userDomain: userDomain, namespace: Twitter.sourceName, scope: Twitter.tableName, parameters: parameters, successCallback: sendObjectBack, errorCallback: errorCallback)
     }
 
     // MARK: - Get application token for twitter

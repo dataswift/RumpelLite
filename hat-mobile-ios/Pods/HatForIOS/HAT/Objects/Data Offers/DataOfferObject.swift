@@ -61,6 +61,8 @@ public struct DataOfferObject {
     
     public var requiredDataDefinition: [DataOfferRequiredDataDefinitionObject] = []
     
+    public var requiredDataDefinitionV2: DataOfferRequiredDataDefinitionObjectV2?
+    
     public var reward: DataOfferRewardsObject = DataOfferRewardsObject()
     
     public var owner: DataOfferOwnerObject = DataOfferOwnerObject()
@@ -95,6 +97,7 @@ public struct DataOfferObject {
         usersClaimedOffer = -1
         
         requiredDataDefinition = []
+        requiredDataDefinitionV2 = nil
         
         reward = DataOfferRewardsObject()
         
@@ -103,7 +106,7 @@ public struct DataOfferObject {
         claim = DataOfferClaimObject()
         
         image = nil
-
+        
         isPΙIRequested = false
     }
     
@@ -196,6 +199,17 @@ public struct DataOfferObject {
                     requiredDataDefinition.append(DataOfferRequiredDataDefinitionObject(dictionary: dataDefination.dictionaryValue))
                 }
             }
+        } else if let tempRequiredDataDefinition = dictionary[DataOfferObject.Fields.requiredDataDefinitions] {
+            
+            let decoder = JSONDecoder()
+            do {
+                
+                let data = try tempRequiredDataDefinition.rawData()
+                requiredDataDefinitionV2 = try decoder.decode(DataOfferRequiredDataDefinitionObjectV2.self, from: data)
+            } catch {
+                
+                print(error)
+            }
         }
         
         if let tempReward = dictionary[DataOfferObject.Fields.reward]?.dictionary {
@@ -213,5 +227,5 @@ public struct DataOfferObject {
             claim = DataOfferClaimObject(dictionary: tempClaim)
         }
     }
-
+    
 }

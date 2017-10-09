@@ -36,7 +36,7 @@ internal struct FinancialManagementCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.FinancialManagementAnswers.source,
+                namespace: Constants.HATTableName.FinancialManagementAnswers.source,
                 scope: Constants.HATTableName.FinancialManagementAnswers.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { json, newToken in

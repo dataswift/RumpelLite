@@ -42,7 +42,7 @@ public struct HATProfileService {
             }
         }
 
-        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, source: "rumpel", scope: "nationality", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
+        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, namespace: "rumpel", scope: "nationality", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
     }
 
     // MARK: - Post profile nationality
@@ -98,7 +98,7 @@ public struct HATProfileService {
             }
         }
 
-        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, source: "rumpel", scope: "relationshipAndHousehold", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
+        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, namespace: "rumpel", scope: "relationshipAndHousehold", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
     }
 
     // MARK: - Post profile relationship and household
@@ -155,7 +155,7 @@ public struct HATProfileService {
             }
         }
 
-        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, source: "rumpel", scope: "education", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
+        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, namespace: "rumpel", scope: "education", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
     }
 
     // MARK: - Post profile education
@@ -212,7 +212,7 @@ public struct HATProfileService {
             }
         }
 
-        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, source: "rumpel", scope: "profileImage", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
+        HATAccountService.getHatTableValuesv2(token: userToken, userDomain: userDomain, namespace: "rumpel", scope: "profileImage", parameters: ["starttime": "0"], successCallback: profileEntries, errorCallback: failCallback)
     }
 
     // MARK: - Post profile Image
@@ -278,7 +278,7 @@ public struct HATProfileService {
         HATAccountService.getHatTableValuesv2(
             token: userToken,
             userDomain: userDomain,
-            source: "rumpel",
+            namespace: "rumpel",
             scope: "stufftoremember",
             parameters: ["starttime": "0"],
             successCallback: stuffToRemember,

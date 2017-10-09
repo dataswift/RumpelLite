@@ -36,7 +36,7 @@ internal struct LifestyleHabitsCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.LifestyleHabitsAnswers.source,
+                namespace: Constants.HATTableName.LifestyleHabitsAnswers.source,
                 scope: Constants.HATTableName.LifestyleHabitsAnswers.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { json, newToken in

@@ -74,7 +74,7 @@ internal struct ProfileImageCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.ProfileImage.source,
+                namespace: Constants.HATTableName.ProfileImage.source,
                 scope: Constants.HATTableName.ProfileImage.name,
                 parameters: ["take": "1", "orderBy": "dateUploaded", "ordering": "descending"],
                 successCallback: success,

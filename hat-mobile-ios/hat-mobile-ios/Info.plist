@@ -60,8 +60,10 @@
 	<string>Optional for better GPS tracking</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Allows you to take a new image and upload it</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Push location data into your HAT</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Push location data into your HAT even when the app is not in background</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Push location data into your HAT only when the app is open or in the background</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Allows you to upload your photos</string>
 	<key>UIAppFonts</key>

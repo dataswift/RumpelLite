@@ -191,5 +191,6 @@ public struct UKSpecificInfo: HatApiType, Comparable {
             Fields.secondPassportExpiryDate: Int(HATFormatterHelper.formatDateToEpoch(date: self.secondPassportExpiryDate)!)!,
             Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
+        
     }
 }

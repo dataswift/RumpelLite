@@ -36,7 +36,7 @@ internal struct LivingInfoCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.LivingInfo.source,
+                namespace: Constants.HATTableName.LivingInfo.source,
                 scope: Constants.HATTableName.LivingInfo.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { jsonArray, newToken in

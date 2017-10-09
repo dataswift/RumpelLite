@@ -44,9 +44,9 @@ internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentials
     class func setUp(cell: DataPlugCollectionViewCell, indexPath: IndexPath, dataPlug: HATDataPlugObject, orientation: UIInterfaceOrientation) -> UICollectionViewCell {
         
         // Configure the cell
-        cell.dataPlugTitleLabel.text = dataPlug.name
-        cell.dataPlugDetailsLabel.text = dataPlug.description
-        if let url = URL(string: dataPlug.illustrationUrl) {
+        cell.dataPlugTitleLabel.text = dataPlug.plug.name
+        cell.dataPlugDetailsLabel.text = dataPlug.plug.description
+        if let url = URL(string: dataPlug.plug.illustrationUrl) {
             
             cell.dataPlugImage.downloadedFrom(
                 url: url,
@@ -54,7 +54,13 @@ internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentials
                 progressUpdater: nil,
                 completion: nil)
         }
-        cell.checkMarkImage.isHidden = !dataPlug.showCheckMark
+        if dataPlug.plug.showCheckMark == nil {
+            
+            cell.checkMarkImage.isHidden = false
+        } else {
+            
+            cell.checkMarkImage.isHidden = !dataPlug.plug.showCheckMark!
+        }
         cell.backgroundColor = self.backgroundColorOfCellForIndexPath(indexPath, in: orientation)
         
         // return cell

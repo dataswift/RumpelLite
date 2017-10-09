@@ -34,7 +34,7 @@ internal struct DietaryInfoCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.DietaryAnswers.source,
+                namespace: Constants.HATTableName.DietaryAnswers.source,
                 scope: Constants.HATTableName.DietaryAnswers.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { json, newToken in

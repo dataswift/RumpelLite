@@ -239,9 +239,9 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             // search in data plugs array for facebook and enable the checkmark
             if !self.dataPlugs.isEmpty {
                 
-                for i in 0 ... self.dataPlugs.count - 1 where self.dataPlugs[i].name == onDataPlug {
+                for i in 0 ... self.dataPlugs.count - 1 where self.dataPlugs[i].plug.name == onDataPlug {
                     
-                    self.dataPlugs[i].showCheckMark = value
+                    self.dataPlugs[i].plug.showCheckMark = value
                     self.collectionView?.reloadData()
                     self.loadingView.removeFromSuperview()
                 }
@@ -280,11 +280,14 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         if indexPath.row == 0 {
             
             selectedlPlug = "facebook"
-        } else {
+        } else if indexPath.row == 1 {
             
             selectedlPlug = "twitter"
+        } else if indexPath.row == 2 {
+            
+            selectedlPlug = "Fitbit"
         }
-        plugURL = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].name, socialServiceURL: self.dataPlugs[indexPath.row].url)!
+        plugURL = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].plug.name, socialServiceURL: self.dataPlugs[indexPath.row].plug.url)!
         self.performSegue(withIdentifier: "details", sender: self)
     }
 

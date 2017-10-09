@@ -96,9 +96,12 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         if plug == "facebook" {
             
             self.loadFacebookInfo()
-        } else {
+        } else if plug == "twitter" {
             
             self.loadTwitterInfo()
+        } else if plug == "Fitbit" {
+            
+            self.loadFitbitInfo()
         }
     }
 
@@ -216,6 +219,96 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             userDomain: userDomain,
             parameters: ["limit": "1"],
             success: gotTweets)
+    }
+    
+    // MARK: - Fitbit Info
+    
+    /**
+     Get fitbit info
+     */
+    func loadFitbitInfo() {
+        
+        func gotActivity(activities: [HATFitbitDailyActivityObject], newToken: String?) {
+            
+            var indexPathsToRefresh: [IndexPath] = []
+
+            for activity in activities {
+                
+                var dataPlugObject: PlugDetails = PlugDetails()
+                dataPlugObject.value = "\(activity.steps)"
+                dataPlugObject.name = "Yesterday's Steps walked"
+                
+                self.plugDetailsArray.append(dataPlugObject)
+                
+                indexPathsToRefresh.append(IndexPath(row: self.plugDetailsArray.count - 1, section: 0))
+
+                dataPlugObject.value = "\(activity.floors)"
+                dataPlugObject.name = "Yesterday's Floors climbed"
+                
+                self.plugDetailsArray.append(dataPlugObject)
+
+                indexPathsToRefresh.append(IndexPath(row: self.plugDetailsArray.count - 1, section: 0))
+            }
+            
+            self.tableView.insertRows(at: indexPathsToRefresh, with: .bottom)
+        }
+        
+        func gotSleep(sleeps: [HATFitbitSleepObject], newToken: String?) {
+            
+            var indexPathsToRefresh: [IndexPath] = []
+            for sleep in sleeps {
+                
+                var dataPlugObject: PlugDetails = PlugDetails()
+                dataPlugObject.value = "\(sleep.duration / 3600000)"
+                dataPlugObject.name = "\(sleep.dateOfSleep) sleep in Hours"
+                
+                self.plugDetailsArray.append(dataPlugObject)
+                
+                indexPathsToRefresh.append(IndexPath(row: self.plugDetailsArray.count - 1, section: 0))
+            }
+            
+            self.tableView.insertRows(at: indexPathsToRefresh, with: .bottom)
+        }
+        
+        func gotWeight(weights: [HATFitbitWeightObject], newToken: String?) {
+            
+            var indexPathsToRefresh: [IndexPath] = []
+            for weight in weights {
+                
+                var dataPlugObject: PlugDetails = PlugDetails()
+                dataPlugObject.value = "\(weight.weight)"
+                dataPlugObject.name = "\(weight.date) weight"
+                
+                self.plugDetailsArray.append(dataPlugObject)
+                
+                indexPathsToRefresh.append(IndexPath(row: self.plugDetailsArray.count - 1, section: 0))
+            }
+            
+            self.tableView.insertRows(at: indexPathsToRefresh, with: .bottom)
+        }
+        
+        func error(error: HATTableError) {
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
+        
+        HATFitbitService.getDailyActivity(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: gotActivity,
+            errorCallback: error)
+        
+        HATFitbitService.getSleep(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: gotSleep,
+            errorCallback: error)
+        
+        HATFitbitService.getWeight(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: gotWeight,
+            errorCallback: error)
     }
     
     /**

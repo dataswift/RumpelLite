@@ -36,7 +36,7 @@ internal struct EmploymentCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.EmploymentStatus.source,
+                namespace: Constants.HATTableName.EmploymentStatus.source,
                 scope: Constants.HATTableName.EmploymentStatus.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { jsonArray, newToken in

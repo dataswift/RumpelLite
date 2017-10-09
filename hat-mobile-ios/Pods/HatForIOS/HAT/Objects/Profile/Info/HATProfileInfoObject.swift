@@ -96,12 +96,9 @@ public struct HATProfileInfo: HatApiType, Comparable {
                 incomeGroup = tempIncomeGroup
             }
             
-            if let tempDateOfBirth = (data[Fields.dateOfBirth]?.stringValue) {
+            if let tempDateOfBirth = (data[Fields.dateOfBirth]?.intValue) {
                 
-                if let date = HATFormatterHelper.formatStringToDate(string: tempDateOfBirth) {
-                    
-                    dateOfBirth = date
-                }
+                dateOfBirth = Date(timeIntervalSince1970: TimeInterval(tempDateOfBirth))
             }
         }
         
@@ -126,9 +123,9 @@ public struct HATProfileInfo: HatApiType, Comparable {
         if let tempDateOfBirth = fromCache[Fields.dateOfBirth] {
             
             let temp = String(describing: tempDateOfBirth)
-            if let date = HATFormatterHelper.formatStringToDate(string: temp) {
+            if let timeInterval = TimeInterval(temp) {
                 
-                dateOfBirth = date
+                dateOfBirth = Date(timeIntervalSince1970: timeInterval)
             }
         }
     }
@@ -149,6 +146,6 @@ public struct HATProfileInfo: HatApiType, Comparable {
             Fields.incomeGroup: self.incomeGroup,
             Fields.unixTimeStamp: Int(HATFormatterHelper.formatDateToEpoch(date: Date())!)!
         ]
-
+        
     }
 }

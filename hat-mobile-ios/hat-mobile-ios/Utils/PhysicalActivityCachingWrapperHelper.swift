@@ -36,7 +36,7 @@ internal struct PhysicalActivityCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.PhysicalActivityAnswers.source,
+                namespace: Constants.HATTableName.PhysicalActivityAnswers.source,
                 scope: Constants.HATTableName.PhysicalActivityAnswers.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { json, newToken in

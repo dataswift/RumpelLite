@@ -62,7 +62,7 @@ public struct HATFacebookService {
         HATAccountService.getHatTableValuesv2(
             token: authToken,
             userDomain: userDomain,
-            source: Facebook.sourceName,
+            namespace: Facebook.sourceName,
             scope: "profile_picture",
             parameters: parameters,
             successCallback: sendObjectBack,
@@ -113,7 +113,7 @@ public struct HATFacebookService {
         HATAccountService.getHatTableValuesv2(
             token: authToken,
             userDomain: userDomain,
-            source: Facebook.sourceName,
+            namespace: Facebook.sourceName,
             scope: Facebook.tableName,
             parameters: parameters,
             successCallback: sendObjectBack,

@@ -79,10 +79,10 @@ public struct HATAccountService {
      - parameter successCallback: A callback called when successful of type @escaping ([JSON]) -> Void
      - parameter errorCallback: A callback called when failed of type @escaping (Void) -> Void)
      */
-    public static func getHatTableValuesv2(token: String, userDomain: String, source: String, scope: String, parameters: Dictionary<String, Any>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getHatTableValuesv2(token: String, userDomain: String, namespace: String, scope: String, parameters: Dictionary<String, Any>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://\(userDomain)/api/v2/data/\(source)/\(scope)"
+        let url = "https://\(userDomain)/api/v2/data/\(namespace)/\(scope)"
         
         // create parameters and headers
         let headers = [RequestHeaders.xAuthToken: token]

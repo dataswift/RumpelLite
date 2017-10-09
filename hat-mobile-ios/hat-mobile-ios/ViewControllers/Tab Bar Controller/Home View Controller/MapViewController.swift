@@ -417,6 +417,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         // filter data
         self.timePeriodSelectedEnum = TimePeriodSelected.lastWeek
         
+        self.enableButton(self.buttonLastWeek)
+        
         self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         
         self.filterDataPointsFrom = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(7), timeType: TimeType.past).interval).startOfTheDay()
@@ -447,8 +449,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         // filter data
         self.timePeriodSelectedEnum = TimePeriodSelected.today
         
-        self.buttonToday.setTitleColor(.white, for: .normal)
-        self.buttonToday.backgroundColor = .teal
+        self.enableButton(self.buttonToday)
         
         self.filterDataPointsFrom = Date().startOfTheDay()
         self.filterDataPointsTo = Date().endOfTheDay()
@@ -479,6 +480,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         // filter data
         self.timePeriodSelectedEnum = TimePeriodSelected.yesterday
+        
+        self.enableButton(self.buttonYesterday)
         
         self.filterDataPointsTo = Date().endOfTheDay()
         self.filterDataPointsFrom = self.filterDataPointsTo!.addingTimeInterval(FutureTimeInterval.init(days: Double(1), timeType: TimeType.past).interval).startOfTheDay() // remove 24hrs
@@ -582,6 +585,27 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         self.darkView?.removeFromSuperview()
         self.infoPopUpButton.isUserInteractionEnabled = true
+    }
+    
+    // MARK: - Change background color on buttons
+    private func enableButton(_ button: UIButton) {
+        
+        if self.buttonLastWeek.backgroundColor == .teal {
+            
+            self.buttonLastWeek.setTitleColor(.teal, for: .normal)
+            self.buttonLastWeek.backgroundColor = .white
+        } else if self.buttonToday.backgroundColor == .teal {
+            
+            self.buttonToday.setTitleColor(.teal, for: .normal)
+            self.buttonToday.backgroundColor = .white
+        } else if self.buttonYesterday.backgroundColor == .teal {
+            
+            self.buttonYesterday.setTitleColor(.teal, for: .normal)
+            self.buttonYesterday.backgroundColor = .white
+        }
+        
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .teal
     }
     
     // MARK: - Add blur View

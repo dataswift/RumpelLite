@@ -36,7 +36,7 @@ internal struct InterestsCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.Interests.source,
+                namespace: Constants.HATTableName.Interests.source,
                 scope: Constants.HATTableName.Interests.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { jsonArray, newToken in

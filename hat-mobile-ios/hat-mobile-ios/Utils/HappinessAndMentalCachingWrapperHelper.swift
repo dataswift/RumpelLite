@@ -36,7 +36,7 @@ internal struct HappinessAndMentalCachingWrapperHelper {
             HATAccountService.getHatTableValuesv2(
                 token: userToken,
                 userDomain: userDomain,
-                source: Constants.HATTableName.HappinessAndMentalHealthAnswers.source,
+                namespace: Constants.HATTableName.HappinessAndMentalHealthAnswers.source,
                 scope: Constants.HATTableName.HappinessAndMentalHealthAnswers.name,
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { json, newToken in

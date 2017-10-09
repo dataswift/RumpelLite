@@ -237,6 +237,11 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             return Constants.DataPlug.facebookDataPlugServiceURL(
                 userDomain: self.userDomain,
                 socialServiceURL: socialServiceURL)
+        } else if socialServiceName == "Fitbit" {
+            
+            return Constants.DataPlug.twitterDataPlugServiceURL(
+                userDomain: self.userDomain,
+                socialServiceURL: socialServiceURL)
         }
         
         return nil
@@ -322,7 +327,7 @@ extension HATDataPlugsService: UserCredentialsProtocol {
         // we want only facebook and twitter, so keep those
         for i in 0 ... dataPlugs.count - 1 {
             
-            if dataPlugs[i].name == "twitter" || dataPlugs[i].name == "facebook" {
+            if dataPlugs[i].plug.name == "twitter" || dataPlugs[i].plug.name == "facebook" || dataPlugs[i].plug.name == "Fitbit" {
                 
                 tempDataPlugs.append(dataPlugs[i])
             }

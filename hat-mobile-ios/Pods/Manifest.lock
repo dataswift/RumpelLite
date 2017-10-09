@@ -11,7 +11,7 @@ PODS:
     - JWTDecode
     - SwiftyJSON
     - SwiftyRSA
-  - JWTDecode (2.1.0)
+  - JWTDecode (2.1.1)
   - KeychainSwift (9.0.2)
   - MarkdownView (1.0.3)
   - Mockingjay (2.0.0):
@@ -66,7 +66,7 @@ CHECKOUT OPTIONS:
     :commit: cc3b6524156f8e0d8653688423fba2fdf0944bc8
     :git: https://github.com/ribl/FBAnnotationClusteringSwift/
   HatForIOS:
-    :commit: a7b6630426672a45c97b0cae7efed1cf8bff8759
+    :commit: a8bc0f2e15a36e00cba72718339c851874b25187
     :git: https://github.com/whiteshadow-gr/HatForIOS.git
 
 SPEC CHECKSUMS:
@@ -77,7 +77,7 @@ SPEC CHECKSUMS:
   FBAnnotationClusteringSwift: 0698ddcee46d1c28f14336909b2b0af4906b213f
   Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
   HatForIOS: 741a6aa226fb96e93042b6b31d5429b89671f49e
-  JWTDecode: 40512204907babf7e38a51516f108c2b636e194b
+  JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
   KeychainSwift: 3ab1d428d0dbff59cd056f1d0bfc640b36c2b081
   MarkdownView: 95619a575e13cffa334528696e405142048dd951
   Mockingjay: 7122a3fc0597aa63438e4cd9b71b7bc8aac05b87

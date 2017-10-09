@@ -284,7 +284,7 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
             self.imageView.image = receivedOffer?.image
             self.textField.text = receivedOffer?.longDescription
             self.offersRemainingLabel.text = "\(String(describing: ((receivedOffer?.requiredMaxUsers)! - (receivedOffer?.usersClaimedOffer)!))) REMAINING"
-            self.dataRequirmentTextView.attributedText = self.formatRequiredDataDefinitionText(requiredDataDefinition: (receivedOffer?.requiredDataDefinition)!)
+            self.dataRequirmentTextView.attributedText = self.formatRequiredDataDefinitionText(requiredDataDefinition: [(receivedOffer?.requiredDataDefinitionV2)!])
             self.checkForPII()
             self.checkForOfferDuration()
             self.checkForOfferRewardType()
@@ -457,55 +457,38 @@ internal class DataOfferDetailsViewController: UIViewController, UserCredentials
      
      - returns: An NSMutableString with the requirements formmated as needed
      */
-    private func formatRequiredDataDefinitionText(requiredDataDefinition: [DataOfferRequiredDataDefinitionObject]) -> NSMutableAttributedString {
+    private func formatRequiredDataDefinitionText(requiredDataDefinition: [DataOfferRequiredDataDefinitionObjectV2]) -> NSMutableAttributedString {
         
         let textToReturn = NSMutableAttributedString(
             string: "REQUIREMENTS:\n",
-            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
+            attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSansBold, size: 14)!])
         
         for requiredData in requiredDataDefinition {
             
-            let string = NSMutableAttributedString(
-                string: "\(requiredData.source)\n",
-                attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSansBold, size: 13)!])
+            let dictionary = requiredData.bundle
+            for (_, value) in dictionary {
             
-            textToReturn.append(string)
-            
-            for dataSet in requiredData.dataSets {
+                let endpoints = value.endpoints
                 
-                func reccuringFields(fieldsArray: [DataOfferRequiredDataDefinitionDataSetsFieldsObject], intend: String) -> NSMutableAttributedString {
+                for endpoint in endpoints {
                     
-                    let tempText = NSMutableAttributedString(
-                        string: "",
-                        attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
+                    let tempString = NSMutableAttributedString(
+                        string: "\t\(endpoint.endpoint)\n",
+                        attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSansBold, size: 13)!])
+                    textToReturn.append(tempString)
                     
-                    for field in fieldsArray {
+                    for item in endpoint.mapping! {
                         
-                        let fieldString = NSMutableAttributedString(
-                            string: "\(intend)\(field.name)\n",
+                        let tempString2 = NSMutableAttributedString(
+                            string: "\t\t\(item.key)\n",
                             attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
                         
-                        tempText.append(fieldString)
-                        
-                        if !field.fields.isEmpty {
-                            
-                            tempText.append(reccuringFields(fieldsArray: field.fields, intend: "\(intend)\t"))
-                        }
+                        textToReturn.append(tempString2)
                     }
-                    
-                    return tempText
                 }
-                
-                let dataName = NSMutableAttributedString(
-                    string: "\t\(dataSet.name)\n",
-                    attributes: [NSAttributedStringKey.font: UIFont(name: Constants.FontNames.openSans, size: 13)!])
-                
-                textToReturn.append(dataName)
-                textToReturn.append(reccuringFields(fieldsArray: dataSet.fields, intend: "\t\t"))
             }
         }
         
         return textToReturn
     }
-
 }

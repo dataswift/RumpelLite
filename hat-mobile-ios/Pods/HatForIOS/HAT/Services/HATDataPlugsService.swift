@@ -27,7 +27,7 @@ public struct HATDataPlugsService {
      */
     public static func getAvailableDataPlugs(succesfulCallBack: @escaping ([HATDataPlugObject], String?) -> Void, failCallBack: @escaping (DataPlugError) -> Void) {
         
-        let url: String = "https://marketsquare.hubofallthings.com/api/dataplugs"
+        let url: String = "https://dex.hubofallthings.com/api/dataplugs"
         
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: [:], headers: [:], completion: { (response: HATNetworkHelper.ResultType) -> Void in
             
@@ -53,7 +53,16 @@ public struct HATDataPlugsService {
                     
                     for item in result.arrayValue {
                         
-                        returnValue.append(HATDataPlugObject(dict: item.dictionaryValue))
+                        do {
+                            
+                            let decoder = JSONDecoder()
+                            let data = try item.rawData()
+                            let tempItem = try decoder.decode(HATDataPlugObject.self, from: data)
+                            returnValue.append(tempItem)
+                        } catch {
+                            
+                            print("error decoding data plug JSON")
+                        }
                     }
                     
                     succesfulCallBack(returnValue, token)
@@ -206,7 +215,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": userToken]
         
         // contruct the url
-        let url = "https://\(userDomain)/dataDebit/\(dataDebitID)/enable"
+        let url = "https://\(userDomain)/api/v2/data-debit/\(dataDebitID)/enable/\(dataDebitID)"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .put, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in

@@ -145,9 +145,9 @@ internal class DataPlugsResponseInteractor: NSObject, UserCredentialsProtocol {
                 
                 func successfullCallBack(dataPlugs: [HATDataPlugObject], renewedUserToken: String?) {
                     
-                    for i in 0 ... dataPlugs.count - 1 where dataPlugs[i].name == self.name {
+                    for i in 0 ... dataPlugs.count - 1 where dataPlugs[i].plug.name == self.name {
                         
-                        self.safariVC = SFSafariViewController(url: URL(string: Constants.DataPlug.facebookDataPlugServiceURL(userDomain: viewController.userDomain, socialServiceURL: dataPlugs[i].url))!)
+                        self.safariVC = SFSafariViewController(url: URL(string: Constants.DataPlug.facebookDataPlugServiceURL(userDomain: viewController.userDomain, socialServiceURL: dataPlugs[i].plug.url))!)
                         PresenterOfShareOptionsViewController.changePublishButtonTo(
                             title: "Save",
                             userEnabled: true,

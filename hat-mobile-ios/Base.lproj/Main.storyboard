@@ -186,7 +186,7 @@
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-SX-weh">
-                                <rect key="frame" x="8" y="472" width="25" height="25"/>
+                                <rect key="frame" x="8" y="471.5" width="25" height="25"/>
                                 <state key="normal" image="Mail"/>
                                 <connections>
                                     <action selector="contactUsActionButton:" destination="Vvb-vK-6GZ" eventType="touchUpInside" id="gXy-uk-Qd9"/>
@@ -1282,16 +1282,24 @@
                                 </connections>
                             </mapView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2RB-ms-kvr">
-                                <rect key="frame" x="195" y="76" width="69" height="33"/>
+                                <rect key="frame" x="188" y="76" width="79" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="79" id="jiV-IV-HPh"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="Last week"/>
                                 <connections>
                                     <action selector="buttonLastWeekTouchUp:" destination="VSO-tC-6mG" eventType="touchUpInside" id="qgB-oC-llT"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4ZP-EW-1Te">
-                                <rect key="frame" x="16" y="76" width="68" height="33"/>
+                                <rect key="frame" x="16" y="76" width="79" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="79" id="K1u-mQ-Y72"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="Yesterday"/>
                                 <connections>
                                     <action selector="buttonYesterdayTouchUp:" destination="VSO-tC-6mG" eventType="touchUpInside" id="bsl-Cx-dx9"/>
@@ -1322,8 +1330,12 @@
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zzl-nx-Thp">
-                                <rect key="frame" x="118" y="76" width="42" height="33"/>
+                                <rect key="frame" x="111" y="76" width="54" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="54" id="f2E-Yc-GYE"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="15"/>
+                                <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="5" maxY="0.0"/>
                                 <state key="normal" title="Today"/>
                                 <connections>
                                     <action selector="buttonTodayTouchUp:" destination="VSO-tC-6mG" eventType="touchUpInside" id="GoX-vM-U1j"/>
@@ -1333,9 +1345,9 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="DaH-QK-3vQ" secondAttribute="trailing" id="3L9-k2-vLG"/>
-                            <constraint firstItem="Zzl-nx-Thp" firstAttribute="centerX" secondItem="DnJ-c3-DaH" secondAttribute="centerX" constant="-21" id="55h-mo-xMM"/>
+                            <constraint firstItem="Zzl-nx-Thp" firstAttribute="centerX" secondItem="DnJ-c3-DaH" secondAttribute="centerX" constant="-22" id="55h-mo-xMM"/>
                             <constraint firstItem="4ZP-EW-1Te" firstAttribute="leading" secondItem="DnJ-c3-DaH" secondAttribute="leadingMargin" id="6sa-EI-eDA"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="2RB-ms-kvr" secondAttribute="trailing" constant="40" id="BVn-1g-j0K"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2RB-ms-kvr" secondAttribute="trailing" constant="37" id="BVn-1g-j0K"/>
                             <constraint firstItem="T51-b9-eT1" firstAttribute="top" secondItem="A54-qd-Vik" secondAttribute="bottom" id="CNJ-ew-aSz"/>
                             <constraint firstAttribute="trailingMargin" secondItem="DaH-QK-3vQ" secondAttribute="trailing" id="EIR-WN-Jbs"/>
                             <constraint firstItem="2RB-ms-kvr" firstAttribute="height" secondItem="Zzl-nx-Thp" secondAttribute="height" id="Ha5-9x-YWj"/>
@@ -1406,7 +1418,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f5B-ou-OL5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="278" y="-3696"/>
+            <point key="canvasLocation" x="277.5" y="-3696.1267605633802"/>
         </scene>
         <!--Data Offers-->
         <scene sceneID="bQo-rd-FMy">
@@ -3586,11 +3598,9 @@
                                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Onw-zu-4D8">
-                                                                    <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
-                                                                </imageView>
+                                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Onw-zu-4D8"/>
                                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a7D-k9-Y0V">
-                                                                    <rect key="frame" x="970" y="5" width="23" height="23"/>
+                                                                    <rect key="frame" x="-30" y="5" width="23" height="23"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="23" id="RwY-Of-R7w"/>
                                                                         <constraint firstAttribute="width" constant="23" id="hfR-3q-g4g"/>
@@ -3601,7 +3611,7 @@
                                                                     </connections>
                                                                 </button>
                                                                 <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OMQ-U4-zG1" customClass="RingProgressCircle" customModule="hat_mobile_ios" customModuleProvider="target">
-                                                                    <rect key="frame" x="482.5" y="482.5" width="35" height="35"/>
+                                                                    <rect key="frame" x="-17.5" y="-17.5" width="35" height="35"/>
                                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                     <constraints>
                                                                         <constraint firstAttribute="height" constant="35" id="gUr-jF-YO4"/>

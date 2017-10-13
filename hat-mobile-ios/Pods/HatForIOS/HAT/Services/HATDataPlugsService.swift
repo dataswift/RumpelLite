@@ -215,7 +215,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": userToken]
         
         // contruct the url
-        let url = "https://\(userDomain)/api/v2/data-debit/\(dataDebitID)/enable/\(dataDebitID)"
+        let url = "https://\(userDomain)/api/v2/data-debit/\(dataDebitID)/enable"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .put, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -418,3 +418,4 @@ public struct HATDataPlugsService {
     }
     
 }
+

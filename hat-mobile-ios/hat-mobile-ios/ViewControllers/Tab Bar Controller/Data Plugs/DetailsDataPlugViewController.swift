@@ -44,6 +44,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     /// An IBOutlet fon handling the tableView UITableView
     @IBOutlet private weak var tableView: UITableView!
+    @IBOutlet private weak var showFeedButton: UIButton!
     
     // MARK: - IBActions
     
@@ -228,6 +229,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
      */
     func loadFitbitInfo() {
         
+        self.showFeedButton.isHidden = true
         func gotActivity(activities: [HATFitbitDailyActivityObject], newToken: String?) {
             
             var indexPathsToRefresh: [IndexPath] = []

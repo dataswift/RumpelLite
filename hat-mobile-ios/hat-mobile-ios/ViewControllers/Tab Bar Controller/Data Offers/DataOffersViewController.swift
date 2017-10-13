@@ -242,7 +242,6 @@ internal class DataOffersViewController: UIViewController, UICollectionViewDataS
                         succesfulCallBack: fetchedOffers,
                         failCallBack: failedToFetchOffers)
                 }
-                
             }
             
             func failedToFetchApplicationToken(error: JSONParsingError) {

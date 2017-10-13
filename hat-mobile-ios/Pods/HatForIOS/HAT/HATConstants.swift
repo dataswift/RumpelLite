@@ -22,12 +22,29 @@ import Foundation
  - serviceName: Cannot split token. Includes a description(String)
  */
 public enum Twitter {
-
+    
     static let statusURL: String = "https://twitter-plug.hubofallthings.com/api/status"
     static let dataPlugURL: String = "https://twitter-plug.hubofallthings.com"
     static let tableName: String = "tweets"
     static let sourceName: String = "twitter"
     static let serviceName: String = "Twitter"
+}
+
+/**
+ The strings needed for communicating with twitter data plug
+ 
+ - statusURL: No token detected
+ - dataPlugURL: No issuer of the token detected. Includes a description(String)
+ - tableName: General error. Includes a description(String), the statusCode(Int?) and the error(Error?)
+ - sourceName: Cannot decode token. Includes a description(String)
+ - serviceName: Cannot split token. Includes a description(String)
+ */
+public enum Fitbit {
+    
+    static let statusURL: String = "https://fitbit.hubat.net/api/status"
+    static let dataPlugURL: String = "https://fitbit.hubat.net"
+    static let sourceName: String = "fitbit"
+    public static let serviceName: String = "Fitbit"
 }
 
 /**
@@ -40,7 +57,7 @@ public enum Twitter {
  - serviceName: Cannot split token. Includes a description(String)
  */
 public enum Facebook {
-
+    
     static let statusURL: String = "https://social-plug.hubofallthings.com/api/user/token/status"
     static let dataPlugURL: String = "https://social-plug.hubofallthings.com"
     static let tableName: String = "posts"
@@ -55,18 +72,18 @@ public enum Facebook {
  - sourceName: No issuer of the token detected. Includes a description(String)
  */
 public enum Notables {
-
+    
     static let tableName: String = "notablesv1"
     static let sourceName: String = "rumpel"
 }
 
 /**
-The request headers
+ The request headers
  
  - xAuthToken: No token detected
  */
 public enum RequestHeaders {
-
+    
     static let xAuthToken: String = "X-Auth-Token"
 }
 
@@ -77,7 +94,7 @@ public enum RequestHeaders {
  - Text: No issuer of the token detected. Includes a description(String)
  */
 public enum ContentType {
-
+    
     static let JSON: String = "application/json"
     static let Text: String = "text/plain"
 }
@@ -92,7 +109,7 @@ public enum ContentType {
  - TokenParamName: Cannot split token. Includes a description(String)
  */
 public enum Auth {
-
+    
     /// The name of the declared in the bundle identifier
     static let URLScheme: String = "rumpellocationtrackerapp"
     /// The name of the service, RumpelLite
@@ -114,7 +131,7 @@ public enum Auth {
  - Market_AccessToken: Cannot decode token. Includes a description(String)
  */
 public enum HATDataPlugCredentials {
-
+    
     /// market data plug id used for location data plug
     static let dataPlugID: String = "c532e122-db4a-44b8-9eaf-18989f214262"
     /// market access token used for location data plug

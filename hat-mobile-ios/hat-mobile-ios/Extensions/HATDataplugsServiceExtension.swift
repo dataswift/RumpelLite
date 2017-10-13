@@ -295,6 +295,12 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             )
         }
         
+        /// Check if twitter is active
+        func checkIfFitbitIsActive(isEnabled: Bool) {
+            
+            isCheckmarkVisible(isEnabled, onSocialNetwork: Fitbit.serviceName)
+        }
+        
         // get token for facebook and twitter and check if they are active
         HATFacebookService.getAppTokenForFacebook(
             token: userToken,
@@ -307,6 +313,12 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             token: userToken,
             successful: checkIfTwitterIsActive,
             failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+        
+        HATFitbitService.checkIfFitbitIsEnabled(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: checkIfFitbitIsActive,
+            errorCallback: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
     }
     
     // MARK: - Filter available data plugs

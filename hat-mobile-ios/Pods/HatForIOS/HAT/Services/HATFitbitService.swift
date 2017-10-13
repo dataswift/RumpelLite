@@ -167,7 +167,7 @@ public struct HATFitbitService {
             successCallback: successCallback,
             errorCallback: errorCallback)
     }
-
+    
     public static func getLifetimeStats(userDomain: String, userToken: String, successCallback: @escaping ([HATFitbitStatsObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         HATFitbitService.getGeneric(
@@ -190,5 +190,57 @@ public struct HATFitbitService {
             parameters: ["take": "1"],
             successCallback: successCallback,
             errorCallback: errorCallback)
+    }
+    
+    public static func checkIfFitbitIsEnabled(userDomain: String, userToken: String, successCallback: @escaping (Bool) -> Void, errorCallback: @escaping (JSONParsingError) -> Void) {
+        
+        func gotToken(fitbitToken: String, newUserToken: String?) {
+            
+            // construct the url, set parameters and headers for the request
+            let url = Fitbit.statusURL
+            let parameters: Dictionary<String, String> = [:]
+            let headers = [RequestHeaders.xAuthToken: fitbitToken]
+            
+            // make the request
+            HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: {(response: HATNetworkHelper.ResultType) -> Void in
+                
+                // act upon response
+                switch response {
+                    
+                case .isSuccess(_, let statusCode, _, _):
+                    
+                    if statusCode == 200 {
+                        
+                        successCallback(true)
+                    } else {
+                        
+                        successCallback(false)
+                    }
+                    
+                // inform user that there was an error
+                case .error(let error, let statusCode):
+                    
+                    let message = NSLocalizedString("Server responded with error", comment: "")
+                    errorCallback(.generalError(message, statusCode, error))
+                }
+            })
+        }
+        
+        HATFitbitService.getApplicationTokenForFitbit(
+            userDomain: userDomain,
+            userToken: userToken,
+            successCallback: gotToken,
+            errorCallback: errorCallback)
+    }
+    
+    public static func getApplicationTokenForFitbit(userDomain: String, userToken: String, successCallback: @escaping (String, String?) -> Void, errorCallback: @escaping (JSONParsingError) -> Void) {
+        
+        HATService.getApplicationTokenFor(
+            serviceName: Fitbit.serviceName,
+            userDomain: userDomain,
+            token: userToken,
+            resource: Fitbit.dataPlugURL,
+            succesfulCallBack: successCallback,
+            failCallBack: errorCallback)
     }
 }

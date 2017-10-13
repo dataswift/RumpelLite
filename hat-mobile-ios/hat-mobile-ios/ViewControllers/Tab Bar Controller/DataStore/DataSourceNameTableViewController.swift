@@ -132,7 +132,7 @@ internal class DataSourceNameTableViewController: UITableViewController, UserCre
             if cell == nil {
                 
                 let indexPath = IndexPath(row: 0, section: index)
-                if let tempCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.nameCell, for: indexPath) as? PhataTableViewCell {
+                if let tempCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.dataStoreNameCell, for: indexPath) as? PhataTableViewCell {
                     
                     cell = self.setUpCell(cell: tempCell, indexPath: indexPath) as? PhataTableViewCell
                 }

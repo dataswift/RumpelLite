@@ -1,9 +1,9 @@
 PODS:
   - Alamofire (4.5.1)
   - BEMCheckBox (1.4.1)
-  - Crashlytics (3.8.6):
-    - Fabric (~> 1.6.3)
-  - Fabric (1.6.13)
+  - Crashlytics (3.9.0):
+    - Fabric (~> 1.7.0)
+  - Fabric (1.7.0)
   - FBAnnotationClusteringSwift (2.0)
   - Haneke (1.0.2)
   - HatForIOS (0.0.1):
@@ -28,9 +28,9 @@ PODS:
     - Realm (= 2.10.2)
   - SwiftLint (0.21.0)
   - SwiftyJSON (3.1.4)
-  - SwiftyRSA (1.2.0):
-    - SwiftyRSA/ObjC (= 1.2.0)
-  - SwiftyRSA/ObjC (1.2.0)
+  - SwiftyRSA (1.3.0):
+    - SwiftyRSA/ObjC (= 1.3.0)
+  - SwiftyRSA/ObjC (1.3.0)
   - Toaster (2.1.0)
   - URITemplate (2.0.2)
   - zxcvbn-ios (1.0.4)
@@ -66,14 +66,14 @@ CHECKOUT OPTIONS:
     :commit: cc3b6524156f8e0d8653688423fba2fdf0944bc8
     :git: https://github.com/ribl/FBAnnotationClusteringSwift/
   HatForIOS:
-    :commit: a8bc0f2e15a36e00cba72718339c851874b25187
+    :commit: c881dcee4c273f66e8d5eb5b06a7b4e1652b72b1
     :git: https://github.com/whiteshadow-gr/HatForIOS.git
 
 SPEC CHECKSUMS:
   Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
-  Crashlytics: 95d05f4e4c19a771250c4bd9ce344d996de32bbf
-  Fabric: 2fb5676bc811af011a04513451f463dac6803206
+  Crashlytics: 64aad5dd97249dd3ff94b979fea140144590cdd3
+  Fabric: e6be012366472553807dada21243c5ab8d904151
   FBAnnotationClusteringSwift: 0698ddcee46d1c28f14336909b2b0af4906b213f
   Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
   HatForIOS: 741a6aa226fb96e93042b6b31d5429b89671f49e
@@ -85,7 +85,7 @@ SPEC CHECKSUMS:
   RealmSwift: 07a9ae0505091eda6b2ee7c190c3786d6e90a7b0
   SwiftLint: 6de8b2d15f43c482bdec2953b8cfd696faa876e8
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
-  SwiftyRSA: 29221dba76837bf09e965ba7584e5919ea153c6f
+  SwiftyRSA: 28e1c9ab1f396fd3001d197ba03e1153b524d155
   Toaster: 8c3225dc465bef4aa57e147a288724576df8e439
   URITemplate: d822aaa2f8ec9dcffffd13baa58bf9ee007e96cb
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c

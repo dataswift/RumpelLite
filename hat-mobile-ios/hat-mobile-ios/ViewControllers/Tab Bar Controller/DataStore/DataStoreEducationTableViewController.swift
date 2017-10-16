@@ -130,16 +130,27 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
         
         self.tableView.allowsSelection = false
         
-        self.tableView.isUserInteractionEnabled = false
-        
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Getting profile...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.tableView.isUserInteractionEnabled = false
+            guard let midX = self?.tableView?.frame.midX,
+                let midY = self?.tableView?.frame.midY,
+                let font = UIFont(name: Constants.FontNames.openSans, size: 12),
+                let weakSelf = self else {
+                    
+                    return
+            }
+            
+            weakSelf.loadingView.removeFromSuperview()
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: midX - 70, y: midY - 15, width: 160, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Getting profile...",
+                textColor: .white,
+                font: font)
+        }
         
         EducationCachingWrapperHelper.getEducation(
             userToken: userToken,

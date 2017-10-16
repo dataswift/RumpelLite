@@ -8,7 +8,7 @@ Rumpel Lite is the dashboard for your HAT on iOS. What you can do with Rumpel Li
 • Store and publish text-based notes and updates
 
 #### Requirements
-Xcode build 8.3+. Requires iOS SDK 9.0+ and Swift 3.1+
+Xcode build 9.0+. Requires iOS SDK 9.0+ and Swift 4.0+
 
 ### Installing and Running the Demo app
 #### Install
@@ -17,7 +17,7 @@ Clone (using SSH) the repository to install the demo app (including any cocoapod
 1. Create a new folder
 2. Clone the app to the folder. While in the new folder, open a cmd terminal and run the following: 
 ```sh
-git clone git@bitbucket.org:greencustard/hat-mobile-ios.git
+git clone git@github.com:Hub-of-all-Things/RumpelLite.git
 ```
 
 Once complete, the structure will be as follows:
@@ -29,6 +29,12 @@ Once complete, the structure will be as follows:
     │   README.md
     │
     ├───hat-mobile-ios
+    │   │   ...
+    │
+    ├───hat-mobile-iosTests
+    │   │   ...
+    │
+    ├───hat-mobile-iosUITests
     │   │   ...
     │
     └───Pods

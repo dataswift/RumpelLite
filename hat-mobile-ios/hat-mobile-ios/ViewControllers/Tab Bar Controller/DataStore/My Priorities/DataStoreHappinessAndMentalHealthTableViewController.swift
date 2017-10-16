@@ -181,15 +181,27 @@ internal class DataStoreHappinessAndMentalHealthTableViewController: UITableView
             }
         }
         
-        self.loadingView?.removeFromSuperview()
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Loading HAT data...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.tableView.isUserInteractionEnabled = false
+            guard let midX = self?.tableView?.frame.midX,
+                let midY = self?.tableView?.frame.midY,
+                let font = UIFont(name: Constants.FontNames.openSans, size: 12),
+                let weakSelf = self else {
+                    
+                    return
+            }
+            
+            weakSelf.loadingView?.removeFromSuperview()
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: midX - 70, y: midY - 15, width: 160, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Loading HAT data...",
+                textColor: .white,
+                font: font)
+        }
         
         HappinessAndMentalCachingWrapperHelper.getSurveyObject(
             userToken: userToken,

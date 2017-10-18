@@ -10,9 +10,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitWeightObject: HATObject {
+    
+    // MARK: - Variables
 
     public var bmi: Float = 0
     public var fat: Float = 0

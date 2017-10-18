@@ -10,9 +10,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitStatsBestObject: HATObject {
+    
+    // MARK: - Variables
 
     public var total: HATFitbitStatsTotalObject = HATFitbitStatsTotalObject()
     public var tracker: HATFitbitStatsTotalObject = HATFitbitStatsTotalObject()

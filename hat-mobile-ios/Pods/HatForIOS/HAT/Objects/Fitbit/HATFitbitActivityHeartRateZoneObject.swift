@@ -10,9 +10,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitActivityHeartRateZoneObject: HATObject {
+    
+    // MARK: - Variables
 
     public var max: Int = 0
     public var min: Int = 0

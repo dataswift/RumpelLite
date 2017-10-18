@@ -38,7 +38,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     private var safariVC: SFSafariViewController?
     
     /// The plug details
-    private var plugDetailsArray: [PlugDetails] = []
+    private var plugDetailsArray: [[PlugDetails]] = [[]]
     
     /// Table view sections
     private var sections: [String] = []
@@ -118,15 +118,10 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return plugDetailsArray.count
+        return plugDetailsArray[section].count
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        
-        if self.sections.isEmpty {
-            
-            return 0
-        }
         
         return self.sections.count
     }
@@ -142,8 +137,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             
             cell?.backgroundColor = .white
         }
-        cell?.setTitleToLabel(title: self.plugDetailsArray[indexPath.row].name)
-        cell?.setDetailsToLabel(details: self.plugDetailsArray[indexPath.row].value)
+        cell?.setTitleToLabel(title: self.plugDetailsArray[indexPath.section][indexPath.row].name)
+        cell?.setDetailsToLabel(details: self.plugDetailsArray[indexPath.section][indexPath.row].value)
         
         return cell!
     }
@@ -170,6 +165,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
                         
                         self.sections.append("Facebook")
                         
+                        var arrayToAdd: [PlugDetails] = []
+                        
                         for (key, value) in profile {
                             
                             var object = PlugDetails()
@@ -187,8 +184,9 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
                                 }
                             }
                             
-                            self.plugDetailsArray.append(object)
+                            arrayToAdd.append(object)
                         }
+                        self.plugDetailsArray.append(arrayToAdd)
                         
                         self.tableView.reloadData()
                     }
@@ -224,15 +222,20 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             
             let user = tweets[0].dictionaryValue["data"]?["tweets"]["user"]
             self.sections.append("Twitter")
+            
+            var arrayToAdd: [PlugDetails] = []
+            
             for (key, value) in (user?.dictionaryValue)! {
                 
                 var object = PlugDetails()
                 object.name = key.replacingOccurrences(of: "_", with: " ")
                 object.value = value.stringValue
                 
-                self.plugDetailsArray.append(object)
+                arrayToAdd.append(object)
             }
             
+            self.plugDetailsArray.append(arrayToAdd)
+
             self.tableView.reloadData()
         }
         
@@ -259,20 +262,29 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         
         func gotAllFitBitData(dictionary: Dictionary<String, JSON>) {
             
-            for (key, value) in dictionary where !value.arrayValue.isEmpty {
+            for dict in dictionary where !dict.value.arrayValue.isEmpty {
                 
-                self.sections.append(key)
-                if let data = value.arrayValue[0].dictionaryValue["data"] {
+                var arrayToAdd: [PlugDetails] = []
+
+                if dict.key == "weight" {
                     
-                    for dict in data.dictionaryValue where dict.value.dictionary == nil {
+                    let tempWeight = dict.value[0].dictionaryValue
+                    
+                    guard let weight: HATFitbitWeightObject = HATFitbitWeightObject.decode(from: tempWeight) else {
                         
-                        var object = PlugDetails()
-                        object.name = dict.key
-                        object.value = String(describing: dict.value.object)
-                        
-                        self.plugDetailsArray.append(object)
+                        break
                     }
+                    
+                    var object = PlugDetails()
+                    object.name = "weight"
+                    object.value = String(describing: weight.weight)
+                    
+                    arrayToAdd.append(object)
                 }
+                
+                self.plugDetailsArray.append(arrayToAdd)
+
+                self.sections.append(dict.key)
             }
             
             DispatchQueue.main.async {

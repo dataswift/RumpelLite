@@ -418,4 +418,3 @@ public struct HATDataPlugsService {
     }
     
 }
-

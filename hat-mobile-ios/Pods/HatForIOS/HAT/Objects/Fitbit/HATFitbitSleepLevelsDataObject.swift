@@ -10,9 +10,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitSleepLevelsDataObject: HATObject {
+    
+    // MARK: - Variables
 
     public var level: String = ""
     public var seconds: Int = 0

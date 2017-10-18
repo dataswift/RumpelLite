@@ -10,10 +10,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitProfileTopBadgesObject: HATObject {
 
+    // MARK: - Variables
+    
     public var name: String = ""
     public var value: Int = 0
     public var cheers: [String] = []

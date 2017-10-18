@@ -10,9 +10,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitProfileObject: HATObject {
+    
+    // MARK: - Variables
 
     public var age: Int = 0
     public var avatar: String = ""

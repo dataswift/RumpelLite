@@ -10,10 +10,12 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitStatsTotalObject: HATObject {
 
+    // MARK: - Variables
+    
     public var steps: HATFitbitStatsTotalStatsObject = HATFitbitStatsTotalStatsObject()
     public var floors: HATFitbitStatsTotalStatsObject = HATFitbitStatsTotalStatsObject()
     public var distance: HATFitbitStatsTotalStatsObject = HATFitbitStatsTotalStatsObject()

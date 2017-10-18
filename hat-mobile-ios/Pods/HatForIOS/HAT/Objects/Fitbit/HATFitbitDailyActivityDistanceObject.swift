@@ -10,9 +10,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitDailyActivityDistanceObject: HATObject {
+    
+    // MARK: - Variables
 
     public var activity: String = ""
     public var distance: Float = 0

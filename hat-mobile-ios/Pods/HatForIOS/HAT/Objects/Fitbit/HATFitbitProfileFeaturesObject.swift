@@ -10,9 +10,11 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import UIKit
+// MARK: Struct
 
 public struct HATFitbitProfileFeaturesObject: HATObject {
 
+    // MARK: - Variables
+    
     public var exerciseGoal: Bool = false
 }

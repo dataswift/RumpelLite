@@ -92,7 +92,7 @@ public struct HATFitbitService {
     
     private static func getGeneric<Object: HATObject>(userDomain: String, userToken: String, namespace: String, scope: String, parameters: Dictionary<String, String>, successCallback: @escaping ([Object], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
-        func gotActivity(json: [JSON], renewedToken: String?) {
+        func gotResponse(json: [JSON], renewedToken: String?) {
             
             // if we have values return them
             if !json.isEmpty {
@@ -101,15 +101,10 @@ public struct HATFitbitService {
                 
                 for item in json {
                     
-                    let tempData = item["data"]
-                    
-                    do {
+                    if let object: Object = Object.decode(from: item.dictionaryValue) {
                         
-                        let decoder = JSONDecoder()
-                        let data = try tempData.rawData()
-                        let activity = try decoder.decode(Object.self, from: data)
-                        arrayToReturn.append(activity)
-                    } catch {
+                        arrayToReturn.append(object)
+                    } else {
                         
                         print("error parsing json")
                     }
@@ -128,7 +123,7 @@ public struct HATFitbitService {
             namespace: namespace,
             scope: scope,
             parameters: parameters,
-            successCallback: gotActivity,
+            successCallback: gotResponse,
             errorCallback: errorCallback)
     }
     

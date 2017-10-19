@@ -10,17 +10,14 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
-import SwiftyJSON
+public struct DataDebitBundleObject: HATObject {
 
-// MARK: Struct
-
-public struct DataDebitObject: HATObject {
-    
     // MARK: - Variables
     
-    public var dataDebitKey: String = ""
     public var dateCreated: String = ""
-    public var client: DataDebitClientObject
-    public var bundles: [DataDebitBundleObject] = []
-    
+    public var startDate: String = ""
+    public var endDate: String = ""
+    public var rolling: Bool = false
+    public var enabled: Bool = false
+    public var bundle: DataOfferRequiredDataDefinitionObjectV2 = DataOfferRequiredDataDefinitionObjectV2()
 }

@@ -66,6 +66,12 @@ public class HATFormatterHelper: NSObject {
             dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
             date = dateFormatter.date(from: string)
         }
+        
+        if date == nil {
+            
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS"
+            date = dateFormatter.date(from: string)
+        }
 
         // if date is nil try a different format, for twitter format and reformat
         if date == nil {

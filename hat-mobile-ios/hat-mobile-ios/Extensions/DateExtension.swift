@@ -16,6 +16,15 @@ import Foundation
 
 extension Date {
 
+    func getTimeOfDay() -> String {
+        
+        let calendar = Calendar.current
+        
+        let hour = calendar.component(.hour, from: self)
+        let minutes = calendar.component(.minute, from: self)
+        return "\(hour):\(minutes)"
+    }
+    
     // MARK: - Time ago
     
     /**

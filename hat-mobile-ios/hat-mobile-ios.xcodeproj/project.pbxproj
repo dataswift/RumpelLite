@@ -152,7 +152,6 @@
 		6079A2671F6BCE5500F3884F /* LocationsWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */; };
 		6079A2691F6BD7C300F3884F /* NotesCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */; };
 		6079A26B1F6C26E600F3884F /* CheckCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6079A26A1F6C26E600F3884F /* CheckCache.swift */; };
-		607A36FE1F55C284007406EF /* CustomHanakeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607A36FD1F55C284007406EF /* CustomHanakeFetcher.swift */; };
 		607C107B1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */; };
 		607C107D1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */; };
 		607DC4551E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */; };
@@ -209,7 +208,6 @@
 		60905A911F645A5D004EBB63 /* CustomSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6041DB0A1E2914EA00FF6D32 /* CustomSwitch.swift */; };
 		60905A921F645A5D004EBB63 /* RingProgressCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603D08AE1E6D5CFE0077E90C /* RingProgressCircle.swift */; };
 		60905AA61F645A63004EBB63 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606435DA1E1B196F001A5D14 /* DateExtension.swift */; };
-		60905AA71F645A63004EBB63 /* CustomHanakeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607A36FD1F55C284007406EF /* CustomHanakeFetcher.swift */; };
 		60905AA81F645A63004EBB63 /* FBAnotationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60415B931EC4CA0A00CC5EE0 /* FBAnotationsExtension.swift */; };
 		60905AA91F645A63004EBB63 /* HATAccountServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */; };
 		60905AAA1F645A63004EBB63 /* HATDataplugsServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */; };
@@ -230,7 +228,6 @@
 		60905AB91F645A63004EBB63 /* UIViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603D55BC1E69861D00CCEBEB /* UIViewExtension.swift */; };
 		60905ABA1F645A63004EBB63 /* ViewControllerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 608EAAA71DFEA8AD00234C60 /* ViewControllerExtension.swift */; };
 		60905ABB1F645A64004EBB63 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606435DA1E1B196F001A5D14 /* DateExtension.swift */; };
-		60905ABC1F645A64004EBB63 /* CustomHanakeFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607A36FD1F55C284007406EF /* CustomHanakeFetcher.swift */; };
 		60905ABD1F645A64004EBB63 /* FBAnotationsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60415B931EC4CA0A00CC5EE0 /* FBAnotationsExtension.swift */; };
 		60905ABE1F645A64004EBB63 /* HATAccountServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */; };
 		60905ABF1F645A64004EBB63 /* HATDataplugsServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */; };
@@ -575,6 +572,9 @@
 		60DE41501F697134003F0E02 /* DataPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = B59136871D19DC2700E9EDD0 /* DataPoint.swift */; };
 		60E2679E1E55B9B900B6D626 /* AuthoriseUserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E2679D1E55B9B800B6D626 /* AuthoriseUserViewController.swift */; };
 		60EA32F11ECDECCA008ABD41 /* UIImageExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EA32F01ECDECCA008ABD41 /* UIImageExtension.swift */; };
+		60EDD00F1F98995300BE24B3 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EDD00E1F98995300BE24B3 /* TimeIntervalExtension.swift */; };
+		60EDD0101F98995300BE24B3 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EDD00E1F98995300BE24B3 /* TimeIntervalExtension.swift */; };
+		60EDD0111F98995300BE24B3 /* TimeIntervalExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60EDD00E1F98995300BE24B3 /* TimeIntervalExtension.swift */; };
 		60F1D7E71E6828DA0009CF1F /* AuthenticationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F1D7E61E6828DA0009CF1F /* AuthenticationHelper.swift */; };
 		60FAC7691E223A1D00532C01 /* DataPlugsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FAC7681E223A1D00532C01 /* DataPlugsCollectionViewController.swift */; };
 		60FAC76B1E223AA700532C01 /* DataPlugCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */; };
@@ -741,7 +741,6 @@
 		6079A2611F6AD11B00F3884F /* LocationsWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationsWrapperHelper.swift; sourceTree = "<group>"; };
 		6079A2681F6BD7C300F3884F /* NotesCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NotesCachingWrapperHelper.swift; sourceTree = "<group>"; };
 		6079A26A1F6C26E600F3884F /* CheckCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CheckCache.swift; sourceTree = "<group>"; };
-		607A36FD1F55C284007406EF /* CustomHanakeFetcher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomHanakeFetcher.swift; sourceTree = "<group>"; };
 		607C107A1E1BB6DE001D1E8E /* OnboardingTileCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OnboardingTileCollectionViewCell.swift; sourceTree = "<group>"; };
 		607C107C1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GetAHATInfoViewController.swift; sourceTree = "<group>"; };
 		607DC4541E9E7288002E348D /* LoadingScreenWithProgressRingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoadingScreenWithProgressRingViewController.swift; sourceTree = "<group>"; };
@@ -803,6 +802,7 @@
 		60DE1DD61F34A18C00E031F6 /* DataDebitsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataDebitsTableViewController.swift; path = "Data Debits/DataDebitsTableViewController.swift"; sourceTree = "<group>"; };
 		60E2679D1E55B9B800B6D626 /* AuthoriseUserViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthoriseUserViewController.swift; sourceTree = "<group>"; };
 		60EA32F01ECDECCA008ABD41 /* UIImageExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageExtension.swift; sourceTree = "<group>"; };
+		60EDD00E1F98995300BE24B3 /* TimeIntervalExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeIntervalExtension.swift; sourceTree = "<group>"; };
 		60F1D7E61E6828DA0009CF1F /* AuthenticationHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthenticationHelper.swift; sourceTree = "<group>"; };
 		60FAC7681E223A1D00532C01 /* DataPlugsCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlugsCollectionViewController.swift; sourceTree = "<group>"; };
 		60FAC76A1E223AA700532C01 /* DataPlugCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataPlugCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -1111,7 +1111,7 @@
 			isa = PBXGroup;
 			children = (
 				606435DA1E1B196F001A5D14 /* DateExtension.swift */,
-				607A36FD1F55C284007406EF /* CustomHanakeFetcher.swift */,
+				60EDD00E1F98995300BE24B3 /* TimeIntervalExtension.swift */,
 				60415B931EC4CA0A00CC5EE0 /* FBAnotationsExtension.swift */,
 				60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */,
 				6091DD791F94B4FA00F6DE9E /* HATFitbitExtension.swift */,
@@ -1916,7 +1916,6 @@
 				B56E2FA31D22D1C400546C7E /* JSONDataSourceRequestField.swift in Sources */,
 				6044931B1DE9FE5C00B2FE7B /* UIButtonExtension.swift in Sources */,
 				603926D41E604C3500DC1816 /* HomeHeaderCollectionReusableView.swift in Sources */,
-				607A36FE1F55C284007406EF /* CustomHanakeFetcher.swift in Sources */,
 				604AC7B61ECF50B90066414E /* DataStoreTableViewController.swift in Sources */,
 				60113D331E856EB2000EAF89 /* HATAccountServiceExtension.swift in Sources */,
 				601BDFD01E8D4D5A00213E37 /* CheckInMapViewController.swift in Sources */,
@@ -1969,6 +1968,7 @@
 				601142791E5F967D00A9D982 /* HomeCollectionViewCell.swift in Sources */,
 				B51CC9241D1D5749000C9E48 /* SettingsViewController.swift in Sources */,
 				601FFD791E3A7E3600441EAD /* FirstOnboardingViewController.swift in Sources */,
+				60EDD00F1F98995300BE24B3 /* TimeIntervalExtension.swift in Sources */,
 				6041DB0B1E2914EA00FF6D32 /* CustomSwitch.swift in Sources */,
 				604504D31EAE0DBB003B76C3 /* ProfileInfoTableViewController.swift in Sources */,
 				60A5BBC01F791530004C494F /* EducationCachingWrapperHelper.swift in Sources */,
@@ -2154,6 +2154,7 @@
 				60905B341F645A84004EBB63 /* NetworkHelper.swift in Sources */,
 				60905AB51F645A63004EBB63 /* UIImageExtension.swift in Sources */,
 				60905B841F645AB3004EBB63 /* PhataTableViewController.swift in Sources */,
+				60EDD0101F98995300BE24B3 /* TimeIntervalExtension.swift in Sources */,
 				60905B831F645AB3004EBB63 /* PHATASettingsTableViewController.swift in Sources */,
 				60905B5A1F645A99004EBB63 /* HATCapabilitiesPageViewController.swift in Sources */,
 				60A5BBC11F791C1C004C494F /* EducationCachingWrapperHelper.swift in Sources */,
@@ -2232,7 +2233,6 @@
 				60905BD01F645AD5004EBB63 /* SocialFeedViewController.swift in Sources */,
 				60C081461F795EB9003B0500 /* LifestyleHabitsCachingWrapperHelper.swift in Sources */,
 				60905B741F645AAA004EBB63 /* TabBarViewController.swift in Sources */,
-				60905AA71F645A63004EBB63 /* CustomHanakeFetcher.swift in Sources */,
 				60905B521F645A96004EBB63 /* GetAHATViewController.swift in Sources */,
 				60905B7F1F645AB3004EBB63 /* NameTableViewController.swift in Sources */,
 				60905B871F645AB3004EBB63 /* ResetPasswordTableViewController.swift in Sources */,
@@ -2354,6 +2354,7 @@
 				60905B891F645AB3004EBB63 /* AboutTableViewController.swift in Sources */,
 				60905BD31F645AD5004EBB63 /* GoDeepCollectionViewController.swift in Sources */,
 				60905ACA1F645A64004EBB63 /* UIImageExtension.swift in Sources */,
+				60EDD0111F98995300BE24B3 /* TimeIntervalExtension.swift in Sources */,
 				60905B181F645A79004EBB63 /* SelectedPhotosProtocol.swift in Sources */,
 				60905B941F645AB3004EBB63 /* PhoneTableViewController.swift in Sources */,
 				60905A761F645A56004EBB63 /* HomeCollectionViewCell.swift in Sources */,
@@ -2415,7 +2416,6 @@
 				60905B091F645A75004EBB63 /* JSONDataSourceRequestField.swift in Sources */,
 				60905B951F645AB3004EBB63 /* ProfileInfoTableViewController.swift in Sources */,
 				604B917A1F74263F0099A58A /* SocialFeedCachingWrapperHelper.swift in Sources */,
-				60905ABC1F645A64004EBB63 /* CustomHanakeFetcher.swift in Sources */,
 				60905B4F1F645A8A004EBB63 /* TermsAndConditionsViewController.swift in Sources */,
 				60905AC01F645A64004EBB63 /* HATProviderObjectExtension.swift in Sources */,
 				60905BC51F645ACC004EBB63 /* CheckInMapViewController.swift in Sources */,

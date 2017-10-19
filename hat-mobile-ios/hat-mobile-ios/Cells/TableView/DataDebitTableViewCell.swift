@@ -23,8 +23,6 @@ internal class DataDebitTableViewCell: UITableViewCell {
     
     /// An IBOutlet for handling the data debit title label
     @IBOutlet private weak var titleLabel: UILabel!
-    /// An IBOutlet for handling the data debit description label
-    @IBOutlet private weak var subTitleLabel: UILabel!
     /// An IBOutlet for handling the data debit date label
     @IBOutlet private weak var dateLabel: UILabel!
     
@@ -52,10 +50,10 @@ internal class DataDebitTableViewCell: UITableViewCell {
      */
     func setUpCell(cell: DataDebitTableViewCell, dataDebit: DataDebitObject) -> DataDebitTableViewCell {
         
-        cell.titleLabel.text = dataDebit.name
-        cell.subTitleLabel.text = "Kind: \(dataDebit.kind)"
+        let date: Date? = HATFormatterHelper.formatStringToDate(string: dataDebit.bundles[0].endDate)
+        cell.titleLabel.text = dataDebit.client.name
         cell.dateLabel.text =
-        "Expires: \(String(describing: FormatterHelper.formatDateStringToUsersDefinedDate(date: dataDebit.endDate!, dateStyle: .short, timeStyle: .none)))"
+        "Expires: \(String(describing: FormatterHelper.formatDateStringToUsersDefinedDate(date: date!, dateStyle: .short, timeStyle: .none)))"
         
         return cell
     }

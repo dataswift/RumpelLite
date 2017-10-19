@@ -92,7 +92,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": appToken]
         
         // contruct the url
-        let url = "https://dex.hubofallthings.com/api/offer/\(offerID)/userClaim"
+        let url = "https://dex.hubofallthings.com/api/v2/offer/\(offerID)/userClaim"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -157,7 +157,7 @@ public struct HATDataPlugsService {
         let headers = ["X-Auth-Token": appToken]
         
         // contruct the url
-        let url = "https://dex.hubofallthings.com/api/offer/\(offerID)/claim"
+        let url = "https://dex.hubofallthings.com/api/v2/offer/\(offerID)/claim"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -259,14 +259,14 @@ public struct HATDataPlugsService {
      - parameter succesfulCallBack: A function to call if everything is ok
      - parameter failCallBack: A function to call if fail
      */
-    public static func checkDataDebit(_ dataDebitID: String, userToken: String, userDomain: String, succesfulCallBack: @escaping (String) -> Void, failCallBack: @escaping (DataPlugError) -> Void) {
+    public static func checkDataDebit(_ dataDebitID: String, userToken: String, userDomain: String, succesfulCallBack: @escaping (Bool) -> Void, failCallBack: @escaping (DataPlugError) -> Void) {
         
         // setup parameters and headers
         let parameters: Dictionary<String, String> = [:]
         let headers = ["X-Auth-Token": userToken]
         
         // contruct the url
-        let url = "https://\(userDomain)/dataDebit/\(dataDebitID)"
+        let url = "https://\(userDomain)/api/v2/data-debit/\(dataDebitID)"
         
         // make async request
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -291,20 +291,15 @@ public struct HATDataPlugsService {
             // in case of success call succesfulCallBack
             case .isSuccess(let isSuccess, let statusCode, let result, _):
                 
-                if isSuccess {
-                    
-                    if result["enabled"].boolValue {
-                        
-                        succesfulCallBack("enabled")
-                    } else {
-                        
-                        failCallBack(.noValueFound)
-                    }
-                } else {
+                guard isSuccess, let dataDebit: DataDebitObject = DataDebitObject.decode(from: result.dictionaryValue) else {
                     
                     let message = NSLocalizedString("Server response was unexpected", comment: "")
                     failCallBack(.generalError(message, statusCode, nil))
+                    
+                    return
                 }
+                
+                succesfulCallBack(dataDebit.bundles[0].enabled)
             }
         })
     }

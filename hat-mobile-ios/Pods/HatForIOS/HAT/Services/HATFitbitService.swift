@@ -101,7 +101,7 @@ public struct HATFitbitService {
                 
                 for item in json {
                     
-                    if let object: Object = Object.decode(from: item.dictionaryValue) {
+                    if let object: Object = Object.decode(from: item["data"].dictionaryValue) {
                         
                         arrayToReturn.append(object)
                     } else {

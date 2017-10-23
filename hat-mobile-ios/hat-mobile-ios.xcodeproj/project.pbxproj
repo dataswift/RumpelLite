@@ -29,6 +29,9 @@
 		600E14F91F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E14F81F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift */; };
 		600E14FB1F3F64C900505205 /* DataStoreInterestsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E14FA1F3F64C900505205 /* DataStoreInterestsTableViewController.swift */; };
 		600FA3141F66A46A00C31DAD /* JSONCacheObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FA3131F66A46A00C31DAD /* JSONCacheObject.swift */; };
+		600FC8D41F9A0594007DBDE7 /* FitbitFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FC8D31F9A0594007DBDE7 /* FitbitFeedViewController.swift */; };
+		600FC8D51F9A09A6007DBDE7 /* FitbitFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FC8D31F9A0594007DBDE7 /* FitbitFeedViewController.swift */; };
+		600FC8D61F9A09A6007DBDE7 /* FitbitFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600FC8D31F9A0594007DBDE7 /* FitbitFeedViewController.swift */; };
 		60113D2F1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */; };
 		60113D331E856EB2000EAF89 /* HATAccountServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */; };
 		601142771E5F877500A9D982 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601142761E5F877500A9D982 /* HomeViewController.swift */; };
@@ -514,6 +517,8 @@
 		60AFA1E81E9F6CE100AFA28B /* SendLocationDataDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60AFA1E71E9F6CE100AFA28B /* SendLocationDataDelegate.swift */; };
 		60B486251E1D341000914AD2 /* PurchaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B486241E1D341000914AD2 /* PurchaseModel.swift */; };
 		60B486311E1D6E7B00914AD2 /* UIImageViewExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B486301E1D6E7B00914AD2 /* UIImageViewExtension.swift */; };
+		60B9E2AD1F9AB5EA00CA6131 /* FitbitDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B9E2AC1F9AB5EA00CA6131 /* FitbitDateTableViewCell.swift */; };
+		60B9E2AE1F9AB88400CA6131 /* FitbitDateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B9E2AC1F9AB5EA00CA6131 /* FitbitDateTableViewCell.swift */; };
 		60BAEEB31EE01C23001F8381 /* DataOffersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BAEEB21EE01C23001F8381 /* DataOffersViewController.swift */; };
 		60BAEEB51EE01CB1001F8381 /* DataOffersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */; };
 		60C081351F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */; };
@@ -643,6 +648,7 @@
 		600E14F81F3F5AA100505205 /* DataStoreFinancialManagementTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreFinancialManagementTableViewController.swift; path = "DataStore/My Priorities/DataStoreFinancialManagementTableViewController.swift"; sourceTree = "<group>"; };
 		600E14FA1F3F64C900505205 /* DataStoreInterestsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataStoreInterestsTableViewController.swift; path = DataStore/DataStoreInterestsTableViewController.swift; sourceTree = "<group>"; };
 		600FA3131F66A46A00C31DAD /* JSONCacheObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = JSONCacheObject.swift; path = "Realm Objects/JSONCacheObject.swift"; sourceTree = "<group>"; };
+		600FC8D31F9A0594007DBDE7 /* FitbitFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitbitFeedViewController.swift; sourceTree = "<group>"; };
 		60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATDataplugsServiceExtension.swift; sourceTree = "<group>"; };
 		60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HATAccountServiceExtension.swift; sourceTree = "<group>"; };
 		601142761E5F877500A9D982 /* HomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = HomeViewController.swift; path = "Home View Controller/HomeViewController.swift"; sourceTree = "<group>"; };
@@ -768,6 +774,7 @@
 		60AFA1E71E9F6CE100AFA28B /* SendLocationDataDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SendLocationDataDelegate.swift; sourceTree = "<group>"; };
 		60B486241E1D341000914AD2 /* PurchaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PurchaseModel.swift; sourceTree = "<group>"; };
 		60B486301E1D6E7B00914AD2 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
+		60B9E2AC1F9AB5EA00CA6131 /* FitbitDateTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FitbitDateTableViewCell.swift; sourceTree = "<group>"; };
 		60BAEEB21EE01C23001F8381 /* DataOffersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataOffersViewController.swift; path = "Data Offers/DataOffersViewController.swift"; sourceTree = "<group>"; };
 		60BAEEB41EE01CB1001F8381 /* DataOffersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataOffersCollectionViewCell.swift; sourceTree = "<group>"; };
 		60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmploymentCachingWrapperHelper.swift; sourceTree = "<group>"; };
@@ -968,6 +975,7 @@
 			children = (
 				60FAC7681E223A1D00532C01 /* DataPlugsCollectionViewController.swift */,
 				60DE1DD31F3475C600E031F6 /* DetailsDataPlugViewController.swift */,
+				600FC8D31F9A0594007DBDE7 /* FitbitFeedViewController.swift */,
 			);
 			path = "Data Plugs";
 			sourceTree = "<group>";
@@ -1205,6 +1213,7 @@
 				60550D711F3CFB99008FC91C /* DataPlugDetailsTableViewCell.swift */,
 				B54EA6191D19F5450018EE47 /* DataPointTableViewCell.swift */,
 				6041B20F1DD4AC190018CC31 /* NotablesTableViewCell.swift */,
+				60B9E2AC1F9AB5EA00CA6131 /* FitbitDateTableViewCell.swift */,
 				60D8DAB11F3215520055CEAC /* NotificationsTableViewCell.swift */,
 				60CDCBEB1EAAE92500035882 /* PhataTableViewCell.swift */,
 				600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */,
@@ -1909,6 +1918,7 @@
 				600015561EAE63CD000A084F /* ResetPasswordTableViewCell.swift in Sources */,
 				B56E2FAC1D23DED900546C7E /* DataSyncDelegate.swift in Sources */,
 				60494AD81EB9C2A2005D5C85 /* MailHelper.swift in Sources */,
+				600FC8D41F9A0594007DBDE7 /* FitbitFeedViewController.swift in Sources */,
 				607C107D1E1BCC7D001D1E8E /* GetAHATInfoViewController.swift in Sources */,
 				60D3176B1E35FF7F008E0A5F /* SocialFeedViewController.swift in Sources */,
 				60C0813D1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */,
@@ -2009,6 +2019,7 @@
 				604F32F01F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift in Sources */,
 				605EE0341E8DBF8600B265F6 /* UpdateLocationsDelegate.swift in Sources */,
 				60CDCC0D1EAB760F00035882 /* PhoneTableViewController.swift in Sources */,
+				60B9E2AD1F9AB5EA00CA6131 /* FitbitDateTableViewCell.swift in Sources */,
 				608EAAA81DFEA8AD00234C60 /* ViewControllerExtension.swift in Sources */,
 				60BAEEB51EE01CB1001F8381 /* DataOffersCollectionViewCell.swift in Sources */,
 				60A727BD1DDF47ED008AF409 /* FormatterHelper.swift in Sources */,
@@ -2094,6 +2105,7 @@
 				60905B801F645AB3004EBB63 /* NotificationsTableViewController.swift in Sources */,
 				60905B631F645A9D004EBB63 /* ParentPageViewController.swift in Sources */,
 				60905B001F645A74004EBB63 /* JSONDataSourceRequestField.swift in Sources */,
+				600FC8D51F9A09A6007DBDE7 /* FitbitFeedViewController.swift in Sources */,
 				60905A851F645A5A004EBB63 /* ResetPasswordTableViewCell.swift in Sources */,
 				60905B881F645AB3004EBB63 /* SocialLinksTableViewController.swift in Sources */,
 				60C0813E1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift in Sources */,
@@ -2352,8 +2364,10 @@
 				60905B591F645A97004EBB63 /* StripeViewController.swift in Sources */,
 				60905A731F645A56004EBB63 /* DataOffersSummaryCollectionViewCell.swift in Sources */,
 				60905B891F645AB3004EBB63 /* AboutTableViewController.swift in Sources */,
+				60B9E2AE1F9AB88400CA6131 /* FitbitDateTableViewCell.swift in Sources */,
 				60905BD31F645AD5004EBB63 /* GoDeepCollectionViewController.swift in Sources */,
 				60905ACA1F645A64004EBB63 /* UIImageExtension.swift in Sources */,
+				600FC8D61F9A09A6007DBDE7 /* FitbitFeedViewController.swift in Sources */,
 				60EDD0111F98995300BE24B3 /* TimeIntervalExtension.swift in Sources */,
 				60905B181F645A79004EBB63 /* SelectedPhotosProtocol.swift in Sources */,
 				60905B941F645AB3004EBB63 /* PhoneTableViewController.swift in Sources */,

@@ -24,12 +24,12 @@ public protocol HATObject: Codable {
      */
     static func decode<T: HATObject>(from: Dictionary<String, JSON>) -> T?
     
-    static func extractContent(from: JSON) -> Dictionary<String, JSON>
+    func extractContent(from: JSON) -> Dictionary<String, JSON>
 }
 
 extension HATObject {
     
-    static public func extractContent(from: JSON) -> Dictionary<String, JSON> {
+    public func extractContent(from: JSON) -> Dictionary<String, JSON> {
         
         return from.dictionaryValue
     }

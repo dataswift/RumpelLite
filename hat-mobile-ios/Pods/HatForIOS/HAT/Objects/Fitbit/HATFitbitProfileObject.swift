@@ -32,6 +32,7 @@ public struct HATFitbitProfileObject: HATObject {
     public var corporate: Bool = false
     public var encodedId: String = ""
     public var firstName: String = ""
+    public var dateCreated: String?
     public var topBadges: [HATFitbitProfileTopBadgesObject] = []
     public var ambassador: Bool = false
     public var heightUnit: String = ""

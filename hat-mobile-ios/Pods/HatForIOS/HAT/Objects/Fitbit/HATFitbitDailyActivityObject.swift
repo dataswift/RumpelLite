@@ -15,11 +15,12 @@
 public struct HATFitbitDailyActivityObject: HATObject {
     
     // MARK: - Variables
-
+    
     public var steps: Int = 0
-    public var floors: Int = 0
+    public var dateCreated: Int?
+    public var floors: Int?
     public var distances: [HATFitbitDailyActivityDistanceObject] = []
-    public var elevation: Int = 0
+    public var elevation: Int?
     public var activeScore: Int = 0
     public var caloriesBMR: Int = 0
     public var caloriesOut: Int = 0
@@ -30,3 +31,4 @@ public struct HATFitbitDailyActivityObject: HATObject {
     public var fairlyActiveMinutes: Int = 0
     public var lightlyActiveMinutes: Int = 0
 }
+

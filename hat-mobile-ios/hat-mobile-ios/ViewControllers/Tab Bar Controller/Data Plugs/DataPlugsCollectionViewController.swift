@@ -82,7 +82,6 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         DataPlugsCollectionViewController.authoriseVC.checkToken(viewController: self)
         
         self.dataPlugs.removeAll()
-        self.collectionView?.reloadData()
         self.getDataPlugs()
     }
     
@@ -239,12 +238,14 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             // search in data plugs array for facebook and enable the checkmark
             if !self.dataPlugs.isEmpty {
                 
+                self.loadingView.removeFromSuperview()
+
                 for i in 0 ... self.dataPlugs.count - 1 where self.dataPlugs[i].plug.name == onDataPlug {
                     
                     self.dataPlugs[i].plug.showCheckMark = value
-                    self.collectionView?.reloadData()
-                    self.loadingView.removeFromSuperview()
                 }
+                
+                self.collectionView?.reloadData()
             }
         }
         

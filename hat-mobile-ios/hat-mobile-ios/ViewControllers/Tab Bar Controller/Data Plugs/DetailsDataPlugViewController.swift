@@ -38,7 +38,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     private var safariVC: SFSafariViewController?
     
     /// The plug details
-    private var plugDetailsArray: [[PlugDetails]] = [[]]
+    private var plugDetailsArray: [[PlugDetails]] = []
     
     /// Table view sections
     private var sections: [String] = []
@@ -68,7 +68,13 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
      */
     @IBAction func viewDataPlugData(_ sender: Any) {
         
-        self.performSegue(withIdentifier: Constants.Segue.detailsToSocialFeed, sender: self)
+        if plug == "Fitbit" {
+            
+            self.performSegue(withIdentifier: "fitbitFeedSegue", sender: self)
+        } else {
+            
+            self.performSegue(withIdentifier: Constants.Segue.detailsToSocialFeed, sender: self)
+        }
     }
     
     // MARK: - Notification observer method
@@ -253,181 +259,87 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
      */
     func loadFitbitInfo() {
         
-        self.showFeedButton.isHidden = true
-        
-        func error(error: HATTableError) {
+        func gotAllFitBitData(profile: [HATFitbitProfileObject], newToken: String?) {
             
-            CrashLoggerHelper.hatTableErrorLog(error: error)
+            self.parseFitbitData(profile: profile[0])
         }
         
-        func gotAllFitBitData(dictionary: Dictionary<String, JSON>) {
-            
-            self.parseFitbitData(dictionary: dictionary)
-        }
-        
-        func bundleCreated(result: Bool) {
-            
-            HATFitbitService.getFitbitData(
-                userDomain: userDomain,
-                userToken: userToken,
-                success: gotAllFitBitData,
-                fail: error)
-        }
-        
-        HATFitbitService.createBundleWithAllData(
+        HATFitbitService.getProfile(
             userDomain: userDomain,
             userToken: userToken,
-            success: bundleCreated,
-            fail: error)
+            parameters: ["take": "1", "orderBy": "dateCreated", "ordering": "descending"],
+            successCallback: gotAllFitBitData,
+            errorCallback: tableNotFound)
     }
     
     // MARK: - Parse fitbit
-    private func parseFitbitData(dictionary: Dictionary<String, JSON>) {
+    
+    private func parseFitbitData(profile: HATFitbitProfileObject) {
         
-        self.plugDetailsArray.removeAll()
-        for dict in dictionary where !dict.value.arrayValue.isEmpty {
+        var arrayToAdd: [PlugDetails] = []
+        var object = PlugDetails()
+        
+        object.name = "First name"
+        object.value = profile.firstName
+        arrayToAdd.append(object)
+        
+        object.name = "Last name"
+        object.value = profile.lastName
+        arrayToAdd.append(object)
+        
+        object.name = "Timezone"
+        object.value = profile.timezone
+        arrayToAdd.append(object)
+        
+        object.name = "Distance unit"
+        if profile.distanceUnit == "METRIC" {
             
-            var arrayToAdd: [PlugDetails] = []
+            object.value = "Km"
+        } else {
             
-            if dict.key == "sleep" {
-                
-                let tempSleep = dict.value[0]["data"].dictionaryValue
-                
-                guard let sleep: HATFitbitSleepObject = HATFitbitSleepObject.decode(from: tempSleep) else {
-                    
-                    return
-                }
-                
-                let timeInterval = TimeInterval(sleep.duration / 1000)
-                
-                var object = PlugDetails()
-                object.name = "Hours"
-                object.value = timeInterval.stringTime
-                arrayToAdd.append(object)
-                
-                object.name = "In bed"
-                var date = HATFormatterHelper.formatStringToDate(string: sleep.startTime)
-                object.value = date!.getTimeOfDay()
-                arrayToAdd.append(object)
-                
-                object.name = "Wake up"
-                date = HATFormatterHelper.formatStringToDate(string: sleep.endTime)
-                object.value = date!.getTimeOfDay()
-                arrayToAdd.append(object)
-                
-                object.name = "Times awake"
-                object.value = String(describing: sleep.levels.summary.awake.count)
-                arrayToAdd.append(object)
-                
-                object.name = "Times restless"
-                object.value = String(describing: sleep.levels.summary.restless.count)
-                arrayToAdd.append(object)
-                
-                object.name = "Minutes awake/restless"
-                object.value = String(describing: sleep.levels.summary.restless.minutes + sleep.levels.summary.awake.minutes)
-                arrayToAdd.append(object)
-                
-                self.sections.append(dict.key)
-                self.plugDetailsArray.append(arrayToAdd)
-            } else if dict.key == "profile" {
-                
-                let tempProfile = dict.value[0]["data"].dictionaryValue
-                
-                guard let profile: HATFitbitProfileObject = HATFitbitProfileObject.decode(from: tempProfile) else {
-                    
-                    return
-                }
-                
-                var object = PlugDetails()
-                
-                object.name = "First name"
-                object.value = profile.firstName
-                arrayToAdd.append(object)
-                
-                object.name = "Last name"
-                object.value = profile.lastName
-                arrayToAdd.append(object)
-                
-                object.name = "Timezone"
-                object.value = profile.timezone
-                arrayToAdd.append(object)
-                
-                object.name = "Distance unit"
-                if profile.distanceUnit == "METRIC" {
-                    
-                    object.value = "Km"
-                } else {
-                    
-                    object.value = "Miles"
-                }
-                arrayToAdd.append(object)
-                
-                object.name = "Date of Birth"
-                object.value = profile.dateOfBirth
-                arrayToAdd.append(object)
-                
-                object.name = "Weight"
-                if profile.distanceUnit == "METRIC" {
-                    
-                    object.value = "\(String(describing: profile.weight)) Kg"
-                } else {
-                    
-                 object.value = "\(String(describing: profile.weight)) lbs"
-                }
-                arrayToAdd.append(object)
-                
-                object.name = "Height"
-                if profile.distanceUnit == "METRIC" {
-                    
-                    object.value = "\(String(describing: profile.height)) cm"
-                } else {
-                    
-                    object.value = "\(String(describing: profile.weight)) ft"
-                }
-                arrayToAdd.append(object)
-                
-                object.name = "Member since"
-                object.value = profile.memberSince
-                arrayToAdd.append(object)
-                
-                object.name = "Locale"
-                object.value = profile.locale
-                arrayToAdd.append(object)
-                
-                object.name = "Gender"
-                object.value = profile.gender
-                arrayToAdd.append(object)
-                
-                self.sections.append(dict.key)
-                self.plugDetailsArray.append(arrayToAdd)
-            } else if dict.key == "activity/day/summary" {
-                
-                let tempDailyActivity = dict.value[0]["data"].dictionaryValue
-                
-                guard let dailyActivity: HATFitbitDailyActivityObject = HATFitbitDailyActivityObject.decode(from: tempDailyActivity) else {
-                    
-                    return
-                }
-                
-                var object = PlugDetails()
-                
-                object.name = "Steps"
-                object.value = String(describing: dailyActivity.steps)
-                arrayToAdd.append(object)
-                
-                object.name = "Calories BRM"
-                object.value = String(describing: dailyActivity.caloriesBMR)
-                arrayToAdd.append(object)
-                
-                object.name = "Calories out"
-                object.value = String(describing: dailyActivity.caloriesOut)
-                arrayToAdd.append(object)
-                
-                self.sections.append("activity")
-                self.plugDetailsArray.append(arrayToAdd)
-            }
+            object.value = "Miles"
         }
+        arrayToAdd.append(object)
         
+        object.name = "Date of Birth"
+        object.value = profile.dateOfBirth
+        arrayToAdd.append(object)
+        
+        object.name = "Weight"
+        if profile.weightUnit == "METRIC" {
+            
+            object.value = "\(String(describing: profile.weight)) Kg"
+        } else {
+            
+         object.value = "\(String(describing: profile.weight)) lbs"
+        }
+        arrayToAdd.append(object)
+        
+        object.name = "Height"
+        if profile.heightUnit == "METRIC" {
+            
+            object.value = "\(String(describing: profile.height)) cm"
+        } else {
+            
+            object.value = "\(String(describing: profile.weight)) ft"
+        }
+        arrayToAdd.append(object)
+        
+        object.name = "Member since"
+        object.value = profile.memberSince
+        arrayToAdd.append(object)
+        
+        object.name = "Locale"
+        object.value = profile.locale
+        arrayToAdd.append(object)
+        
+        object.name = "Gender"
+        object.value = profile.gender
+        arrayToAdd.append(object)
+        
+        self.sections.append("Static Data")
+        self.plugDetailsArray.append(arrayToAdd)
+
         DispatchQueue.main.async {
             
             self.tableView.reloadData()
@@ -464,6 +376,11 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
                 
                 vc.isFilteringHidden = true
                 vc.showNotesButton = false
+            }
+        } else if segue.identifier == "fitbitFeedSegue" {
+            
+            if let vc = segue.destination as? FitbitFeedViewController {
+                
             }
         }
     }

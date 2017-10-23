@@ -23,7 +23,7 @@ extension HATFitbitService {
      
      - returns: A [String: Any] array, suitable to pass in Alamofire request
      */
-    static private func constructJSON() -> [String: Any] {
+    static private func fitbitFeedJSON() -> [String: Any] {
         
         return [
             "weight": [
@@ -33,8 +33,7 @@ extension HATFitbitService {
                     ]
                 ],
                 "orderBy": "date",
-                "ordering": "descending",
-                "limit": 1
+                "ordering": "descending"
             ],
             "sleep": [
                 "endpoints": [
@@ -43,16 +42,7 @@ extension HATFitbitService {
                     ]
                 ],
                 "orderBy": "startTime",
-                "ordering": "descending",
-                "limit": 1
-            ],
-            "profile": [
-                "endpoints": [
-                    [
-                        "endpoint": "fitbit/profile"
-                    ]
-                ],
-                "limit": 1
+                "ordering": "descending"
             ],
             "activity": [
                 "endpoints": [
@@ -60,26 +50,17 @@ extension HATFitbitService {
                         "endpoint": "fitbit/activity"
                     ]
                 ],
-                "orderBy": "startTime",
-                "ordering": "descending",
-                "limit": 1
-            ],
-            "activity/day/summary": [
-                "endpoints": [
-                    [
-                        "endpoint": "fitbit/activity/day/summary"
-                    ]
-                ],
-                "limit": 1
+                "orderBy": "createdTime",
+                "ordering": "descending"
             ]
         ]
     }
     
-    public static func createBundleWithAllData(userDomain: String, userToken: String, success: @escaping (Bool) -> Void, fail: @escaping (HATTableError) -> Void) {
+    public static func createBundleWithFeed(userDomain: String, userToken: String, success: @escaping (Bool) -> Void, fail: @escaping (HATTableError) -> Void) {
         
-        if let url: URLConvertible = URL(string: "https://\(userDomain)/api/v2/data-bundle/fitbitall") {
+        if let url: URLConvertible = URL(string: "https://\(userDomain)/api/v2/data-bundle/fitbitfeed") {
             
-            let parameters: Parameters = HATFitbitService.constructJSON()
+            let parameters: Parameters = HATFitbitService.fitbitFeedJSON()
             
             Alamofire.request(
                 url,
@@ -117,7 +98,7 @@ extension HATFitbitService {
      */
     static func getFitbitData(userDomain: String, userToken: String, success: @escaping (Dictionary<String, JSON>) -> Void, fail: @escaping (HATTableError) -> Void) {
         
-        if let url: URLConvertible = URL(string: "https://\(userDomain)/api/v2/data-bundle/fitbitall") {
+        if let url: URLConvertible = URL(string: "https://\(userDomain)/api/v2/data-bundle/fitbitfeed") {
             
             Alamofire.request(
                 url,

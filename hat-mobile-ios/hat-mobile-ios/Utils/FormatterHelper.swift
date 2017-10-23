@@ -36,6 +36,22 @@ internal struct FormatterHelper {
     }
     
     /**
+     Formats ISO 8601 to Dateformat
+     
+     - parameter unixTimestamp: The ISO 8601 timestamp to format
+     
+     - returns: The date
+     */
+    static func formatISOToDateString(unixTimestamp: Int) -> String {
+        
+        let date = NSDate(timeIntervalSince1970: TimeInterval(unixTimestamp))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = DateFormatter.Style.medium //Set date style
+        dateFormatter.timeZone = TimeZone.current
+        return dateFormatter.string(from: date as Date)
+    }
+    
+    /**
      Formats a date to the user's defined date as a string
      
      - parameter date: The date to localize

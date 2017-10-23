@@ -10,6 +10,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
+import SwiftyJSON
+
 // MARK: Struct
 
 public struct HATFitbitActivityHeartRateZoneObject: HATObject {
@@ -20,4 +22,20 @@ public struct HATFitbitActivityHeartRateZoneObject: HATObject {
     public var min: Int = 0
     public var name: String = ""
     public var minutes: Int = 0
+    
+    init(from: JSON) {
+        
+        let dictionary = self.extractContent(from: from)
+        guard let test: HATFitbitActivityHeartRateZoneObject = HATFitbitActivityHeartRateZoneObject.decode(from: dictionary) else {
+            
+            return
+        }
+        
+        self = test
+    }
+    
+    public func extractContent(from: JSON) -> Dictionary<String, JSON> {
+        
+        return [:]
+    }
 }

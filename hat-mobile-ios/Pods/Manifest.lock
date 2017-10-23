@@ -32,7 +32,7 @@ PODS:
     - SwiftyRSA/ObjC (= 1.3.0)
   - SwiftyRSA/ObjC (1.3.0)
   - Toaster (2.1.0)
-  - URITemplate (2.0.2)
+  - URITemplate (2.0.3)
   - zxcvbn-ios (1.0.4)
 
 DEPENDENCIES:
@@ -66,7 +66,7 @@ CHECKOUT OPTIONS:
     :commit: cc3b6524156f8e0d8653688423fba2fdf0944bc8
     :git: https://github.com/ribl/FBAnnotationClusteringSwift/
   HatForIOS:
-    :commit: 8ac1bcd0f150ecd73ae61e8ed8e609b780a81a81
+    :commit: f71652cdab4af2a32dd3521077c869afadc71aab
     :git: https://github.com/whiteshadow-gr/HatForIOS.git
 
 SPEC CHECKSUMS:
@@ -87,7 +87,7 @@ SPEC CHECKSUMS:
   SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
   SwiftyRSA: 28e1c9ab1f396fd3001d197ba03e1153b524d155
   Toaster: 8c3225dc465bef4aa57e147a288724576df8e439
-  URITemplate: d822aaa2f8ec9dcffffd13baa58bf9ee007e96cb
+  URITemplate: ace0c4c46dcf8afe6e89b4060621852886b15c3b
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
 PODFILE CHECKSUM: f639fae0e484eb414b6d790a55678d9d32b905ef

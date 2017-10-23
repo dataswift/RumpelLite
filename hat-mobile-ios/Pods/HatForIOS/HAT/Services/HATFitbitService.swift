@@ -74,18 +74,18 @@ public struct HATFitbitService {
                         }
                     }
                 }
-            }
+        }
         )
     }
     
-    public static func getSleep(userDomain: String, userToken: String, successCallback: @escaping ([HATFitbitSleepObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getSleep(userDomain: String, userToken: String, parameters: Dictionary<String, String>, successCallback: @escaping ([HATFitbitSleepObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         HATFitbitService.getGeneric(
             userDomain: userDomain,
             userToken: userToken,
             namespace: "fitbit",
             scope: "sleep",
-            parameters: ["take": "1"],
+            parameters: parameters,
             successCallback: successCallback,
             errorCallback: errorCallback)
     }
@@ -127,62 +127,62 @@ public struct HATFitbitService {
             errorCallback: errorCallback)
     }
     
-    public static func getWeight(userDomain: String, userToken: String, successCallback: @escaping ([HATFitbitWeightObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getWeight(userDomain: String, userToken: String, parameters: Dictionary<String, String>, successCallback: @escaping ([HATFitbitWeightObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         HATFitbitService.getGeneric(
             userDomain: userDomain,
             userToken: userToken,
             namespace: "fitbit",
             scope: "weight",
-            parameters: ["take": "1"],
+            parameters: parameters,
             successCallback: successCallback,
             errorCallback: errorCallback)
     }
     
-    public static func getProfile(userDomain: String, userToken: String, successCallback: @escaping ([HATFitbitProfileObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getProfile(userDomain: String, userToken: String, parameters: Dictionary<String, String>, successCallback: @escaping ([HATFitbitProfileObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         HATFitbitService.getGeneric(
             userDomain: userDomain,
             userToken: userToken,
             namespace: "fitbit",
             scope: "profile",
-            parameters: ["take": "1"],
+            parameters: parameters,
             successCallback: successCallback,
             errorCallback: errorCallback)
     }
     
-    public static func getDailyActivity(userDomain: String, userToken: String, successCallback: @escaping ([HATFitbitDailyActivityObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getDailyActivity(userDomain: String, userToken: String, parameters: Dictionary<String, String>, successCallback: @escaping ([HATFitbitDailyActivityObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         HATFitbitService.getGeneric(
             userDomain: userDomain,
             userToken: userToken,
             namespace: "fitbit",
             scope: "activity/day/summary",
-            parameters: ["take": "1"],
+            parameters: parameters,
             successCallback: successCallback,
             errorCallback: errorCallback)
     }
     
-    public static func getLifetimeStats(userDomain: String, userToken: String, successCallback: @escaping ([HATFitbitStatsObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getLifetimeStats(userDomain: String, userToken: String, parameters: Dictionary<String, String>, successCallback: @escaping ([HATFitbitStatsObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         HATFitbitService.getGeneric(
             userDomain: userDomain,
             userToken: userToken,
             namespace: "fitbit",
             scope: "lifetime/stats",
-            parameters: ["take": "1"],
+            parameters: parameters,
             successCallback: successCallback,
             errorCallback: errorCallback)
     }
     
-    public static func getActivity(userDomain: String, userToken: String, successCallback: @escaping ([HATFitbitActivityObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func getActivity(userDomain: String, userToken: String, parameters: Dictionary<String, String>, successCallback: @escaping ([HATFitbitActivityObject], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         HATFitbitService.getGeneric(
             userDomain: userDomain,
             userToken: userToken,
             namespace: "fitbit",
             scope: "activity",
-            parameters: ["take": "1"],
+            parameters: parameters,
             successCallback: successCallback,
             errorCallback: errorCallback)
     }

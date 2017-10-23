@@ -25,12 +25,12 @@ extension TimeInterval {
     
     var seconds: Int {
         
-        return Int(self.remainder(dividingBy: 60))
+        return Int(self.truncatingRemainder(dividingBy: 60))
     }
     
     var minutes: Int {
         
-        return Int((self / 60).remainder(dividingBy: 60))
+        return Int((self / 60).truncatingRemainder(dividingBy: 60))
     }
     
     var hours: Int {

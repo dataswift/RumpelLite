@@ -135,7 +135,10 @@ internal class DataStoreDietaryHabitsAndBehaviorsTableViewController: UITableVie
             self.surveyObjects.append(surveyObject)
         }
         
-        cell.setSelectedAnswer(self.surveyObjects[indexPath.section].answer)
+        if surveyObjects.count > indexPath.section {
+            
+            cell.setSelectedAnswer(self.surveyObjects[indexPath.section].answer)
+        }
         
         return cell
     }

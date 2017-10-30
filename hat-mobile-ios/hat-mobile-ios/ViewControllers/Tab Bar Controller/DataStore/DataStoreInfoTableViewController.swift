@@ -248,13 +248,16 @@ internal class DataStoreInfoTableViewController: UITableViewController, UserCred
         
         func gotInfo(array: [HATProfileInfo], newToken: String?) {
             
-            self.tableView.isUserInteractionEnabled = true
-            self.loadingView.removeFromSuperview()
-            
-            if !array.isEmpty {
+            DispatchQueue.main.async { [weak self] in
                 
-                self.profile = array[0]
-                self.tableView.reloadData()
+                self?.tableView.isUserInteractionEnabled = true
+                self?.loadingView.removeFromSuperview()
+                
+                if !array.isEmpty {
+                    
+                    self?.profile = array[0]
+                    self?.tableView.reloadData()
+                }
             }
         }
         

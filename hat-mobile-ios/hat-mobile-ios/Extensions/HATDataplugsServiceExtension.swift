@@ -225,13 +225,16 @@ extension HATDataPlugsService: UserCredentialsProtocol {
      
      - returns: A ready URL as a String if everything ok else nil
      */
-    public static func createURLBasedOn(socialServiceName: String, socialServiceURL: String) -> String? {
+    public static func createURLBasedOn(socialServiceName: String, socialServiceURL: String, appToken: String? = nil) -> String? {
         
         if socialServiceName == "twitter" {
             
-            return Constants.DataPlug.twitterDataPlugServiceURL(
-                userDomain: self.userDomain,
-                socialServiceURL: socialServiceURL)
+            guard let token = appToken else {
+                
+                return (Constants.DataPlug.twitterDataPlugServiceURL(userDomain: self.userDomain, socialServiceURL: socialServiceURL, appToken: ""))
+            }
+            
+            return (Constants.DataPlug.twitterDataPlugServiceURL(userDomain: self.userDomain, socialServiceURL: socialServiceURL, appToken: token))
         } else if socialServiceName == "facebook" {
             
             return Constants.DataPlug.facebookDataPlugServiceURL(
@@ -239,9 +242,12 @@ extension HATDataPlugsService: UserCredentialsProtocol {
                 socialServiceURL: socialServiceURL)
         } else if socialServiceName == "Fitbit" {
             
-            return Constants.DataPlug.twitterDataPlugServiceURL(
-                userDomain: self.userDomain,
-                socialServiceURL: socialServiceURL)
+            guard let token = appToken else {
+                
+                return (Constants.DataPlug.fitbitDataPlugServiceURL(userDomain: self.userDomain, socialServiceURL: socialServiceURL, appToken: ""))
+            }
+            
+            return (Constants.DataPlug.fitbitDataPlugServiceURL(userDomain: self.userDomain, socialServiceURL: socialServiceURL, appToken: token))
         }
         
         return nil
@@ -266,7 +272,7 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             
             // check if facebook active
             HATFacebookService.isFacebookDataPlugActive(
-                token: appToken,
+                appToken: appToken,
                 successful: { result in
                     
                     isCheckmarkVisible(result, onSocialNetwork: Constants.SocialNetworks.Facebook.name)
@@ -283,7 +289,7 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             
             // check if twitter active
             HATTwitterService.isTwitterDataPlugActive(
-                token: appToken,
+                appToken: appToken,
                 successful: { result in
                     
                     isCheckmarkVisible(result, onSocialNetwork: Constants.SocialNetworks.Twitter.name)
@@ -296,7 +302,7 @@ extension HATDataPlugsService: UserCredentialsProtocol {
         }
         
         /// Check if twitter is active
-        func checkIfFitbitIsActive(isEnabled: Bool) {
+        func checkIfFitbitIsActive(isEnabled: Bool, fitbitToken: String?) {
             
             isCheckmarkVisible(isEnabled, onSocialNetwork: Fitbit.serviceName)
         }

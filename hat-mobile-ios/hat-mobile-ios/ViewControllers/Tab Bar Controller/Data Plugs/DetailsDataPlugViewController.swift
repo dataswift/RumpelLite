@@ -91,6 +91,12 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         self.safariVC?.dismissSafari(animated: true, completion: nil)
     }
     
+    @objc
+    private func dismissSafari() {
+        
+        self.safariVC?.dismissSafari(animated: true, completion: nil)
+    }
+    
     // MARK: - Auto-generated methods
     
     override func viewDidLoad() {
@@ -101,6 +107,11 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             self,
             selector: #selector(showAlertForDataPlug),
             name: Notification.Name(Constants.NotificationNames.dataPlug),
+            object: nil)
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(dismissSafari),
+            name: Notification.Name(Constants.NotificationNames.dismissSafari),
             object: nil)
         
         if plug == "facebook" {
@@ -261,7 +272,10 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         
         func gotAllFitBitData(profile: [HATFitbitProfileObject], newToken: String?) {
             
-            self.parseFitbitData(profile: profile[0])
+            if !profile.isEmpty {
+                
+                self.parseFitbitData(profile: profile[0])
+            }
         }
         
         HATFitbitService.getProfile(

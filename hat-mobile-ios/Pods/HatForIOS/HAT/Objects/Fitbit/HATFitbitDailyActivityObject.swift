@@ -31,4 +31,3 @@ public struct HATFitbitDailyActivityObject: HATObject {
     public var fairlyActiveMinutes: Int = 0
     public var lightlyActiveMinutes: Int = 0
 }
-

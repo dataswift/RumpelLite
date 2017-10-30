@@ -174,10 +174,13 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      */
     func updateTableWithValuesFrom(education: [HATProfileEducationObject], newString: String?) {
         
-        self.tableView.isUserInteractionEnabled = true
-        self.loadingView.removeFromSuperview()
-        self.education = education[0]
-        self.tableView.reloadData()
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.tableView.isUserInteractionEnabled = true
+            self?.loadingView.removeFromSuperview()
+            self?.education = education[0]
+            self?.tableView.reloadData()
+        }
     }
     
     /**

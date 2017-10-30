@@ -84,6 +84,7 @@ internal class Constants {
         static let goToSettings: String = "goToSettings"
         static let reloadTable: String = "reloadTable"
         static let imagePopUp: String = "imagePopUp"
+        static let dismissSafari: String = "dismissSafari"
     }
     
     /**
@@ -677,11 +678,17 @@ internal class Constants {
     
     struct DataPlug {
         
-        static let offerID: String = "32dde42f-5df9-4841-8257-5639db222e41"
+        static let offerID: String = "8438fcf0-cfec-4d79-8338-f0987056352f"
         
-        static func twitterDataPlugServiceURL(userDomain: String, socialServiceURL: String) -> String {
+        static func twitterDataPlugServiceURL(userDomain: String, socialServiceURL: String, appToken: String) -> String {
             
-            return "https://\(userDomain)/hatlogin?name=Twitter&redirect=\(socialServiceURL)/authenticate/hat"
+            return "\(socialServiceURL)/authenticate/hat?redirect=\(Constants.Auth.urlScheme)://\(Constants.Auth.localAuthHost)&token=\(appToken)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+        }
+        
+        static func fitbitDataPlugServiceURL(userDomain: String, socialServiceURL: String, appToken: String) -> String {
+            
+            let plugRedirect = "\(socialServiceURL)/authenticate/hat?redirect=\(Constants.Auth.urlScheme)://\(Constants.Auth.localAuthHost)&token=\(appToken)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            return plugRedirect!
         }
         
         static func facebookDataPlugServiceURL(userDomain: String, socialServiceURL: String) -> String {

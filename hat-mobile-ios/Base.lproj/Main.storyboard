@@ -63,7 +63,7 @@
                                             <action selector="buttonLogonTouchUp:" destination="Vvb-vK-6GZ" eventType="touchUpInside" id="XSO-Pq-6OA"/>
                                         </connections>
                                     </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="The HAT Platform demonstrator app" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7D-5t-hVO">
+                                    <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="The HAT Platform demonstrator app" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="n7D-5t-hVO">
                                         <rect key="frame" x="39" y="189" width="241" height="29"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <constraints>
@@ -73,25 +73,13 @@
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="12"/>
                                         <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                     </textView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TzO-vR-WkW">
-                                        <rect key="frame" x="156" y="233" width="119" height="30"/>
-                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="30" id="7yg-BO-BKx"/>
-                                            <constraint firstAttribute="width" constant="119" id="f0Z-Lb-RxP"/>
-                                        </constraints>
-                                        <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
-                                        <state key="normal" title=".hubofallthings.net">
-                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="domainButtonAction:" destination="Vvb-vK-6GZ" eventType="touchUpInside" id="F03-4o-5SY"/>
-                                        </connections>
-                                    </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="HAT address" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dCn-2i-qjD">
-                                        <rect key="frame" x="45" y="233" width="111" height="30"/>
+                                        <rect key="frame" x="45" y="230" width="230" height="30"/>
                                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <accessibility key="accessibilityConfiguration" hint="Enter your HAT address here" identifier="hatDomain" label="HAT address"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="zAs-Wa-YBK"/>
+                                        </constraints>
                                         <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="13"/>
                                         <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL" keyboardAppearance="alert" returnKeyType="done"/>
                                         <connections>
@@ -137,8 +125,8 @@
                                             <action selector="joinOurCommunityButtonAction:" destination="Vvb-vK-6GZ" eventType="touchUpInside" id="VDK-zQ-Eba"/>
                                         </connections>
                                     </button>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="One HAT, many possibilities" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7l-2x-eCW">
-                                        <rect key="frame" x="40" y="150" width="239" height="68"/>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="top" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" editable="NO" text="The HAT Platform demonstrator app" textAlignment="center" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H7l-2x-eCW">
+                                        <rect key="frame" x="40" y="150" width="239" height="73.5"/>
                                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <fontDescription key="fontDescription" name="OpenSans-CondensedLight" family="Open Sans" pointSize="21"/>
@@ -157,36 +145,32 @@
                                     <constraint firstItem="ZJL-5A-2de" firstAttribute="trailing" secondItem="wuz-cL-Khn" secondAttribute="trailing" id="8SX-Uh-BWD"/>
                                     <constraint firstItem="Qti-fk-0TI" firstAttribute="trailing" secondItem="ZJL-5A-2de" secondAttribute="trailing" id="Hf2-cQ-7xa"/>
                                     <constraint firstItem="Qti-fk-0TI" firstAttribute="leading" secondItem="ZJL-5A-2de" secondAttribute="leading" id="L2l-q3-afe"/>
-                                    <constraint firstAttribute="trailing" secondItem="TzO-vR-WkW" secondAttribute="trailing" constant="45" id="N2i-UZ-8Mt"/>
                                     <constraint firstItem="suw-0F-54c" firstAttribute="top" secondItem="c60-du-bsT" secondAttribute="top" constant="30" id="O17-Cd-81E"/>
-                                    <constraint firstItem="dCn-2i-qjD" firstAttribute="top" secondItem="n7D-5t-hVO" secondAttribute="bottom" constant="15" id="Pm0-UH-R3D"/>
+                                    <constraint firstItem="dCn-2i-qjD" firstAttribute="top" secondItem="n7D-5t-hVO" secondAttribute="bottom" constant="12" id="Pm0-UH-R3D"/>
+                                    <constraint firstAttribute="trailing" secondItem="Qti-fk-0TI" secondAttribute="trailing" constant="43" id="S1y-e7-yxo"/>
                                     <constraint firstItem="Qti-fk-0TI" firstAttribute="top" secondItem="8vE-cB-5qH" secondAttribute="bottom" constant="32" id="Tan-kZ-fBy"/>
                                     <constraint firstItem="n7D-5t-hVO" firstAttribute="trailing" secondItem="Qti-fk-0TI" secondAttribute="trailing" constant="3" id="UZx-aZ-cH9"/>
-                                    <constraint firstItem="8vE-cB-5qH" firstAttribute="top" secondItem="dCn-2i-qjD" secondAttribute="bottom" constant="8" id="UeW-CH-IeC"/>
+                                    <constraint firstItem="8vE-cB-5qH" firstAttribute="top" secondItem="dCn-2i-qjD" secondAttribute="bottom" constant="11" id="UeW-CH-IeC"/>
                                     <constraint firstItem="8vE-cB-5qH" firstAttribute="leading" secondItem="Qti-fk-0TI" secondAttribute="leading" id="WzQ-EC-aHa"/>
                                     <constraint firstItem="n7D-5t-hVO" firstAttribute="leading" secondItem="dCn-2i-qjD" secondAttribute="leading" constant="-6" id="Xt7-Md-YsW"/>
                                     <constraint firstItem="H7l-2x-eCW" firstAttribute="centerX" secondItem="c60-du-bsT" secondAttribute="centerX" id="Z5E-nl-whd"/>
                                     <constraint firstItem="H7l-2x-eCW" firstAttribute="leading" secondItem="c60-du-bsT" secondAttribute="leading" constant="40" id="aLW-Lk-KnK"/>
                                     <constraint firstItem="suw-0F-54c" firstAttribute="centerX" secondItem="H7l-2x-eCW" secondAttribute="centerX" id="aN8-7H-7OI"/>
-                                    <constraint firstItem="TzO-vR-WkW" firstAttribute="trailing" secondItem="8vE-cB-5qH" secondAttribute="trailing" id="cs6-cS-Bi8"/>
-                                    <constraint firstItem="TzO-vR-WkW" firstAttribute="leading" secondItem="dCn-2i-qjD" secondAttribute="trailing" id="eoX-oV-rhy"/>
-                                    <constraint firstItem="dCn-2i-qjD" firstAttribute="centerY" secondItem="TzO-vR-WkW" secondAttribute="centerY" id="f8W-dS-rcY"/>
                                     <constraint firstItem="suw-0F-54c" firstAttribute="centerX" secondItem="n7D-5t-hVO" secondAttribute="centerX" id="ixv-gk-ST0"/>
                                     <constraint firstItem="n7D-5t-hVO" firstAttribute="leading" secondItem="c60-du-bsT" secondAttribute="leading" constant="39" id="nA8-bg-Uof"/>
                                     <constraint firstItem="ZJL-5A-2de" firstAttribute="leading" secondItem="wuz-cL-Khn" secondAttribute="leading" id="ncJ-iF-hbA"/>
                                     <constraint firstItem="wuz-cL-Khn" firstAttribute="top" secondItem="ZJL-5A-2de" secondAttribute="bottom" constant="7" id="nix-lb-Wha"/>
                                     <constraint firstItem="H7l-2x-eCW" firstAttribute="centerX" secondItem="8vE-cB-5qH" secondAttribute="centerX" constant="-0.5" id="odc-li-Rqm"/>
-                                    <constraint firstItem="8vE-cB-5qH" firstAttribute="top" secondItem="TzO-vR-WkW" secondAttribute="bottom" constant="8" id="p1B-ol-Ily"/>
                                     <constraint firstItem="dCn-2i-qjD" firstAttribute="leading" secondItem="8vE-cB-5qH" secondAttribute="leading" id="qeV-G7-ei1"/>
                                     <constraint firstItem="n7D-5t-hVO" firstAttribute="top" secondItem="suw-0F-54c" secondAttribute="bottom" constant="47" id="r9g-Yn-8uE"/>
                                     <constraint firstItem="H7l-2x-eCW" firstAttribute="top" secondItem="suw-0F-54c" secondAttribute="bottom" constant="8" id="s6C-2Q-eL0"/>
-                                    <constraint firstItem="TzO-vR-WkW" firstAttribute="top" secondItem="H7l-2x-eCW" secondAttribute="bottom" constant="15" id="sMT-O9-xXL"/>
                                     <constraint firstAttribute="bottom" secondItem="wuz-cL-Khn" secondAttribute="bottom" constant="34" id="tTk-Eq-kiK"/>
                                     <constraint firstItem="ZJL-5A-2de" firstAttribute="top" secondItem="Qti-fk-0TI" secondAttribute="bottom" constant="8" symbolic="YES" id="wAI-bd-oJK"/>
+                                    <constraint firstItem="dCn-2i-qjD" firstAttribute="trailing" secondItem="8vE-cB-5qH" secondAttribute="trailing" id="zu0-sN-j7A"/>
                                 </constraints>
                             </scrollView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m1N-SX-weh">
-                                <rect key="frame" x="8" y="476" width="25" height="25"/>
+                                <rect key="frame" x="8" y="475.5" width="25" height="25"/>
                                 <state key="normal" image="Mail"/>
                                 <connections>
                                     <action selector="contactUsActionButton:" destination="Vvb-vK-6GZ" eventType="touchUpInside" id="gXy-uk-Qd9"/>
@@ -252,7 +236,6 @@
                     <connections>
                         <outlet property="backgroundImage" destination="hEh-Dj-wSC" id="Lem-c6-vnf"/>
                         <outlet property="buttonLogon" destination="8vE-cB-5qH" id="sff-Iu-MNd"/>
-                        <outlet property="domainButton" destination="TzO-vR-WkW" id="nle-WA-VX2"/>
                         <outlet property="getAHATButton" destination="Qti-fk-0TI" id="REv-mS-dXY"/>
                         <outlet property="inputUserHATDomain" destination="dCn-2i-qjD" id="pBh-xd-olQ"/>
                         <outlet property="joinCommunityButton" destination="wuz-cL-Khn" id="GYq-RW-A1m"/>
@@ -1931,7 +1914,7 @@
                                                         <rect key="frame" x="17" y="18" width="251" height="95"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PYu-LI-amZ">
-                                                        <rect key="frame" x="123.5" y="134" width="40.5" height="29"/>
+                                                        <rect key="frame" x="124" y="134" width="40.5" height="29"/>
                                                         <fontDescription key="fontDescription" name="OpenSans-Bold" family="Open Sans" pointSize="15"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
@@ -3105,7 +3088,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Accessing your HAT..." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqK-nY-8Dr">
-                                <rect key="frame" x="8" y="248.5" width="305" height="23.5"/>
+                                <rect key="frame" x="8" y="248" width="305" height="23.5"/>
                                 <fontDescription key="fontDescription" name="OpenSans" family="Open Sans" pointSize="17"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -3374,7 +3357,7 @@
                                 </connections>
                             </tableView>
                             <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FEm-cT-lG1">
-                                <rect key="frame" x="145" y="291.5" width="30" height="30"/>
+                                <rect key="frame" x="145" y="291" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="30" id="QeO-7o-UAY"/>
                                     <constraint firstAttribute="height" constant="30" id="qB5-Qq-Hws"/>
@@ -5299,7 +5282,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="LQv-hb-I1N">
-                                                    <rect key="frame" x="145" y="13.5" width="30.5" height="16.5"/>
+                                                    <rect key="frame" x="145" y="14.5" width="30.5" height="16.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9dw-gI-i5x">
                                                             <rect key="frame" x="0.0" y="0.0" width="30.5" height="16.5"/>

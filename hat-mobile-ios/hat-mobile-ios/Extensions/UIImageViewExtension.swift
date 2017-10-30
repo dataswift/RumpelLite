@@ -44,26 +44,29 @@ extension UIImageView {
                 }
             ).responseData(
                 completionHandler: { [weak self] response in
-            
-                    guard let data = response.result.value else {
+                    
+                    DispatchQueue.main.async {
+                        
+                        guard let data = response.result.value else {
+                            
+                            completion?()
+                            return
+                        }
+                        let image = UIImage(data: data)
+                        
+                        if let weakSelf = self {
+                            
+                            if image != nil {
+                                
+                                weakSelf.image = image
+                            } else {
+                                
+                                weakSelf.image = UIImage(named: Constants.ImageNames.imageDeleted)
+                            }
+                        }
                         
                         completion?()
-                        return
                     }
-                    let image = UIImage(data: data)
-                    
-                    if let weakSelf = self {
-                        
-                        if image != nil {
-                            
-                            weakSelf.image = image
-                        } else {
-                            
-                            weakSelf.image = UIImage(named: Constants.ImageNames.imageDeleted)
-                        }
-                    }
-                    
-                    completion?()
                 }
         )
 

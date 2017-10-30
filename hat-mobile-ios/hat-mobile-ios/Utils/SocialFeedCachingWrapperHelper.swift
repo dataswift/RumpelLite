@@ -36,7 +36,7 @@ internal struct SocialFeedCachingWrapperHelper {
             func tokenReceived(facebookToken: String, newUserToken: String?) {
                 
                 HATFacebookService.isFacebookDataPlugActive(
-                    token: facebookToken,
+                    appToken: facebookToken,
                     successful: { _ in
                         
                         HATFacebookService.facebookDataPlug(
@@ -114,7 +114,7 @@ internal struct SocialFeedCachingWrapperHelper {
                 
                 // check if twitter is active
                 HATTwitterService.isTwitterDataPlugActive(
-                    token: twitterToken,
+                    appToken: twitterToken,
                     successful: { _ in
                         
                         HATTwitterService.checkTwitterDataPlugTable(

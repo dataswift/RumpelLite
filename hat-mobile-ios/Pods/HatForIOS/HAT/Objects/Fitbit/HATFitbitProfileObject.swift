@@ -48,7 +48,7 @@ public struct HATFitbitProfileObject: HATObject {
     public var averageDailySteps: Int = 0
     public var displayNameSetting: String = ""
     public var offsetFromUTCMillis: Int = 0
-    public var strideLengthRunning: Int = 0
+    public var strideLengthRunning: Float = 0
     public var strideLengthWalking: Float = 0
     public var clockTimeDisplayFormat: String = ""
     public var strideLengthRunningType: String = ""

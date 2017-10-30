@@ -28,8 +28,6 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet private weak var buttonLogon: UIButton!
     /// An IBOutlet for handling the joinCommunityButton
     @IBOutlet private weak var joinCommunityButton: UIButton!
-    /// An IBOutlet for handling the domainButton
-    @IBOutlet private weak var domainButton: UIButton!
     
     /// An IBOutlet for handling the labelAppVersion
     @IBOutlet private weak var labelAppVersion: UILabel!
@@ -60,53 +58,6 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
     private let mailHelper: MailHelper = MailHelper()
         
     // MARK: - IBActions
-    
-    /**
-     A button showing the different HAT's to select in order to log in
-     
-     - parameter sender: The object that called this method
-     */
-    @IBAction func domainButtonAction(_ sender: Any) {
-        
-        let alert = UIAlertController(
-            title: "Select domain",
-            message: nil,
-            preferredStyle: .actionSheet)
-        
-        let hubofallthingsAction = UIAlertAction(
-            title: ".hubofallthings.net",
-            style: .default,
-            handler: {[unowned self](_: UIAlertAction) -> Void in
-            
-                self.domainButton.setTitle(".hubofallthings.net", for: .normal)
-            }
-        )
-        
-        let bsafeAction = UIAlertAction(
-            title: ".savy.io",
-            style: .default,
-            handler: {[unowned self](_: UIAlertAction) -> Void in
-                
-                self.domainButton.setTitle(".savy.io", for: .normal)
-            }
-        )
-        
-        let hubatAction = UIAlertAction(
-            title: ".hubat.net",
-            style: .default,
-            handler: {[unowned self](_: UIAlertAction) -> Void in
-            
-                self.domainButton.setTitle(".hubat.net", for: .normal)
-            }
-        )
-        
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        alert.addActions(actions: [hubofallthingsAction, bsafeAction, hubatAction, cancelAction])
-        alert.addiPadSupport(sourceRect: self.domainButton.bounds, sourceView: self.domainButton)
-        
-        self.present(alert, animated: true, completion: nil)
-    }
     
     /**
      A button launching email view controller
@@ -151,7 +102,10 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             
             KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
 
-            HATLoginService.formatAndVerifyDomain(userHATDomain: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!, successfulVerification: self.authoriseUser, failedVerification: failed)
+            HATLoginService.formatAndVerifyDomain(
+                userHATDomain: self.inputUserHATDomain.text!,
+                successfulVerification: self.authoriseUser,
+                failedVerification: failed)
         } else {
             
             self.createClassicOKAlertWith(
@@ -340,22 +294,7 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if let result = KeychainHelper.getKeychainValue(key: Constants.Keychain.hatDomainKey) {
             
-            if result.hasSuffix("hubat.net") {
-                
-                let test = result.components(separatedBy: ".hubat.net")
-                self.inputUserHATDomain.text = test[0]
-                self.domainButton.setTitle(".hubat.net", for: .normal)
-            } else if result.hasSuffix("hubofallthings.net") {
-                
-                let test = result.components(separatedBy: ".hubofallthings.net")
-                self.inputUserHATDomain.text = test[0]
-                self.domainButton.setTitle(".hubofallthings.net", for: .normal)
-            } else if result.hasSuffix("savy.io") {
-                
-                let test = result.components(separatedBy: ".savy.io")
-                self.inputUserHATDomain.text = test[0]
-                self.domainButton.setTitle(".savy.io", for: .normal)
-            }
+            self.inputUserHATDomain.text = result
         }
     }
     
@@ -416,9 +355,9 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
             }
             
             // authorize with hat
-            KeychainHelper.setKeychainValue(key: Constants.Keychain.hatDomainKey, value: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text)!)
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.hatDomainKey, value: self.inputUserHATDomain.text!)
             HATLoginService.loginToHATAuthorization(
-                userDomain: self.inputUserHATDomain.text! + (self.domainButton.titleLabel?.text!)!,
+                userDomain: self.inputUserHATDomain.text!,
                 url: url,
                 success: success,
                 failed: failed)

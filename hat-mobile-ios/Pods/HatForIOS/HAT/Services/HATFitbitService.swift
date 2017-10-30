@@ -187,7 +187,7 @@ public struct HATFitbitService {
             errorCallback: errorCallback)
     }
     
-    public static func checkIfFitbitIsEnabled(userDomain: String, userToken: String, successCallback: @escaping (Bool) -> Void, errorCallback: @escaping (JSONParsingError) -> Void) {
+    public static func checkIfFitbitIsEnabled(userDomain: String, userToken: String, successCallback: @escaping (Bool, String?) -> Void, errorCallback: @escaping (JSONParsingError) -> Void) {
         
         func gotToken(fitbitToken: String, newUserToken: String?) {
             
@@ -206,10 +206,10 @@ public struct HATFitbitService {
                     
                     if statusCode == 200 {
                         
-                        successCallback(true)
+                        successCallback(true, fitbitToken)
                     } else {
                         
-                        successCallback(false)
+                        successCallback(false, fitbitToken)
                     }
                     
                 // inform user that there was an error

@@ -192,13 +192,13 @@ internal class DataPlugsResponseInteractor: NSObject, UserCredentialsProtocol {
         if name == "facebook" {
             
             HATFacebookService.isFacebookDataPlugActive(
-                token: token,
+                appToken: token,
                 successful: successful,
                 failed: failed)
         } else {
             
             HATTwitterService.isTwitterDataPlugActive(
-                token: token,
+                appToken: token,
                 successful: successful,
                 failed: failed)
         }

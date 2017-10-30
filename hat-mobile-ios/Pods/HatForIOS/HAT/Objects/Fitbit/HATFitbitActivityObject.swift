@@ -36,4 +36,3 @@ public struct HATFitbitActivityObject: HATObject {
     public var originalStartTime: String = ""
     public var manualValuesSpecified: HATFitbitActivityManualValuesObject = HATFitbitActivityManualValuesObject()
 }
-

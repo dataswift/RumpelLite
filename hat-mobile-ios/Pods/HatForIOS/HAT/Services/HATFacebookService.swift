@@ -123,16 +123,16 @@ public struct HATFacebookService {
     /**
      Checks if facebook plug is active
      
-     - parameter token: The authorisation token to authenticate with the hat
+     - parameter appToken: The authorisation token to authenticate with the hat
      - parameter successful: An @escaping (Void) -> Void method executed on a successful response
      - parameter failed: An @escaping (Void) -> Void) method executed on a failed response
      */
-    public static func isFacebookDataPlugActive(token: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
+    public static func isFacebookDataPlugActive(appToken: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
 
         // construct the url, set parameters and headers for the request
         let url = Facebook.statusURL
         let parameters: Dictionary<String, String> = [:]
-        let headers = [RequestHeaders.xAuthToken: token]
+        let headers = [RequestHeaders.xAuthToken: appToken]
 
         // make the request
         HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: {(response: HATNetworkHelper.ResultType) -> Void in

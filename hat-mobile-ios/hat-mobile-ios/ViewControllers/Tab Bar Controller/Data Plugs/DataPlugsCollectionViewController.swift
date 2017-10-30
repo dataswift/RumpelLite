@@ -278,18 +278,31 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
+        func appToken(appToken: String, newUserToken: String?) {
+            
+            plugURL = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].plug.name, socialServiceURL: self.dataPlugs[indexPath.row].plug.url, appToken: appToken)!
+            self.performSegue(withIdentifier: "details", sender: self)
+        }
+        
+        func error(error: JSONParsingError) {
+            
+            CrashLoggerHelper.JSONParsingErrorLog(error: error)
+        }
+        
         if indexPath.row == 0 {
             
             selectedlPlug = "facebook"
+            plugURL = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].plug.name, socialServiceURL: self.dataPlugs[indexPath.row].plug.url)!
+            self.performSegue(withIdentifier: "details", sender: self)
         } else if indexPath.row == 1 {
             
             selectedlPlug = "twitter"
+            HATTwitterService.getAppTokenForTwitter(userDomain: userDomain, token: userToken, successful: appToken, failed: error)
         } else if indexPath.row == 2 {
             
             selectedlPlug = "Fitbit"
+            HATFitbitService.getApplicationTokenForFitbit(userDomain: userDomain, userToken: userToken, successCallback: appToken, errorCallback: error)
         }
-        plugURL = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].plug.name, socialServiceURL: self.dataPlugs[indexPath.row].plug.url)!
-        self.performSegue(withIdentifier: "details", sender: self)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

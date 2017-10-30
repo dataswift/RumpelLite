@@ -144,6 +144,9 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
                     let notification = Notification.Name(Constants.Auth.notificationHandlerName)
                     NotificationCenter.default.post(name: notification, object: url)
                     KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setTrue)
+                } else {
+                    
+                    NotificationCenter.default.post(name: Notification.Name(Constants.NotificationNames.dismissSafari), object: nil)
                 }
             } else if urlHost == "dataplugsapphost" {
                 

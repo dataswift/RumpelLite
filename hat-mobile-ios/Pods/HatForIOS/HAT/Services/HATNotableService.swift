@@ -198,7 +198,7 @@ public struct HATNotablesService {
     public static func postNoteV2(userDomain: String, userToken: String, note: HATNotesV2Object, successCallBack: @escaping (JSON, String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // update JSON file with the values needed
-        let hatData = HATNotesV2Object.encode(from: note)!
+        let hatData = HATNotesV2DataObject.encode(from: note.data)!
         
         HATAccountService.createTableValuev2(
             token: userToken,

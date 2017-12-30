@@ -112,9 +112,6 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             // remove the existing dataplugs from array
             self.dataPlugs = HATDataPlugsService.filterAvailableDataPlugs(dataPlugs: data)
             
-            // check if dataplugs are active
-            self.checkDataPlugsIfActive()
-            
             self.collectionView?.reloadData()
             
             // refresh user token
@@ -230,33 +227,6 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         // check that safari is not nil, if it's not hide it
         self.safariVC?.dismissSafari(animated: true, completion: nil)
         self.checkFacebookPlugIfExpired()
-    }
-    
-    // MARK: - Check if data plugs are active
-
-    /**
-     Checks if both data plugs are active
-     */
-    private func checkDataPlugsIfActive() {
-        
-        for var plug in self.dataPlugs {
-            
-            HATDataPlugsService.checkStatusOfPlug(
-                dataPlug: plug,
-                userDomain: userDomain,
-                userToken: userToken,
-                completion: { result, _ in
-                    
-                    if result {
-                        
-                        plug.plug.showCheckMark = true
-                    } else {
-                        
-                        plug.plug.showCheckMark = false
-                    }
-                }
-            )
-        }
     }
 
     // MARK: - UICollectionView methods

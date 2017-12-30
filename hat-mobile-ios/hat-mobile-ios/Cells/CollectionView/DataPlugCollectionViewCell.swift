@@ -48,6 +48,7 @@ internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentials
     class func setUp(cell: DataPlugCollectionViewCell, indexPath: IndexPath, dataPlug: HATDataPlugObject, orientation: UIInterfaceOrientation) -> UICollectionViewCell {
         
         // Configure the cell
+        cell.checkMarkImage.isHidden = true
         cell.dataPlugTitleLabel.text = dataPlug.plug.name
         cell.dataPlugDetailsLabel.text = dataPlug.plug.description
         cell.dataPlug = dataPlug
@@ -59,17 +60,36 @@ internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentials
                 progressUpdater: nil,
                 completion: nil)
         }
-        if dataPlug.plug.showCheckMark == nil {
-            
-            cell.checkMarkImage.isHidden = false
-        } else {
-            
-            cell.checkMarkImage.isHidden = !dataPlug.plug.showCheckMark!
-        }
+        
+        cell.checkDataPlugsIfActive()
         cell.backgroundColor = self.backgroundColorOfCellForIndexPath(indexPath, in: orientation)
         
         // return cell
         return cell
+    }
+    
+    // MARK: - Check if data plugs are active
+    
+    /**
+     Checks if both data plugs are active
+     */
+    private func checkDataPlugsIfActive() {
+        
+        HATDataPlugsService.checkStatusOfPlug(
+            dataPlug: self.dataPlug!,
+            userDomain: userDomain,
+            userToken: userToken,
+            completion: { [weak self] result, _ in
+                
+                if result {
+                    
+                    self?.checkMarkImage.isHidden = false
+                } else {
+                    
+                    self?.checkMarkImage.isHidden = true
+                }
+            }
+        )
     }
     
     // MARK: - Decide background color

@@ -361,17 +361,10 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         if self.segmentControl!.selectedSegmentIndex == 0 {
             
-            self.filterDataPointsFrom = self.datePicker!.date.startOfDate()
-            if let endOfDay = self.datePicker!.date.endOfDate() {
-                
-                self.filterDataPointsTo = endOfDay
-            }
+            self.filterDataPointsFrom = self.datePicker!.date.startOfDate(date: self.datePicker!.date)
         } else {
             
-            if let endOfDay = self.datePicker!.date.endOfDate() {
-                
-                self.filterDataPointsTo = endOfDay
-            }
+            self.filterDataPointsTo = self.datePicker!.date.endOfDate(date: self.datePicker!.date)
         }
     }
     
@@ -421,7 +414,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         
-        self.filterDataPointsFrom = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(7), timeType: TimeType.past).interval).startOfDate()
+        self.filterDataPointsFrom = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(7), timeType: TimeType.past).interval)
+        self.filterDataPointsFrom = Date().startOfDate(date: self.filterDataPointsFrom!)
         self.filterDataPointsTo = Date().endOfDate()
         
         LocationsWrapperHelper.getLocations(

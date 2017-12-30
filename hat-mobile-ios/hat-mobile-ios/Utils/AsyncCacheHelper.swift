@@ -32,23 +32,26 @@ internal class AsyncCachingHelper<T: HatApiType> {
         
         func asyncCacheResponse(data: [T], token: String?) {
             
-            var array: [Dictionary<String, Any>] = []
+            var tempArray: [Dictionary<String, Any>] = []
             
             for dict in data {
                 
-                array.append(dict.toJSON())
+                tempArray.append(dict.toJSON())
             }
             
-            if !array.isEmpty {
+            if !tempArray.isEmpty {
                 
-                CachingHelper.saveToRealm(dictionary: array, objectType: type, expiresIn: expiresIn, value: value)
+                CachingHelper.saveToRealm(dictionary: tempArray, objectType: type, expiresIn: expiresIn, value: value)
             }
             
             completion?(data, token)
         }
         
         // get Realm Cache
-        let result = CachingHelper.getFromRealm(type: type)
+        guard let result = CachingHelper.getFromRealm(type: type) else {
+            
+            return
+        }
         
         // if no result perform network fetch, else parse the Realm Results and return that
         if result.isEmpty {

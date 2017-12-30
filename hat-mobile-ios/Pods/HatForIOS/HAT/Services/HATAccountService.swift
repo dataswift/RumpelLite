@@ -393,22 +393,23 @@ public struct HATAccountService {
      - parameter recordId: The record id to delete
      - parameter success: A callback called when successful of type @escaping (String) -> Void
      */
-    public static func deleteHatRecordV2(userDomain: String, token: String, recordId: [Int], success: @escaping (String) -> Void, failed: @ escaping (HATTableError) -> Void) {
+    public static func deleteHatRecordV2(userDomain: String, token: String, recordId: [String], success: @escaping (String) -> Void, failed: @ escaping (HATTableError) -> Void) {
         
         // form the url
-        let url = "https://\(userDomain)/api/v2/data/"
+        var url = "https://\(userDomain)/api/v2/data"
         
-        // create parameters and headers
-        let parameters: NSMutableDictionary = [:]
+        let firstRecord = recordId.first
+        url.append("?records:\(firstRecord!)")
         
-        for record in recordId {
+        for record in recordId where record != firstRecord! {
             
-            parameters.addEntries(from: ["records": record])
+            url.append("&records:\(record)")
         }
+        
         let headers = [RequestHeaders.xAuthToken: token]
         
         // make the request
-        HATNetworkHelper.asynchronousRequest(url, method: .delete, encoding: Alamofire.URLEncoding.default, contentType: ContentType.Text, parameters: parameters.dictionaryWithValues(forKeys: ["records"]), headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
+        HATNetworkHelper.asynchronousRequest(url, method: .delete, encoding: Alamofire.URLEncoding.default, contentType: ContentType.Text, parameters: [:], headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
             
             // handle result
             switch response {
@@ -448,7 +449,7 @@ public struct HATAccountService {
      - parameter recordId: The record id to delete
      - parameter success: A callback called when successful of type @escaping (String) -> Void
      */
-    public static func editHatRecordV2(userDomain: String, token: String, parameters: Dictionary<String, Any>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func updateHatRecordV2(userDomain: String, token: String, parameters: Dictionary<String, Any>, successCallback: @escaping ([JSON], String?) -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // form the url
         let url = "https://\(userDomain)/api/v2/data/"
@@ -631,5 +632,103 @@ public struct HATAccountService {
                 }
             }
         })
+    }
+    
+    // MARK: - Create Combinator
+    
+    public static func createBetweenLocationCombinator(userDomain: String, userToken: String, combinatorName: String, fieldToFilter: String, lowerValue: Int, upperValue: Int, successCallback: @escaping (Bool, String?) -> Void, failCallback: @escaping (HATError) -> Void) {
+        
+        let url = "https://\(userDomain)/api/v2/combinator/\(combinatorName)"
+        
+        class Operator: HATObject {
+            
+            var `operator`: String = "between"
+            var lower: Int = 0
+            var upper: Int = 0
+        }
+        class Filter: HATObject {
+            
+            var field: String = ""
+            var `operator`: Operator = Operator()
+        }
+        class BodyRequest: HATObject {
+            
+            var endpoint: String = "rumpel/locations/ios"
+            var filters: [Filter] = [Filter()]
+        }
+        
+        let bodyRequest: [BodyRequest] = [BodyRequest()]
+        bodyRequest[0].filters[0].field = fieldToFilter
+        bodyRequest[0].filters[0].`operator`.lower = lowerValue
+        bodyRequest[0].filters[0].`operator`.upper = upperValue
+        
+        var urlRequest = URLRequest.init(url: URL(string: url)!)
+        urlRequest.httpBody = BodyRequest.encode(from: bodyRequest)
+        urlRequest.httpMethod = HTTPMethod.post.rawValue
+        urlRequest.addValue(userToken, forHTTPHeaderField: RequestHeaders.xAuthToken)
+        if urlRequest.value(forHTTPHeaderField: "Content-Type") == nil {
+            
+            urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        }
+        
+        Alamofire.request(urlRequest).responseJSON(completionHandler: { response in
+            
+            switch response.result {
+            case .success:
+                
+                successCallback(true, nil)
+            // in case of failure return the error but check for internet connection or unauthorised status and let the user know
+            case .failure(let error):
+                
+                failCallback(HATError.generalError("", nil, error))
+            }
+        })
+    }
+    
+    public static func getBetweenLocationCombinator(userDomain: String, userToken: String, successCallback: @escaping ([HATLocationsV2Object], String?) -> Void, failCallback: @escaping (HATError) -> Void) {
+        
+        let url = "https://\(userDomain)/api/v2/combinator/locationsfilter"
+        
+        let headers = [RequestHeaders.xAuthToken: userToken]
+        
+        HATNetworkHelper.asynchronousRequest(
+            url,
+            method: .get,
+            encoding: Alamofire.JSONEncoding.default,
+            contentType: ContentType.JSON,
+            parameters: [:],
+            headers: headers,
+            completion: {(response: HATNetworkHelper.ResultType) -> Void in
+                
+                switch response {
+                    
+                case .error(let error, let statusCode):
+                    
+                    if error.localizedDescription == "The request timed out." {
+                        
+                        failCallback(.noInternetConnection)
+                    } else {
+                        
+                        let message = NSLocalizedString("Server responded with error", comment: "")
+                        failCallback(.generalError(message, statusCode, error))
+                    }
+                case .isSuccess(let isSuccess, _, let result, let token):
+                    
+                    if isSuccess, let array = result.array {
+                        
+                        var arrayToReturn: [HATLocationsV2Object] = []
+                        for item in array {
+                            
+                            if let object: HATLocationsV2Object = HATLocationsV2Object.decode(from: item.dictionaryValue) {
+                                
+                                arrayToReturn.append(object)
+                            }
+                        }
+                        
+                        successCallback(arrayToReturn, token)
+                    }
+                }
+        }
+        )
     }
 }

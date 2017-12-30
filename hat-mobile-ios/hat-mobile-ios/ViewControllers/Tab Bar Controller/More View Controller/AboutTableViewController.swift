@@ -20,16 +20,16 @@ internal class AboutTableViewController: UITableViewController, UserCredentialsP
     // MARK: - Variables
 
     /// The sections of the table view
-    private let sections: [[String]] = [[""], ["Make Biodata public?"]]
+    private let sections: [[String]] = [[""]]
     /// The headers of the table view
-    private let headers: [String] = ["Biodata", "Privacy"]
+    private let headers: [String] = ["Biodata"]
     /// The loading view pop up
     private var loadingView: UIView = UIView()
     /// A dark view covering the collection view cell
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBActions
     
@@ -66,18 +66,32 @@ internal class AboutTableViewController: UITableViewController, UserCredentialsP
                 cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? PhataTableViewCell
             }
             
+            if cell!.getSwitchValue() {
+                
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.aboutMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
+                    
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
+                }
+            }
+            
             // title
             if index == 0 {
                 
-                profile?.data.about.body = cell!.getTextFromTextField()
-            // private
-            } else if index == 1 {
-                
-                profile?.data.about.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.about.body = cell!.getTextFromTextField()
             }
         }
         
@@ -115,7 +129,7 @@ internal class AboutTableViewController: UITableViewController, UserCredentialsP
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.rowHeight = UITableViewAutomaticDimension
@@ -177,13 +191,27 @@ internal class AboutTableViewController: UITableViewController, UserCredentialsP
             
             if indexPath.section == 0 {
                 
-                cell.setTextToTextField(text: self.profile!.data.about.body)
-                cell.isSwitchHidden(true)
-            } else if indexPath.section == 1 {
+                cell.setTextToTextField(text: self.profile!.profile.data.about.body)
+            }
+            
+            cell.isSwitchHidden(false)
+            
+            let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+            
+            var sharedFields: Dictionary<String, String> = [:]
+            for item in self.profile!.shareOptions {
                 
-                cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])
-                cell.isSwitchHidden(false)
-                cell.setSwitchValue(isOn: !self.profile!.data.about.isPrivate)
+                sharedFields.updateValue(item.value, forKey: item.value)
+            }
+            
+            let structure = HATProfileService.aboutMapping
+            
+            if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+                
+                cell.setSwitchValue(isOn: true)
+            } else {
+                
+                cell.setSwitchValue(isOn: false)
             }
         }
         

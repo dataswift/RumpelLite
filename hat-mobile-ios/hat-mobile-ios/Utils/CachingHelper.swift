@@ -35,7 +35,10 @@ internal struct CachingHelper {
         // Persist your data easily
         do {
             
-            let realm = RealmHelper.getRealm()
+            guard let realm = RealmHelper.getRealm() else {
+                
+                return
+            }
 
             try realm.write {
                 
@@ -54,9 +57,13 @@ internal struct CachingHelper {
      
      - parameter type: The type of object to get from Realm
      */
-    static func getFromRealm(type: String) -> Results<JSONCacheObject> {
+    static func getFromRealm(type: String) -> Results<JSONCacheObject>? {
         
-        let realm = RealmHelper.getRealm()
+        guard let realm = RealmHelper.getRealm() else {
+            
+            return nil
+        }
+        
         // the filtering to use when quering Realm
         let predicate = NSPredicate(format: "type == %@", type as CVarArg)
         return realm.objects(JSONCacheObject.self).filter(predicate)
@@ -73,8 +80,11 @@ internal struct CachingHelper {
         
         do {
             
-            let realm = RealmHelper.getRealm()
-            let objects = CachingHelper.getFromRealm(type: type)
+            guard let realm = RealmHelper.getRealm(),
+                let objects = CachingHelper.getFromRealm(type: type)else {
+                
+                return
+            }
 
             try realm.write {
                 
@@ -96,7 +106,11 @@ internal struct CachingHelper {
         do {
             
             // get and delete realm cache
-            let realm = RealmHelper.getRealm()
+            guard let realm = RealmHelper.getRealm() else {
+                
+                return
+            }
+            
             try realm.write {
                 
                 let objects = realm.objects(JSONCacheObject.self)
@@ -131,7 +145,11 @@ internal struct CachingHelper {
      */
     static func getRealmCacheSize(type: String) -> Int {
         
-        let objects = getFromRealm(type: type)
+        guard let objects = getFromRealm(type: type) else {
+            
+            return 0
+        }
+        
         let mutableData: NSMutableData = NSMutableData()
         for object in objects where object.jsonData != nil {
             

@@ -94,24 +94,34 @@ extension Date {
      
      - returns: The date called the method but with time 00:00:00
      */
-    func startOfTheDay() -> Date {
+    func startOfDate(date: Date = Date()) -> Date {
         
-        return NSCalendar.current.startOfDay(for: self)
+        return Calendar.current.startOfDay(for: date)
     }
     
-    // MARK: - Get end of the day
-    
-    /**
-     Returns the end of the day
-     
-     - returns: The date called the method but with time 23:59.59
-     */
-    func endOfTheDay() -> Date? {
+    func endOfDate(date: Date = Date()) -> Date? {
         
         var components = DateComponents()
         components.day = 1
         components.second = -1
+        let startOfDay = Date().startOfDate(date: date)
+        return Calendar.current.date(byAdding: components, to: startOfDay)
+    }
+    
+    static func startOfDateInUnixTimeStape(date: Date = Date()) -> Int {
         
-        return Calendar.current.date(byAdding: components, to: self.startOfTheDay())
+        let date: Date = Date().startOfDate(date: date)
+        return Int(date.timeIntervalSince1970)
+    }
+    
+    static func endOfDateInUnixTimeStape(date: Date = Date()) -> Int? {
+        
+        //For End Date
+        if let endOfDate = Date().endOfDate(date: date) {
+            
+            return Int(endOfDate.timeIntervalSince1970)
+        }
+        
+        return nil
     }
 }

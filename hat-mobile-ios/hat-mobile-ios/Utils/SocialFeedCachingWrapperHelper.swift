@@ -33,38 +33,16 @@ internal struct SocialFeedCachingWrapperHelper {
         
         return { successRespond in
             
-            func tokenReceived(facebookToken: String, newUserToken: String?) {
-                
-                HATFacebookService.isFacebookDataPlugActive(
-                    appToken: facebookToken,
-                    successful: { _ in
-                        
-                        HATFacebookService.facebookDataPlug(
-                            authToken: userToken,
-                            userDomain: userDomain,
-                            parameters: parameters,
-                            success: { (array, newToken) in
-                                
-                                var arrayToReturn: [HATFacebookSocialFeedObject] = []
-                                
-                                for item in array {
-                                    
-                                    arrayToReturn.append(HATFacebookSocialFeedObject(from: item.dictionaryValue))
-                                }
-                                
-                                successRespond(arrayToReturn, newToken)
-                            }
-                        )
-                    },
-                    failed: { _ in return })
-            }
-            
-            // get Token for plugs
-            HATFacebookService.getAppTokenForFacebook(
-                token: userToken,
+            HATFacebookService.getFacebookData(
+                authToken: userToken,
                 userDomain: userDomain,
-                successful: tokenReceived,
-                failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+                parameters: parameters,
+                successCallback: successRespond,
+                errorCallback: { error in
+                    
+                    failRespond(.generalError(error.localizedDescription, nil, error))
+                }
+            )
         }
     }
     
@@ -110,39 +88,16 @@ internal struct SocialFeedCachingWrapperHelper {
         
         return { successRespond in
             
-            func tokenReceived(twitterToken: String, newUserToken: String?) {
-                
-                // check if twitter is active
-                HATTwitterService.isTwitterDataPlugActive(
-                    appToken: twitterToken,
-                    successful: { _ in
-                        
-                        HATTwitterService.checkTwitterDataPlugTable(
-                            authToken: userToken,
-                            userDomain: userDomain,
-                            parameters: parameters,
-                            success: { (array, newToken) in
-                        
-                                var arrayToReturn: [HATTwitterSocialFeedObject] = []
-                                
-                                for item in array {
-                                    
-                                    arrayToReturn.append(HATTwitterSocialFeedObject(from: item.dictionaryValue))
-                                }
-                                
-                                successRespond(arrayToReturn, newToken)
-                            }
-                        )
-                    },
-                    failed: { _ in return })
-            }
-            
-            // get Token for plugs
-            HATTwitterService.getAppTokenForTwitter(
+            HATTwitterService.fetchTweetsV2(
+                authToken: userToken,
                 userDomain: userDomain,
-                token: userToken,
-                successful: tokenReceived,
-                failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+                parameters: parameters,
+                successCallback: successRespond,
+                errorCallback: { error in
+                    
+                    failRespond(.generalError(error.localizedDescription, nil, error))
+                }
+            )
         }
     }
     
@@ -178,41 +133,14 @@ internal struct SocialFeedCachingWrapperHelper {
         
         return { successRespond in
             
-            // the returned array for the request
-            func success(array: [JSON], renewedUserToken: String?) {
-                
-                if !array.isEmpty {
-                    
-                    // extract image
-                    if let url = URL(string: array[0]["data"]["profile_picture"]["url"].stringValue) {
-                        
-                        // download image
-                        URLSession.shared.dataTask(with: url) { (data, response, error) in
-                            
-                            guard let httpURLResponse = response as? HTTPURLResponse, httpURLResponse.statusCode == 200,
-                                let mimeType = response?.mimeType, mimeType.hasPrefix("image"),
-                                let data = data, error == nil,
-                                let image = UIImage(data: data)
-                                else { return }
-                            var profilePic = HATFacebookProfileImageObject()
-                            profilePic.image = image
-                            successRespond([profilePic], renewedUserToken)
-                        }.resume()
-                    }
-                } else {
-                    
-                    var profilePic = HATFacebookProfileImageObject()
-                    profilePic.image = UIImage(named: Constants.ImageNames.facebookImage)
-                    successRespond([profilePic], renewedUserToken)
-                }
-            }
-            
-            // fetch facebook image
-            HATFacebookService.fetchProfileFacebookPhoto(
+            HATFacebookService.fetchProfileFacebookPhotoV2(
                 authToken: userToken,
                 userDomain: userDomain,
-                parameters: ["starttime": "0"],
-                success: success)
+                parameters: ["take": "1",
+                             "orderBy": "date"],
+                successCallback: successRespond,
+                errorCallback: { _ in return}
+            )
         }
     }
     

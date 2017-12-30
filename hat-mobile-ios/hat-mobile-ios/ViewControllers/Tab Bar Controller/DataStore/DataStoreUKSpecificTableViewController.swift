@@ -58,16 +58,19 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
      */
     private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
         
-        self.loadingView.removeFromSuperview()
-        self.darkView.removeFromSuperview()
-        
-        self.createClassicOKAlertWith(
-            alertMessage: message,
-            alertTitle: title,
-            okTitle: "OK",
-            proceedCompletion: {})
-        
-        CrashLoggerHelper.hatTableErrorLog(error: error)
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.loadingView.removeFromSuperview()
+            self?.darkView.removeFromSuperview()
+            
+            self?.createClassicOKAlertWith(
+                alertMessage: message,
+                alertTitle: title,
+                okTitle: "OK",
+                proceedCompletion: {})
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
     }
     
     // MARK: - Upload info
@@ -79,10 +82,13 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
         
         func recordCreated() {
             
-            self.loadingView.removeFromSuperview()
-            self.darkView.removeFromSuperview()
-            
-            _ = self.navigationController?.popViewController(animated: true)
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.loadingView.removeFromSuperview()
+                self?.darkView.removeFromSuperview()
+                
+                _ = self?.navigationController?.popViewController(animated: true)
+            }
         }
         
         guard self.ukSpecificInfo != nil else {
@@ -169,20 +175,27 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.view.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
-        
-        self.view.addSubview(self.darkView)
-        
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Updating profile...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.darkView = UIView(frame: weakSelf.view.frame)
+            weakSelf.darkView.backgroundColor = .black
+            weakSelf.darkView.alpha = 0.4
+            
+            weakSelf.view.addSubview(weakSelf.darkView)
+            
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: (weakSelf.view?.frame.midX)! - 70, y: (weakSelf.view?.frame.midY)! - 15, width: 140, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Updating profile...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        }
     }
     
     // MARK: - View Controller methods
@@ -306,28 +319,34 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
     
     func failedGettingInfo(error: HATTableError) {
         
-        self.tableView.isUserInteractionEnabled = true
-        self.loadingView.removeFromSuperview()
-        
-        CrashLoggerHelper.hatTableErrorLog(error: error)
+        DispatchQueue.main.async { [weak self] in
+
+            self?.tableView.isUserInteractionEnabled = true
+            self?.loadingView.removeFromSuperview()
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
     }
     
     func getUKInfoFromHAT() {
         
         func gotInfo(array: [UKSpecificInfo], newToken: String?) {
             
-            self.tableView.isUserInteractionEnabled = true
-            self.loadingView.removeFromSuperview()
-            
-            if !array.isEmpty {
+            DispatchQueue.main.async { [weak self] in
                 
-                self.ukSpecificInfo = array[0]
-            } else {
+                self?.tableView.isUserInteractionEnabled = true
+                self?.loadingView.removeFromSuperview()
                 
-                self.ukSpecificInfo = UKSpecificInfo()
+                if !array.isEmpty {
+                    
+                    self?.ukSpecificInfo = array[0]
+                } else {
+                    
+                    self?.ukSpecificInfo = UKSpecificInfo()
+                }
+                
+                self?.tableView.reloadData()
             }
-            
-            self.tableView.reloadData()
         }
         
         DispatchQueue.main.async { [weak self] in
@@ -350,14 +369,14 @@ internal class DataStoreUKSpecificTableViewController: UITableViewController, Us
                 with: "Loading HAT data...",
                 textColor: .white,
                 font: font)
+            
+            UKSpecificInfoCachingWrapperHelper.getUKSpecificInfo(
+                userToken: weakSelf.userToken,
+                userDomain: weakSelf.userDomain,
+                cacheTypeID: "ukSpecificInfo",
+                successRespond: gotInfo,
+                failRespond: weakSelf.failedGettingInfo)
         }
-
-        UKSpecificInfoCachingWrapperHelper.getUKSpecificInfo(
-            userToken: userToken,
-            userDomain: userDomain,
-            cacheTypeID: "ukSpecificInfo",
-            successRespond: gotInfo,
-            failRespond: failedGettingInfo)
     }
     
 }

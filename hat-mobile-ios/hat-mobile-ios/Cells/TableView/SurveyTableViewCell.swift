@@ -204,5 +204,18 @@ internal class SurveyTableViewCell: UITableViewCell {
             self.selectedButton = index
         }
     }
+    
+    /**
+     Set's that button as selected
+     */
+    func setNoAnswer() {
+        
+        self.disableButtonAt(index: 1)
+        self.disableButtonAt(index: 2)
+        self.disableButtonAt(index: 3)
+        self.disableButtonAt(index: 4)
+        self.disableButtonAt(index: 5)
+        self.selectedButton = 0
+    }
 
 }

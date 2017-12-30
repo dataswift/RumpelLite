@@ -26,7 +26,7 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBActions
     
@@ -61,34 +61,14 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
             cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? PhataTableViewCell
         }
         
-        profile?.data.isPrivate = !(cell!.getSwitchValue())
-        if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
+        profile?.profile.data.shared = (cell!.getSwitchValue())
+        if (profile?.profile.data.shared)! && cell!.getSwitchValue() {
             
-            profile?.data.isPrivate = false
+            profile?.profile.data.shared = false
         }
         if !(cell!.getSwitchValue()) {
             
-            profile?.data.about.isPrivate = true
-            profile?.data.addressDetails.isPrivate = true
-            profile?.data.addressGlobal.isPrivate = true
-            profile?.data.age.isPrivate = true
-            profile?.data.alternativeEmail.isPrivate = true
-            profile?.data.birth.isPrivate = true
-            profile?.data.blog.isPrivate = true
-            profile?.data.emergencyContact.isPrivate = true
-            profile?.data.facebook.isPrivate = true
-            profile?.data.facebookProfilePhoto.isPrivate = true
-            profile?.data.gender.isPrivate = true
-            profile?.data.google.isPrivate = true
-            profile?.data.homePhone.isPrivate = true
-            profile?.data.linkedIn.isPrivate = true
-            profile?.data.mobile.isPrivate = true
-            profile?.data.nick.isPrivate = true
-            profile?.data.personal.isPrivate = true
-            profile?.data.primaryEmail.isPrivate = true
-            profile?.data.twitter.isPrivate = true
-            profile?.data.website.isPrivate = true
-            profile?.data.youtube.isPrivate = true
+            self.profile?.shareOptions = [:]
         }
         
         ProfileCachingHelper.postProfile(
@@ -125,7 +105,7 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -182,7 +162,7 @@ internal class PHATASettingsTableViewController: UITableViewController, UserCred
         } else if indexPath.row == 1 {
             
             cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])
-            cell.setSwitchValue(isOn: !self.profile!.data.isPrivate)
+            cell.setSwitchValue(isOn: self.profile!.profile.data.shared)
             cell.isUserInteractionEnabled = true
             cell.setTextColorInTextField(color: .black)
             cell.isSwitchHidden(false)

@@ -31,6 +31,8 @@ internal class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Fabric.with([Crashlytics.self])
         
+        RealmHelper.migrateDB()
+        
         // if app was closed by iOS (low mem, etc), then receives a location update, and respawns your app, letting it know it respawned due to a location service
         if launchOptions?[UIApplicationLaunchOptionsKey.location] != nil {
             

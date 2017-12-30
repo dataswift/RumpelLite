@@ -20,16 +20,16 @@ internal class EmergencyContactTableViewController: UITableViewController, UserC
     // MARK: - Variables
 
     /// The sections of the table view
-    private let sections: [[String]] = [[""], [""], [""], [""], ["Make those fields public?"]]
+    private let sections: [[String]] = [[""], [""], [""], [""]]
     /// The headers of the table view
-    private let headers: [String] = ["First Name", "Last Name", "Relationship", "Phone Number", "Privacy"]
+    private let headers: [String] = ["First Name", "Last Name", "Relationship", "Phone Number"]
     /// The loading view pop up
     private var loadingView: UIView = UIView()
     /// A dark view covering the collection view cell
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBActions
     
@@ -66,30 +66,44 @@ internal class EmergencyContactTableViewController: UITableViewController, UserC
                 cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? PhataTableViewCell
             }
             
+            if cell!.getSwitchValue() {
+                
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.emergencyContactMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
+                    
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
+                }
+            }
+            
             // first name
             if index == 0 {
                 
-                profile?.data.emergencyContact.firstName = cell!.getTextFromTextField()
+                profile?.profile.data.emergencyContact.firstName = cell!.getTextFromTextField()
             // last name
             } else if index == 1 {
                 
-                profile?.data.emergencyContact.lastName = cell!.getTextFromTextField()
+                profile?.profile.data.emergencyContact.lastName = cell!.getTextFromTextField()
             // relationship
             } else if index == 2 {
                 
-                profile?.data.emergencyContact.relationship = cell!.getTextFromTextField()
+                profile?.profile.data.emergencyContact.relationship = cell!.getTextFromTextField()
             // phone number
             } else if index == 3 {
                 
-                profile?.data.emergencyContact.mobile = cell!.getTextFromTextField()
-            // privacy
-            } else if index == 4 {
-                
-                profile?.data.emergencyContact.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.emergencyContact.mobile = cell!.getTextFromTextField()
             }
         }
         
@@ -127,7 +141,7 @@ internal class EmergencyContactTableViewController: UITableViewController, UserC
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -181,26 +195,41 @@ internal class EmergencyContactTableViewController: UITableViewController, UserC
             
             if indexPath.section == 0 {
                 
-                cell.setTextToTextField(text: self.profile!.data.emergencyContact.firstName)
+                cell.setTextToTextField(text: self.profile!.profile.data.emergencyContact.firstName)
                 cell.isSwitchHidden(true)
             } else if indexPath.section == 1 {
                 
-                cell.setTextToTextField(text: self.profile!.data.emergencyContact.lastName)
+                cell.setTextToTextField(text: self.profile!.profile.data.emergencyContact.lastName)
                 cell.isSwitchHidden(true)
             } else if indexPath.section == 2 {
                 
-                cell.setTextToTextField(text: self.profile!.data.emergencyContact.relationship)
+                cell.setTextToTextField(text: self.profile!.profile.data.emergencyContact.relationship)
                 cell.isSwitchHidden(true)
             } else if indexPath.section == 3 {
                 
-                cell.setTextToTextField(text: self.profile!.data.emergencyContact.mobile)
+                cell.setTextToTextField(text: self.profile!.profile.data.emergencyContact.mobile)
                 cell.isSwitchHidden(true)
                 cell.setKeyboardType(.phonePad)
-            } else if indexPath.section == 4 {
+            }
+            
+            cell.isSwitchHidden(false)
+            
+            let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+            
+            var sharedFields: Dictionary<String, String> = [:]
+            for item in self.profile!.shareOptions {
                 
-                cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])
-                cell.isSwitchHidden(false)
-                cell.setSwitchValue(isOn: !self.profile!.data.emergencyContact.isPrivate)
+                sharedFields.updateValue(item.value, forKey: item.value)
+            }
+            
+            let structure = HATProfileService.emergencyContactMapping
+            
+            if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+                
+                cell.setSwitchValue(isOn: true)
+            } else {
+                
+                cell.setSwitchValue(isOn: false)
             }
         }
         

@@ -28,66 +28,55 @@ internal struct LocationsWrapperHelper {
      
      - returns: A function of type (([HATLocationsObject], String?) -> Void)
      */
-    static func request(userToken: String, userDomain: String, locationsFromDate: Date?, locationsToDate: Date?, failRespond: @escaping (HATTableError) -> Void) -> ((@escaping (([HATLocationsObject], String?) -> Void)) -> Void) {
+    static func request(userToken: String, userDomain: String, locationsFromDate: Date? = Date().startOfDate(), locationsToDate: Date? = Date().endOfDate()!, failRespond: @escaping (HATTableError) -> Void) -> ((@escaping (([HATLocationsV2Object], String?) -> Void)) -> Void) {
         
         return { successRespond in
             
-            func getLocationsFromTableID(_ tableID: NSNumber, newToken: String?) {
+            func combinatorCreated(result: Bool, newUserToken: String?) {
                 
-                // check dates if nil
-                if locationsFromDate != nil && locationsToDate != nil {
-                    
-                    // parse them in Date type
-                    let starttime = HATFormatterHelper.formatDateToEpoch(date: locationsFromDate!)
-                    let endtime = HATFormatterHelper.formatDateToEpoch(date: locationsToDate!)
-                    
-                    // if they are not nil request the data from HAT
-                    if starttime != nil && endtime != nil {
+                HATAccountService.getBetweenLocationCombinator(
+                    userDomain: userDomain,
+                    userToken: userToken,
+                    successCallback: { locations, newToken in
                         
-                        let parameters: Dictionary<String, String> = [
-                            "starttime": starttime!,
-                            "endtime": endtime!,
-                            "limit": "2000"]
+                        var arrayToReturn = locations
+                        // predicate to check for nil sync field
+                        let predicate = NSPredicate(format: "lastSynced == %@")
                         
-                        HATAccountService.getHatTableValues(
-                            token: userToken,
-                            userDomain: userDomain,
-                            tableID: tableID,
-                            parameters: parameters,
-                            successCallback: { (json: [JSON], _) in
+                        let locationsDB = RealmHelper.getResults(predicate)!
+                        for location in locationsDB where location.dateCreated <= Date.endOfDateInUnixTimeStape(date: locationsToDate!)! && location.dateCreated >= Date.startOfDateInUnixTimeStape(date: locationsFromDate!) {
                             
-                                var array: [HATLocationsObject] = []
-                                
-                                // add the returned data to array and pass it on to the completion function
-                                for item in json {
-                                    
-                                    array.append(HATLocationsObject(dict: item.dictionaryValue))
-                                }
-                                successRespond(array, nil)
-                            },
-                            errorCallback: { error in
+                            var tempLoc = HATLocationsV2Object()
+                            tempLoc.data.latitude = Float(location.latitude)
+                            tempLoc.data.longitude = Float(location.longitude)
+                            tempLoc.data.dateCreated = location.dateCreated
+                            
+                            arrayToReturn.append(tempLoc)
+                        }
                         
-                                // call failed completion function
-                                CrashLoggerHelper.hatTableErrorLog(error: error)
-                                failRespond(error)
-                            }
-                        )
+                        successRespond(arrayToReturn, newToken)
+                    },
+                    failCallback: { _ in
+                        
+                        failRespond(.generalError("", nil, nil))
                     }
-                }
+                )
             }
             
-            // check location table exists
-            HATAccountService.checkHatTableExists(
+            let startOfDay = Date.startOfDateInUnixTimeStape(date: locationsFromDate!)
+            let endOfDay = Date.endOfDateInUnixTimeStape(date: locationsToDate!)
+            
+            HATAccountService.createBetweenLocationCombinator(
                 userDomain: userDomain,
-                tableName: Constants.HATTableName.Location.name,
-                sourceName: Constants.HATTableName.Location.source,
-                authToken: userToken,
-                successCallback: getLocationsFromTableID,
-                errorCallback: { error in
+                userToken: userToken,
+                combinatorName: "locationsfilter",
+                fieldToFilter: "dateCreated",
+                lowerValue: startOfDay,
+                upperValue: endOfDay!,
+                successCallback: combinatorCreated,
+                failCallback: { _ in
                     
-                    // call failed completion function
-                    CrashLoggerHelper.hatTableErrorLog(error: error)
-                    failRespond(error)
+                    failRespond(.generalError("", nil, nil))
                 }
             )
         }
@@ -103,7 +92,7 @@ internal struct LocationsWrapperHelper {
      - parameter successRespond: A completion function of type ([HATLocationsObject], String?) -> Void
      - parameter failRespond: A completion function of type (HATTableError) -> Void
      */
-    static func getLocations(userToken: String, userDomain: String, locationsFromDate: Date?, locationsToDate: Date?, successRespond: @escaping ([HATLocationsObject], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
+    static func getLocations(userToken: String, userDomain: String, locationsFromDate: Date?, locationsToDate: Date?, successRespond: @escaping ([HATLocationsV2Object], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
         
         // construct the type of the cache to save
         let type: String

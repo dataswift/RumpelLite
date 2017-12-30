@@ -98,7 +98,7 @@ internal class DataPlugsResponseInteractor: NSObject, UserCredentialsProtocol {
         button.alpha = 0.4
     }
 
-    func dataPlugTokenReceived(button: UIButton, publishButton: UIButton, viewController: ShareOptionsViewController, token: String, renewedUserToken: String?, isPlugEnabledResult: @escaping (Bool) -> Void) {
+    func dataPlugTokenReceived(plug: HATDataPlugObject, button: UIButton, publishButton: UIButton, viewController: ShareOptionsViewController, token: String, renewedUserToken: String?, isPlugEnabledResult: @escaping (Bool) -> Void) {
         
         var fakeInout = ""
         // refresh user token
@@ -147,7 +147,7 @@ internal class DataPlugsResponseInteractor: NSObject, UserCredentialsProtocol {
                     
                     for i in 0 ... dataPlugs.count - 1 where dataPlugs[i].plug.name == self.name {
                         
-                        self.safariVC = SFSafariViewController(url: URL(string: Constants.DataPlug.facebookDataPlugServiceURL(userDomain: viewController.userDomain, socialServiceURL: dataPlugs[i].plug.url))!)
+                        self.safariVC = SFSafariViewController(url: URL(string: Constants.DataPlug.facebookDataPlugServiceURL(userDomain: viewController.userDomain, socialServiceURL: dataPlugs[i].plug.url, appToken: token))!)
                         PresenterOfShareOptionsViewController.changePublishButtonTo(
                             title: "Save",
                             userEnabled: true,
@@ -183,22 +183,25 @@ internal class DataPlugsResponseInteractor: NSObject, UserCredentialsProtocol {
         
         self.checkPlug(
             token: token,
+            plugURL: plug.plug.url,
             successful: successfulCallback,
             failed: { _ in failedCallback() })
     }
     
-    private func checkPlug(token: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
+    private func checkPlug(token: String, plugURL: String, successful: @escaping (Bool) -> Void, failed: @escaping (DataPlugError) -> Void) {
         
         if name == "facebook" {
             
             HATFacebookService.isFacebookDataPlugActive(
                 appToken: token,
+                url: plugURL,
                 successful: successful,
                 failed: failed)
         } else {
             
             HATTwitterService.isTwitterDataPlugActive(
                 appToken: token,
+                url: plugURL,
                 successful: successful,
                 failed: failed)
         }

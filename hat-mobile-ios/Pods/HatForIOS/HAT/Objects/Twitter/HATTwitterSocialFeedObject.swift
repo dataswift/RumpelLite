@@ -115,23 +115,7 @@ public struct HATTwitterSocialFeedObject: HatApiType, HATSocialFeedObject, Compa
 
         self.init()
 
-        if let tempName = dictionary[Fields.name]?.stringValue {
-
-            name = tempName
-        }
-        if let tempData = dictionary[Fields.data]?.dictionaryValue {
-
-            data = HATTwitterDataSocialFeedObject(from: tempData)
-        }
-        if let tempID = dictionary[Fields.tweetID]?.stringValue {
-
-            recordIDv1 = tempID
-        }
-        if let tempLastUpdated = dictionary[Fields.lastUpdated]?.stringValue {
-
-            lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
-            protocolLastUpdate = lastUpdated
-        }
+        self.inititialize(dict: dictionary)
     }
 
     /**
@@ -141,26 +125,7 @@ public struct HATTwitterSocialFeedObject: HatApiType, HATSocialFeedObject, Compa
 
         self.init()
 
-        if let tempEndpoint = dictionary[Fields.endPoint]?.string {
-
-            endPoint = tempEndpoint
-        }
-
-        if let tempRecordID = dictionary[Fields.recordID]?.string {
-
-            recordID = tempRecordID
-        }
-
-        if let tempData = dictionary[Fields.data]?.dictionaryValue {
-
-            if let tempLastUpdated = tempData[Fields.lastUpdated]?.stringValue {
-
-                lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
-                protocolLastUpdate = lastUpdated
-            }
-
-            data = HATTwitterDataSocialFeedObject(from: tempData)
-        }
+        self.inititialize(dict: dictionary)
     }
     
     /**
@@ -172,18 +137,20 @@ public struct HATTwitterSocialFeedObject: HatApiType, HATSocialFeedObject, Compa
             
             name = tempName
         }
-        if let tempData = dict[Fields.data]?.dictionaryValue {
-            
-            data = HATTwitterDataSocialFeedObject(from: tempData)
-        }
-        if let tempID = dict[Fields.tweetID]?.stringValue {
-            
-            recordIDv1 = tempID
-        }
         if let tempLastUpdated = dict[Fields.lastUpdated]?.stringValue {
             
             lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
             protocolLastUpdate = lastUpdated
+        }
+        if let tempData = dict[Fields.data]?.dictionaryValue {
+            
+            data = HATTwitterDataSocialFeedObject(from: tempData)
+            self.lastUpdated = data.tweets.createdAt
+            protocolLastUpdate = self.lastUpdated
+        }
+        if let tempID = dict[Fields.tweetID]?.stringValue {
+            
+            recordIDv1 = tempID
         }
     }
     

@@ -155,71 +155,7 @@ public struct HATFacebookDataPostsSocialFeedObject: HatApiType, Comparable {
         
         self.init()
         
-        if let tempFrom = dictionary[Fields.from]?.dictionaryValue {
-            
-            from = HATFacebookDataPostsFromSocialFeedObject(from: tempFrom)
-        }
-        if let tempID = dictionary[Fields.postID]?.stringValue {
-            
-            postID = tempID
-        }
-        if let tempStatusType = dictionary[Fields.statusType]?.stringValue {
-            
-            statusType = tempStatusType
-        }
-        if let tempPrivacy = dictionary[Fields.privacy]?.dictionaryValue {
-            
-            privacy = HATFacebookDataPostsPrivacySocialFeedObject(from: tempPrivacy)
-        }
-        if let tempUpdateTime = dictionary[Fields.updatedTime]?.stringValue {
-            
-            updatedTime = HATFormatterHelper.formatStringToDate(string: tempUpdateTime)
-        }
-        if let tempType = dictionary[Fields.type]?.stringValue {
-            
-            type = tempType
-        }
-        if let tempCreatedTime = dictionary[Fields.createdTime]?.stringValue {
-            
-            createdTime = HATFormatterHelper.formatStringToDate(string: tempCreatedTime)
-        }
-        if let tempMessage = dictionary[Fields.message]?.stringValue {
-            
-            message = tempMessage
-        }
-        
-        if let tempFullPicture = dictionary[Fields.fullPicture]?.stringValue {
-            
-            fullPicture = tempFullPicture
-        }
-        if let tempLink = dictionary[Fields.link]?.stringValue {
-            
-            link = tempLink
-        }
-        if let tempPicture = dictionary[Fields.picture]?.stringValue {
-            
-            picture = tempPicture
-        }
-        if let tempStory = dictionary[Fields.story]?.stringValue {
-            
-            story = tempStory
-        }
-        if let tempDescription = dictionary[Fields.description]?.stringValue {
-            
-            description = tempDescription
-        }
-        if let tempObjectID = dictionary[Fields.objectID]?.stringValue {
-            
-            objectID = tempObjectID
-        }
-        if let tempApplication = dictionary[Fields.application]?.dictionaryValue {
-            
-            application = HATFacebookDataPostsApplicationSocialFeedObject(from: tempApplication)
-        }
-        if let tempCaption = dictionary[Fields.caption]?.stringValue {
-            
-            caption = tempCaption
-        }
+        self.inititialize(dict: dictionary)
     }
     
     /**

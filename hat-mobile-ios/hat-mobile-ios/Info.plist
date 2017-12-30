@@ -4,20 +4,18 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
-	<key>CFBundleDisplayName</key>
-	<string>HAT</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>$(BUNDLE_ID)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Rumpel Lite</string>
+	<string>$(APP_NAME)</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.2</string>
+	<string>2.4</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -32,11 +30,13 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2.3.2.19</string>
+	<string>2.4.1</string>
+	<key>Config</key>
+	<string>$(CONFIGURATION)</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
-		<string>4398fa4a59c4ae9f4c3465ae15d65aa0bdd7810a</string>
+		<string>8bf2dd9e76a5b8c695462881a6378f92eba86a0e</string>
 		<key>Kits</key>
 		<array>
 			<dict>
@@ -59,13 +59,13 @@
 	<key>NSBluetoothPeripheralUsageDescription</key>
 	<string>Optional for better GPS tracking</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allows you to take a new image and upload it</string>
+	<string>Store your images on your HAT for private sorting and analysis</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Push location data into your HAT even when the app is not in background</string>
+	<string>Push location data into your app even when you’re not using it so that you can look back and view the history of where you have been</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Push location data into your HAT only when the app is open or in the background</string>
+	<string>Push location data into your app even when you’re not using it so that you can look back and view the history of where you have been</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allows you to upload your photos</string>
+	<string>Store your images on your HAT for private sorting and analysis</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>OpenSans-CondLightItalic.ttf</string>

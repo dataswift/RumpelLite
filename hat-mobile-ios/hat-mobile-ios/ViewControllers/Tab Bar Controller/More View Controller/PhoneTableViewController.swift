@@ -29,7 +29,7 @@ internal class PhoneTableViewController: UITableViewController, UserCredentialsP
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBAction
     
@@ -62,20 +62,32 @@ internal class PhoneTableViewController: UITableViewController, UserCredentialsP
             // mobile phone
             if index == 0 {
                 
-                profile?.data.mobile.number = cell!.getTextFromTextField()
-                profile?.data.mobile.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.contact.mobile = cell!.getTextFromTextField()
             // phone
             } else if index == 1 {
                 
-                profile?.data.homePhone.number = cell!.getTextFromTextField()
-                profile?.data.homePhone.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
+                profile?.profile.data.contact.landline = cell!.getTextFromTextField()
+            }
+            
+            if cell!.getSwitchValue() {
+                
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.phoneMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
                     
-                    profile?.data.isPrivate = false
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
                 }
             }
         }
@@ -114,7 +126,7 @@ internal class PhoneTableViewController: UITableViewController, UserCredentialsP
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -166,14 +178,32 @@ internal class PhoneTableViewController: UITableViewController, UserCredentialsP
         
         if self.profile != nil {
             
+            cell.isSwitchHidden(false)
+            
+            let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+            
+            var sharedFields: Dictionary<String, String> = [:]
+            for item in self.profile!.shareOptions {
+                
+                sharedFields.updateValue(item.value, forKey: item.value)
+            }
+            
+            let structure = HATProfileService.phoneMapping
+            
+            if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+                
+                cell.setSwitchValue(isOn: true)
+            } else {
+                
+                cell.setSwitchValue(isOn: false)
+            }
+            
             if indexPath.section == 0 {
                 
-                cell.setTextToTextField(text: self.profile!.data.mobile.number)
-                cell.setSwitchValue(isOn: !self.profile!.data.mobile.isPrivate)
+                cell.setTextToTextField(text: (self.profile?.profile.data.contact.mobile)!)
             } else if indexPath.section == 1 {
                 
-                cell.setTextToTextField(text: self.profile!.data.homePhone.number)
-                cell.setSwitchValue(isOn: !self.profile!.data.homePhone.isPrivate)
+                cell.setTextToTextField(text: (self.profile?.profile.data.contact.landline)!)
             }
             
             cell.setKeyboardType(.phonePad)

@@ -282,11 +282,10 @@ public class HATNetworkHelper: NSObject {
         
         if let url = url, let urlComponents = NSURLComponents(string: url), let queryItems = (urlComponents.queryItems as [URLQueryItem]!) {
             
-            let parameter = queryItems.first(where: { (item) in item.name == param })
+            let parameter = queryItems.first(where: { item in item.name == param })
             return parameter?.value
         }
         
         return nil
     }
-    
 }

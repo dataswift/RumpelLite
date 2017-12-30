@@ -30,7 +30,7 @@ internal class EmailTableViewController: UITableViewController, UserCredentialsP
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBActions
         
@@ -67,24 +67,36 @@ internal class EmailTableViewController: UITableViewController, UserCredentialsP
                 cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? PhataTableViewCell
             }
             
+            if cell!.getSwitchValue() {
+                
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.emailMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
+                    
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
+                }
+            }
+            
             // primary email
             if index == 0 {
                 
-                profile?.data.primaryEmail.value = cell!.getTextFromTextField()
-                profile?.data.primaryEmail.isPrivate = !(cell!.getSwitchValue())
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.contact.primaryEmail = cell!.getTextFromTextField()
             // alternative email
             } else if index == 1 {
                 
-                profile?.data.alternativeEmail.value = cell!.getTextFromTextField()
-                profile?.data.alternativeEmail.isPrivate = !(cell!.getSwitchValue())
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.contact.alternativeEmail = cell!.getTextFromTextField()
             }
         }
         
@@ -122,7 +134,7 @@ internal class EmailTableViewController: UITableViewController, UserCredentialsP
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -176,12 +188,30 @@ internal class EmailTableViewController: UITableViewController, UserCredentialsP
             
             if indexPath.section == 0 {
                 
-                cell.setTextToTextField(text: self.profile!.data.primaryEmail.value)
-                cell.setSwitchValue(isOn: !self.profile!.data.primaryEmail.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.contact.primaryEmail)
             } else if indexPath.section == 1 {
                 
-                cell.setTextToTextField(text: self.profile!.data.alternativeEmail.value)
-                cell.setSwitchValue(isOn: !self.profile!.data.alternativeEmail.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.contact.alternativeEmail)
+            }
+            
+            cell.isSwitchHidden(false)
+            
+            let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+            
+            var sharedFields: Dictionary<String, String> = [:]
+            for item in self.profile!.shareOptions {
+                
+                sharedFields.updateValue(item.value, forKey: item.value)
+            }
+            
+            let structure = HATProfileService.emailMapping
+            
+            if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+                
+                cell.setSwitchValue(isOn: true)
+            } else {
+                
+                cell.setSwitchValue(isOn: false)
             }
             
             cell.setKeyboardType(.emailAddress)

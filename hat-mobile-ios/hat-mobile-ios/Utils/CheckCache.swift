@@ -27,7 +27,10 @@ internal struct CheckCache {
     static func searchForUnsyncedCache(type: String, sync: @escaping (([JSONCacheObject]) -> Void)) {
         
         // get objects from realm for the specified type
-        let result = CachingHelper.getFromRealm(type: type)
+        guard let result = CachingHelper.getFromRealm(type: type) else {
+            
+            return
+        }
         
         // if there are objects
         if !result.isEmpty {

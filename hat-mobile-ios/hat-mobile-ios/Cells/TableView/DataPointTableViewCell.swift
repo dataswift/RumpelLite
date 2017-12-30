@@ -39,7 +39,7 @@ internal class DataPointTableViewCell: UITableViewCell {
      */
     func setUpCell(dataPoint: DataPoint, lastSynced: Date?) -> UITableViewCell {
         
-        self.labelLatitude.text = "\(String(dataPoint.lat)), \(String(dataPoint.lng)), \(String(dataPoint.accuracy))"
+        self.labelLatitude.text = "\(String(dataPoint.latitude)), \(String(dataPoint.longitude)), \(String(dataPoint.horizontalAccuracy))"
         self.labelDateAdded.text = "Added \(FormatterHelper.getDateString(dataPoint.dateAdded))"
         
         // last sync date

@@ -61,11 +61,11 @@ internal class HomeScreenObject: NSObject {
     class func setUpTilesForHomeScreen() -> [HomeScreenObject] {
         
         let topSecret = HomeScreenObject(
-            name: "Top Secret Logs",
+            name: "Notables",
             description: "Notes to self",
             image: UIImage(named: Constants.ImageNames.notesImage)!)
         let geoMe = HomeScreenObject(
-            name: "GEOME",
+            name: "Locations",
             description: "My locations in time",
             image: UIImage(named: Constants.ImageNames.gpsOutlinedImage)!)
         let myStory = HomeScreenObject(
@@ -76,16 +76,12 @@ internal class HomeScreenObject: NSObject {
             name: "Photo Viewer",
             description: "Show the images you have uploaded in your HAT",
             image: UIImage(named: Constants.ImageNames.photoViewerImage)!)
-        let socialMediaControl = HomeScreenObject(
-            name: "Social Media Control",
-            description: "Share only what I want, for as long as I want",
-            image: UIImage(named: Constants.ImageNames.socialMediaControl)!)
         let meDigital = HomeScreenObject(
-            name: "The calling card",
+            name: "PHATA Profile",
             description: "My PHATA public profile",
             image: UIImage(named: Constants.ImageNames.callingCard)!)
         let allThatIsMine = HomeScreenObject(
-            name: "Total Recall",
+            name: "Data Store",
             description: "Information I always need in my data store",
             image: UIImage(named: Constants.ImageNames.recall)!)
         _ = HomeScreenObject(
@@ -93,7 +89,7 @@ internal class HomeScreenObject: NSObject {
             description: "Broadcast my mood",
             image: UIImage(named: Constants.ImageNames.bemoji)!)
         let sso = HomeScreenObject(
-            name: "Match Me",
+            name: "My Preferences",
             description: "My preferences",
             image: UIImage(named: Constants.ImageNames.profileOutline)!)
         _ = HomeScreenObject(
@@ -104,10 +100,6 @@ internal class HomeScreenObject: NSObject {
             name: "MadHATTERs",
             description: "Tech news with a HAT perspective",
             image: UIImage(named: Constants.ImageNames.community)!)
-        let hatCommunity = HomeScreenObject(
-            name: "HAT",
-            description: "What's new",
-            image: UIImage(named: Constants.ImageNames.hatLogo)!)
         let ideas = HomeScreenObject(
             name: "Ideas",
             description: "Contribute ideas that will make HAT better",
@@ -117,6 +109,6 @@ internal class HomeScreenObject: NSObject {
             description: "Community Space",
             image: UIImage(named: Constants.ImageNames.hattersOutline)!)
         
-        return [topSecret, geoMe, myStory, socialMediaControl, meDigital, allThatIsMine, sso, photoView, hatCommunity, madhatters, ideas, hatters]
+        return [topSecret, geoMe, myStory, meDigital, allThatIsMine, sso, photoView, madhatters, ideas, hatters]
     }
 }

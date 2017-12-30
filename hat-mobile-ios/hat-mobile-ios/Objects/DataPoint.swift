@@ -19,15 +19,21 @@ public class DataPoint: Object {
     
     // MARK: - Variables
     
-    /// The latitude of the point
-    @objc dynamic var lat: Double = 0
-    /// The longitude of the point
-    @objc dynamic var lng: Double = 0
-    /// The accuracy of the point
-    @objc dynamic var accuracy: Double = 0
+    @objc dynamic var latitude: Double = 0
+    @objc dynamic var longitude: Double = 0
+    @objc dynamic var horizontalAccuracy: Double = -1
+    @objc dynamic var verticalAccuracy: Double = -1
+    @objc dynamic var dateCreated: Int = -1
+    @objc dynamic var dateCreatedLocal: String = ""
+    @objc dynamic var speed: Double = -1
+    @objc dynamic var altitude: Double = -1
+    @objc dynamic var course: Double = -1
+    @objc dynamic var floor: Int = -1
     
     /// The added point date of the point
     @objc dynamic var dateAdded: Date = Date()
     /// The last sync date of the point
     @objc dynamic var lastSynced: Date?
+    @objc dynamic var syncStatus: String = "unsynced"
+    @objc dynamic var dateSyncStatusChanged: Int = -1
 }

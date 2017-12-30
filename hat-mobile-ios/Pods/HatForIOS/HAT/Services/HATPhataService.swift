@@ -79,7 +79,7 @@ public struct HATPhataService {
      - parameter successCallBack: A Function to execute on success
      - parameter errorCallback: A Function to execute on error
      */
-    public static func postProfile(userDomain: String, userToken: String, hatProfile: HATProfileObject, successCallBack: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    public static func postProfile(userDomain: String, userToken: String, hatProfile: HATProfileObjectV2, successCallBack: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
 
         func posting(resultJSON: Dictionary<String, Any>, token: String?) {
 
@@ -91,7 +91,7 @@ public struct HATPhataService {
             // create JSON file for posting with default values
             let hatDataStructure = HATJSONHelper.createJSONForPosting(hatTableStructure: resultJSON)
             // update JSON file with the values needed
-            let hatData = HATJSONHelper.updateProfileJSONFile(file: hatDataStructure, profileFile: hatProfile)
+            let hatData = hatProfile.toJSON()
 
             // make async request
             HATNetworkHelper.asynchronousRequest("https://\(userDomain)/data/record/values", method: HTTPMethod.post, encoding: Alamofire.JSONEncoding.default, contentType: ContentType.JSON, parameters: hatData, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in

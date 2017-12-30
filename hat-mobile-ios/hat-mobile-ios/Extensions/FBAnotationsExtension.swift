@@ -44,7 +44,7 @@ extension FBClusteringManager {
                         
                         // add pin into results array
                         let pin = FBAnnotation()
-                        pin.coordinate = CLLocationCoordinate2D(latitude: dataPoint.lat, longitude: dataPoint.lng)
+                        pin.coordinate = CLLocationCoordinate2D(latitude: dataPoint.latitude, longitude: dataPoint.longitude)
                         annottationArray.append(pin)
                     }
                     
@@ -89,14 +89,14 @@ extension FBClusteringManager {
      
      - returns: An array of FBAnnotation, pins
      */
-    func createAnnotationsFrom(objects: [HATLocationsObject]) -> [FBAnnotation] {
+    func createAnnotationsFrom(objects: [HATLocationsV2Object]) -> [FBAnnotation] {
         
         var arrayToReturn: [FBAnnotation] = []
         
         for item in objects {
             
             let pin = FBAnnotation()
-            pin.coordinate = CLLocationCoordinate2D(latitude: Double(item.data.locations.latitude)!, longitude: Double(item.data.locations.longitude)!)
+            pin.coordinate = CLLocationCoordinate2D(latitude: Double(item.data.latitude), longitude: Double(item.data.longitude))
             arrayToReturn.append(pin)
         }
         

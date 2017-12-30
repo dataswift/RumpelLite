@@ -43,7 +43,7 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
     private let photoPicker: PhotosHelperViewController = PhotosHelperViewController()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBoutlets
 
@@ -65,11 +65,6 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
      */
     @IBAction func customSwitchAction(_ sender: Any) {
         
-        self.profile?.data.facebookProfilePhoto.isPrivate = !(self.customSwitch.isOn)
-        if (profile?.data.isPrivate)! && self.customSwitch.isOn {
-            
-            profile?.data.isPrivate = false
-        }
     }
     
     /**
@@ -133,25 +128,6 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             textColor: .white,
             font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
         
-        func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
-            
-            func profilePosted() {
-                
-                self.loadingView.removeFromSuperview()
-                self.darkView.removeFromSuperview()
-                
-                _ = self.navigationController?.popViewController(animated: true)
-            }
-            
-            HATPhataService.postProfile(
-                userDomain: userDomain,
-                userToken: userToken,
-                hatProfile: self.profile!,
-                successCallBack: profilePosted,
-                errorCallback: error
-            )
-        }
-        
         func error(error: HATTableError) {
             
             self.loadingView.removeFromSuperview()
@@ -160,14 +136,20 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             CrashLoggerHelper.hatTableErrorLog(error: error)
         }
         
-        HATAccountService.checkHatTableExistsForUploading(
+        func profilePosted() {
+            
+            self.loadingView.removeFromSuperview()
+            self.darkView.removeFromSuperview()
+            
+            _ = self.navigationController?.popViewController(animated: true)
+        }
+        
+        ProfileCachingHelper.postProfile(
+            profile: self.profile!,
+            userToken: userToken,
             userDomain: userDomain,
-            tableName: Constants.HATTableName.Profile.name,
-            sourceName: Constants.HATTableName.Profile.source,
-            authToken: userToken,
-            successCallback: tableExists,
-            errorCallback: error
-        )
+            successCallback: profilePosted,
+            errorCallback: error)
         
         self.setAsProfile()
     }
@@ -232,10 +214,10 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
-        self.customSwitch.isOn = !((profile?.data.facebookProfilePhoto.isPrivate)!)
+        self.customSwitch.isHidden = true
         
         DispatchQueue.main.async {
             
@@ -355,10 +337,12 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
         
         func addFileToImages(file: FileUploadObject) {
             
+            self.profile?.profile.data.photo.avatar = "https://\(userDomain)/api/v2/files/content/\(file.fileID)"
             self.makeFilePublic(
                 file: file,
                 completion: { file2 in
             
+                    self.profile?.shareOptions.updateValue("photo.avatar", forKey: "(0, 0)")
                     self.image.selectedImages.append(file2)
                     self.collectionView.backgroundColor? = .white
                     self.reloadCollectionView()
@@ -515,12 +499,13 @@ internal class PhataPictureViewController: UIViewController, UserCredentialsProt
             self.image.selectedImages[index].contentURL = Constants.HATEndpoints.fileInfoURL(fileID: file.fileID, userDomain: userDomain)
         }
         
-        ProfileImageCachingWrapperHelper.postProfileObject(
-            profile: self.image,
+        ProfileCachingHelper.postProfile(
+            profile: self.profile!,
             userToken: userToken,
             userDomain: userDomain,
             successCallback: valueCreated,
             errorCallback: failed)
+
     }
     
     private func reloadCollectionView() {

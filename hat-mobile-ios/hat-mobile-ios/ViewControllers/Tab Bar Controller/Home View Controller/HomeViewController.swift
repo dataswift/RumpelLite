@@ -371,7 +371,6 @@ internal class HomeViewController: UIViewController, UICollectionViewDataSource,
                 
                 vc.prefferedTitle = self.segueObjectValues.titleToPassOnToTheNextView
                 vc.prefferedInfoMessage = self.segueObjectValues.infoPopUpToPassOnToTheNextView
-                vc.privateNotesOnly = true
                 vc.prefferedCacheType = "notes"
             }
         } else if segue.identifier == Constants.Segue.homeToEditNoteSegue {

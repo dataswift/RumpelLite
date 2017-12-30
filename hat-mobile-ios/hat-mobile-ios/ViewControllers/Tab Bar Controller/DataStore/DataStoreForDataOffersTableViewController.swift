@@ -33,7 +33,7 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
     
-    private var profile: HATProfileObject?
+    private var profile: ProfileObject?
     
     private var loadingView: UIView?
     
@@ -51,8 +51,15 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
      */
     @IBAction func infoPopUp(_ sender: Any) {
         
-        self.showInfoViewController(text: prefferedInfoMessage)
-        self.infoPopUpButton.isUserInteractionEnabled = false
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.showInfoViewController(text: weakSelf.prefferedInfoMessage)
+            weakSelf.infoPopUpButton.isUserInteractionEnabled = false
+        }
     }
     
     // MARK: - Remove pop up
@@ -63,8 +70,11 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
     @objc
     private func hidePopUp() {
         
-        self.darkView?.removeFromSuperview()
-        self.infoPopUpButton.isUserInteractionEnabled = true
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.darkView?.removeFromSuperview()
+            self?.infoPopUpButton.isUserInteractionEnabled = true
+        }
     }
     
     // MARK: - Add blur View
@@ -74,7 +84,14 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
      */
     private func addBlurToView() {
         
-        self.darkView = AnimationHelper.addBlurToView(self.view)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.darkView = AnimationHelper.addBlurToView(weakSelf.view)
+        }
     }
     
     /**
@@ -236,162 +253,171 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
         
         func success(dataBundleCreated: Bool) {
             
-            func profileReceived(profile: [HATProfileObject], newToken: String?) {
+            func profileReceived(profile: [ProfileObject], newToken: String?) {
                 
                 func countCompletness(matchMe: [MatchMeObject], newFakeToken: String?) {
                     
-                    self.tableView.isUserInteractionEnabled = true
-                    self.loadingView?.removeFromSuperview()
-                    
-                    if profile[0].data.addressGlobal.city != "" {
+                    DispatchQueue.main.async { [weak self] in
                         
-                        count += 1
-                    }
-                    
-                    if profile[0].data.addressGlobal.county != "" {
-                        
-                        count += 1
-                    }
-                    
-                    if profile[0].data.addressGlobal.country != "" {
-                        
-                        count += 1
-                    }
-                    
-                    // 3 fields of profile above
-                    totalQuestions += 3
-                    
-                    if !matchMe.isEmpty {
-                        
-                        for (key, value) in JSON(matchMe[0].dictionary) {
+                        guard let weakSelf = self else {
                             
-                            if key == "interests" && !value.arrayValue.isEmpty {
+                            return
+                        }
+                        
+                        weakSelf.tableView.isUserInteractionEnabled = true
+                        weakSelf.loadingView?.removeFromSuperview()
+                        
+                        if profile[0].profile.data.address.city != "" {
+                            
+                            count += 1
+                        }
+                        
+                        if profile[0].profile.data.address.county != "" {
+                            
+                            count += 1
+                        }
+                        
+                        if profile[0].profile.data.address.country != "" {
+                            
+                            count += 1
+                        }
+                        
+                        // 3 fields of profile above
+                        totalQuestions += 3
+                        
+                        if !matchMe.isEmpty {
+                            
+                            for (key, value) in JSON(matchMe[0].dictionary) {
                                 
-                                if let array = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue {
+                                if key == "interests" && !value.arrayValue.isEmpty {
                                     
-                                    var countAdded: Bool = false
-                                    var countPossibleAnswers: Int = 0
-                                    
-                                    for interest in array where interest.key != "unixTimeStamp" {
+                                    if let array = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue {
                                         
-                                        totalQuestions += 1
-                                        countPossibleAnswers += 1
+                                        var countAdded: Bool = false
+                                        var countPossibleAnswers: Int = 0
                                         
-                                        if interest.value == 1  && !countAdded {
+                                        for interest in array where interest.key != "unixTimeStamp" {
                                             
-                                            countAdded = true
+                                            totalQuestions += 1
+                                            countPossibleAnswers += 1
+                                            
+                                            if interest.value == 1  && !countAdded {
+                                                
+                                                countAdded = true
+                                            }
+                                        }
+                                        
+                                        if countAdded {
+                                            
+                                            count += countPossibleAnswers
+                                        }
+                                        
+                                    }
+                                } else if key == "interests" && !value.dictionaryValue.isEmpty {
+                                    
+                                    if let array = value.dictionaryValue["values"]?.dictionaryValue {
+                                        
+                                        var countAdded: Bool = false
+                                        var countPossibleAnswers: Int = 0
+                                        
+                                        for interest in array where interest.key != "unixTimeStamp" {
+                                            
+                                            totalQuestions += 1
+                                            countPossibleAnswers += 1
+                                            
+                                            if interest.value == 1  && !countAdded {
+                                                
+                                                countAdded = true
+                                            }
+                                        }
+                                        
+                                        if countAdded {
+                                            
+                                            count += countPossibleAnswers
+                                        }
+                                        
+                                    }
+                                } else if (key == "education" || key == "livingInfo" || key == "profileInfo" || key == "employmentStatus") && !value.arrayValue.isEmpty {
+                                    
+                                    if let dict = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue {
+                                        
+                                        for question in dict where question.key != "unixTimeStamp" && question.key != "numberOfDecendants" {
+                                            
+                                            totalQuestions += 1
+                                            if question.value.stringValue != "" {
+                                                
+                                                count += 1
+                                            }
                                         }
                                     }
+                                } else if !value.arrayValue.isEmpty {
                                     
-                                    if countAdded {
+                                    if let array = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue["array"]?.arrayValue {
                                         
-                                        count += countPossibleAnswers
-                                    }
-                                    
-                                }
-                            } else if key == "interests" && !value.dictionaryValue.isEmpty {
-                                
-                                if let array = value.dictionaryValue["values"]?.dictionaryValue {
-                                    
-                                    var countAdded: Bool = false
-                                    var countPossibleAnswers: Int = 0
-                                    
-                                    for interest in array where interest.key != "unixTimeStamp" {
-                                        
-                                        totalQuestions += 1
-                                        countPossibleAnswers += 1
-                                        
-                                        if interest.value == 1  && !countAdded {
+                                        for item in array {
                                             
-                                            countAdded = true
+                                            totalQuestions += 1
+                                            if item.dictionaryValue["interest"]?.intValue != 0 {
+                                                
+                                                count += 1
+                                            }
+                                        }
+                                    } else if let array = value.array {
+                                        
+                                        for item in array {
+                                            
+                                            totalQuestions += 1
+                                            if item.dictionaryValue["interest"]?.intValue != 0 {
+                                                
+                                                count += 1
+                                            }
                                         }
                                     }
+                                } else if (key == "education" || key == "livingInfo" || key == "profileInfo" || key == "employmentStatus") && !value.dictionaryValue.isEmpty {
                                     
-                                    if countAdded {
+                                    if let dict = value.dictionary {
                                         
-                                        count += countPossibleAnswers
-                                    }
-                                    
-                                }
-                            } else if (key == "education" || key == "livingInfo" || key == "profileInfo" || key == "employmentStatus") && !value.arrayValue.isEmpty {
-                                
-                                if let dict = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue {
-                                    
-                                    for question in dict where question.key != "unixTimeStamp" && question.key != "numberOfDecendants" {
-                                        
-                                        totalQuestions += 1
-                                        if question.value.stringValue != "" {
+                                        for question in dict where question.key != "unixTimeStamp" && question.key != "numberOfDecendants" {
                                             
-                                            count += 1
+                                            totalQuestions += 1
+                                            if question.value.stringValue != "" {
+                                                
+                                                count += 1
+                                            }
                                         }
                                     }
-                                }
-                            } else if !value.arrayValue.isEmpty {
-                                
-                                if let array = value.arrayValue[0].dictionaryValue["data"]?.dictionaryValue["array"]?.arrayValue {
+                                } else if !value.dictionaryValue.isEmpty {
                                     
-                                    for item in array {
+                                    if let array = value.dictionary {
                                         
-                                        totalQuestions += 1
-                                        if item.dictionaryValue["interest"]?.intValue != 0 {
+                                        for item in array {
                                             
-                                            count += 1
-                                        }
-                                    }
-                                } else if let array = value.array {
-                                    
-                                    for item in array {
-                                        
-                                        totalQuestions += 1
-                                        if item.dictionaryValue["interest"]?.intValue != 0 {
-                                            
-                                            count += 1
-                                        }
-                                    }
-                                }
-                            } else if (key == "education" || key == "livingInfo" || key == "profileInfo" || key == "employmentStatus") && !value.dictionaryValue.isEmpty {
-                                
-                                if let dict = value.dictionary {
-                                    
-                                    for question in dict where question.key != "unixTimeStamp" && question.key != "numberOfDecendants" {
-                                        
-                                        totalQuestions += 1
-                                        if question.value.stringValue != "" {
-                                            
-                                            count += 1
-                                        }
-                                    }
-                                }
-                            } else if !value.dictionaryValue.isEmpty {
-                                
-                                if let array = value.dictionary {
-                                    
-                                    for item in array {
-                                        
-                                        totalQuestions += 1
-                                        if item.key == "interest" && item.value.intValue != 0 {
-                                            
-                                            count += 1
+                                            totalQuestions += 1
+                                            if item.key == "interest" && item.value.intValue != 0 {
+                                                
+                                                count += 1
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                        
+                        if !weakSelf.headers.isEmpty {
+                            
+                            print(totalQuestions)
+                            if count > 67 {
+                                
+                                count = 67
+                            }
+                            let percent: Double = Double(Double(count) / Double(67))
+                            let stringPercentage: String = String(format: "%.2f", percent * 100)
+                            
+                            weakSelf.headers[0] = "Complete your profile and preferences to unlock more exclusive and personalised offers for your data (Coming Soon).\n\nCompletion level: \(stringPercentage)%, \(count)/67"
+                            weakSelf.tableView.reloadData()
+                        }
                     }
                     
-                    if !headers.isEmpty {
-                        
-                        print(totalQuestions)
-                        if count > 67 {
-                            
-                            count = 67
-                        }
-                        let percent: Double = Double(Double(count) / Double(67))
-                        let stringPercentage: String = String(format: "%.2f", percent * 100)
-                        
-                        headers[0] = "Complete your profile and preferences to unlock more exclusive and personalised offers for your data (Coming Soon).\n\nCompletion level: \(stringPercentage)%, \(count)/67"
-                        self.tableView.reloadData()
-                    }
                 }
                 
                 if dataBundleCreated {
@@ -417,27 +443,42 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
         
         func failed(error: HATTableError) {
             
-            self.tableView.isUserInteractionEnabled = true
-            self.loadingView?.removeFromSuperview()
-            
-            headers[0] = "Couldn't calculate your completion score. Connect to the internet and try again"
-            self.tableView.reloadData()
-            
-            CrashLoggerHelper.hatTableErrorLog(error: error)
+            DispatchQueue.main.async { [weak self] in
+                
+                guard let weakSelf = self else {
+                    
+                    return
+                }
+                weakSelf.tableView.isUserInteractionEnabled = true
+                weakSelf.loadingView?.removeFromSuperview()
+                
+                weakSelf.headers[0] = "Couldn't calculate your completion score. Connect to the internet and try again"
+                weakSelf.tableView.reloadData()
+                
+                CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
         }
         
         func failedMatchMe(error: HATTableError) {
             
-            switch error {
-            case .noInternetConnection:
+            DispatchQueue.main.async { [weak self] in
                 
-                success(dataBundleCreated: true)
-            default:
+                guard let weakSelf = self else {
+                    
+                    return
+                }
                 
-                self.tableView.isUserInteractionEnabled = true
-                self.loadingView?.removeFromSuperview()
-                
-                CrashLoggerHelper.hatTableErrorLog(error: error)
+                switch error {
+                case .noInternetConnection:
+                    
+                    success(dataBundleCreated: true)
+                default:
+                    
+                    weakSelf.tableView.isUserInteractionEnabled = true
+                    weakSelf.loadingView?.removeFromSuperview()
+                    
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
             }
         }
         
@@ -461,11 +502,11 @@ internal class DataStoreForDataOffersTableViewController: UITableViewController,
                 with: "Loading HAT data...",
                 textColor: .white,
                 font: font)
+            
+            HATAccountService.createMatchMeCompletion(
+                success: success,
+                fail: failedMatchMe)
         }
-        
-        HATAccountService.createMatchMeCompletion(
-            success: success,
-            fail: failedMatchMe)
     }
     
     // MARK: - Navigation

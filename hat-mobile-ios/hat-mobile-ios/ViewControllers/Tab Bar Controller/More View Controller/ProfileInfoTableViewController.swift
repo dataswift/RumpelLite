@@ -29,7 +29,7 @@ internal class ProfileInfoTableViewController: UITableViewController, UserCreden
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBAction
     
@@ -62,38 +62,40 @@ internal class ProfileInfoTableViewController: UITableViewController, UserCreden
             // age
             if index == 0 {
                 
-                profile?.data.age.group = cell!.getTextFromTextField()
-                profile?.data.age.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.personal.ageGroup = cell!.getTextFromTextField()
             // gender
             } else if index == 1 {
                 
-                profile?.data.gender.type = cell!.getTextFromTextField()
-                profile?.data.gender.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.personal.gender = cell!.getTextFromTextField()
             // birth
             } else if index == 2 {
                 
-                profile?.data.birth.date = cell!.getTextFromTextField()
-                profile?.data.birth.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.personal.birthDate = cell!.getTextFromTextField()
             // nickname
             } else if index == 3 {
                 
-                profile?.data.nick.name = cell!.getTextFromTextField()
-                profile?.data.nick.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
+                profile?.profile.data.personal.nickName = cell!.getTextFromTextField()
+            }
+            
+            if cell!.getSwitchValue() {
+                
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.personalInfoMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
                     
-                    profile?.data.isPrivate = false
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
                 }
             }
         }
@@ -132,7 +134,7 @@ internal class ProfileInfoTableViewController: UITableViewController, UserCreden
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -182,7 +184,29 @@ internal class ProfileInfoTableViewController: UITableViewController, UserCreden
      */
     private func setUpCell(cell: PhataTableViewCell, indexPath: IndexPath) -> UITableViewCell {
         
+        cell.setKeyboardType(.default)
+
         if self.profile != nil {
+            
+            cell.isSwitchHidden(false)
+            
+            let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+            
+            var sharedFields: Dictionary<String, String> = [:]
+            for item in self.profile!.shareOptions {
+                
+                sharedFields.updateValue(item.value, forKey: item.value)
+            }
+            
+            let structure = HATProfileService.personalInfoMapping
+            
+            if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+                
+                cell.setSwitchValue(isOn: true)
+            } else {
+                
+                cell.setSwitchValue(isOn: false)
+            }
             
             if indexPath.section == 0 {
                 
@@ -192,32 +216,22 @@ internal class ProfileInfoTableViewController: UITableViewController, UserCreden
                     array.append(String(describing: i))
                 }
                 cell.dataSourceForPickerView = array
-                cell.setTextToTextField(text: self.profile!.data.age.group)
-                cell.setSwitchValue(isOn: !self.profile!.data.age.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.personal.ageGroup)
                 cell.setKeyboardType(.numberPad)
                 cell.tag = 10
             } else if indexPath.section == 1 {
                 
                 let array: [String] = ["", "Male", "Female", "Other"]
                 cell.dataSourceForPickerView = array
-                cell.setTextToTextField(text: self.profile!.data.gender.type)
-                cell.setSwitchValue(isOn: !self.profile!.data.gender.isPrivate)
-                cell.setKeyboardType(.default)
+                cell.setTextToTextField(text: self.profile!.profile.data.personal.gender)
                 cell.tag = 11
             } else if indexPath.section == 2 {
                 
-                if self.profile?.data.birth.date != nil {
-                    
-                    cell.setTextToTextField(text: self.profile!.data.birth.date)
-                }
-                cell.setSwitchValue(isOn: !self.profile!.data.birth.isPrivate)
-                cell.setKeyboardType(.default)
+                cell.setTextToTextField(text: self.profile!.profile.data.personal.birthDate)
                 cell.tag = 12
             } else if indexPath.section == 3 {
                 
-                cell.setTextToTextField(text: self.profile!.data.nick.name)
-                cell.setSwitchValue(isOn: !self.profile!.data.nick.isPrivate)
-                cell.setKeyboardType(.default)
+                cell.setTextToTextField(text: self.profile!.profile.data.personal.nickName)
             }
         }
         

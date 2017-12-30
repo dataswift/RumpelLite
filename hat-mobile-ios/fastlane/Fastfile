@@ -30,9 +30,19 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-    # match(type: "appstore") # more information: https://codesigning.guide
-    gym(scheme: "hat-mobile-ios") # Build your app - more options available
-    pilot
+    #match(type: "HAT Development") # more information: https://codesigning.guide
+    cert
+    sigh
+    gym(
+    export_method: "app-store",
+    export_options: {
+      provisioningProfiles: { 
+        "com.hubofallthings.rumpellocationtracker" => "Rumpel Location Tracker Distribution",
+        "com.hubofallthings.rumpellocationtrackerbeta" => "Rumpel Lite Beta"
+      }
+    }
+  )
+    pilot(app_identifier: "com.hubofallthings.rumpellocationtrackerbeta")
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)

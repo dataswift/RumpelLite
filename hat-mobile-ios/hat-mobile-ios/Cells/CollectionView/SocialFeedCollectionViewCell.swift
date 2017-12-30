@@ -48,13 +48,7 @@ internal class SocialFeedCollectionViewCell: UICollectionViewCell, UserCredentia
     class func setUpCell(cell: SocialFeedCollectionViewCell, indexPath: IndexPath, posts: Any) -> SocialFeedCollectionViewCell {
         
         // Check if the post to show is from facebook
-        if posts is HATFacebookSocialFeedObject {
-            
-            // convert the post to FacebookSocialFeedObject
-            guard let post = posts as? HATFacebookSocialFeedObject else {
-                
-                return cell
-            }
+        if let post = posts as? HATFacebookSocialFeedObject {
             
             if let date = post.data.posts.updatedTime {
                 
@@ -79,6 +73,7 @@ internal class SocialFeedCollectionViewCell: UICollectionViewCell, UserCredentia
             cell.profileNameLabel.text = post.data.posts.from.name
             cell.postTypeLabel.text = post.data.posts.type
             cell.messageTextView = self.constructMessageLabelFrom(data: post.data.posts, for: cell.messageTextView)
+            cell.profileImage.image = UIImage(named: Constants.ImageNames.facebookImage)
             
             cell.messageTextView.sizeToFit()
             

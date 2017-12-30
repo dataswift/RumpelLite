@@ -110,20 +110,27 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.tableView.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
-        
-        self.view.addSubview(self.darkView)
-        
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Updating profile...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.darkView = UIView(frame: weakSelf.tableView.frame)
+            weakSelf.darkView.backgroundColor = .black
+            weakSelf.darkView.alpha = 0.4
+            
+            weakSelf.view.addSubview(weakSelf.darkView)
+            
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: (weakSelf.view?.frame.midX)! - 70, y: (weakSelf.view?.frame.midY)! - 15, width: 140, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Updating profile...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        }
     }
     
     // MARK: - View controller methods
@@ -166,14 +173,14 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
                 with: "Getting profile...",
                 textColor: .white,
                 font: font)
+            
+            EmploymentCachingWrapperHelper.getEmployment(
+                userToken: weakSelf.userToken,
+                userDomain: weakSelf.userDomain,
+                cacheTypeID: "employment",
+                successRespond: weakSelf.updateTableWithValuesFrom,
+                failRespond: weakSelf.errorFetching)
         }
-        
-        EmploymentCachingWrapperHelper.getEmployment(
-            userToken: userToken,
-            userDomain: userDomain,
-            cacheTypeID: "employment",
-            successRespond: updateTableWithValuesFrom,
-            failRespond: errorFetching)
     }
     // MARK: - Completion handlers
     
@@ -184,13 +191,20 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
      */
     func updateTableWithValuesFrom(array: [HATEmployementStatusObject], newToken: String?) {
         
-        self.tableView.isUserInteractionEnabled = true
-        self.loadingView.removeFromSuperview()
-        
-        if !array.isEmpty {
+        DispatchQueue.main.async { [weak self] in
             
-            self.employmentStatus = array[0]
-            self.tableView.reloadData()
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.tableView.isUserInteractionEnabled = true
+            weakSelf.loadingView.removeFromSuperview()
+            
+            if !array.isEmpty {
+                
+                weakSelf.employmentStatus = array[0]
+                weakSelf.tableView.reloadData()
+            }
         }
     }
     
@@ -201,16 +215,23 @@ internal class DataStoreEmploymentStatusTableViewController: UITableViewControll
      */
     func errorFetching(error: HATTableError) {
         
-        self.tableView.isUserInteractionEnabled = true
-        self.loadingView.removeFromSuperview()
-        
-        switch error {
-        case .noValuesFound:
+        DispatchQueue.main.async { [weak self] in
             
-            self.employmentStatus = HATEmployementStatusObject()
-        default:
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.tableView.isUserInteractionEnabled = true
+            weakSelf.loadingView.removeFromSuperview()
             
-            _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+            switch error {
+            case .noValuesFound:
+                
+                weakSelf.employmentStatus = HATEmployementStatusObject()
+            default:
+                
+                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
         }
     }
     

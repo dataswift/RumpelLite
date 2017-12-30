@@ -110,7 +110,10 @@ internal struct StuffToRememberCachingWrapper {
         // adding note to be posted in cache
         do {
             
-            let realm = RealmHelper.getRealm()
+            guard let realm = RealmHelper.getRealm() else {
+                
+                return
+            }
             
             try realm.write {
                 
@@ -152,7 +155,12 @@ internal struct StuffToRememberCachingWrapper {
                     func valueCreated(result: StuffToRememberObject, renewedUserToken: String?) {
                         
                         do {
-                            let realm = RealmHelper.getRealm()
+                            
+                            guard let realm = RealmHelper.getRealm() else {
+                                
+                                return
+                            }
+                            
                             try realm.write {
                                 
                                 realm.delete(object)

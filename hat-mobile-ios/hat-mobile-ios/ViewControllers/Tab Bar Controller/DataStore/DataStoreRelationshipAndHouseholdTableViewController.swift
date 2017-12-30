@@ -58,16 +58,19 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      */
     private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
         
-        self.loadingView.removeFromSuperview()
-        self.darkView.removeFromSuperview()
-        
-        self.createClassicOKAlertWith(
-            alertMessage: message,
-            alertTitle: title,
-            okTitle: "OK",
-            proceedCompletion: {})
-        
-        CrashLoggerHelper.hatTableErrorLog(error: error)
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.loadingView.removeFromSuperview()
+            self?.darkView.removeFromSuperview()
+            
+            self?.createClassicOKAlertWith(
+                alertMessage: message,
+                alertTitle: title,
+                okTitle: "OK",
+                proceedCompletion: {})
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
     }
     
     // MARK: - Upload info
@@ -79,18 +82,24 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
         
         func success() {
             
-            self.loadingView.removeFromSuperview()
-            self.darkView.removeFromSuperview()
-            
-            _ = self.navigationController?.popViewController(animated: true)
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.loadingView.removeFromSuperview()
+                self?.darkView.removeFromSuperview()
+                
+                _ = self?.navigationController?.popViewController(animated: true)
+            }
         }
         
         func failed(error: HATTableError) {
             
-            self.loadingView.removeFromSuperview()
-            self.darkView.removeFromSuperview()
-            
-            CrashLoggerHelper.hatTableErrorLog(error: error)
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.loadingView.removeFromSuperview()
+                self?.darkView.removeFromSuperview()
+                
+                CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
         }
 
         LivingInfoCachingWrapperHelper.postLivingInfo(
@@ -148,20 +157,27 @@ internal class DataStoreRelationshipAndHouseholdTableViewController: UITableView
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.view.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
-        
-        self.view.addSubview(self.darkView)
-        
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Updating profile...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.darkView = UIView(frame: weakSelf.view.frame)
+            weakSelf.darkView.backgroundColor = .black
+            weakSelf.darkView.alpha = 0.4
+            
+            weakSelf.view.addSubview(weakSelf.darkView)
+            
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: (weakSelf.view?.frame.midX)! - 70, y: (weakSelf.view?.frame.midY)! - 15, width: 140, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Updating profile...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        }
     }
     
     // MARK: - View Controller functions

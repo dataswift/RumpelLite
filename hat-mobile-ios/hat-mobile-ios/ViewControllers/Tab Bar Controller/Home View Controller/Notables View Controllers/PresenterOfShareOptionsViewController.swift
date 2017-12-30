@@ -163,10 +163,10 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
         }
     }
     
-    class func test(viewController: ShareOptionsViewController, receivedNote: HATNotesData, imagesToUpload: [UIImage], isEditingExistingNote: Bool, cachedIsNoteShared: Bool, textViewText: String, publishButton: UIButton, previousPublishButtonTitle: String, imageSelected: UIImageView) {
+    class func test(viewController: ShareOptionsViewController, receivedNote: HATNotesV2Object, imagesToUpload: [UIImage], isEditingExistingNote: Bool, cachedIsNoteShared: Bool, textViewText: String, publishButton: UIButton, previousPublishButtonTitle: String, imageSelected: UIImageView) {
         
         // if note is shared and users have not selected any social networks to share show alert message
-        if receivedNote.data.shared && receivedNote.data.sharedOn == "" {
+        if receivedNote.data.shared && !receivedNote.data.shared_on.isEmpty {
             
             viewController.createClassicOKAlertWith(
                 alertMessage: "Please select at least one shared destination",
@@ -192,7 +192,10 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
                     alertTitle: "",
                     cancelTitle: "Cancel",
                     proceedTitle: "Share now",
-                    proceedCompletion: viewController.postNote,
+                    proceedCompletion: {
+                        
+                        viewController.postNote()
+                    },
                     cancelCompletion: {
                         
                         PresenterOfShareOptionsViewController.restorePublishButtonToPreviousState(
@@ -236,7 +239,7 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
             func deleteNote() {
                 
                 // delete note
-                NotesCachingWrapperHelper.deleteNote(noteID: receivedNote.noteID, userToken: userToken, userDomain: userDomain, cacheTypeID: "notes-Delete")
+                NotesCachingWrapperHelper.deleteNote(noteID: receivedNote.recordId, userToken: userToken, userDomain: userDomain, cacheTypeID: "notes-Delete")
                 
                 PresenterOfShareOptionsViewController.checkForImageAndUpload(imagesToUpload: imagesToUpload, viewController: viewController, imageSelected: imageSelected)
             }
@@ -335,16 +338,19 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
     
     class func handleImageInit(selectedImage: UIImage?, imageView: UIImageView?, images: inout [UIImage], collectionView: UICollectionView, imageURL: String?) {
         
-        if selectedImage != nil {
+        if imageURL != nil {
+            
+            if URL(string: (imageURL)!) != nil {
+                
+                collectionView.isHidden = false
+                images.append(UIImage(named: Constants.ImageNames.placeholderImage)!)
+                collectionView.reloadData()
+            }
+        } else if selectedImage != nil {
             
             imageView?.image = selectedImage
             images.append((imageView?.image!)!)
             collectionView.isHidden = false
-        } else if URL(string: (imageURL)!) != nil {
-            
-            collectionView.isHidden = false
-            images.append(UIImage(named: Constants.ImageNames.placeholderImage)!)
-            collectionView.reloadData()
         }
     }
     
@@ -385,13 +391,18 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
         }
     }
     
-    class func initOnViewDidAppear(textView: UITextView, locationData: HATNotesLocationData, locationButton: UIButton) {
+    class func initOnViewDidAppear(textView: UITextView, locationData: HATNotesV2LocationObject?, locationButton: UIButton) {
         
         // if no text add a placeholder
         if textView.text == "" {
             
             textView.textColor = .lightGray
             textView.text = "What's on your mind?"
+        }
+        
+        guard let locationData = locationData else {
+            
+            return
         }
         
         if locationData.accuracy != 0 && locationData.latitude != 0 && locationData.latitude != 0 {
@@ -462,7 +473,7 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
         }
     }
     
-    class func checkFilePublicOrPrivate(fileUploaded: FileUploadObject, receivedNote: inout HATNotesData, viewController: ShareOptionsViewController?, success: (() -> Void)? = nil) {
+    class func checkFilePublicOrPrivate(fileUploaded: FileUploadObject, receivedNote: HATNotesV2Object, viewController: ShareOptionsViewController?, success: (() -> Void)? = nil) {
         
         if receivedNote.data.shared {
             
@@ -476,6 +487,8 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
                     if boolResult {
                         
                         success?()
+                        // post note
+                        viewController?.postNote(updatedLink: Constants.HATEndpoints.fileInfoURL(fileID: fileUploaded.fileID, userDomain: userDomain))
                     }
                 },
                 errorCallBack: {(error) -> Void in
@@ -490,18 +503,14 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
                 if boolResult {
                     
                     success?()
+                    // post note
+                    viewController?.postNote(updatedLink: Constants.HATEndpoints.fileInfoURL(fileID: fileUploaded.fileID, userDomain: userDomain))
                 }
             }, errorCallBack: {(error) -> Void in
                 
                 CrashLoggerHelper.hatErrorLog(error: error)
             })
         }
-        
-        // add image to note
-        receivedNote.data.photoData.link = Constants.HATEndpoints.fileInfoURL(fileID: fileUploaded.fileID, userDomain: userDomain)
-        
-        // post note
-        viewController?.postNote()
     }
     
     class func turnButtonOn(button: UIButton) {

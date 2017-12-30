@@ -20,16 +20,16 @@ internal class NameTableViewController: UITableViewController, UserCredentialsPr
     // MARK: - Variables
 
     /// The sections of the table view
-    private let sections: [[String]] = [[""], [""], [""], [""], [""], ["Make those fields public?"]]
+    private let sections: [[String]] = [[""], [""], [""], [""], [""]]
     /// The headers of the table view
-    private let headers: [String] = ["First Name", "Last Name", "Middle Name", "Preffered Name", "Title", "Privacy"]
+    private let headers: [String] = ["First Name", "Last Name", "Middle Name", "Preffered Name", "Title"]
     /// The loading view pop up
     private var loadingView: UIView = UIView()
     /// A dark view covering the collection view cell
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBActions
     
@@ -69,30 +69,44 @@ internal class NameTableViewController: UITableViewController, UserCredentialsPr
             // first name
             if index == 0 {
                 
-                profile?.data.personal.firstName = cell!.getTextFromTextField()
+                profile?.profile.data.personal.firstName = cell!.getTextFromTextField()
             // last name
             } else if index == 1 {
                 
-                profile?.data.personal.lastName = cell!.getTextFromTextField()
+                profile?.profile.data.personal.lastName = cell!.getTextFromTextField()
             // Middle name
             } else if index == 2 {
                     
-                profile?.data.personal.middleName = cell!.getTextFromTextField()
+                profile?.profile.data.personal.middleName = cell!.getTextFromTextField()
             // Preffered name
             } else if index == 3 {
                 
-                profile?.data.personal.prefferedName = cell!.getTextFromTextField()
+                profile?.profile.data.personal.preferredName = cell!.getTextFromTextField()
             // Title
             } else if index == 4 {
                     
-                profile?.data.personal.title = cell!.getTextFromTextField()
-            // Privacy
-            } else if index == 5 {
+                profile?.profile.data.personal.title = cell!.getTextFromTextField()
+            }
+            
+            if cell!.getSwitchValue() {
                 
-                profile?.data.personal.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.personalMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
                     
-                    profile?.data.isPrivate = false
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
                 }
             }
         }
@@ -132,7 +146,7 @@ internal class NameTableViewController: UITableViewController, UserCredentialsPr
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -182,40 +196,45 @@ internal class NameTableViewController: UITableViewController, UserCredentialsPr
      */
     private func setUpCell(cell: PhataTableViewCell, indexPath: IndexPath) -> UITableViewCell {
         
+        cell.isSwitchHidden(false)
+        
+        let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+        
+        var sharedFields: Dictionary<String, String> = [:]
+        for item in self.profile!.shareOptions {
+            
+            sharedFields.updateValue(item.value, forKey: item.value)
+        }
+        
+        let structure = HATProfileService.personalMapping
+        
+        if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+            
+            cell.setSwitchValue(isOn: true)
+        } else {
+            
+            cell.setSwitchValue(isOn: false)
+        }
+        
         if indexPath.section == 0 {
             
-            cell.setTextToTextField(text: self.profile!.data.personal.firstName)
-            cell.isSwitchHidden(true)
+            cell.setTextToTextField(text: self.profile!.profile.data.personal.firstName)
         } else if indexPath.section == 1 {
             
-            cell.setTextToTextField(text: self.profile!.data.personal.lastName)
-            cell.isSwitchHidden(true)
+            cell.setTextToTextField(text: self.profile!.profile.data.personal.lastName)
         } else if indexPath.section == 2 {
             
-            cell.setTextToTextField(text: self.profile!.data.personal.middleName)
-            cell.isSwitchHidden(true)
+            cell.setTextToTextField(text: self.profile!.profile.data.personal.middleName)
         } else if indexPath.section == 3 {
             
-            cell.setTextToTextField(text: self.profile!.data.personal.prefferedName)
-            cell.isSwitchHidden(true)
+            cell.setTextToTextField(text: self.profile!.profile.data.personal.preferredName)
         } else if indexPath.section == 4 {
             
-            cell.setTextToTextField(text: self.profile!.data.personal.title)
-            cell.isSwitchHidden(true)
+            cell.setTextToTextField(text: self.profile!.profile.data.personal.title)
             cell.setTagInTextField(tag: 15)
             cell.dataSourceForPickerView = ["", "Mr.", "Mrs.", "Miss", "Dr."]
-        } else if indexPath.section == 5 {
-            
-            cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])
-            cell.isSwitchHidden(false)
-            cell.setSwitchValue(isOn: !self.profile!.data.personal.isPrivate)
-            if (profile?.data.isPrivate)! && cell.getSwitchValue() {
-                
-                profile?.data.isPrivate = false
-            }
         }
         
         return cell
     }
-
 }

@@ -17,6 +17,10 @@ import HatForIOS
 /// The collection view cell class for data plugs screen
 internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentialsProtocol {
     
+    // MARK: - Variables
+    
+    private var dataPlug: HATDataPlugObject?
+    
     // MARK: - IBOutlets
     
     /// The image for the data plug
@@ -46,6 +50,7 @@ internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentials
         // Configure the cell
         cell.dataPlugTitleLabel.text = dataPlug.plug.name
         cell.dataPlugDetailsLabel.text = dataPlug.plug.description
+        cell.dataPlug = dataPlug
         if let url = URL(string: dataPlug.plug.illustrationUrl) {
             
             cell.dataPlugImage.downloadedFrom(
@@ -119,5 +124,17 @@ internal class DataPlugCollectionViewCell: UICollectionViewCell, UserCredentials
             
             return .white
         }
+    }
+    
+    // MARK: - Get Plug Object
+    
+    /**
+     Returns the dataPlug object of the cell
+     
+     - returns: The dataPlug object of the cell
+     */
+    func getCellPlugObject() -> HATDataPlugObject? {
+        
+        return self.dataPlug
     }
 }

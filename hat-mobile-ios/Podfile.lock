@@ -1,9 +1,9 @@
 PODS:
-  - Alamofire (4.5.1)
+  - Alamofire (4.6.0)
   - BEMCheckBox (1.4.1)
-  - Crashlytics (3.9.0):
-    - Fabric (~> 1.7.0)
-  - Fabric (1.7.1)
+  - Crashlytics (3.9.3):
+    - Fabric (~> 1.7.2)
+  - Fabric (1.7.2)
   - FBAnnotationClusteringSwift (2.0)
   - Haneke (1.0.2)
   - HatForIOS (0.0.1):
@@ -12,26 +12,26 @@ PODS:
     - SwiftyJSON
     - SwiftyRSA
   - JWTDecode (2.1.1)
-  - KeychainSwift (9.0.2)
+  - KeychainSwift (10.0.0)
   - MarkdownView (1.1.0)
-  - Mockingjay (2.0.0):
-    - Mockingjay/Core (= 2.0.0)
-    - Mockingjay/XCTest (= 2.0.0)
-  - Mockingjay/Core (2.0.0):
+  - Mockingjay (2.0.1):
+    - Mockingjay/Core (= 2.0.1)
+    - Mockingjay/XCTest (= 2.0.1)
+  - Mockingjay/Core (2.0.1):
     - URITemplate (~> 2.0)
-  - Mockingjay/XCTest (2.0.0):
+  - Mockingjay/XCTest (2.0.1):
     - Mockingjay/Core
-  - Realm (3.0.1):
-    - Realm/Headers (= 3.0.1)
-  - Realm/Headers (3.0.1)
-  - RealmSwift (3.0.1):
-    - Realm (= 3.0.1)
+  - Realm (3.0.2):
+    - Realm/Headers (= 3.0.2)
+  - Realm/Headers (3.0.2)
+  - RealmSwift (3.0.2):
+    - Realm (= 3.0.2)
   - SwiftLint (0.21.0)
-  - SwiftyJSON (3.1.4)
+  - SwiftyJSON (4.0.0)
   - SwiftyRSA (1.3.0):
     - SwiftyRSA/ObjC (= 1.3.0)
   - SwiftyRSA/ObjC (1.3.0)
-  - Toaster (2.1.0)
+  - Toaster (2.1.1)
   - URITemplate (2.0.3)
   - zxcvbn-ios (1.0.4)
 
@@ -63,33 +63,33 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   FBAnnotationClusteringSwift:
-    :commit: cc3b6524156f8e0d8653688423fba2fdf0944bc8
+    :commit: 2959a5dce40d1ea0997552f3b61dc5f2d2e6d922
     :git: https://github.com/ribl/FBAnnotationClusteringSwift/
   HatForIOS:
-    :commit: 87b778ce9441c9924ef4d179b2b4e280a5552b7b
+    :commit: c17834c48c211c79646cd83139f9d99cb0c089ef
     :git: https://github.com/whiteshadow-gr/HatForIOS.git
 
 SPEC CHECKSUMS:
-  Alamofire: 2d95912bf4c34f164fdfc335872e8c312acaea4a
+  Alamofire: f41a599bd63041760b26d393ec1069d9d7b917f4
   BEMCheckBox: 5ba6e37ade3d3657b36caecc35c8b75c6c2b1a4e
-  Crashlytics: 64aad5dd97249dd3ff94b979fea140144590cdd3
-  Fabric: c7cfc652f036180a72fe2539646c8a624420419d
+  Crashlytics: dbb07d01876c171c5ccbdf7826410380189e452c
+  Fabric: 9cd6a848efcf1b8b07497e0b6a2e7d336353ba15
   FBAnnotationClusteringSwift: 0698ddcee46d1c28f14336909b2b0af4906b213f
   Haneke: 01454a67322faa0dd9d81fc0f447885044e71521
   HatForIOS: 741a6aa226fb96e93042b6b31d5429b89671f49e
   JWTDecode: 83e8b381aafe27158d9f692cbdca2b12d61d460c
-  KeychainSwift: 3ab1d428d0dbff59cd056f1d0bfc640b36c2b081
+  KeychainSwift: f9f7910449a0c0fd2cabc889121530dd2c477c33
   MarkdownView: 80db8e9a27a6c6cc22615e644e3e85c06065bab7
-  Mockingjay: 7122a3fc0597aa63438e4cd9b71b7bc8aac05b87
-  Realm: ba6144c74f835f7497791f6599d63a7755377b83
-  RealmSwift: 7d13b1ac4b6022a13f841e3143e7789c9e40ad0d
+  Mockingjay: 11a621880d2887f1775bdcf824341eb68f218450
+  Realm: 6f23fd1f178a09342eac21bfa7c2bf4312a7a180
+  RealmSwift: 695393add1b8f9d5fa75dd16e6355cf3935f71e2
   SwiftLint: 6de8b2d15f43c482bdec2953b8cfd696faa876e8
-  SwiftyJSON: c2842d878f95482ffceec5709abc3d05680c0220
+  SwiftyJSON: 070dabdcb1beb81b247c65ffa3a79dbbfb3b48aa
   SwiftyRSA: 28e1c9ab1f396fd3001d197ba03e1153b524d155
-  Toaster: 8c3225dc465bef4aa57e147a288724576df8e439
+  Toaster: a6c9532de1ded8105e77376f7dffeb2e12b46dbb
   URITemplate: ace0c4c46dcf8afe6e89b4060621852886b15c3b
   zxcvbn-ios: fef98b7c80f1512ff0eec47ac1fa399fc00f7e3c
 
-PODFILE CHECKSUM: f639fae0e484eb414b6d790a55678d9d32b905ef
+PODFILE CHECKSUM: 4e594c60b2464b9b81d11dd17175820fccaf6e8e
 
-COCOAPODS: 1.4.0.beta.2
+COCOAPODS: 1.4.0.rc.1

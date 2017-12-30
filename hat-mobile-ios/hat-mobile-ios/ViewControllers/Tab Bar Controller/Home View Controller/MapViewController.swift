@@ -60,8 +60,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     private var segmentControl: UISegmentedControl?
     
     /// The start date to filter for points
-    private var filterDataPointsFrom: Date? = Date().startOfTheDay()
-    private var filterDataPointsTo: Date? = Date().endOfTheDay()
+    private var filterDataPointsFrom: Date? = Date().startOfDate()
+    private var filterDataPointsTo: Date? = Date().endOfDate()
     
     /// The popUpView while downloading locations from hat
     private var popUpView: UIView?
@@ -319,11 +319,11 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      - parameter json: the json received from HAT
      - parameter renewedUserToken: The new user token from HAT
      */
-    private func showLocations(array: [HATLocationsObject], renewedUserToken: String?) {
+    private func showLocations(array: [HATLocationsV2Object], renewedUserToken: String?) {
         
         if array.isEmpty {
             
-            if self.filterDataPointsTo! > Date().endOfTheDay()! {
+            if self.filterDataPointsTo! > Date().endOfDate()! {
                 
                 self.createClassicOKAlertWith(
                     alertMessage: "There are no points for the selected dates, time travelling mode is deactivated",
@@ -361,14 +361,14 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         if self.segmentControl!.selectedSegmentIndex == 0 {
             
-            self.filterDataPointsFrom = self.datePicker!.date.startOfTheDay()
-            if let endOfDay = self.datePicker!.date.endOfTheDay() {
+            self.filterDataPointsFrom = self.datePicker!.date.startOfDate()
+            if let endOfDay = self.datePicker!.date.endOfDate() {
                 
                 self.filterDataPointsTo = endOfDay
             }
         } else {
             
-            if let endOfDay = self.datePicker!.date.endOfTheDay() {
+            if let endOfDay = self.datePicker!.date.endOfDate() {
                 
                 self.filterDataPointsTo = endOfDay
             }
@@ -386,8 +386,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
     func selectDatesToViewLocations(gesture: UITapGestureRecognizer) {
         
         self.textField.becomeFirstResponder()
-        self.filterDataPointsFrom = Date().startOfTheDay()
-        if let endOfDay = Date().endOfTheDay() {
+        self.filterDataPointsFrom = Date().startOfDate()
+        if let endOfDay = Date().endOfDate() {
             
             self.filterDataPointsTo = endOfDay
         }
@@ -421,8 +421,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         
-        self.filterDataPointsFrom = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(7), timeType: TimeType.past).interval).startOfTheDay()
-        self.filterDataPointsTo = Date().endOfTheDay()
+        self.filterDataPointsFrom = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(7), timeType: TimeType.past).interval).startOfDate()
+        self.filterDataPointsTo = Date().endOfDate()
         
         LocationsWrapperHelper.getLocations(
             userToken: userToken,
@@ -451,8 +451,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         self.enableButton(self.buttonToday)
         
-        self.filterDataPointsFrom = Date().startOfTheDay()
-        self.filterDataPointsTo = Date().endOfTheDay()
+        self.filterDataPointsFrom = Date().startOfDate()
+        self.filterDataPointsTo = Date().endOfDate()
         
         self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         
@@ -483,8 +483,8 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         self.enableButton(self.buttonYesterday)
         
-        self.filterDataPointsTo = Date().endOfTheDay()
-        self.filterDataPointsFrom = self.filterDataPointsTo!.addingTimeInterval(FutureTimeInterval.init(days: Double(1), timeType: TimeType.past).interval).startOfTheDay() // remove 24hrs
+        self.filterDataPointsTo = Date().endOfDate()
+        self.filterDataPointsFrom = self.filterDataPointsTo!.addingTimeInterval(FutureTimeInterval.init(days: Double(1), timeType: TimeType.past).interval).startOfDate() // remove 24hrs
         
         self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         

@@ -52,7 +52,7 @@ internal class ShareOptionsSelectedImageCollectionViewCell: UICollectionViewCell
      
      - returns: Returns an already set up cell according to the image
      */
-    func setUpCell(imagesToUpload: [UIImage], imageLink: String, indexPath: IndexPath, completion: @escaping (UIImage) -> Void) -> UICollectionViewCell {
+    func setUpCell(imagesToUpload: [UIImage], imageLink: String?, indexPath: IndexPath, completion: @escaping (UIImage) -> Void) -> UICollectionViewCell {
         
         // Configure the cell
         if !imagesToUpload.isEmpty {
@@ -61,12 +61,15 @@ internal class ShareOptionsSelectedImageCollectionViewCell: UICollectionViewCell
                 
                 self.selectedImage.image = imagesToUpload[indexPath.row]
                 self.selectedImage.cropImage(width: self.frame.width, height: self.frame.height)
-            } else if let url = URL(string: imageLink) {
+            } else if let urlString = imageLink {
                 
-                self.selectedImage.image = UIImage(named: Constants.ImageNames.placeholderImage)
-                self.initRingProgressCircle()
-                
-                self.downloadImageFrom(url: url, imagesToUpload: imagesToUpload, completion: completion)
+                if let url = URL(string: urlString) {
+                    
+                    self.selectedImage.image = UIImage(named: Constants.ImageNames.placeholderImage)
+                    self.initRingProgressCircle()
+                    
+                    self.downloadImageFrom(url: url, imagesToUpload: imagesToUpload, completion: completion)
+                }
             }
         }
         

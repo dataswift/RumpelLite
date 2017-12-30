@@ -237,9 +237,18 @@ extension HATDataPlugsService: UserCredentialsProtocol {
             return (Constants.DataPlug.twitterDataPlugServiceURL(userDomain: self.userDomain, socialServiceURL: socialServiceURL, appToken: token))
         } else if socialServiceName == "facebook" {
             
+            guard let token = appToken else {
+                
+                return Constants.DataPlug.facebookDataPlugServiceURL(
+                    userDomain: self.userDomain,
+                    socialServiceURL: socialServiceURL,
+                    appToken: "")
+            }
+            
             return Constants.DataPlug.facebookDataPlugServiceURL(
                 userDomain: self.userDomain,
-                socialServiceURL: socialServiceURL)
+                socialServiceURL: socialServiceURL,
+                appToken: token)
         } else if socialServiceName == "Fitbit" {
             
             guard let token = appToken else {
@@ -253,78 +262,81 @@ extension HATDataPlugsService: UserCredentialsProtocol {
         return nil
     }
     
-    // MARK: - Check if data plugs are active
+    // MARK: - Check status of the plugs
     
     /**
-     Checks if both data plugs are active
+     Checks the status of the plug
      
-     - parameter completion: The function to execute when something finishes
+     - parameter dataPlug: The data plug to check status
+     - parameter userDomain: The user's domain
+     - parameter userToken: The user's token
+     - parameter completion: A function, accepting (Bool, String?), to execute on completion
      */
-    public static func checkDataPlugsIfActive(completion: @escaping (String, Bool) -> Void) {
+    static func checkStatusOfPlug(dataPlug: HATDataPlugObject, userDomain: String, userToken: String, completion: @escaping (Bool, String?) -> Void) {
         
-        func isCheckmarkVisible(_ result: Bool, onSocialNetwork: String) {
+        func gotFacebookApplicationToken(appToken: String, newUserToken: String?) {
             
-            completion(onSocialNetwork, result)
-        }
-        
-        /// Check if facebook is active
-        func checkIfFacebookIsActive(appToken: String, renewedUserToken: String?) {
+            let systemStatus = Facebook.facebookDataPlugStatusURL(facebookDataPlugURL: dataPlug.plug.url)
             
-            // check if facebook active
             HATFacebookService.isFacebookDataPlugActive(
                 appToken: appToken,
+                url: systemStatus,
                 successful: { result in
                     
-                    isCheckmarkVisible(result, onSocialNetwork: Constants.SocialNetworks.Facebook.name)
-                },
-                failed: { _ in
-                    
-                    isCheckmarkVisible(false, onSocialNetwork: Constants.SocialNetworks.Facebook.name)
-                }
-            )
+                    completion(result, appToken)
+            },
+                failed: checkingPlugStatusFailed)
         }
         
-        /// Check if twitter is active
-        func checkIfTwitterIsActive(appToken: String, renewedUserToken: String?) {
+        func gotTwitterApplicationToken(appToken: String, newUserToken: String?) {
             
-            // check if twitter active
+            let systemStatus = Twitter.twitterDataPlugStatusURL(twitterDataPlugURL: dataPlug.plug.url)
+            
             HATTwitterService.isTwitterDataPlugActive(
                 appToken: appToken,
+                url: systemStatus,
                 successful: { result in
                     
-                    isCheckmarkVisible(result, onSocialNetwork: Constants.SocialNetworks.Twitter.name)
-                },
-                failed: { _ in
-                    
-                    isCheckmarkVisible(false, onSocialNetwork: Constants.SocialNetworks.Twitter.name)
-                }
-            )
+                    completion(result, appToken)
+            },
+                failed: checkingPlugStatusFailed)
         }
         
-        /// Check if twitter is active
-        func checkIfFitbitIsActive(isEnabled: Bool, fitbitToken: String?) {
+        func gettingApplicationTokenFailed(error: JSONParsingError) {
             
-            isCheckmarkVisible(isEnabled, onSocialNetwork: Fitbit.serviceName)
+            completion(false, nil)
         }
         
-        // get token for facebook and twitter and check if they are active
-        HATFacebookService.getAppTokenForFacebook(
-            token: userToken,
-            userDomain: userDomain,
-            successful: checkIfFacebookIsActive,
-            failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+        func checkingPlugStatusFailed(error: DataPlugError) {
+            
+            completion(false, nil)
+        }
         
-        HATTwitterService.getAppTokenForTwitter(
-            userDomain: userDomain,
-            token: userToken,
-            successful: checkIfTwitterIsActive,
-            failed: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
-        
-        HATFitbitService.checkIfFitbitIsEnabled(
-            userDomain: userDomain,
-            userToken: userToken,
-            successCallback: checkIfFitbitIsActive,
-            errorCallback: CrashLoggerHelper.JSONParsingErrorLogWithoutAlert)
+        if dataPlug.plug.name == Constants.DataPlug.DataPlugNames.facebook {
+            
+            HATFacebookService.getAppTokenForFacebook(
+                plug: dataPlug,
+                token: userToken,
+                userDomain: userDomain,
+                successful: gotFacebookApplicationToken,
+                failed: gettingApplicationTokenFailed)
+        } else if dataPlug.plug.name == Constants.DataPlug.DataPlugNames.twitter {
+            
+            HATTwitterService.getAppTokenForTwitter(
+                plug: dataPlug,
+                userDomain: userDomain,
+                token: userToken,
+                successful: gotTwitterApplicationToken,
+                failed: gettingApplicationTokenFailed)
+        } else if dataPlug.plug.name == Constants.DataPlug.DataPlugNames.fitbit {
+            
+            HATFitbitService.checkIfFitbitIsEnabled(
+                plug: dataPlug,
+                userDomain: userDomain,
+                userToken: userToken,
+                successCallback: completion,
+                errorCallback: gettingApplicationTokenFailed)
+        }
     }
     
     // MARK: - Filter available data plugs

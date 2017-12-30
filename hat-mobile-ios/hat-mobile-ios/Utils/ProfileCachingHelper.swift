@@ -29,16 +29,68 @@ internal struct ProfileCachingHelper {
      
      - returns: A function of type (([HATNotesData], String?) -> Void)
      */
-    static func requestProfile(userToken: String, userDomain: String, failRespond: @escaping (HATTableError) -> Void) -> ((@escaping (([HATProfileObject], String?) -> Void)) -> Void) {
+    static func requestProfile(userToken: String, userDomain: String, failRespond: @escaping (HATTableError) -> Void) -> ((@escaping (([ProfileObject], String?) -> Void)) -> Void) {
         
         return { successRespond in
             
-            HATPhataService.getProfileFromHAT(
+            HATProfileService.getProfile(
                 userDomain: userDomain,
                 userToken: userToken,
-                successCallback: { profile in
-                
-                    successRespond([profile], nil)
+                successCallback: { profile, newToken in
+                    
+                    HATProfileService.getPhataStructureBundle(
+                        userDomain: userDomain,
+                        userToken: userToken,
+                        success: { dict in
+                            
+                            if dict.isEmpty {
+                                
+                                HATProfileService.createAndGetProfileBundle(
+                                    userDomain: userDomain,
+                                    userToken: userToken,
+                                    success: { dict in
+                                        
+                                        if let tempDict = JSON(dict).dictionaryObject as? Dictionary<String, String> {
+                                            
+                                            if !tempDict.isEmpty {
+                                                
+                                                var tempProfile = ProfileObject()
+                                                tempProfile.profile = profile
+                                                tempProfile.shareOptions = tempDict
+                                                
+                                                successRespond([tempProfile], newToken)
+                                            } else {
+                                                
+                                                var tempProfile = ProfileObject()
+                                                tempProfile.profile = profile
+                                                
+                                                successRespond([tempProfile], newToken)
+                                            }
+                                        } else {
+                                            
+                                            successRespond([], newToken)
+                                        }
+                                },
+                                    fail: failRespond)
+                            } else {
+                                
+                                if let tempDict = JSON(dict).dictionaryObject as? Dictionary<String, String> {
+                                    
+                                    var tempProfile = ProfileObject()
+                                    tempProfile.profile = profile
+                                    tempProfile.shareOptions = tempDict
+                                    
+                                    successRespond([tempProfile], newToken)
+                                } else {
+                                    
+                                    var tempProfile = ProfileObject()
+                                    tempProfile.profile = profile
+                                    
+                                    successRespond([tempProfile], newToken)
+                                }
+                            }
+                    },
+                        fail: failRespond)
                 },
                 failCallback: failRespond)
         }
@@ -56,7 +108,7 @@ internal struct ProfileCachingHelper {
      - parameter successRespond: A completion function of type ([HATNotesData], String?) -> Void
      - parameter failRespond: A completion function of type (HATTableError) -> Void
      */
-    static func getProfile(userToken: String, userDomain: String, cacheTypeID: String, successRespond: @escaping ([HATProfileObject], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
+    static func getProfile(userToken: String, userDomain: String, cacheTypeID: String, successRespond: @escaping ([ProfileObject], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
         
         ProfileCachingHelper.checkForUnsyncedProfileToUpdate(
             userDomain: userDomain,
@@ -83,11 +135,15 @@ internal struct ProfileCachingHelper {
      - parameter userToken: The user's token
      - parameter userDomain: The user's domain
      */
-    static func postProfile(profile: HATProfileObject, userToken: String, userDomain: String, successCallback: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    static func postProfile(profile: ProfileObject, userToken: String, userDomain: String, successCallback: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // remove note from notes
         CachingHelper.deleteFromRealm(type: "profile")
         CachingHelper.deleteFromRealm(type: "profile-Post")
+        
+        var profile = profile
+        profile.profile.data.dateCreated = Int(Date().timeIntervalSince1970)
+        profile.profile.data.dateCreatedLocal = HATFormatterHelper.formatDateToISO(date: Date())
         
         // creating note to be posted in cache
         let dictionary = profile.toJSON()
@@ -95,7 +151,10 @@ internal struct ProfileCachingHelper {
         // adding note to be posted in cache
         do {
             
-            let realm = RealmHelper.getRealm()
+            guard let realm = RealmHelper.getRealm() else {
+                
+                return
+            }
             
             try realm.write {
                 
@@ -133,38 +192,47 @@ internal struct ProfileCachingHelper {
                 
                 if let dictionary = NSKeyedUnarchiver.unarchiveObject(with: tempProfile.jsonData!) as? [Dictionary<String, Any>] {
                     
-                    let profile = HATProfileObject(fromCache: dictionary[0])
-                    func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
-                        
-                        HATPhataService.postProfile(
-                            userDomain: userDomain,
-                            userToken: userToken,
-                            hatProfile: profile,
-                            successCallBack: {
-                                
-                                CachingHelper.deleteFromRealm(type: "profile-Post")
-                                completion?()
-                            },
-                            errorCallback: {error in
-                                
-                                errorCallback?(error)
-                                CrashLoggerHelper.hatTableErrorLog(error: error)
-                            }
-                        )
-                    }
+                    let profile = ProfileObject(fromCache: dictionary[0])
                     
-                    HATAccountService.checkHatTableExistsForUploading(
+                    HATProfileService.postProfile(
+                        userToken: userToken,
                         userDomain: userDomain,
-                        tableName: Constants.HATTableName.Profile.name,
-                        sourceName: Constants.HATTableName.Profile.source,
-                        authToken: userToken,
-                        successCallback: tableExists,
-                        errorCallback: {error in
+                        profile: profile.profile,
+                        successCallback: { _, _ in
+                            
+                            CachingHelper.deleteFromRealm(type: "profile-Post")
+                            completion?()
+                        },
+                        failCallback: { error in
                             
                             errorCallback?(error)
                             CrashLoggerHelper.hatTableErrorLog(error: error)
                         }
                     )
+                    
+                    let dict: Dictionary<String, Any>?
+                    
+                    if !profile.shareOptions.isEmpty {
+                        
+                        let mutableDictionary = NSMutableDictionary()
+                        
+                        for item in profile.shareOptions {
+                            
+                            mutableDictionary.addEntries(from: [item.value: item.value])
+                        }
+                        
+                        dict = HATProfileService.constructDictionaryForBundle(mutableDictionary: mutableDictionary)
+                    } else {
+                        
+                        dict = HATProfileService.notablesStructure
+                    }
+                    
+                    HATProfileService.createPhataStructureBundle(
+                        userDomain: userDomain,
+                        userToken: userToken,
+                        parameters: dict,
+                        success: { _ in return },
+                        fail: { _ in return })
                 }
             }
             

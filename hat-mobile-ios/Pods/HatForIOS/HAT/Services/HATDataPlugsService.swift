@@ -321,7 +321,7 @@ public struct HATDataPlugsService {
             let headers = ["X-Auth-Token": appToken]
             
             // contruct the url
-            let url = "https://social-plug.hubofallthings.com/api/user/token/status"
+            let url = "https://facebook.hubat.net/api/status"
             
             // make async request
             HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in
@@ -374,7 +374,7 @@ public struct HATDataPlugsService {
             let headers = ["X-Auth-Token": appToken]
             
             // contruct the url
-            let url = "https://social-plug.hubofallthings.com/api/user/token/status"
+            let url = "https://facebook.hubat.net/api/status"
             
             // make async request
             HATNetworkHelper.asynchronousRequest(url, method: .get, encoding: Alamofire.URLEncoding.default, contentType: ContentType.JSON, parameters: parameters, headers: headers, completion: { (response: HATNetworkHelper.ResultType) -> Void in

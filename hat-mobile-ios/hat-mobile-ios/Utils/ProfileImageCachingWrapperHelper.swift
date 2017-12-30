@@ -96,7 +96,10 @@ internal struct ProfileImageCachingWrapperHelper {
      */
     static func getProfileObject(userToken: String, userDomain: String, cacheTypeID: String, successRespond: @escaping ([ProfileImageObject], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
         
-        let profilesToBeSynced = CachingHelper.getFromRealm(type: "profileImage-Post")
+        guard let profilesToBeSynced = CachingHelper.getFromRealm(type: "profileImage-Post") else {
+            
+            return
+        }
         if !profilesToBeSynced.isEmpty {
             
             ProfileImageCachingWrapperHelper.checkForUnsyncedImagesToUpdate(
@@ -146,7 +149,10 @@ internal struct ProfileImageCachingWrapperHelper {
         // adding note to be posted in cache
         do {
             
-            let realm = RealmHelper.getRealm()
+            guard let realm = RealmHelper.getRealm() else {
+                
+                return
+            }
             
             try realm.write {
                 
@@ -188,7 +194,12 @@ internal struct ProfileImageCachingWrapperHelper {
                     func valueCreated(result: JSON, renewedUserToken: String?) {
                         
                         do {
-                            let realm = RealmHelper.getRealm()
+                            
+                            guard let realm = RealmHelper.getRealm() else {
+                                
+                                return
+                            }
+                            
                             try realm.write {
                                 
                                 realm.delete(object)
@@ -239,7 +250,10 @@ internal struct ProfileImageCachingWrapperHelper {
         // adding note to be posted in cache
         do {
             
-            let realm = RealmHelper.getRealm()
+            guard let realm = RealmHelper.getRealm() else {
+                
+                return
+            }
             
             try realm.write {
                 
@@ -276,7 +290,10 @@ internal struct ProfileImageCachingWrapperHelper {
         // adding note to be posted in cache
         do {
             
-            let realm = RealmHelper.getRealm()
+            guard let realm = RealmHelper.getRealm() else {
+                
+                return
+            }
             
             try realm.write {
                 
@@ -309,7 +326,12 @@ internal struct ProfileImageCachingWrapperHelper {
                         func deleteFromCache(object: JSONCacheObject) {
                             
                             do {
-                                let realm = RealmHelper.getRealm()
+                                
+                                guard let realm = RealmHelper.getRealm() else {
+                                    
+                                    return
+                                }
+                                
                                 try realm.write {
                                     
                                     realm.delete(object)
@@ -381,9 +403,15 @@ internal struct ProfileImageCachingWrapperHelper {
                 },
                 completion: { (file, newToken) in
                     
-                    let realm = RealmHelper.getRealm()
+                    guard let realm = RealmHelper.getRealm() else {
+                        
+                        return
+                    }
 
-                    let profilesToBeSynced = CachingHelper.getFromRealm(type: "profileImageObject-Post")
+                    guard let profilesToBeSynced = CachingHelper.getFromRealm(type: "profileImageObject-Post") else {
+                        
+                        return
+                    }
                     
                     if !profilesToBeSynced.isEmpty {
                         

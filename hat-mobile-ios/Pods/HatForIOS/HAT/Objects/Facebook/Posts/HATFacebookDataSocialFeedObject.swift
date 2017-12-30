@@ -24,12 +24,12 @@ public struct HATFacebookDataSocialFeedObject: HatApiType, Comparable, HATSocial
         
         static let posts: String = "posts"
     }
-
+    
     /// The last date updated of the record
     public var protocolLastUpdate: Date?
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -39,10 +39,10 @@ public struct HATFacebookDataSocialFeedObject: HatApiType, Comparable, HATSocial
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATFacebookDataSocialFeedObject, rhs: HATFacebookDataSocialFeedObject) -> Bool {
-
+        
         return (lhs.posts == rhs.posts)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -54,34 +54,31 @@ public struct HATFacebookDataSocialFeedObject: HatApiType, Comparable, HATSocial
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATFacebookDataSocialFeedObject, rhs: HATFacebookDataSocialFeedObject) -> Bool {
-
+        
         return lhs.posts < rhs.posts
     }
-
+    
     // MARK: - Variables
-
+    
     /// The post data
     public var posts: HATFacebookDataPostsSocialFeedObject = HATFacebookDataPostsSocialFeedObject()
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         posts = HATFacebookDataPostsSocialFeedObject()
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(from dictionary: Dictionary<String, JSON>) {
-
-        if let tempPosts = dictionary[Fields.posts]?.dictionaryValue {
-
-            posts = HATFacebookDataPostsSocialFeedObject(from: tempPosts)
-        }
+        
+        self.inititialize(dict: dictionary)
     }
     
     /**
@@ -92,6 +89,9 @@ public struct HATFacebookDataSocialFeedObject: HatApiType, Comparable, HATSocial
         if let tempPosts = dict[Fields.posts]?.dictionaryValue {
             
             posts = HATFacebookDataPostsSocialFeedObject(from: tempPosts)
+        } else {
+            
+            posts = HATFacebookDataPostsSocialFeedObject(from: dict)
         }
     }
     

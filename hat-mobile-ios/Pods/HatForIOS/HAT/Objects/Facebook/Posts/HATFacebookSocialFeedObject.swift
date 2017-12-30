@@ -115,23 +115,7 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
 
         self.init()
 
-        if let tempName = dict[Fields.name]?.stringValue {
-
-            name = tempName
-        }
-        if let tempData = dict[Fields.data]?.dictionaryValue {
-
-            data = HATFacebookDataSocialFeedObject(from: tempData)
-        }
-        if let tempID = dict[Fields.facebookID]?.intValue {
-
-            recordIDv1 = tempID
-        }
-        if let tempLastUpdated = dict[Fields.lastUpdated]?.stringValue {
-
-            lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
-            protocolLastUpdate = lastUpdated
-        }
+        self.inititialize(dict: dict)
     }
     
     /**
@@ -143,18 +127,20 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
             
             name = tempName
         }
-        if let tempData = dict[Fields.data]?.dictionaryValue {
-            
-            data = HATFacebookDataSocialFeedObject(from: tempData)
-        }
-        if let tempID = dict[Fields.facebookID]?.intValue {
-            
-            recordIDv1 = tempID
-        }
         if let tempLastUpdated = dict[Fields.lastUpdated]?.stringValue {
             
             lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
             protocolLastUpdate = lastUpdated
+        }
+        if let tempData = dict[Fields.data]?.dictionaryValue {
+            
+            data = HATFacebookDataSocialFeedObject(from: tempData)
+            self.lastUpdated = data.posts.updatedTime
+            protocolLastUpdate = self.lastUpdated
+        }
+        if let tempID = dict[Fields.facebookID]?.intValue {
+            
+            recordIDv1 = tempID
         }
     }
 
@@ -165,27 +151,7 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
 
         self.init()
 
-        if let tempEndpoint = dict[Fields.endPoint]?.string {
-
-            endPoint = tempEndpoint
-        }
-
-        if let tempRecordID = dict[Fields.recordID]?.string {
-
-            recordID = tempRecordID
-        }
-
-        if let tempData = dict[Fields.data]?.dictionaryValue {
-
-            if let tempLastUpdated = tempData[Fields.lastUpdated]?.stringValue {
-
-                lastUpdated = HATFormatterHelper.formatStringToDate(string: tempLastUpdated)
-                protocolLastUpdate = lastUpdated
-            }
-
-            data = HATFacebookDataSocialFeedObject(from: tempData)
-        }
-
+        self.inititialize(dict: dict)
     }
     
     /**
@@ -211,7 +177,7 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
             Fields.name: self.name,
             Fields.facebookID: recordIDv1,
             Fields.data: self.data.toJSON(),
-            Fields.lastUpdated: HATFormatterHelper.formatDateToISO(date: Date())
+            Fields.lastUpdated: self.lastUpdated ?? Date()
         ]
     }
 }

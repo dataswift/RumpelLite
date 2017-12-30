@@ -88,28 +88,38 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
         
         func success() {
             
-            self.tableView.isUserInteractionEnabled = true
-            self.loadingView.removeFromSuperview()
-            
-            _ = self.navigationController?.popViewController(animated: true)
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.tableView.isUserInteractionEnabled = true
+                self?.loadingView.removeFromSuperview()
+                
+                _ = self?.navigationController?.popViewController(animated: true)
+            }
         }
         
-        self.tableView.isUserInteractionEnabled = false
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Saving HAT data...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
-
-        InterestsCachingWrapperHelper.postInterestObject(
-            interestObject: self.interests,
-            userToken: userToken,
-            userDomain: userDomain,
-            successCallback: success,
-            errorCallback: accessingHATTableFail)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.tableView.isUserInteractionEnabled = false
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: (weakSelf.tableView?.frame.midX)! - 70, y: (weakSelf.tableView?.frame.midY)! - 15, width: 160, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Saving HAT data...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+            
+            InterestsCachingWrapperHelper.postInterestObject(
+                interestObject: weakSelf.interests,
+                userToken: weakSelf.userToken,
+                userDomain: weakSelf.userDomain,
+                successCallback: success,
+                errorCallback: weakSelf.accessingHATTableFail)
+        }
     }
     
     // MARK: - Auto generated methods
@@ -191,10 +201,13 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
      */
     func accessingHATTableFail(error: HATTableError) {
         
-        self.tableView.isUserInteractionEnabled = true
-        self.loadingView.removeFromSuperview()
-        
-        CrashLoggerHelper.hatTableErrorLog(error: error)
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.tableView.isUserInteractionEnabled = true
+            self?.loadingView.removeFromSuperview()
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
     }
     
     /**
@@ -204,14 +217,22 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
         
         func gotValues(jsonArray: [InterestsObject], newToken: String?) {
             
-            self.tableView.isUserInteractionEnabled = true
-            self.loadingView.removeFromSuperview()
-            
-            if !jsonArray.isEmpty {
+            DispatchQueue.main.async { [weak self] in
                 
-                self.interests = jsonArray[0]
+                guard let weakSelf = self else {
+                    
+                    return
+                }
                 
-                self.tableView.reloadData()
+                weakSelf.tableView.isUserInteractionEnabled = true
+                weakSelf.loadingView.removeFromSuperview()
+                
+                if !jsonArray.isEmpty {
+                    
+                    weakSelf.interests = jsonArray[0]
+                    
+                    weakSelf.tableView.reloadData()
+                }
             }
         }
         
@@ -235,14 +256,14 @@ internal class DataStoreInterestsTableViewController: UITableViewController, Use
                 with: "Loading HAT data...",
                 textColor: .white,
                 font: font)
+            
+            InterestsCachingWrapperHelper.getInterestObject(
+                userToken: weakSelf.userToken,
+                userDomain: weakSelf.userDomain,
+                cacheTypeID: "interests",
+                successRespond: gotValues,
+                failRespond: weakSelf.accessingHATTableFail)
         }
-
-        InterestsCachingWrapperHelper.getInterestObject(
-            userToken: userToken,
-            userDomain: userDomain,
-            cacheTypeID: "interests",
-            successRespond: gotValues,
-            failRespond: accessingHATTableFail)
     }
     
 }

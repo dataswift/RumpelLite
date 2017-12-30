@@ -43,6 +43,8 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
     /// Table view sections
     private var sections: [String] = []
     
+    private var skipParameter: Int = 0
+    
     // MARK: - IBOutlets
     
     /// An IBOutlet fon handling the tableView UITableView
@@ -172,60 +174,55 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
      */
     func loadFacebookInfo() {
         
-        func tableFound(tableID: NSNumber, newToken: String?) {
+        func gotProfile(profile: [JSON], renewedToken: String?) {
             
-            func gotProfile(profile: [JSON], renewedToken: String?) {
+            if !profile.isEmpty {
                 
-                if !profile.isEmpty {
+                if let profile = profile[0].dictionaryValue["data"]?.dictionaryValue {
                     
-                    if let profile = profile[0].dictionaryValue["data"]?["profile"].dictionaryValue {
+                    self.sections.append("Facebook")
+                    
+                    var arrayToAdd: [PlugDetails] = []
+                    
+                    for (key, value) in profile {
                         
-                        self.sections.append("Facebook")
+                        var object = PlugDetails()
+                        object.name = key.replacingOccurrences(of: "_", with: " ")
+                        object.value = value.stringValue
                         
-                        var arrayToAdd: [PlugDetails] = []
-                        
-                        for (key, value) in profile {
+                        if key == "updated_time" {
                             
-                            var object = PlugDetails()
-                            object.name = key.replacingOccurrences(of: "_", with: " ")
-                            object.value = value.stringValue
-                            
-                            if key == "updated_time" {
+                            if let date = HATFormatterHelper.formatStringToDate(string: value.stringValue) {
                                 
-                                if let date = HATFormatterHelper.formatStringToDate(string: value.stringValue) {
-                                    
-                                    object.value = FormatterHelper.formatDateStringToUsersDefinedDate(
-                                        date: date,
-                                        dateStyle: .short,
-                                        timeStyle: .short)
-                                }
+                                object.value = FormatterHelper.formatDateStringToUsersDefinedDate(
+                                    date: date,
+                                    dateStyle: .short,
+                                    timeStyle: .short)
                             }
-                            
-                            arrayToAdd.append(object)
                         }
-                        self.plugDetailsArray.append(arrayToAdd)
                         
-                        self.tableView.reloadData()
+                        arrayToAdd.append(object)
                     }
+                    
+                    self.plugDetailsArray.append(arrayToAdd)
+                    
+                    self.tableView.reloadData()
                 }
             }
-            
-            HATAccountService.getHatTableValues(
-                token: userToken,
-                userDomain: userDomain,
-                tableID: tableID,
-                parameters: ["starttime": "0"],
-                successCallback: gotProfile,
-                errorCallback: tableNotFound)
         }
         
-        HATAccountService.checkHatTableExists(
+        HATAccountService.getHatTableValuesv2(
+            token: userToken,
             userDomain: userDomain,
-            tableName: Constants.HATTableName.FacebookProfile.name,
-            sourceName: Constants.HATTableName.FacebookProfile.source,
-            authToken: userToken,
-            successCallback: tableFound,
-            errorCallback: tableNotFound)
+            namespace: "facebook",
+            scope: "profile",
+            parameters: ["orderBy": "lastUpdated",
+                         "ordering": "descending"],
+            successCallback: gotProfile,
+            errorCallback: { error in
+                
+                print(error)
+        })
     }
     
     // MARK: - Twitter Info
@@ -237,7 +234,7 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
         
         func gotTweets(tweets: [JSON], newToken: String?) {
             
-            let user = tweets[0].dictionaryValue["data"]?["tweets"]["user"]
+            let user = tweets[0].dictionaryValue["data"]?["user"]
             self.sections.append("Twitter")
             
             var arrayToAdd: [PlugDetails] = []
@@ -252,15 +249,24 @@ internal class DetailsDataPlugViewController: UIViewController, UserCredentialsP
             }
             
             self.plugDetailsArray.append(arrayToAdd)
-
+            
             self.tableView.reloadData()
         }
         
-        HATTwitterService.checkTwitterDataPlugTable(
-            authToken: userToken,
+        HATAccountService.getHatTableValuesv2(
+            token: userToken,
             userDomain: userDomain,
-            parameters: ["limit": "1"],
-            success: gotTweets)
+            namespace: Constants.SocialNetworks.Twitter.name,
+            scope: Constants.SocialNetworks.Twitter.tableName,
+            parameters: ["take": "1",
+                         "orderBy": "id",
+                         "ordering": "descending"],
+            successCallback: gotTweets,
+            errorCallback: { error in
+                
+                print(error)
+            }
+        )
     }
     
     // MARK: - Fitbit Info

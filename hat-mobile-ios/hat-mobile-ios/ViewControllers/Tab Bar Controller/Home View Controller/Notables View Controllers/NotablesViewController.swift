@@ -22,12 +22,15 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     // MARK: - Variables
     
     /// a cached array of the notes to display
-    private var cachedNotesArray: [HATNotesData] = []
+    private var cachedNotesArray: [HATNotesV2Object] = []
     /// an array of the notes to work on without touching the cachedNotesArray
-    private var notesArray: [HATNotesData] = []
+    private var notesArray: [HATNotesV2Object] = []
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
+    
+    private var isFetchingData: Bool = false
+    private var moreFieldsToDownload: Bool = true
     
     /// the index of the selected note
     private var selectedIndex: Int?
@@ -36,8 +39,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     private var kind: String = "note"
     /// the notables fetch items limit
     private var notablesFetchLimit: String = "50"
-    /// the notables fetch end date
-    private var notablesFetchEndDate: String?
+    
     var prefferedTitle: String = "Notes"
     var prefferedCacheType: String = "notes"
     var prefferedInfoMessage: String = "Daily log, diary and innermost thoughts can all go in here!"
@@ -45,8 +47,10 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     var privateNotesOnly: Bool = false
     
     /// the paramaters to make the request for fetching the notes
-    private var parameters: Dictionary<String, String> = ["starttime": "0",
-                                                          "limit": "50"]
+    private var parameters: Dictionary<String, String> = ["skip": "0",
+                                                          "take": "50",
+                                                          "orderBy": "updated_time",
+                                                          "ordering": "descending"]
     
     /// A static let variable pointing to the AuthoriseUserViewController for checking if token is active or not
     private static let authoriseVC: AuthoriseUserViewController = AuthoriseUserViewController()
@@ -270,7 +274,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      
      - parameter notification: The notification object
      */
-    private func showReceivedNotesFrom(array: [HATNotesData]) {
+    private func showReceivedNotesFrom(array: [HATNotesV2Object]) {
         
         if self.isViewLoaded && (self.view.window != nil) {
             
@@ -323,7 +327,9 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
      
      - parameter array: The fetched notables
      */
-    private func showNotables(notes: [HATNotesData], renewedUserToken: String?) {
+    private func showNotables(notes: [HATNotesV2Object], renewedUserToken: String?) {
+        
+        self.isFetchingData = false
         
         DispatchQueue.main.async { [weak self] in
             
@@ -333,31 +339,22 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                     
                     DispatchQueue.global().async { () -> Void in
                         
+                        // revert parameters to initial values
+                        weakSelf.parameters = ["skip": String(describing: weakSelf.cachedNotesArray.count),
+                                               "take": weakSelf.notablesFetchLimit,
+                                               "orderBy": "updated_time",
+                                               "ordering": "descending"]
+                        
                         if notes.count >= Int(weakSelf.notablesFetchLimit)! {
+                            
+                            weakSelf.moreFieldsToDownload = true
                             
                             // increase limit
                             weakSelf.notablesFetchLimit = "500"
                             
-                            // init object from array
-                            let object = notes.last!
-                            
-                            // set unix date
-                            weakSelf.notablesFetchEndDate = HATFormatterHelper.formatDateToEpoch(date: object.lastUpdated)
-                            
-                            // change parameters
-                            weakSelf.parameters = ["starttime": "0",
-                                                   "endtime": weakSelf.notablesFetchEndDate!,
-                                                   "limit": weakSelf.notablesFetchLimit]
-                            
-                            // fetch notes
-                            weakSelf.fetchNotes()
-                            
                         } else {
                             
-                            // revert parameters to initial values
-                            weakSelf.notablesFetchEndDate = nil
-                            weakSelf.parameters = ["starttime": "0",
-                                                   "limit": weakSelf.notablesFetchLimit]
+                            weakSelf.moreFieldsToDownload = false
                         }
                         
                         weakSelf.showReceivedNotesFrom(array: notes)
@@ -374,11 +371,15 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
+        if (indexPath.row > self.cachedNotesArray.count / 2) && !self.isFetchingData && self.moreFieldsToDownload {
+            
+            self.connectToServerToGetNotes(result: nil)
+        }
         // get cell from the reusable id
         let controller = NotablesTableViewCell()
         controller.notesDelegate = self
         
-        if self.cachedNotesArray[indexPath.row].data.photoData.link != "" || self.cachedNotesArray[indexPath.row].data.photoData.image != nil {
+        if self.cachedNotesArray[indexPath.row].data.photov1 != nil && self.cachedNotesArray[indexPath.row].data.photov1?.link != "" {
             
             if let tempCell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.cellDataWithImage, for: indexPath) as? NotablesTableViewCell {
                 
@@ -427,7 +428,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if self.cachedNotesArray[indexPath.row].data.photoData.link != "" || self.cachedNotesArray[indexPath.row].data.photoData.image != nil {
+        if self.cachedNotesArray[indexPath.row].data.photov1 != nil && self.cachedNotesArray[indexPath.row].data.photov1?.link != "" {
             
             return 235
         }
@@ -456,10 +457,17 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
             
             KeychainHelper.setKeychainValue(key: token, value: Constants.Keychain.userToken)
             
+            guard self.selectedIndex != nil else {
+                
+                NotablesViewController.authoriseVC.completionFunc = nil
+                NotablesViewController.authoriseVC.removeViewController()
+                return
+            }
+            
             if self.cachedNotesArray.count > self.selectedIndex! {
                 
                 NotesCachingWrapperHelper.deleteNote(
-                    noteID: self.cachedNotesArray[self.selectedIndex!].noteID,
+                    noteID: self.cachedNotesArray[self.selectedIndex!].recordId,
                     userToken: userToken,
                     userDomain: userDomain,
                     cacheTypeID: "notes-Delete"
@@ -468,6 +476,8 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
                 self.cachedNotesArray.remove(at: selectedIndex!)
                 tableView.deleteRows(at: [IndexPath(row: selectedIndex!, section: 0)], with: .fade)
                 self.updateUI()
+                NotablesViewController.authoriseVC.completionFunc = nil
+                NotablesViewController.authoriseVC.removeViewController()
             }
         }
         
@@ -483,10 +493,11 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     /**
      Connects to the server to get the notes
      */
-    private func connectToServerToGetNotes(result: String?) {
+    private func connectToServerToGetNotes(result: String? = nil) {
         
         self.showEmptyTableLabelWith(message: "Accessing your HAT...")
         
+        self.isFetchingData = true
         self.fetchNotes()
     }
     
@@ -498,6 +509,8 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     func fetchNotes() {
         
         func failed(error: HATTableError) {
+            
+            self.isFetchingData = false
             
             switch error {
                 
@@ -545,7 +558,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
     
     // MARK: - Update notes data
     
-    func updateNote(_ note: HATNotesData, at index: Int) {
+    func updateNote(_ note: HATNotesV2Object, at index: Int) {
         
         self.cachedNotesArray[index] = note
     }

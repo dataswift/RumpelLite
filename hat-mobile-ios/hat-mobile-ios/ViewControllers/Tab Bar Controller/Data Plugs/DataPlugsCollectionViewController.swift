@@ -81,7 +81,6 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         self.addChildViewController(DataPlugsCollectionViewController.authoriseVC)
         DataPlugsCollectionViewController.authoriseVC.checkToken(viewController: self)
         
-        self.dataPlugs.removeAll()
         self.getDataPlugs()
     }
     
@@ -105,11 +104,18 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
         /// method to execute on a successful callback
         func successfullCallBack(data: [HATDataPlugObject], renewedUserToken: String?) {
             
+            // remove the loading screen from the view
+            self.loadingView.removeFromSuperview()
+            
+            self.dataPlugs.removeAll()
+
             // remove the existing dataplugs from array
             self.dataPlugs = HATDataPlugsService.filterAvailableDataPlugs(dataPlugs: data)
             
             // check if dataplugs are active
             self.checkDataPlugsIfActive()
+            
+            self.collectionView?.reloadData()
             
             // refresh user token
             KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
@@ -233,23 +239,24 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
      */
     private func checkDataPlugsIfActive() {
         
-        func setupCheckMark(onDataPlug: String, value: Bool) {
+        for var plug in self.dataPlugs {
             
-            // search in data plugs array for facebook and enable the checkmark
-            if !self.dataPlugs.isEmpty {
-                
-                self.loadingView.removeFromSuperview()
-
-                for i in 0 ... self.dataPlugs.count - 1 where self.dataPlugs[i].plug.name == onDataPlug {
+            HATDataPlugsService.checkStatusOfPlug(
+                dataPlug: plug,
+                userDomain: userDomain,
+                userToken: userToken,
+                completion: { result, _ in
                     
-                    self.dataPlugs[i].plug.showCheckMark = value
+                    if result {
+                        
+                        plug.plug.showCheckMark = true
+                    } else {
+                        
+                        plug.plug.showCheckMark = false
+                    }
                 }
-                
-                self.collectionView?.reloadData()
-            }
+            )
         }
-        
-        HATDataPlugsService.checkDataPlugsIfActive(completion: setupCheckMark)
     }
 
     // MARK: - UICollectionView methods
@@ -289,19 +296,25 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
             CrashLoggerHelper.JSONParsingErrorLog(error: error)
         }
         
-        if indexPath.row == 0 {
+        if let cell = self.collectionView?.cellForItem(at: indexPath) as? DataPlugCollectionViewCell {
             
-            selectedlPlug = "facebook"
-            plugURL = HATDataPlugsService.createURLBasedOn(socialServiceName: self.dataPlugs[indexPath.row].plug.name, socialServiceURL: self.dataPlugs[indexPath.row].plug.url)!
-            self.performSegue(withIdentifier: "details", sender: self)
-        } else if indexPath.row == 1 {
+            guard let dataPlug = cell.getCellPlugObject() else {
+                
+                return
+            }
             
-            selectedlPlug = "twitter"
-            HATTwitterService.getAppTokenForTwitter(userDomain: userDomain, token: userToken, successful: appToken, failed: error)
-        } else if indexPath.row == 2 {
+            selectedlPlug = dataPlug.plug.name
             
-            selectedlPlug = "Fitbit"
-            HATFitbitService.getApplicationTokenForFitbit(userDomain: userDomain, userToken: userToken, successCallback: appToken, errorCallback: error)
+            if dataPlug.plug.name == "facebook" {
+                
+                HATFacebookService.getAppTokenForFacebook(plug: dataPlug, token: userToken, userDomain: userDomain, successful: appToken, failed: error)
+            } else if dataPlug.plug.name == "twitter" {
+                
+                HATTwitterService.getAppTokenForTwitter(plug: dataPlug, userDomain: userDomain, token: userToken, successful: appToken, failed: error)
+            } else if dataPlug.plug.name == "Fitbit" {
+                
+                HATFitbitService.getApplicationTokenForFitbit(plug: dataPlug, userDomain: userDomain, userToken: userToken, successCallback: appToken, errorCallback: error)
+            }
         }
     }
 

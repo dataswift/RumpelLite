@@ -33,45 +33,55 @@ internal class DataStoreHappinessAndMentalHealthTableViewController: UITableView
         
         func success() {
             
-            self.loadingView?.removeFromSuperview()
-            self.tableView.isUserInteractionEnabled = true
-            _ = self.navigationController?.popViewController(animated: true)
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.loadingView?.removeFromSuperview()
+                self?.tableView.isUserInteractionEnabled = true
+                _ = self?.navigationController?.popViewController(animated: true)
+            }
         }
         
-        self.tableView.isUserInteractionEnabled = false
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.tableView?.frame.midX)! - 70, y: (self.tableView?.frame.midY)! - 15, width: 160, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Saving HAT data...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
-        
-        for index in self.sections.indices {
+        DispatchQueue.main.async { [weak self] in
             
-            var cell = self.tableView.cellForRow(at: IndexPath(row: 0, section: index)) as? SurveyTableViewCell
-            
-            if cell == nil {
+            guard let weakSelf = self else {
                 
-                let indexPath = IndexPath(row: 0, section: index)
-                cell = tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.happinesAndMentalHealthCell, for: indexPath) as? SurveyTableViewCell
-                cell = self.setUpCell(cell: cell!, indexPath: indexPath) as? SurveyTableViewCell
+                return
+            }
+            weakSelf.tableView.isUserInteractionEnabled = false
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: (weakSelf.tableView?.frame.midX)! - 70, y: (weakSelf.tableView?.frame.midY)! - 15, width: 160, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Saving HAT data...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+            
+            for index in weakSelf.sections.indices {
+                
+                var cell = weakSelf.tableView.cellForRow(at: IndexPath(row: 0, section: index)) as? SurveyTableViewCell
+                
+                if cell == nil {
+                    
+                    let indexPath = IndexPath(row: 0, section: index)
+                    cell = weakSelf.tableView.dequeueReusableCell(withIdentifier: Constants.CellReuseIDs.happinesAndMentalHealthCell, for: indexPath) as? SurveyTableViewCell
+                    cell = weakSelf.setUpCell(cell: cell!, indexPath: indexPath) as? SurveyTableViewCell
+                }
+                
+                if weakSelf.surveyObjects.count < index {
+                    
+                    weakSelf.surveyObjects.append(SurveyObject())
+                }
+                weakSelf.surveyObjects[index].answer = (cell?.getSelectedAnswer())!
             }
             
-            if self.surveyObjects.count < index {
-                
-                self.surveyObjects.append(SurveyObject())
-            }
-            self.surveyObjects[index].answer = (cell?.getSelectedAnswer())!
+            HappinessAndMentalCachingWrapperHelper.postSurveyObject(
+                surveyObjects: weakSelf.surveyObjects,
+                userToken: weakSelf.userToken,
+                userDomain: weakSelf.userDomain,
+                successCallback: success,
+                errorCallback: weakSelf.accessingHATTableFail)
         }
-        
-        HappinessAndMentalCachingWrapperHelper.postSurveyObject(
-            surveyObjects: self.surveyObjects,
-            userToken: userToken,
-            userDomain: userDomain,
-            successCallback: success,
-            errorCallback: accessingHATTableFail)
     }
     
     // MARK: - Auto generated methods
@@ -165,19 +175,26 @@ internal class DataStoreHappinessAndMentalHealthTableViewController: UITableView
         
         func gotValues(jsonArray: [SurveyObject], newToken: String?) {
             
-            self.tableView.isUserInteractionEnabled = true
-            self.loadingView?.removeFromSuperview()
-            
-            if !jsonArray.isEmpty {
+            DispatchQueue.main.async { [weak self] in
                 
-                self.surveyObjects.removeAll()
-                
-                for item in jsonArray {
+                guard let weakSelf = self else {
                     
-                    self.surveyObjects.append(item)
+                    return
                 }
+                weakSelf.tableView.isUserInteractionEnabled = true
+                weakSelf.loadingView?.removeFromSuperview()
                 
-                self.tableView.reloadData()
+                if !jsonArray.isEmpty {
+                    
+                    weakSelf.surveyObjects.removeAll()
+                    
+                    for item in jsonArray {
+                        
+                        weakSelf.surveyObjects.append(item)
+                    }
+                    
+                    weakSelf.tableView.reloadData()
+                }
             }
         }
         

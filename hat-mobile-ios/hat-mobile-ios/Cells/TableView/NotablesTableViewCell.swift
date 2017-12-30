@@ -59,7 +59,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
      
      - returns: NotablesTableViewCell
      */
-    func setUpCell(_ cell: NotablesTableViewCell, note: HATNotesData, indexPath: IndexPath) -> NotablesTableViewCell {
+    func setUpCell(_ cell: NotablesTableViewCell, note: HATNotesV2Object, indexPath: IndexPath) -> NotablesTableViewCell {
         
         let newCell = self.initCellToNil(cell: cell)
         
@@ -78,40 +78,33 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
      - parameter note: The model that holds our data
      - parameter indexPath: The index path of the cell
      */
-    private func updateCellUI(newCell: NotablesTableViewCell, note: HATNotesData, indexPath: IndexPath) {
+    private func updateCellUI(newCell: NotablesTableViewCell, note: HATNotesV2Object, indexPath: IndexPath) {
         
-        if let image = note.data.photoData.image {
+        guard note.data.photov1 != nil,
+            note.data.photov1?.link != nil else {
             
-            if newCell.attachedImage != nil {
-                
-                newCell.attachedImage.image = image
-                newCell.fullSizeImage = image
-                newCell.attachedImage.cropImage(
-                    width: newCell.attachedImage.frame.width,
-                    height: newCell.attachedImage.frame.height)
-            }
-        } else {
+            return
+        }
+        
+        if let url = URL(string: (note.data.photov1?.link!)!) {
             
-            if let url = URL(string: note.data.photoData.link) {
-                
-                self.downloadAttachedImage(
-                    cell: newCell,
-                    url: url,
-                    row: indexPath.row,
-                    note: note,
-                    weakSelf: self)
-            }
+            self.downloadAttachedImage(
+                cell: newCell,
+                url: url,
+                row: indexPath.row,
+                note: note,
+                weakSelf: self)
         }
         
         // if the note is shared get the shared on string as well
         if note.data.shared {
             
-            newCell.sharedOn = note.data.sharedOn.stringToArray().sorted()
+            newCell.sharedOn = note.data.shared_on.sorted()
             self.sharedOn = newCell.sharedOn
         }
         
-        let locationData = note.data.locationData
-        if locationData.longitude != nil && locationData.latitude != nil && (locationData.longitude != 0 && locationData.latitude != 0 && locationData.accuracy != 0) {
+        let locationData = note.data.locationv1
+        if locationData?.longitude != nil && locationData?.latitude != nil && (locationData?.longitude != 0 && locationData?.latitude != 0 && locationData?.accuracy != 0) {
             
             newCell.sharedOn.append("location")
             self.sharedOn = newCell.sharedOn
@@ -125,15 +118,15 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
      - parameter note: The model that holds our data
      - parameter indexPath: The index path of the cell
      */
-    private func updateCellData(newCell: NotablesTableViewCell, note: HATNotesData, indexPath: IndexPath) {
+    private func updateCellData(newCell: NotablesTableViewCell, note: HATNotesV2Object, indexPath: IndexPath) {
         
-        // get the notes data
-        let notablesData = note.data
         // get the author data
-        let authorData = notablesData.authorData
+        let authorData = note.data.authorv1
         // get the created date
+        let createdTime = FormatterHelper.formatStringToDate(string: note.data.created_time)
+        
         let date = FormatterHelper.formatDateStringToUsersDefinedDate(
-            date: note.data.createdTime,
+            date: createdTime!,
             dateStyle: .short,
             timeStyle: .short)
         
@@ -143,13 +136,22 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
             newCell.contentView.backgroundColor = .rumpelLightGray
         }
         
+        let publicUntil: Date?
+        if note.data.public_until != nil {
+            
+            publicUntil = FormatterHelper.formatStringToDate(string: note.data.public_until!)
+        } else {
+            
+            publicUntil = nil
+        }
+        
         // show the data in the cell's labels
-        newCell.postDataLabel.text = notablesData.message
+        newCell.postDataLabel.text = note.data.message
         newCell.usernameLabel.text = authorData.phata
         newCell.postInfoLabel.attributedText = self.formatInfoLabel(
             date: date,
-            shared: notablesData.shared,
-            publicUntil: note.data.publicUntil)
+            shared: note.data.shared,
+            publicUntil: publicUntil)
         
         // flip the view to appear from right to left
         newCell.collectionView.transform = CGAffineTransform(scaleX: -1, y: 1)
@@ -166,30 +168,21 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
      - parameter note: The note file to put the data on to update the cell
      - parameter weakSelf: The weakSelf
      */
-    func downloadAttachedImage(cell: NotablesTableViewCell, url: URL, row: Int, note: HATNotesData, weakSelf: NotablesTableViewCell) {
+    func downloadAttachedImage(cell: NotablesTableViewCell, url: URL, row: Int, note: HATNotesV2Object, weakSelf: NotablesTableViewCell) {
         
         cell.attachedImage.image = UIImage(named: Constants.ImageNames.placeholderImage)
         
         self.initRingProgressBar(cell: cell)
         
-        cell.attachedImage.downloadedFrom(
-            url: url,
-            userToken:
-            userToken,
-            progressUpdater: { progress in
-            
-                let completion = Float(progress)
-                cell.ringProgressBar.updateCircle(
-                    end: CGFloat(completion),
-                    animate: Float(cell.ringProgressBar.endPoint),
-                    removePreviousLayer: false)
-            },
-            completion: {
+        cell.attachedImage.hnk_setImage(
+            from: url,
+            placeholder: UIImage(named: Constants.ImageNames.placeholderImage),
+            headers: ["x-auth-token": userToken],
+            success: { image in
                 
-                var tempNote = note
-                tempNote.data.photoData.image = cell.attachedImage.image
-                NotesCachingWrapperHelper.addImageToNote(note: tempNote)
-
+                cell.attachedImage.image = image
+                //NotesCachingWrapperHelper.addImageToNote(recordID: note.recordId, link: note.data.photov1!.link!, userToken: weakSelf.userToken, image: weakSelf.attachedImage.image)
+                
                 cell.ringProgressBar.isHidden = true
                 if cell.attachedImage.image != nil {
                     
@@ -199,7 +192,29 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
                     width: cell.attachedImage.frame.width,
                     height: cell.attachedImage.frame.height)
                 
-                weakSelf.notesDelegate?.updateNote(tempNote, at: row)
+                cell.notesDelegate?.updateNote(note, at: row)
+            },
+            failure: { [weak self] _ in
+                
+                guard let weakSelf = self else {
+                    
+                    return
+                }
+                
+                weakSelf.ringProgressBar.isHidden = true
+            },
+            update: { [weak self] progress in
+                
+                guard let weakSelf = self else {
+                    
+                    return
+                }
+                
+                let completion = Float(progress)
+                weakSelf.ringProgressBar.updateCircle(
+                    end: CGFloat(completion),
+                    animate: Float(weakSelf.ringProgressBar.endPoint),
+                    removePreviousLayer: false)
             }
         )
     }

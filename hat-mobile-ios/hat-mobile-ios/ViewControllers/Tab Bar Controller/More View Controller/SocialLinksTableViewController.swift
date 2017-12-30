@@ -29,7 +29,7 @@ internal class SocialLinksTableViewController: UITableViewController, UserCreden
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBActions
     
@@ -62,65 +62,52 @@ internal class SocialLinksTableViewController: UITableViewController, UserCreden
             // website
             if index == 0 {
                 
-                profile?.data.website.link = cell!.getTextFromTextField()
-                profile?.data.website.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.online.website = cell!.getTextFromTextField()
             // blog
             } else if index == 1 {
                 
-                profile?.data.blog.link = cell!.getTextFromTextField()
-                profile?.data.blog.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.online.blog = cell!.getTextFromTextField()
             // facebook
             } else if index == 2 {
                 
-                profile?.data.facebook.link = cell!.getTextFromTextField()
-                profile?.data.facebook.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.online.facebook = cell!.getTextFromTextField()
             // twitter
             } else if index == 3 {
                 
-                profile?.data.twitter.link = cell!.getTextFromTextField()
-                profile?.data.twitter.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.online.twitter = cell!.getTextFromTextField()
             // google
             } else if index == 4 {
                 
-                profile?.data.google.link = cell!.getTextFromTextField()
-                profile?.data.google.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.online.google = cell!.getTextFromTextField()
             // linked in
             } else if index == 5 {
                 
-                profile?.data.linkedIn.link = cell!.getTextFromTextField()
-                profile?.data.linkedIn.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
-                    
-                    profile?.data.isPrivate = false
-                }
+                profile?.profile.data.online.linkedin = cell!.getTextFromTextField()
             // youtube
             } else if index == 6 {
                 
-                profile?.data.youtube.link = cell!.getTextFromTextField()
-                profile?.data.youtube.isPrivate = !cell!.getSwitchValue()
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
+                profile?.profile.data.online.youtube = cell!.getTextFromTextField()
+            }
+            
+            if cell!.getSwitchValue() {
+                
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.onlineMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
                     
-                    profile?.data.isPrivate = false
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
                 }
             }
         }
@@ -159,7 +146,7 @@ internal class SocialLinksTableViewController: UITableViewController, UserCreden
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -211,34 +198,47 @@ internal class SocialLinksTableViewController: UITableViewController, UserCreden
         
         if self.profile != nil {
             
+            cell.isSwitchHidden(false)
+            
+            let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+            
+            var sharedFields: Dictionary<String, String> = [:]
+            for item in self.profile!.shareOptions {
+                
+                sharedFields.updateValue(item.value, forKey: item.value)
+            }
+            
+            let structure = HATProfileService.onlineMapping
+            
+            if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+                
+                cell.setSwitchValue(isOn: true)
+            } else {
+                
+                cell.setSwitchValue(isOn: false)
+            }
+            
             if indexPath.section == 0 {
                 
-                cell.setTextToTextField(text: self.profile!.data.website.link)
-                cell.setSwitchValue(isOn: !self.profile!.data.website.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.online.website)
             } else if indexPath.section == 1 {
                 
-                cell.setTextToTextField(text: self.profile!.data.blog.link)
-                cell.setSwitchValue(isOn: !self.profile!.data.blog.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.online.blog)
             } else if indexPath.section == 2 {
                 
-                cell.setTextToTextField(text: self.profile!.data.facebook.link)
-                cell.setSwitchValue(isOn: !self.profile!.data.facebook.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.online.facebook)
             } else if indexPath.section == 3 {
                 
-                cell.setTextToTextField(text: self.profile!.data.twitter.link)
-                cell.setSwitchValue(isOn: !self.profile!.data.twitter.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.online.twitter)
             } else if indexPath.section == 4 {
                 
-                cell.setTextToTextField(text: self.profile!.data.google.link)
-                cell.setSwitchValue(isOn: !self.profile!.data.google.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.online.google)
             } else if indexPath.section == 5 {
                 
-                cell.setTextToTextField(text: self.profile!.data.linkedIn.link)
-                cell.setSwitchValue(isOn: !self.profile!.data.linkedIn.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.online.linkedin)
             } else if indexPath.section == 6 {
                 
-                cell.setTextToTextField(text: self.profile!.data.youtube.link)
-                cell.setSwitchValue(isOn: !self.profile!.data.youtube.isPrivate)
+                cell.setTextToTextField(text: self.profile!.profile.data.online.youtube)
             }
             
             cell.setKeyboardType(.emailAddress)

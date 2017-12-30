@@ -27,7 +27,7 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
     private let footers: [String] = ["", "", "Want more fields? Ping us at contact@hatdex.org!"]
     
     /// The profile, used in PHATA table
-    private var profile: HATProfileObject?
+    private var profile: ProfileObject?
     
     /// The loading view pop up
     private var loadingView: UIView = UIView()
@@ -91,23 +91,7 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
             userDomain: userDomain,
             cacheTypeID: "profile",
             successRespond: getProfile,
-            failRespond: logError)
-    }
-    
-    /**
-     If the profile table has been created get the profile values from HAT
-     
-     - parameter dictionary: The dictionary returned from hat
-     - parameter renewedToken: The new token returned from hat
-     */
-    func tableCreated(dictionary: Dictionary<String, Any>, renewedToken: String?) {
-        
-        ProfileCachingHelper.getProfile(
-            userToken: userToken,
-            userDomain: userDomain,
-            cacheTypeID: "profile",
-            successRespond: getProfile,
-            failRespond: logError)
+            failRespond: { _ in return })
     }
     
     /**
@@ -115,58 +99,20 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
      
      - parameter receivedProfile: The received HATProfileObject from HAT
      */
-    private func getProfile(receivedProfile: [HATProfileObject], newToken: String?) {
+    private func getProfile(receivedProfile: [ProfileObject], newToken: String?) {
         
         if !receivedProfile.isEmpty {
             
-            self.profile = receivedProfile[0]
-            
-            self.tableView.isUserInteractionEnabled = true
-            
-            self.loadingView.removeFromSuperview()
-            self.darkView2.removeFromSuperview()
-        }
-    }
-    
-    /**
-     Logs the error occured
-     
-     - parameter error: The HATTableError occured
-     */
-    private func logError(error: HATTableError) {
-        
-        self.loadingView.removeFromSuperview()
-        self.darkView2.removeFromSuperview()
-        
-        self.tableView.isUserInteractionEnabled = true
+            DispatchQueue.main.async { [weak self] in
+                
+                self?.profile = receivedProfile[0]
+                
+                self?.tableView.isUserInteractionEnabled = true
+                
+                self?.loadingView.removeFromSuperview()
+                self?.darkView2.removeFromSuperview()
 
-        self.profile = HATProfileObject()
-        
-        switch error {
-        case .tableDoesNotExist:
-            
-            let tableJSON = HATJSONHelper.createProfileTableJSON()
-            HATAccountService.createHatTable(
-                userDomain: userDomain,
-                token: userToken,
-                notablesTableStructure: tableJSON,
-                failed: {(error) in
-                
-                    CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-                )(
-                
-                    HATAccountService.checkHatTableExistsForUploading(
-                        userDomain: userDomain,
-                        tableName: Constants.HATTableName.Profile.name,
-                        sourceName: Constants.HATTableName.Profile.source,
-                        authToken: userToken,
-                        successCallback: tableCreated,
-                        errorCallback: logError)
-                )
-        default:
-            
-            CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
         }
     }
 
@@ -267,8 +213,11 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
     @objc
     private func hidePopUp() {
         
-        self.darkView?.removeFromSuperview()
-        self.infoPopUpButton.isUserInteractionEnabled = true
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.darkView?.removeFromSuperview()
+            self?.infoPopUpButton.isUserInteractionEnabled = true
+        }
     }
     
     // MARK: - Add blur View
@@ -278,7 +227,14 @@ internal class DataStoreTableViewController: UITableViewController, UserCredenti
      */
     private func addBlurToView() {
         
-        self.darkView = AnimationHelper.addBlurToView(self.view)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.darkView = AnimationHelper.addBlurToView(weakSelf.view)
+        }
     }
     
     /**

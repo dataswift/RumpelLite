@@ -678,7 +678,20 @@ internal class Constants {
     
     struct DataPlug {
         
+        // MARK: - Struct
+        
+        struct DataPlugNames {
+            
+            static let facebook: String = "facebook"
+            static let twitter: String = "twitter"
+            static let fitbit: String = "Fitbit"
+        }
+        
+        // MARK: - Variables
+        
         static let offerID: String = "8438fcf0-cfec-4d79-8338-f0987056352f"
+        
+        // MARK: - Construct URLs
         
         static func twitterDataPlugServiceURL(userDomain: String, socialServiceURL: String, appToken: String) -> String {
             
@@ -687,13 +700,14 @@ internal class Constants {
         
         static func fitbitDataPlugServiceURL(userDomain: String, socialServiceURL: String, appToken: String) -> String {
             
-            let plugRedirect = "\(socialServiceURL)/authenticate/hat?redirect=\(Constants.Auth.urlScheme)://\(Constants.Auth.localAuthHost)&token=\(appToken)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            let plugRedirect: String? = "\(socialServiceURL)/authenticate/hat?redirect=\(Constants.Auth.urlScheme)://\(Constants.Auth.localAuthHost)&token=\(appToken)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
             return plugRedirect!
         }
         
-        static func facebookDataPlugServiceURL(userDomain: String, socialServiceURL: String) -> String {
+        static func facebookDataPlugServiceURL(userDomain: String, socialServiceURL: String, appToken: String) -> String {
             
-            return "https://\(userDomain)/hatlogin?name=Facebook&redirect=\(socialServiceURL.replacingOccurrences(of: "dataplug", with: "hat/authenticate"))"
+            let plugRedirect: String? = "\(socialServiceURL)/authenticate/hat?redirect=\(Constants.Auth.urlScheme)://\(Constants.Auth.localAuthHost)&token=\(appToken)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            return plugRedirect!
         }
     }
     
@@ -709,6 +723,7 @@ internal class Constants {
         struct Twitter {
             
             static let name: String = "twitter"
+            static let tableName: String = "tweets"
         }
     }
     
@@ -878,7 +893,7 @@ internal class Constants {
             return "https://\(userDomain)/data/table/\(String(fieldID))"
         }
         
-        /**
+        /**'
          Constructs the URL to post data to HAT
          
          - parameter userDomain: The user's domain
@@ -889,5 +904,13 @@ internal class Constants {
             
             return "https://\(userDomain)/data/record/values"
         }
+    }
+}
+
+internal struct Domains {
+    
+    static func getAvailableDomains() -> [String] {
+        
+        return [".hubofallthings.net", ".hubat.net", ".savy.io", ".hat.direct"]
     }
 }

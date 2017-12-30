@@ -100,12 +100,38 @@ internal class LoginViewController: UIViewController, UITextFieldDelegate {
         
         if self.inputUserHATDomain.text != "" {
             
-            KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
-
-            HATLoginService.formatAndVerifyDomain(
-                userHATDomain: self.inputUserHATDomain.text!,
-                successfulVerification: self.authoriseUser,
-                failedVerification: failed)
+            if let config = Bundle.main.object(forInfoDictionaryKey: "Config") as? String {
+                
+                if config == "Beta" {
+                    
+                    if (self.inputUserHATDomain.text?.contains(".hubofallthings.net"))! {
+                        
+                        self.createClassicOKAlertWith(
+                            alertMessage: "Please use your HUBAT account",
+                            alertTitle: "This is a beta app!",
+                            okTitle: "OK",
+                            proceedCompletion: {})
+                    } else {
+                        
+                        KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
+                        
+                        HATLoginService.formatAndVerifyDomain(
+                            userHATDomain: self.inputUserHATDomain.text!,
+                            verifiedDomains: Domains.getAvailableDomains(),
+                            successfulVerification: self.authoriseUser,
+                            failedVerification: failed)
+                    }
+                } else {
+                    
+                    KeychainHelper.setKeychainValue(key: Constants.Keychain.logedIn, value: Constants.Keychain.Values.setFalse)
+                    
+                    HATLoginService.formatAndVerifyDomain(
+                        userHATDomain: self.inputUserHATDomain.text!,
+                        verifiedDomains: Domains.getAvailableDomains(),
+                        successfulVerification: self.authoriseUser,
+                        failedVerification: failed)
+                }
+            }
         } else {
             
             self.createClassicOKAlertWith(

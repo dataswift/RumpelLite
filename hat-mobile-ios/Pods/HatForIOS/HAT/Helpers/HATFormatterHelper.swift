@@ -136,10 +136,10 @@ public class HATFormatterHelper: NSObject {
     public class func fromBase64URLToBase64(stringToConvert: String) -> String {
         
         var convertedString = stringToConvert
-        if convertedString.characters.count % 4 == 2 {
+        if convertedString.count % 4 == 2 {
             
             convertedString += "=="
-        } else if convertedString.characters.count % 4 == 3 {
+        } else if convertedString.count % 4 == 3 {
             
             convertedString += "="
         }

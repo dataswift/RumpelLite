@@ -72,6 +72,8 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     /// A Bool to indicate if the filtering is enabled or not
     var isFilteringHidden: Bool = false
     
+    private var isFetchingData: Bool = false
+    
     /// A Bool to determine if twitter is available
     private var isTwitterAvailable: Bool = false
     
@@ -79,26 +81,13 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     private let segmentControl: UISegmentedControl = UISegmentedControl(items: ["From", "To"])
     
-    /// A String to define the end time of the last tweet in order to request tweets before this time
-    private var twitterEndTime: String?
-    /// A String to define the end time of the last tweet in order to request tweets before this time
-    private var twitterStartTime: String = "0"
-    /// A string to hold twitter app token for later use
-    private var twitterAppToken: String = ""
     /// The preffered message of the info pop up view controller
     var prefferedInfoMessage: String = "Still work-in-progress, this is where you can see your social feed and notes."
     /// The preffered title of the view controller
     var prefferedTitle: String = "My Story"
+    
     /// The number of items per request
-    private var twitterLimitParameter: String = "50" {
-        
-        // every time this changes
-        didSet {
-            
-            // fetch data from facebook with the saved token
-            self.fetchTwitterData()
-        }
-    }
+    private var fetchDataParameter: String = "200"
     
     /// The start date to filter for points
     private var filterDataPointsFrom: Date?
@@ -115,22 +104,6 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     /// A dark view covering the collection view cell
     private var darkView: UIVisualEffectView?
-    
-    /// A String to define the end time of the last post in order to request posts before this time
-    private var facebookEndTime: String?
-    private var facebookStartTime: String?
-    /// A string to hold facebook app token for later use
-    private var facebookAppToken: String = ""
-    /// The number of items per request
-    private var facebookLimitParameter: String = "50" {
-        
-        // every time this changes
-        didSet {
-            
-            // fetch data from facebook with the saved token
-            self.fetchFacebookData()
-        }
-    }
 
     // MARK: - IBAction
     
@@ -227,6 +200,8 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         // show empty label
         showEptyLabelWith(text: "Checking data plugs....")
         
+        isFetchingData = true
+        
         self.fetchFacebookData()
         self.getFacebookProfileImage()
         self.fetchTwitterData()
@@ -308,8 +283,8 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     func selectDatesToViewLocations(gesture: UITapGestureRecognizer) {
         
         self.textField.becomeFirstResponder()
-        self.filterDataPointsFrom = Date().startOfTheDay()
-        if let endOfDay = Date().endOfTheDay() {
+        self.filterDataPointsFrom = Date().startOfDate()
+        if let endOfDay = Date().endOfDate() {
             
             self.filterDataPointsTo = endOfDay
         }
@@ -327,14 +302,14 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
         
         if self.segmentControl.selectedSegmentIndex == 0 {
             
-            self.filterDataPointsFrom = self.datePicker.date.startOfTheDay()
-            if let endOfDay = self.datePicker.date.endOfTheDay() {
+            self.filterDataPointsFrom = self.datePicker.date.startOfDate()
+            if let endOfDay = self.datePicker.date.endOfDate() {
                 
                 self.filterDataPointsTo = endOfDay
             }
         } else {
             
-            if let endOfDay = self.datePicker.date.endOfTheDay() {
+            if let endOfDay = self.datePicker.date.endOfDate() {
                 
                 self.filterDataPointsTo = endOfDay
             }
@@ -403,54 +378,10 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     func constructTwitterParameters() -> Dictionary<String, String> {
         
-        if self.twitterEndTime != nil {
-            
-            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
-                
-                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
-                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
-                
-                if tempEndTime != nil && tempStartTime != nil {
-                    
-                    return ["limit": self.twitterLimitParameter,
-                                   "endtime": self.twitterEndTime!,
-                                   "starttime": tempStartTime!]
-                } else {
-                    
-                    return ["limit": self.twitterLimitParameter,
-                                   "endtime": self.twitterEndTime!,
-                                   "starttime": "0"]
-                }
-            } else {
-                
-                return ["limit": self.twitterLimitParameter,
-                               "endtime": self.twitterEndTime!,
-                               "starttime": "0"]
-            }
-        } else {
-            
-            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
-                
-                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
-                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
-                
-                if tempEndTime != nil && tempStartTime != nil {
-                    
-                    return ["limit": self.twitterLimitParameter,
-                                   "endtime": tempEndTime!,
-                                   "starttime": tempStartTime!]
-                } else {
-                    
-                    return ["limit": self.twitterLimitParameter,
-                                   "starttime": "0"]
-                }
-                
-            } else {
-                
-                return ["limit": self.twitterLimitParameter,
-                               "starttime": "0"]
-            }
-        }
+        return ["take": self.fetchDataParameter,
+                "skip": String(describing: self.tweets.count),
+                "orderBy": "updated_time",
+                "ordering": "descending"]
     }
     
     /**
@@ -519,46 +450,12 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                 
                 if let weakSelf = self {
                     
-                    // filter data from duplicates
-                    var filteredArray = HATTwitterService.removeDuplicatesFrom(array: array)
-                    
-                    // sort array
-                    filteredArray = (weakSelf.sortArray(array: filteredArray) as? [HATTwitterSocialFeedObject])!
-                    
-                    // for each dictionary parse it and add it to the array
-                    for tweets in filteredArray {
+                    for tweets in array {
                         
                         weakSelf.tweets.append(tweets)
                     }
                     
-                    // if the returned array is equal or bigger than the defined limit make a new request with more data while this thread will continue to show that data
-                    if array.count == Int(weakSelf.twitterLimitParameter) {
-                        
-                        // get the unix time stamp
-                        let elapse = (filteredArray.last?.protocolLastUpdate)!.timeIntervalSince1970
-                        
-                        let temp = String(elapse)
-                        
-                        let array2 = temp.components(separatedBy: ".")
-                        
-                        // save the time stamp
-                        weakSelf.twitterEndTime = array2[0]
-                        
-                        // increase the limit
-                        weakSelf.twitterLimitParameter = "500"
-                        
-                        // removes duplicates
-                        weakSelf.removeDuplicates()
-                        
-                        // rebuild data
-                        weakSelf.rebuildDataArray(filter: weakSelf.filterBy)
-                        // else nil the flags we use and reload collection view with the saved filter
-                    } else {
-                        
-                        weakSelf.twitterEndTime = nil
-                    }
-                    
-                    // removes duplicates
+                    weakSelf.isFetchingData = false
                     weakSelf.reloadCollectionView(with: weakSelf.filterBy)
                 }
             }
@@ -569,54 +466,10 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
     
     func constructFacebookParametersForRequest() -> Dictionary<String, String> {
         
-        if self.facebookEndTime != nil {
-            
-            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
-                
-                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
-                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
-                
-                if tempEndTime != nil && tempStartTime != nil {
-                    
-                    return ["limit": self.facebookLimitParameter,
-                                   "endtime": self.facebookEndTime!,
-                                   "starttime": tempStartTime!]
-                } else {
-                    
-                    return ["limit": self.facebookLimitParameter,
-                                   "endtime": self.facebookEndTime!,
-                                   "starttime": "0"]
-                }
-            } else {
-                
-                return ["limit": self.facebookLimitParameter,
-                               "endtime": self.facebookEndTime!,
-                               "starttime": "0"]
-            }
-        } else {
-            
-            if self.filterDataPointsTo != nil && self.filterDataPointsFrom != nil {
-                
-                let tempStartTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsFrom!)
-                let tempEndTime = HATFormatterHelper.formatDateToEpoch(date: filterDataPointsTo!)
-                
-                if tempEndTime != nil && tempStartTime != nil {
-                    
-                    return ["limit": self.facebookLimitParameter,
-                            "endtime": tempEndTime!,
-                            "starttime": tempStartTime!]
-                } else {
-                    
-                    return ["limit": self.facebookLimitParameter,
-                                   "starttime": "0"]
-                }
-                
-            } else {
-                
-                return ["limit": self.facebookLimitParameter,
-                               "starttime": "0"]
-            }
-        }
+        return ["take": self.fetchDataParameter,
+                "skip": String(describing: self.posts.count),
+                "orderBy": "updated_time",
+                "ordering": "descending"]
     }
     
     /**
@@ -680,57 +533,17 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
             // change flag
             self.isFacebookAvailable = true
             
-            // switch to the background queue
-            DispatchQueue.global().async { [weak self] () -> Void in
+            // for each dictionary parse it and add it to the array
+            for posts in array {
                 
-                if let weakSelf = self {
-                    
-                    // removes duplicates from parameter array
-                    var filteredArray = HATFacebookService.removeDuplicatesFrom(array: array)
-                    
-                    // sort array
-                    filteredArray = (weakSelf.sortArray(array: filteredArray) as? [HATFacebookSocialFeedObject])!
-                        
-                    // for each dictionary parse it and add it to the array
-                    for posts in filteredArray {
-                        
-                        weakSelf.posts.append(posts)
-                    }
-                    
-                    // if the returned array is equal or bigger than the defined limit make a new request with more data while this thread will continue to show that data
-                    if array.count == Int(weakSelf.facebookLimitParameter) {
-                        
-                        // get the unix time stamp
-                        let elapse = (filteredArray.last?.data.posts.createdTime)!.timeIntervalSince1970
-                        
-                        let temp = String(elapse)
-                        
-                        let array2 = temp.components(separatedBy: ".")
-                        
-                        // save the time stamp
-                        weakSelf.facebookEndTime = array2[0]
-                        
-                        // increase the limit
-                        weakSelf.facebookLimitParameter = "500"
-                        
-                        // removes duplicates
-                        weakSelf.removeDuplicates()
-                        
-                        // rebuild data
-                        weakSelf.rebuildDataArray(filter: weakSelf.filterBy)
-                        // else nil the flags we use and reload collection view with the saved filter
-                    } else {
-                        
-                        weakSelf.facebookEndTime = nil
-                    }
-                    
-                    // removes duplicates
-                    weakSelf.reloadCollectionView(with: weakSelf.filterBy)
-                    
-                    // refresh user token
-                    KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
-                }
+                self.posts.append(posts)
             }
+            
+            self.isFetchingData = false
+            self.reloadCollectionView(with: self.filterBy)
+            
+            // refresh user token
+            KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
         }
     }
     
@@ -738,13 +551,18 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
+        if (indexPath.row > self.cachedDataArray.count / 2) && !self.isFetchingData {
+        
+            self.getFeed()
+        }
+        
         if indexPath.row < self.cachedDataArray.count {
             
             // if this index path is FacebookSocialFeedObject
             if let post = self.cachedDataArray[indexPath.row] as? HATFacebookSocialFeedObject {
                 
                 // create a cell
-                var cell = SocialFeedCollectionViewCell()
+                let cell: SocialFeedCollectionViewCell
                 
                 // if photo create a photo cell else create a status cell
                 if post.data.posts.type == "photo" {
@@ -763,7 +581,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                 
                 // return cell
                 return SocialFeedCollectionViewCell.setUpCell(cell: cell, indexPath: indexPath, posts: post)
-                // else this is a TwitterSocialFeedObject
+            // else this is a TwitterSocialFeedObject
             } else {
                 
                 // get TwitterSocialFeedObject
@@ -821,7 +639,7 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
                 }
                 
                 // else return size of text plus the cell
-                let text = post.data.posts.description + "\n\n" + post.data.posts.link
+                let text = post.data.posts.description + "\n\n" + post.data.posts.link + post.data.posts.message
                 let size = self.calculateCellHeight(text: text, width: self.collectionView.frame.width - 20)
                 
                 return CGSize(width: collectionView.frame.width, height: 85 + size.height)
@@ -940,9 +758,6 @@ internal class SocialFeedViewController: UIViewController, UICollectionViewDataS
      - parameter filter: The filter to reload the collection view with
      */
     private func reloadCollectionView(with filter: String) {
-        
-        // removes duplicates
-        self.removeDuplicates()
         
         // rebuild data
         self.rebuildDataArray(filter: filter)

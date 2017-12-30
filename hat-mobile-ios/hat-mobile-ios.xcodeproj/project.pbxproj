@@ -142,6 +142,9 @@
 		605EE03C1E92A5BF00B265F6 /* PhotosHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE03B1E92A5BF00B265F6 /* PhotosHelper.swift */; };
 		605EE03E1E93EB3500B265F6 /* CrashLoggerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */; };
 		606435DB1E1B196F001A5D14 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606435DA1E1B196F001A5D14 /* DateExtension.swift */; };
+		6064FF7E1FEC1453002578E8 /* ProfileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6064FF7D1FEC1453002578E8 /* ProfileObject.swift */; };
+		6064FF801FEC3125002578E8 /* HATProfileServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6064FF7F1FEC3125002578E8 /* HATProfileServiceExtension.swift */; };
+		6064FF821FEC678B002578E8 /* FieldInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6064FF811FEC678B002578E8 /* FieldInfo.swift */; };
 		606528D31DDA037400026EA6 /* JSONHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606528D21DDA037400026EA6 /* JSONHelper.swift */; };
 		6067536B1F66E6980042CC71 /* CachingHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536A1F66E6980042CC71 /* CachingHelper.swift */; };
 		6067536D1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */; };
@@ -628,6 +631,8 @@
 /* Begin PBXFileReference section */
 		028FC83F8011E2DAB73796AB /* Pods-hat-mobile-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		2DECC0CB4C2B564CF10F5150 /* Pods-hat-mobile-iosUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.release.xcconfig"; sourceTree = "<group>"; };
+		40126A140BABA36D69CACAFD /* Pods-hat-mobile-iosTests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosTests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests.beta.xcconfig"; sourceTree = "<group>"; };
+		4119B1C31191683C77FED8E2 /* Pods-hat-mobile-iosUITests.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosUITests.beta.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosUITests/Pods-hat-mobile-iosUITests.beta.xcconfig"; sourceTree = "<group>"; };
 		600015531EAE62AE000A084F /* ResetPasswordTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewController.swift; sourceTree = "<group>"; };
 		600015551EAE63CD000A084F /* ResetPasswordTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResetPasswordTableViewCell.swift; sourceTree = "<group>"; };
 		6000CE531DE728580076E173 /* OpenSans-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "OpenSans-Bold.ttf"; sourceTree = "<group>"; };
@@ -740,6 +745,9 @@
 		605EE03B1E92A5BF00B265F6 /* PhotosHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosHelper.swift; sourceTree = "<group>"; };
 		605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashLoggerHelper.swift; sourceTree = "<group>"; };
 		606435DA1E1B196F001A5D14 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
+		6064FF7D1FEC1453002578E8 /* ProfileObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileObject.swift; sourceTree = "<group>"; };
+		6064FF7F1FEC3125002578E8 /* HATProfileServiceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HATProfileServiceExtension.swift; sourceTree = "<group>"; };
+		6064FF811FEC678B002578E8 /* FieldInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldInfo.swift; sourceTree = "<group>"; };
 		606528D21DDA037400026EA6 /* JSONHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONHelper.swift; sourceTree = "<group>"; };
 		6067536A1F66E6980042CC71 /* CachingHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CachingHelper.swift; sourceTree = "<group>"; };
 		6067536C1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SystemStatusWrapperHelper.swift; sourceTree = "<group>"; };
@@ -820,6 +828,7 @@
 		7893B0CB09D488FE0ADBA9DE /* Pods-hat-mobile-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-ios.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios.release.xcconfig"; sourceTree = "<group>"; };
 		7DDF6FF493DE6EFA23C3021D /* Pods-hat-mobile-iosTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-iosTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-iosTests/Pods-hat-mobile-iosTests.release.xcconfig"; sourceTree = "<group>"; };
 		8098389A357ADF69E5CDE9E6 /* Pods_hat_mobile_iosTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_iosTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8BD54B9C940C93DED13A5F9E /* Pods-hat-mobile-ios.beta.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-ios.beta.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios.beta.xcconfig"; sourceTree = "<group>"; };
 		8E02354156D9CC908D35C942 /* Pods-hat-mobile-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hat-mobile-ios.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hat-mobile-ios/Pods-hat-mobile-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		9A45CD21A696F25991B61630 /* Pods_hat_mobile_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hat_mobile_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B5138ACD1D1ECA2C00CD1530 /* NetworkHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
@@ -1118,19 +1127,20 @@
 		608EAAA41DFEA7BF00234C60 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				603B20911F275B2C00E90D4C /* CollectionExtension.swift */,
 				606435DA1E1B196F001A5D14 /* DateExtension.swift */,
-				60EDD00E1F98995300BE24B3 /* TimeIntervalExtension.swift */,
 				60415B931EC4CA0A00CC5EE0 /* FBAnotationsExtension.swift */,
 				60113D321E856EB2000EAF89 /* HATAccountServiceExtension.swift */,
-				6091DD791F94B4FA00F6DE9E /* HATFitbitExtension.swift */,
 				60113D2E1E856BBA000EAF89 /* HATDataplugsServiceExtension.swift */,
+				6091DD791F94B4FA00F6DE9E /* HATFitbitExtension.swift */,
+				6064FF7F1FEC3125002578E8 /* HATProfileServiceExtension.swift */,
 				60AAA5B71E83D70A0080D0D5 /* HATProviderObjectExtension.swift */,
 				603D55BE1E69879300CCEBEB /* LabelExtension.swift */,
 				60494AD91EB9C872005D5C85 /* MFMailComposeViewControllerExtension.swift */,
 				603D55C31E69ADBB00CCEBEB /* NSAttributedStringExtension.swift */,
 				603A10061E720FA0003B62D4 /* SafariViewControllerExtension.swift */,
-				603B20911F275B2C00E90D4C /* CollectionExtension.swift */,
 				608EAAA51DFEA7ED00234C60 /* StringExtension.swift */,
+				60EDD00E1F98995300BE24B3 /* TimeIntervalExtension.swift */,
 				602CB4451E8BAF3B00903F33 /* UIAlertControllerExtension.swift */,
 				6044931A1DE9FE5C00B2FE7B /* UIButtonExtension.swift */,
 				604237DE1E114F2D00E19109 /* UIColorExtension.swift */,
@@ -1259,6 +1269,9 @@
 				7DDF6FF493DE6EFA23C3021D /* Pods-hat-mobile-iosTests.release.xcconfig */,
 				028FC83F8011E2DAB73796AB /* Pods-hat-mobile-iosUITests.debug.xcconfig */,
 				2DECC0CB4C2B564CF10F5150 /* Pods-hat-mobile-iosUITests.release.xcconfig */,
+				8BD54B9C940C93DED13A5F9E /* Pods-hat-mobile-ios.beta.xcconfig */,
+				40126A140BABA36D69CACAFD /* Pods-hat-mobile-iosTests.beta.xcconfig */,
+				4119B1C31191683C77FED8E2 /* Pods-hat-mobile-iosUITests.beta.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1376,8 +1389,10 @@
 				60CC29A91EEAED5C0083C6D8 /* Realm Objects */,
 				603926D01E603D1600DC1816 /* Home */,
 				6090D4671E3140D4004FD1E2 /* FutureTimeIntervalObject.swift */,
+				6064FF7D1FEC1453002578E8 /* ProfileObject.swift */,
 				602934041F39CECF00515926 /* SurveyObject.swift */,
 				605D84031F2F715A00CA44F5 /* ProfileImageObject.swift */,
+				6064FF811FEC678B002578E8 /* FieldInfo.swift */,
 				B56E2FA21D22D1C400546C7E /* JSONDataSourceRequestField.swift */,
 				603CE74D1DF85E1600421429 /* LearnMoreObject.swift */,
 				60C081501F79640D003B0500 /* InterestsObject.swift */,
@@ -1483,7 +1498,7 @@
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = 84XHE3A5BA;
 						LastSwiftMigration = 0900;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 						SystemCapabilities = {
 							com.apple.ApplePay = {
 								enabled = 0;
@@ -1798,7 +1813,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Fabric/run\" 4398fa4a59c4ae9f4c3465ae15d65aa0bdd7810a 2c7e49e6d9a87b931db2642312ca7b43b36eaee03e5ace21b6a3a9785d2c02c3";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 8bf2dd9e76a5b8c695462881a6378f92eba86a0e a6fde832aee9740d068c2e6e44221b4032166971251f8dc120565de39f7336bd";
 		};
 		60905BD61F6482F3004EBB63 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -2007,6 +2022,7 @@
 				60DE1DD71F34A18C00E031F6 /* DataDebitsTableViewController.swift in Sources */,
 				604F32E41F3DEA7F00F48201 /* ListDataOffersCollectionViewCell.swift in Sources */,
 				6050E2E71ED2E9B4002AD0C9 /* DataStoreEducationTableViewController.swift in Sources */,
+				6064FF821FEC678B002578E8 /* FieldInfo.swift in Sources */,
 				604F32EA1F3E02AA00F48201 /* ImageSlidePopUpViewController.swift in Sources */,
 				6067536D1F680ACA0042CC71 /* SystemStatusWrapperHelper.swift in Sources */,
 				60D8DAA61F31E3960055CEAC /* NotificationsTableViewController.swift in Sources */,
@@ -2034,6 +2050,7 @@
 				60C081591F7970AF003B0500 /* MatchMeObject.swift in Sources */,
 				603D55BD1E69861D00CCEBEB /* UIViewExtension.swift in Sources */,
 				6050E2E11ED2E980002AD0C9 /* DataStoreContactInfoTableViewController.swift in Sources */,
+				6064FF801FEC3125002578E8 /* HATProfileServiceExtension.swift in Sources */,
 				604504CF1EAE0872003B76C3 /* AboutTableViewController.swift in Sources */,
 				6090D4681E3140D4004FD1E2 /* FutureTimeIntervalObject.swift in Sources */,
 				60DDE16D1E30E19300AB9E18 /* CompletePurchaseViewController.swift in Sources */,
@@ -2047,6 +2064,7 @@
 				60B486251E1D341000914AD2 /* PurchaseModel.swift in Sources */,
 				6045FBBE1E2EDAE300086926 /* LearnMorePHATAViewController.swift in Sources */,
 				605EE0361E8DC02F00B265F6 /* UpdateLocations.swift in Sources */,
+				6064FF7E1FEC1453002578E8 /* ProfileObject.swift in Sources */,
 				60415B941EC4CA0A00CC5EE0 /* FBAnotationsExtension.swift in Sources */,
 				6067536B1F66E6980042CC71 /* CachingHelper.swift in Sources */,
 				604F32EC1F3F2B9200F48201 /* DataStorePhysicalActivityTableViewController.swift in Sources */,
@@ -2490,6 +2508,128 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		60BAC1B51FA7242500E79C75 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Marios-Andreas Tsekis (83LR36F55T)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Marios-Andreas Tsekis (83LR36F55T)";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_INSTALL_OBJC_HEADER = NO;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Beta;
+		};
+		60BAC1B61FA7242500E79C75 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8BD54B9C940C93DED13A5F9E /* Pods-hat-mobile-ios.beta.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				APP_NAME = "HATDeX Testing";
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID = com.hubofallthings.rumpellocationtrackerbeta;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: HAT Data Exchange Ltd. (84XHE3A5BA)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 84XHE3A5BA;
+				ENABLE_BITCODE = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_UNUSED_LABEL = YES;
+				GCC_WARN_UNUSED_PARAMETER = YES;
+				INFOPLIST_FILE = "hat-mobile-ios/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "3e5701c7-52ce-42fc-818f-5dc31f3351e4";
+				PROVISIONING_PROFILE_SPECIFIER = "Rumpel Lite Beta";
+				RUN_CLANG_STATIC_ANALYZER = NO;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Beta;
+		};
+		60BAC1B71FA7242500E79C75 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 40126A140BABA36D69CACAFD /* Pods-hat-mobile-iosTests.beta.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 84XHE3A5BA;
+				ENABLE_BITCODE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_ROOT}/Headers/Public\"",
+				);
+				INFOPLIST_FILE = "hat-mobile-iosTests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.green-custard.hat-mobile-iosTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/hat-mobile-ios.app/hat-mobile-ios";
+				VALID_ARCHS = "arm64 armv7 armv7s";
+			};
+			name = Beta;
+		};
+		60BAC1B81FA7242500E79C75 /* Beta */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4119B1C31191683C77FED8E2 /* Pods-hat-mobile-iosUITests.beta.xcconfig */;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				INFOPLIST_FILE = "hat-mobile-iosUITests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.green-custard.hat-mobile-iosUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = "hat-mobile-ios";
+			};
+			name = Beta;
+		};
 		B564E98B1D19717900EDB8F1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2603,10 +2743,12 @@
 			baseConfigurationReference = 8E02354156D9CC908D35C942 /* Pods-hat-mobile-ios.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				APP_NAME = HATDeX;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID = com.hubofallthings.rumpellocationtracker;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 84XHE3A5BA;
 				ENABLE_BITCODE = YES;
@@ -2615,10 +2757,9 @@
 				INFOPLIST_FILE = "hat-mobile-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hubofallthings.rumpellocationtracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "80aa6179-e742-440a-b9cd-669e782d240b";
+				PROVISIONING_PROFILE_SPECIFIER = "HAT Development";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
@@ -2631,10 +2772,12 @@
 			baseConfigurationReference = 7893B0CB09D488FE0ADBA9DE /* Pods-hat-mobile-ios.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
+				APP_NAME = HATDeX;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID = com.hubofallthings.rumpellocationtracker;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: HAT Data Exchange Ltd. (84XHE3A5BA)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 84XHE3A5BA;
 				ENABLE_BITCODE = YES;
@@ -2643,10 +2786,9 @@
 				INFOPLIST_FILE = "hat-mobile-ios/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.hubofallthings.rumpellocationtracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "1e1770ba-22ee-463f-b047-8b7f53cd34e1";
+				PROVISIONING_PROFILE_SPECIFIER = "HAT Development";
 				RUN_CLANG_STATIC_ANALYZER = NO;
 				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
@@ -2742,6 +2884,7 @@
 			buildConfigurations = (
 				B564E98B1D19717900EDB8F1 /* Debug */,
 				B564E98C1D19717900EDB8F1 /* Release */,
+				60BAC1B51FA7242500E79C75 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2751,6 +2894,7 @@
 			buildConfigurations = (
 				B564E98E1D19717900EDB8F1 /* Debug */,
 				B564E98F1D19717900EDB8F1 /* Release */,
+				60BAC1B61FA7242500E79C75 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2760,6 +2904,7 @@
 			buildConfigurations = (
 				B564E9911D19717900EDB8F1 /* Debug */,
 				B564E9921D19717900EDB8F1 /* Release */,
+				60BAC1B71FA7242500E79C75 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2769,6 +2914,7 @@
 			buildConfigurations = (
 				B564E9941D19717900EDB8F1 /* Debug */,
 				B564E9951D19717900EDB8F1 /* Release */,
+				60BAC1B81FA7242500E79C75 /* Beta */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

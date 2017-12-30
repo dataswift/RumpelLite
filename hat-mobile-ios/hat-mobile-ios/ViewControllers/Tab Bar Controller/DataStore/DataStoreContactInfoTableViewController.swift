@@ -20,9 +20,9 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Email"], ["Mobile Number"], ["Home Address"], ["House/Flat Number"], ["Post Code"]]
+    private let sections: [[String]] = [["Email"], ["Mobile Number"]/*, ["Home Address"], ["House/Flat Number"], ["Post Code"]*/]
     /// The headers of the table view
-    private let headers: [String] = ["Email", "Mobile Number", "Home Address", "House/Flat Number", "Post Code"]
+    private let headers: [String] = ["Email", "Mobile Number"/*, "Home Address", "House/Flat Number", "Post Code"*/]
     
     /// The loading view pop up
     private var loadingView: UIView = UIView()
@@ -30,7 +30,7 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
     private var darkView: UIView = UIView()
     
     /// The profile, used in PHATA table
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     // MARK: - IBAction
 
@@ -57,16 +57,19 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
      */
     private func createErrorAlertWith(title: String, message: String, error: HATTableError) {
         
-        self.loadingView.removeFromSuperview()
-        self.darkView.removeFromSuperview()
-        
-        self.createClassicOKAlertWith(
-            alertMessage: message,
-            alertTitle: title,
-            okTitle: "OK",
-            proceedCompletion: {})
-        
-        CrashLoggerHelper.hatTableErrorLog(error: error)
+        DispatchQueue.main.async { [weak self] in
+            
+            self?.loadingView.removeFromSuperview()
+            self?.darkView.removeFromSuperview()
+            
+            self?.createClassicOKAlertWith(
+                alertMessage: message,
+                alertTitle: title,
+                okTitle: "OK",
+                proceedCompletion: {})
+            
+            CrashLoggerHelper.hatTableErrorLog(error: error)
+        }
     }
     
     // MARK: - Upload info
@@ -76,20 +79,23 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
      */
     private func uploadInfoToHat() {
         
-        func tableExists(dict: Dictionary<String, Any>, renewedUserToken: String?) {
-            
-            ProfileCachingHelper.postProfile(
-                profile: self.profile!,
-                userToken: userToken,
-                userDomain: userDomain,
-                successCallback: { [weak self] in
+        ProfileCachingHelper.postProfile(
+            profile: self.profile!,
+            userToken: userToken,
+            userDomain: userDomain,
+            successCallback: { [weak self] in
+                
+                DispatchQueue.main.async {
                     
                     self?.loadingView.removeFromSuperview()
                     self?.darkView.removeFromSuperview()
                     
                     self?.navigationController?.popViewController(animated: true)
-                },
-                errorCallback: { [weak self] error in
+                }
+            },
+            errorCallback: { [weak self] error in
+                
+                DispatchQueue.main.async {
                     
                     self?.loadingView.removeFromSuperview()
                     self?.darkView.removeFromSuperview()
@@ -101,18 +107,6 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
                         proceedCompletion: {})
                     CrashLoggerHelper.hatTableErrorLog(error: error)
                 }
-            )
-        }
-
-        HATAccountService.checkHatTableExistsForUploading(
-            userDomain: userDomain,
-            tableName: Constants.HATTableName.Profile.name,
-            sourceName: Constants.HATTableName.Profile.source,
-            authToken: userToken,
-            successCallback: tableExists,
-            errorCallback: {error in
-                
-                self.createErrorAlertWith(title: "Error", message: "There was an error checking if it's possible to post the data", error: error)
             }
         )
     }
@@ -138,24 +132,25 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
             // email
             if index == 0 {
                 
-                profile?.data.primaryEmail.value = cell!.getTextFromTextField()
+                profile?.profile.data.contact.primaryEmail = cell!.getTextFromTextField()
                 // Mobile
             } else if index == 1 {
                 
-                profile?.data.mobile.number = cell!.getTextFromTextField()
+                profile?.profile.data.contact.mobile = cell!.getTextFromTextField()
                 // street name
-            } else if index == 2 {
-                
-                profile?.data.addressDetails.street = cell!.getTextFromTextField()
-                // street number
-            } else if index == 3 {
-                
-                profile?.data.addressDetails.number = cell!.getTextFromTextField()
-                // postcode
-            } else if index == 4 {
-                
-                profile?.data.addressDetails.postCode = cell!.getTextFromTextField()
             }
+//            else if index == 2 {
+//
+//                profile?.profile.data.addressDetails.street = cell!.getTextFromTextField()
+//                // street number
+//            } else if index == 3 {
+//
+//                profile?.profile.data.addressDetails.number = cell!.getTextFromTextField()
+//                // postcode
+//            } else if index == 4 {
+//
+//                profile?.profile.data.addressDetails.postCode = cell!.getTextFromTextField()
+//            }
         }
     }
     
@@ -166,20 +161,28 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.view.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
-        
-        self.view.addSubview(self.darkView)
-        
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Updating profile...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            
+            weakSelf.darkView = UIView(frame: weakSelf.view.frame)
+            weakSelf.darkView.backgroundColor = .black
+            weakSelf.darkView.alpha = 0.4
+            
+            weakSelf.view.addSubview(weakSelf.darkView)
+            
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: (weakSelf.view?.frame.midX)! - 70, y: (weakSelf.view?.frame.midY)! - 15, width: 140, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Updating profile...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        }
     }
     
     // MARK: - View Controller functions
@@ -247,29 +250,30 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
             // email
             if indexPath.section == 0 {
                 
-                cell.setTextToTextField(text: self.profile!.data.primaryEmail.value)
+                cell.setTextToTextField(text: self.profile!.profile.data.contact.primaryEmail)
                 cell.setKeyboardType(.emailAddress)
                 // Mobile
             } else if indexPath.section == 1 {
                 
-                cell.setTextToTextField(text: self.profile!.data.mobile.number)
+                cell.setTextToTextField(text: self.profile!.profile.data.contact.mobile)
                 cell.setKeyboardType(.numberPad)
                 // street name
-            } else if indexPath.section == 2 {
-                
-                cell.setTextToTextField(text: self.profile!.data.addressDetails.street)
-                cell.setKeyboardType(.default)
-                // street number
-            } else if indexPath.section == 3 {
-                
-                cell.setTextToTextField(text: self.profile!.data.addressDetails.number)
-                cell.setKeyboardType(.default)
-                // address postcode
-            } else if indexPath.section == 4 {
-                
-                cell.setTextToTextField(text: self.profile!.data.addressDetails.postCode)
-                cell.setKeyboardType(.default)
             }
+//            else if indexPath.section == 2 {
+//
+//                cell.setTextToTextField(text: self.profile!.profile.data.addressDetails.street)
+//                cell.setKeyboardType(.default)
+//                // street number
+//            } else if indexPath.section == 3 {
+//
+//                cell.setTextToTextField(text: self.profile!.profile.data.addressDetails.number)
+//                cell.setKeyboardType(.default)
+//                // address postcode
+//            } else if indexPath.section == 4 {
+//
+//                cell.setTextToTextField(text: self.profile!.profile.data.addressDetails.postCode)
+//                cell.setKeyboardType(.default)
+//            }
         }
 
         return cell

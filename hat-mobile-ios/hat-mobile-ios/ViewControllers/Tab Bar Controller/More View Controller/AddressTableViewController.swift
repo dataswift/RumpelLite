@@ -20,16 +20,16 @@ internal class AddressTableViewController: UITableViewController, UserCredential
     // MARK: - Variables
     
     /// The sections of the table view
-    private var sections: [[String]] = [[""], [""], [""], ["Make those fields public?"]]
+    private var sections: [[String]] = [[""], [""], [""]]
     /// The headers of the table view
-    private var headers: [String] = ["City", "State / County", "Country", "Privacy"]
+    private var headers: [String] = ["City", "State / County", "Country"]
     /// The loading view pop up
     private var loadingView: UIView = UIView()
     /// A dark view covering the collection view cell
     private var darkView: UIView = UIView()
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     var isSwitchHidden: Bool = false
     
@@ -73,22 +73,36 @@ internal class AddressTableViewController: UITableViewController, UserCredential
             // city
             if index == 0 {
                 
-                profile?.data.addressGlobal.city = cell!.getTextFromTextField()
+                profile?.profile.data.address.city = cell!.getTextFromTextField()
             // state
             } else if index == 1 {
                 
-                profile?.data.addressGlobal.county = cell!.getTextFromTextField()
+                profile?.profile.data.address.county = cell!.getTextFromTextField()
             // country
             } else if index == 2 {
                 
-                profile?.data.addressGlobal.country = cell!.getTextFromTextField()
-            // is private
-            } else if index == 3 {
+                profile?.profile.data.address.country = cell!.getTextFromTextField()
+            }
+            
+            if cell!.getSwitchValue() {
                 
-                profile?.data.addressGlobal.isPrivate = !(cell!.getSwitchValue())
-                if (profile?.data.isPrivate)! && cell!.getSwitchValue() {
+                let indexPathString = "(\(index), 0)"
+                let value = HATProfileService.addressMapping[indexPathString]
+                
+                let dictionary = [indexPathString: value!]
+                let mutableDictionary = NSMutableDictionary(dictionary: (self.profile?.shareOptions)!)
+                
+                if mutableDictionary[dictionary[indexPathString] ?? ""] != nil {
                     
-                    profile?.data.isPrivate = false
+                    mutableDictionary.removeObject(forKey: dictionary[indexPathString] ?? "")
+                } else {
+                    
+                    mutableDictionary.addEntries(from: dictionary)
+                }
+                
+                if let tempDict = mutableDictionary as? Dictionary<String, String> {
+                    
+                    self.profile?.shareOptions = tempDict
                 }
             }
         }
@@ -127,7 +141,7 @@ internal class AddressTableViewController: UITableViewController, UserCredential
         
         if self.profile == nil {
             
-            self.profile = HATProfileObject()
+            self.profile = ProfileObject()
         }
         
         self.tableView.addBackgroundTapRecogniser()
@@ -185,25 +199,37 @@ internal class AddressTableViewController: UITableViewController, UserCredential
         
         if self.profile != nil {
             
+            cell.isSwitchHidden(false)
+            
+            let indexPathString = "(\(indexPath.section), \(indexPath.row ))"
+            
+            var sharedFields: Dictionary<String, String> = [:]
+            for item in self.profile!.shareOptions {
+                
+                sharedFields.updateValue(item.value, forKey: item.value)
+            }
+            
+            let structure = HATProfileService.addressMapping
+            
+            if structure[indexPathString] == sharedFields[structure[indexPathString]!] {
+                
+                cell.setSwitchValue(isOn: true)
+            } else {
+                
+                cell.setSwitchValue(isOn: false)
+            }
+
             if indexPath.section == 0 {
                 
-                cell.setTextToTextField(text: self.profile!.data.addressGlobal.city)
-                cell.isSwitchHidden(true)
+                cell.setTextToTextField(text: self.profile!.profile.data.address.city)
             } else if indexPath.section == 1 {
                 
-                cell.setTextToTextField(text: self.profile!.data.addressGlobal.county)
-                cell.isSwitchHidden(true)
+                cell.setTextToTextField(text: self.profile!.profile.data.address.county)
             } else if indexPath.section == 2 {
                 
-                cell.setTextToTextField(text: self.profile!.data.addressGlobal.country)
-                cell.isSwitchHidden(true)
+                cell.setTextToTextField(text: self.profile!.profile.data.address.country)
                 cell.setDelegate(delegate: self)
                 cell.setTagInTextField(tag: 5)
-            } else if indexPath.section == 3 {
-                
-                cell.setTextToTextField(text: self.sections[indexPath.section][indexPath.row])
-                cell.isSwitchHidden(false)
-                cell.setSwitchValue(isOn: !(self.profile!.data.addressGlobal.isPrivate))
             }
         }
         

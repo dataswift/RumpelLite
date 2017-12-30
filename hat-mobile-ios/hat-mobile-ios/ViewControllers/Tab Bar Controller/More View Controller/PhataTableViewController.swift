@@ -27,7 +27,7 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     private let footers: [String] = ["PHATA stands for Personal HAT Address. Your PHATA page is the URL of your public profile, and you can customise exactly which parts of it you want to display, or keep private.", "", "", "", "", ""]
     
     /// User's profile passed on from previous view controller
-    var profile: HATProfileObject?
+    var profile: ProfileObject?
     
     var isProfileDownloaded: Bool = false
     
@@ -59,9 +59,9 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
     /**
      Gets profile from hat and saves it to a local variable
      
-     - parameter receivedProfile: The received HATProfileObject from HAT
+     - parameter receivedProfile: The received HATProfileObjectV2 from HAT
      */
-    private func getProfile(receivedProfile: [HATProfileObject], newToken: String?) {
+    private func getProfile(receivedProfile: [ProfileObject], newToken: String?) {
         
         if !receivedProfile.isEmpty {
             
@@ -73,62 +73,6 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
             self.isProfileDownloaded = true
             
             self.tableView.reloadData()
-        }
-    }
-    
-    /**
-     If the profile table has been created get the profile values from HAT
-     
-     - parameter dictionary: The dictionary returned from hat
-     - parameter renewedToken: The new token returned from hat
-     */
-    func tableCreated(dictionary: Dictionary<String, Any>, renewedToken: String?) {
-        
-        ProfileCachingHelper.getProfile(
-            userToken: userToken,
-            userDomain: userDomain,
-            cacheTypeID: "profile",
-            successRespond: getProfile,
-            failRespond: logError)
-    }
-    
-    /**
-     Logs the error occured
-     
-     - parameter error: The HATTableError occured
-     */
-    private func logError(error: HATTableError) {
-        
-        self.profile = HATProfileObject()
-        
-        self.loadingView?.removeFromSuperview()
-        self.tableView.isUserInteractionEnabled = true
-        
-        switch error {
-        case .tableDoesNotExist:
-            
-            let tableJSON = HATJSONHelper.createProfileTableJSON()
-            HATAccountService.createHatTable(
-                userDomain: userDomain,
-                token: userToken,
-                notablesTableStructure: tableJSON,
-                failed: {(error) in
-            
-                    _ = CrashLoggerHelper.hatTableErrorLog(error: error)
-                }
-            )(
-            
-                HATAccountService.checkHatTableExistsForUploading(
-                    userDomain: userDomain,
-                    tableName: Constants.HATTableName.Profile.name,
-                    sourceName: Constants.HATTableName.Profile.source,
-                    authToken: userToken,
-                    successCallback: tableCreated,
-                    errorCallback: logError)
-            )
-        default:
-            
-            CrashLoggerHelper.hatTableErrorLog(error: error)
         }
     }
     
@@ -172,7 +116,7 @@ internal class PhataTableViewController: UITableViewController, UserCredentialsP
             userDomain: userDomain,
             cacheTypeID: "profile",
             successRespond: getProfile,
-            failRespond: logError)
+            failRespond: { _ in return })
     }
 
     override func didReceiveMemoryWarning() {

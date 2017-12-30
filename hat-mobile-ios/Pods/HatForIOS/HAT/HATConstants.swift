@@ -21,10 +21,18 @@ import Foundation
  - sourceName: Cannot decode token. Includes a description(String)
  - serviceName: Cannot split token. Includes a description(String)
  */
-public enum Twitter {
+public struct Twitter {
     
-    static let statusURL: String = "https://twitter-plug.hubofallthings.com/api/status"
-    static let dataPlugURL: String = "https://twitter-plug.hubofallthings.com"
+    public static func twitterDataPlugStatusURL(twitterDataPlugURL: String) -> String {
+        
+        return "\(twitterDataPlugURL)/api/status"
+    }
+    
+    public static func twitterDataPlugURL(cluster: String) -> String {
+        
+        return "twitter\(cluster)"
+    }
+    
     static let tableName: String = "tweets"
     static let sourceName: String = "twitter"
     static let serviceName: String = "Twitter"
@@ -39,10 +47,18 @@ public enum Twitter {
  - sourceName: Cannot decode token. Includes a description(String)
  - serviceName: Cannot split token. Includes a description(String)
  */
-public enum Fitbit {
+public struct Fitbit {
     
-    static let statusURL: String = "https://fitbit.hubat.net/api/status"
-    static let dataPlugURL: String = "https://fitbit.hubat.net"
+    public static func fitbitDataPlugStatusURL(fitbitDataPlugURL: String) -> String {
+        
+        return "\(fitbitDataPlugURL)/api/status"
+    }
+    
+    public static func fitbitDataPlugURL(cluster: String) -> String {
+        
+        return "fitbit\(cluster)"
+    }
+    
     static let sourceName: String = "fitbit"
     public static let serviceName: String = "Fitbit"
 }
@@ -56,11 +72,19 @@ public enum Fitbit {
  - sourceName: Cannot decode token. Includes a description(String)
  - serviceName: Cannot split token. Includes a description(String)
  */
-public enum Facebook {
+public struct Facebook {
     
-    static let statusURL: String = "https://social-plug.hubofallthings.com/api/user/token/status"
-    static let dataPlugURL: String = "https://social-plug.hubofallthings.com"
-    static let tableName: String = "posts"
+    public static func facebookDataPlugStatusURL(facebookDataPlugURL: String) -> String {
+        
+        return "\(facebookDataPlugURL)/api/status"
+    }
+    
+    public static func facebookDataPlugURL(cluster: String) -> String {
+        
+        return "facebook\(cluster)"
+    }
+    
+    static let tableName: String = "feed"
     static let sourceName: String = "facebook"
     static let serviceName: String = "Facebook"
 }

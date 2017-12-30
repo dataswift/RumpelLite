@@ -59,17 +59,23 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
             userDomain: userDomain,
             successCallback: {
                 
-                self.loadingView.removeFromSuperview()
-                self.darkView.removeFromSuperview()
-                
-                _ = self.navigationController?.popViewController(animated: true)
+                DispatchQueue.main.async { [weak self] in
+                    
+                    self?.loadingView.removeFromSuperview()
+                    self?.darkView.removeFromSuperview()
+                    
+                    _ = self?.navigationController?.popViewController(animated: true)
+                }
             },
             errorCallback: { error in
                 
-                self.loadingView.removeFromSuperview()
-                self.darkView.removeFromSuperview()
-                
-                CrashLoggerHelper.hatTableErrorLog(error: error)
+                DispatchQueue.main.async { [weak self] in
+                    
+                    self?.loadingView.removeFromSuperview()
+                    self?.darkView.removeFromSuperview()
+                    
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
             }
         )
     }
@@ -106,20 +112,27 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      */
     private func createPopUp() {
         
-        self.darkView = UIView(frame: self.view.frame)
-        self.darkView.backgroundColor = .black
-        self.darkView.alpha = 0.4
-        
-        self.view.addSubview(self.darkView)
-        
-        self.loadingView = UIView.createLoadingView(
-            with: CGRect(x: (self.view?.frame.midX)! - 70, y: (self.view?.frame.midY)! - 15, width: 140, height: 30),
-            color: .teal,
-            cornerRadius: 15,
-            in: self.view,
-            with: "Updating profile...",
-            textColor: .white,
-            font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        DispatchQueue.main.async { [weak self] in
+            
+            guard let weakSelf = self else {
+                
+                return
+            }
+            weakSelf.darkView = UIView(frame: weakSelf.view.frame)
+            weakSelf.darkView.backgroundColor = .black
+            weakSelf.darkView.alpha = 0.4
+            
+            weakSelf.view.addSubview(weakSelf.darkView)
+            
+            weakSelf.loadingView = UIView.createLoadingView(
+                with: CGRect(x: (weakSelf.view?.frame.midX)! - 70, y: (weakSelf.view?.frame.midY)! - 15, width: 140, height: 30),
+                color: .teal,
+                cornerRadius: 15,
+                in: weakSelf.view,
+                with: "Updating profile...",
+                textColor: .white,
+                font: UIFont(name: Constants.FontNames.openSans, size: 12)!)
+        }
     }
     
     // MARK: - View Controller Function
@@ -150,14 +163,14 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
                 with: "Getting profile...",
                 textColor: .white,
                 font: font)
+            
+            EducationCachingWrapperHelper.getEducation(
+                userToken: weakSelf.userToken,
+                userDomain: weakSelf.userDomain,
+                cacheTypeID: "education",
+                successRespond: weakSelf.updateTableWithValuesFrom,
+                failRespond: weakSelf.errorFetching)
         }
-        
-        EducationCachingWrapperHelper.getEducation(
-            userToken: userToken,
-            userDomain: userDomain,
-            cacheTypeID: "education",
-            successRespond: updateTableWithValuesFrom,
-            failRespond: errorFetching)
     }
     
     override func didReceiveMemoryWarning() {
@@ -190,16 +203,24 @@ internal class DataStoreEducationTableViewController: UITableViewController, Use
      */
     func errorFetching(error: HATTableError) {
         
-        self.tableView.isUserInteractionEnabled = true
-        self.loadingView.removeFromSuperview()
-        
-        switch error {
-        case .noValuesFound:
+        DispatchQueue.main.async { [weak self] in
             
-            self.education = HATProfileEducationObject()
-        default:
+            guard let weakSelf = self else {
+                
+                return
+            }
             
-            _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+            weakSelf.tableView.isUserInteractionEnabled = true
+            weakSelf.loadingView.removeFromSuperview()
+            
+            switch error {
+            case .noValuesFound:
+                
+                weakSelf.education = HATProfileEducationObject()
+            default:
+                
+                _ = CrashLoggerHelper.hatTableErrorLog(error: error)
+            }
         }
     }
     

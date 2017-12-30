@@ -130,50 +130,7 @@ public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
 
         self.init()
 
-        if let tempSource = dictionary[Fields.source]?.stringValue {
-
-            source = tempSource
-        }
-        if let tempTruncated = dictionary[Fields.truncated]?.stringValue {
-
-            truncated = tempTruncated
-        }
-        if let tempRetweetCount = dictionary[Fields.retweetCount]?.stringValue {
-
-            retweetCount = tempRetweetCount
-        }
-        if let tempRetweeted = dictionary[Fields.retweeted]?.stringValue {
-
-            retweeted = tempRetweeted
-        }
-        if let tempFavouriteCount = dictionary[Fields.favoriteCount]?.stringValue {
-
-            favoriteCount = tempFavouriteCount
-        }
-        if let tempID = dictionary[Fields.tweetID]?.stringValue {
-
-            tweetID = tempID
-        }
-        if let tempText = dictionary[Fields.text]?.stringValue {
-
-            text = tempText
-        }
-        if let tempCreatedAt = dictionary[Fields.createdAt]?.stringValue {
-
-            createdAt = HATFormatterHelper.formatStringToDate(string: tempCreatedAt)
-        }
-        if let tempFavorited = dictionary[Fields.favorited]?.stringValue {
-
-            favorited = tempFavorited
-        }
-        if let tempLang = dictionary[Fields.language]?.stringValue {
-
-            lang = tempLang
-        }
-        if let tempUser = dictionary[Fields.user]?.dictionaryValue {
-
-            user = HATTwitterDataTweetsUsersSocialFeedObject(from: tempUser)
-        }
+        self.inititialize(dict: dictionary)
     }
     
     /**

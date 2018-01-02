@@ -241,6 +241,18 @@ internal class Constants {
         }
         
         /**
+         The Profile address details table
+         
+         - name: profile/address, the name of the table
+         - source: rumpel, the source of the table
+         */
+        struct ProfileAddress {
+            
+            static let name: String = "profile/address"
+            static let source: String = "rumpel"
+        }
+        
+        /**
          The UK Specific info profile table
          
          - name: profile/ukSpecificInfo, the name of the table

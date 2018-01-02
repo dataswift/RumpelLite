@@ -84,7 +84,7 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         super.viewDidLoad()
 
         // view controller title
-        self.title = "GEOME"
+        self.title = "Locations"
         
         // add notification observer for refreshUI
         NotificationCenter.default.addObserver(
@@ -321,6 +321,16 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
      */
     private func showLocations(array: [HATLocationsV2Object], renewedUserToken: String?) {
         
+        self.clusteringManager.removeAll()
+        
+        let pins = clusteringManager.createAnnotationsFrom(objects: array)
+        clusteringManager.addPointsToMap(annottationArray: pins, mapView: self.mapView)
+        
+        // refresh user token
+        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
+        
+        gettingLocationsView?.removeFromSuperview()
+        
         if array.isEmpty {
             
             if self.filterDataPointsTo! > Date().endOfDate()! {
@@ -339,14 +349,6 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
                     proceedCompletion: {})
             }
         }
-        
-        let pins = clusteringManager.createAnnotationsFrom(objects: array)
-        clusteringManager.addPointsToMap(annottationArray: pins, mapView: self.mapView)
-        
-        // refresh user token
-        KeychainHelper.setKeychainValue(key: Constants.Keychain.userToken, value: renewedUserToken)
-        
-        gettingLocationsView?.removeFromSuperview()
     }
     
     // MARK: - Date picker method
@@ -477,8 +479,11 @@ internal class MapViewController: UIViewController, MKMapViewDelegate, MapSettin
         
         self.enableButton(self.buttonYesterday)
         
-        self.filterDataPointsTo = Date().endOfDate()
-        self.filterDataPointsFrom = self.filterDataPointsTo!.addingTimeInterval(FutureTimeInterval.init(days: Double(1), timeType: TimeType.past).interval).startOfDate() // remove 24hrs
+        self.filterDataPointsFrom = Date().addingTimeInterval(FutureTimeInterval.init(days: Double(1), timeType: TimeType.past).interval) // remove 24hrs
+        self.filterDataPointsTo = self.filterDataPointsFrom
+        
+        self.filterDataPointsFrom = Date().startOfDate(date: self.filterDataPointsFrom!)
+        self.filterDataPointsTo = Date().endOfDate(date: self.filterDataPointsTo!)
         
         self.popUpView = self.createPopUpWindowWith(text: "Getting locations...")
         

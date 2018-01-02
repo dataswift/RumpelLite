@@ -399,11 +399,11 @@ public struct HATAccountService {
         var url = "https://\(userDomain)/api/v2/data"
         
         let firstRecord = recordId.first
-        url.append("?records:\(firstRecord!)")
+        url.append("?records=\(firstRecord!)")
         
         for record in recordId where record != firstRecord! {
             
-            url.append("&records:\(record)")
+            url.append("&records=\(record)")
         }
         
         let headers = [RequestHeaders.xAuthToken: token]
@@ -728,7 +728,7 @@ public struct HATAccountService {
                         successCallback(arrayToReturn, token)
                     }
                 }
-        }
+            }
         )
     }
 }

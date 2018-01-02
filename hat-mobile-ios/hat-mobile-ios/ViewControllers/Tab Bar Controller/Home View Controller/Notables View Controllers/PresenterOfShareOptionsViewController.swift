@@ -166,7 +166,7 @@ internal class PresenterOfShareOptionsViewController: NSObject, UserCredentialsP
     class func test(viewController: ShareOptionsViewController, receivedNote: HATNotesV2Object, imagesToUpload: [UIImage], isEditingExistingNote: Bool, cachedIsNoteShared: Bool, textViewText: String, publishButton: UIButton, previousPublishButtonTitle: String, imageSelected: UIImageView) {
         
         // if note is shared and users have not selected any social networks to share show alert message
-        if receivedNote.data.shared && !receivedNote.data.shared_on.isEmpty {
+        if receivedNote.data.shared && receivedNote.data.shared_on.isEmpty {
             
             viewController.createClassicOKAlertWith(
                 alertMessage: "Please select at least one shared destination",

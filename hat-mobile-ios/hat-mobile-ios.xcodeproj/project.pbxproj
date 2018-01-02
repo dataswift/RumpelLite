@@ -141,6 +141,7 @@
 		605EE0361E8DC02F00B265F6 /* UpdateLocations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE0351E8DC02F00B265F6 /* UpdateLocations.swift */; };
 		605EE03C1E92A5BF00B265F6 /* PhotosHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE03B1E92A5BF00B265F6 /* PhotosHelper.swift */; };
 		605EE03E1E93EB3500B265F6 /* CrashLoggerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */; };
+		6062878E1FFB9E16004145BA /* AddressCachingWrapperHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6062878D1FFB9E16004145BA /* AddressCachingWrapperHelper.swift */; };
 		606435DB1E1B196F001A5D14 /* DateExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 606435DA1E1B196F001A5D14 /* DateExtension.swift */; };
 		6064FF7E1FEC1453002578E8 /* ProfileObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6064FF7D1FEC1453002578E8 /* ProfileObject.swift */; };
 		6064FF801FEC3125002578E8 /* HATProfileServiceExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6064FF7F1FEC3125002578E8 /* HATProfileServiceExtension.swift */; };
@@ -744,6 +745,7 @@
 		605EE0351E8DC02F00B265F6 /* UpdateLocations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpdateLocations.swift; sourceTree = "<group>"; };
 		605EE03B1E92A5BF00B265F6 /* PhotosHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhotosHelper.swift; sourceTree = "<group>"; };
 		605EE03D1E93EB3400B265F6 /* CrashLoggerHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CrashLoggerHelper.swift; sourceTree = "<group>"; };
+		6062878D1FFB9E16004145BA /* AddressCachingWrapperHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressCachingWrapperHelper.swift; sourceTree = "<group>"; };
 		606435DA1E1B196F001A5D14 /* DateExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateExtension.swift; sourceTree = "<group>"; };
 		6064FF7D1FEC1453002578E8 /* ProfileObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileObject.swift; sourceTree = "<group>"; };
 		6064FF7F1FEC3125002578E8 /* HATProfileServiceExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HATProfileServiceExtension.swift; sourceTree = "<group>"; };
@@ -1094,6 +1096,7 @@
 				6067536A1F66E6980042CC71 /* CachingHelper.swift */,
 				6079A26A1F6C26E600F3884F /* CheckCache.swift */,
 				60C0813C1F794446003B0500 /* DietaryInfoCachingWrapperHelper.swift */,
+				6062878D1FFB9E16004145BA /* AddressCachingWrapperHelper.swift */,
 				60A5BBBF1F791530004C494F /* EducationCachingWrapperHelper.swift */,
 				60C081341F7935EB003B0500 /* EmploymentCachingWrapperHelper.swift */,
 				60C0814C1F79612B003B0500 /* FinancialManagementCachingWrapperHelper.swift */,
@@ -2031,6 +2034,7 @@
 				60FB24041F3A0B6C001A5EFD /* GoDeepCollectionViewController.swift in Sources */,
 				604AC7B91ECF57650066414E /* DataSourceNameTableViewController.swift in Sources */,
 				603D08AF1E6D5CFF0077E90C /* RingProgressCircle.swift in Sources */,
+				6062878E1FFB9E16004145BA /* AddressCachingWrapperHelper.swift in Sources */,
 				60AA7E8C1F7B9C0100ACAD60 /* ProfileImageCachingWrapperHelper.swift in Sources */,
 				604F32F01F3F3CB500F48201 /* DataStoreHappinessAndMentalHealthTableViewController.swift in Sources */,
 				605EE0341E8DBF8600B265F6 /* UpdateLocationsDelegate.swift in Sources */,

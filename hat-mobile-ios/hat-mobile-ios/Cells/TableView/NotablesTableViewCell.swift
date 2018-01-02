@@ -137,7 +137,7 @@ internal class NotablesTableViewCell: UITableViewCell, UICollectionViewDataSourc
         }
         
         let publicUntil: Date?
-        if note.data.public_until != nil {
+        if note.data.public_until != nil && note.data.public_until != "" && note.data.public_until != note.data.created_time {
             
             publicUntil = FormatterHelper.formatStringToDate(string: note.data.public_until!)
         } else {

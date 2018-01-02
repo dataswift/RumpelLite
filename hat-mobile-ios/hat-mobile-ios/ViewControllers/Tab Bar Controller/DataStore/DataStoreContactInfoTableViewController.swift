@@ -20,9 +20,9 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
     // MARK: - Variables
     
     /// The sections of the table view
-    private let sections: [[String]] = [["Email"], ["Mobile Number"]/*, ["Home Address"], ["House/Flat Number"], ["Post Code"]*/]
+    private let sections: [[String]] = [["Email"], ["Mobile Number"], ["Home Address"], ["House/Flat Number"], ["Post Code"]]
     /// The headers of the table view
-    private let headers: [String] = ["Email", "Mobile Number"/*, "Home Address", "House/Flat Number", "Post Code"*/]
+    private let headers: [String] = ["Email", "Mobile Number", "Home Address", "House/Flat Number", "Post Code"]
     
     /// The loading view pop up
     private var loadingView: UIView = UIView()
@@ -139,6 +139,8 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
                 profile?.profile.data.contact.mobile = cell!.getTextFromTextField()
                 // street name
             }
+            
+            
 //            else if index == 2 {
 //
 //                profile?.profile.data.addressDetails.street = cell!.getTextFromTextField()

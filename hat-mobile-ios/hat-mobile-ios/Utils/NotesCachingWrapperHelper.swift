@@ -79,7 +79,7 @@ internal struct NotesCachingWrapperHelper {
      - parameter userDomain: The user's domain
      - parameter cacheTypeID: The cache type to request
      */
-    static func deleteNote(noteID: String, userToken: String, userDomain: String, cacheTypeID: String) {
+    static func deleteNote(noteID: String, userToken: String, userDomain: String, cacheTypeID: String, completion: (() -> Void)? = nil) {
         
         // remove note from notes
         NotesCachingWrapperHelper.checkForNotesInCacheToBeDeleted(cacheTypeID: "notes", noteID: noteID)
@@ -99,6 +99,7 @@ internal struct NotesCachingWrapperHelper {
             try realm.write {
                 
                 realm.add(jsonObject)
+                completion?()
             }
         } catch {
             
@@ -315,42 +316,56 @@ internal struct NotesCachingWrapperHelper {
                 
                 func postNote(_ note: HATNotesV2Object) {
                     
-                    HATNotablesService.postNoteV2(
-                        userDomain: userDomain,
-                        userToken: userToken,
-                        note: note,
-                        successCallBack: { _, _ in
-                            
-                            do {
+                    func innerPostNote(_ note: HATNotesV2Object) {
+                        
+                        HATNotablesService.postNoteV2(
+                            userDomain: userDomain,
+                            userToken: userToken,
+                            note: note,
+                            successCallBack: { _, _ in
                                 
-                                guard let realm = RealmHelper.getRealm() else {
+                                do {
                                     
-                                    return
-                                }
-                                
-                                try realm.write {
-                                    
-                                    realm.delete(tempNote)
-                                    
-                                    guard let resuts = CachingHelper.getFromRealm(type: "notes") else {
+                                    guard let realm = RealmHelper.getRealm() else {
                                         
                                         return
                                     }
-                                    realm.delete(resuts)
+                                    
+                                    try realm.write {
+                                        
+                                        realm.delete(tempNote)
+                                        
+                                        guard let resuts = CachingHelper.getFromRealm(type: "notes") else {
+                                            
+                                            return
+                                        }
+                                        realm.delete(resuts)
+                                    }
+                                } catch {
+                                    
+                                    print("error deleting from cache")
                                 }
-                            } catch {
                                 
-                                print("error deleting from cache")
+                                completion?()
+                            },
+                            errorCallback: { error in
+                                
+                                completion?()
+                                CrashLoggerHelper.hatTableErrorLog(error: error)
                             }
+                        )
+                    }
+                    
+                    if note.data.updated_time != note.data.created_time {
+                        
+                        deleteNote(noteID: note.recordId, userToken: userToken, userDomain: userDomain, cacheTypeID: "notes-Delete", completion: {
                             
-                            completion?()
-                        },
-                        errorCallback: { error in
-                            
-                            completion?()
-                            CrashLoggerHelper.hatTableErrorLog(error: error)
-                        }
-                    )
+                            innerPostNote(note)
+                        })
+                    } else {
+                        
+                        innerPostNote(note)
+                    }
                 }
                 
                 if let tempDict = NSKeyedUnarchiver.unarchiveObject(with: tempNote.jsonData!) as? [Dictionary<String, Any>] {
@@ -358,6 +373,7 @@ internal struct NotesCachingWrapperHelper {
                     let dictionary = JSON(tempDict)
                     var note = HATNotesV2Object()
                     note.data.inititialize(dict: dictionary.arrayValue[0].dictionaryValue)
+                    
                     if note.data.photov1?.link == "" {
                         
                         if let data = tempDict[0]["imageData"] as? Data {

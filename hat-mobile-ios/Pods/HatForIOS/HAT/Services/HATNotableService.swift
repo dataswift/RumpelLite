@@ -127,9 +127,17 @@ public struct HATNotablesService {
      - parameter id: the id of the note to delete
      - parameter tkn: the user's token as a string
      */
-    public static func updateNotev2(parameters: Dictionary<String, Any>, tkn: String, userDomain: String, success: @escaping (([JSON], String?) -> Void) = { _, _  in }, failed: @escaping ((HATTableError) -> Void) = { _ in }) {
+    public static func updateNotev2(note: HATNotesV2Object, tkn: String, userDomain: String, success: @escaping (([JSON], String?) -> Void) = { _, _  in }, failed: @escaping ((HATTableError) -> Void) = { _ in }) {
         
-        HATAccountService.updateHatRecordV2(userDomain: userDomain, token: tkn, parameters: parameters, successCallback: success, errorCallback: failed)
+        // update JSON file with the values needed
+        let hatData = HATNotesV2DataObject.encode(from: note.data)!
+        
+        HATAccountService.updateHatRecordV2(
+            userDomain: userDomain,
+            token: tkn,
+            parameters: hatData,
+            successCallback: success,
+            errorCallback: failed)
     }
 
     // MARK: - Post note
@@ -206,7 +214,11 @@ public struct HATNotablesService {
             source: "rumpel",
             dataPath: "notablesv1",
             parameters: hatData,
-            successCallback: successCallBack,
+            successCallback: { notes, newToken in
+                
+                HATAccountService.triggerHatUpdate(userDomain: userDomain, completion: { () })
+                successCallBack(notes, newToken)
+            },
             errorCallback: errorCallback)
     }
 
@@ -266,12 +278,9 @@ public struct HATNotablesService {
             // check if the arrayToReturn it contains that value and if not add it
             let result = arrayToReturn.contains(where: {(note2: HATNotesV2Object) -> Bool in
                 
-                if (note.data.created_time == note2.data.created_time) && (note.data.message == note2.data.message) {
+                if note.recordId == note2.recordId {
                     
-                    if (note.data.updated_time < note2.data.updated_time) || (note.recordId == note2.recordId) {
-                        
-                        return true
-                    }
+                    return true
                 }
                 
                 return false

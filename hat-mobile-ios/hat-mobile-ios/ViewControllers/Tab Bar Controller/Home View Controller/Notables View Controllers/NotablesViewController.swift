@@ -375,6 +375,7 @@ internal class NotablesViewController: UIViewController, UITableViewDataSource, 
             
             self.connectToServerToGetNotes(result: nil)
         }
+        
         // get cell from the reusable id
         let controller = NotablesTableViewCell()
         controller.notesDelegate = self

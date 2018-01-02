@@ -135,12 +135,13 @@ public struct HATNotesV2DataObject: HATObject, HatApiType {
     
     public func toJSON() -> Dictionary<String, Any> {
         
+
         return [
             Fields.authorV1: authorv1.toJSON(),
             Fields.photoV1: photov1?.toJSON() ?? HATNotesV2PhotoObject().toJSON(),
             Fields.locationV1: locationv1?.toJSON() ?? HATNotesV2LocationObject().toJSON(),
             Fields.created_time: created_time,
-            Fields.public_until: public_until ?? created_time,
+            Fields.public_until: public_until ?? "",
             Fields.updated_time: updated_time,
             Fields.shared: shared,
             Fields.shared_on: shared_on,

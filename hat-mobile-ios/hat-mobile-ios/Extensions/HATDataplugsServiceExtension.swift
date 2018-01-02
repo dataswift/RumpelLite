@@ -330,10 +330,12 @@ extension HATDataPlugsService: UserCredentialsProtocol {
                 failed: gettingApplicationTokenFailed)
         } else if dataPlug.plug.name == Constants.DataPlug.DataPlugNames.fitbit {
             
+            let statusURL = Fitbit.fitbitDataPlugStatusURL(fitbitDataPlugURL: dataPlug.plug.url)
             HATFitbitService.checkIfFitbitIsEnabled(
-                plug: dataPlug,
                 userDomain: userDomain,
                 userToken: userToken,
+                plugURL: dataPlug.plug.url,
+                statusURL: statusURL,
                 successCallback: completion,
                 errorCallback: gettingApplicationTokenFailed)
         }

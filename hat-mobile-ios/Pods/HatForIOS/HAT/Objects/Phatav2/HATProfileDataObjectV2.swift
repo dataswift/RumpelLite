@@ -28,7 +28,7 @@ public struct HATProfileDataObjectV2: HATObject, HatApiType {
         static let dateCreatedLocal: String = "dateCreatedLocal"
         static let shared: String = "shared"
     }
-
+    
     /// The website object of user's profile
     public var about: HATProfileDataProfileAboutObjectV2 = HATProfileDataProfileAboutObjectV2()
     /// The nickname object of user's profile

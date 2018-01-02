@@ -283,7 +283,8 @@ internal class DataPlugsCollectionViewController: UICollectionViewController, UI
                 HATTwitterService.getAppTokenForTwitter(plug: dataPlug, userDomain: userDomain, token: userToken, successful: appToken, failed: error)
             } else if dataPlug.plug.name == "Fitbit" {
                 
-                HATFitbitService.getApplicationTokenForFitbit(plug: dataPlug, userDomain: userDomain, userToken: userToken, successCallback: appToken, errorCallback: error)
+                
+                HATFitbitService.getApplicationTokenForFitbit(userDomain: userDomain, userToken: userToken, dataPlugURL: dataPlug.plug.url, successCallback: appToken, errorCallback: error)
             }
         }
     }

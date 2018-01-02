@@ -10,6 +10,8 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/
  */
 
+import UIKit
+
 // MARK: Struct
 
 public struct DataOfferRequiredDataDefinitionBundleFiltersV2: Codable {
@@ -18,5 +20,8 @@ public struct DataOfferRequiredDataDefinitionBundleFiltersV2: Codable {
     
     public var field: String = ""
     public var transformation: Dictionary<String, String>?
-    public var `operator`: Dictionary<String, String> = [:]
+    public var `operator`: Dictionary<String, Any> {
+        
+        return (NSKeyedUnarchiver().decodeDecodable([String: Any].self, forKey: "operator"))!
+    }
 }

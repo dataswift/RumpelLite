@@ -28,11 +28,6 @@ public struct Twitter {
         return "\(twitterDataPlugURL)/api/status"
     }
     
-    public static func twitterDataPlugURL(cluster: String) -> String {
-        
-        return "twitter\(cluster)"
-    }
-    
     static let tableName: String = "tweets"
     static let sourceName: String = "twitter"
     static let serviceName: String = "Twitter"
@@ -54,11 +49,6 @@ public struct Fitbit {
         return "\(fitbitDataPlugURL)/api/status"
     }
     
-    public static func fitbitDataPlugURL(cluster: String) -> String {
-        
-        return "fitbit\(cluster)"
-    }
-    
     static let sourceName: String = "fitbit"
     public static let serviceName: String = "Fitbit"
 }
@@ -77,11 +67,6 @@ public struct Facebook {
     public static func facebookDataPlugStatusURL(facebookDataPlugURL: String) -> String {
         
         return "\(facebookDataPlugURL)/api/status"
-    }
-    
-    public static func facebookDataPlugURL(cluster: String) -> String {
-        
-        return "facebook\(cluster)"
     }
     
     static let tableName: String = "feed"

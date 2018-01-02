@@ -31,6 +31,7 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
     
     /// The profile, used in PHATA table
     var profile: ProfileObject?
+    private var profileAddress: HATProfileAddress = HATProfileAddress()
     
     // MARK: - IBAction
 
@@ -109,6 +110,28 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
                 }
             }
         )
+        
+        AddressCachingWrapperHelper.postProfileAddress(
+            profileAddresses: [profileAddress],
+            userToken: userToken,
+            userDomain: userDomain,
+            successCallback: { },
+            errorCallback: { [weak self] error in
+                
+                DispatchQueue.main.async {
+                    
+                    self?.loadingView.removeFromSuperview()
+                    self?.darkView.removeFromSuperview()
+                    
+                    self?.createClassicOKAlertWith(
+                        alertMessage: "There was an error posting profile address",
+                        alertTitle: "Error",
+                        okTitle: "OK",
+                        proceedCompletion: {})
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
+            }
+        )
     }
     
     // MARK: - Update Model
@@ -137,22 +160,19 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
             } else if index == 1 {
                 
                 profile?.profile.data.contact.mobile = cell!.getTextFromTextField()
-                // street name
+            // street name
+            } else if index == 2 {
+
+                profileAddress.streetAddress = cell!.getTextFromTextField()
+            // street number
+            } else if index == 3 {
+
+                profileAddress.houseNumber = cell!.getTextFromTextField()
+            // postcode
+            } else if index == 4 {
+
+                profileAddress.postCode = cell!.getTextFromTextField()
             }
-            
-            
-//            else if index == 2 {
-//
-//                profile?.profile.data.addressDetails.street = cell!.getTextFromTextField()
-//                // street number
-//            } else if index == 3 {
-//
-//                profile?.profile.data.addressDetails.number = cell!.getTextFromTextField()
-//                // postcode
-//            } else if index == 4 {
-//
-//                profile?.profile.data.addressDetails.postCode = cell!.getTextFromTextField()
-//            }
         }
     }
     
@@ -194,13 +214,46 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
         super.viewDidLoad()
         
         self.tableView.allowsSelection = false
+        
+        AddressCachingWrapperHelper.getProfileAddress(
+            userToken: userToken,
+            userDomain: userDomain,
+            cacheTypeID: "profileAddress",
+            successRespond: receivedProfileAddress,
+            failRespond: { [weak self] error in
+                
+                DispatchQueue.main.async {
+                    
+                    self?.loadingView.removeFromSuperview()
+                    self?.darkView.removeFromSuperview()
+                    
+                    self?.createClassicOKAlertWith(
+                        alertMessage: "There was an error getting profileAddress",
+                        alertTitle: "Error",
+                        okTitle: "OK",
+                        proceedCompletion: {})
+                    CrashLoggerHelper.hatTableErrorLog(error: error)
+                }
+            }
+        )
     }
 
     override func didReceiveMemoryWarning() {
         
         super.didReceiveMemoryWarning()
     }
+    
+    // MARK: - Received Profile Address
 
+    private func receivedProfileAddress(address: [HATProfileAddress], newToken: String?) {
+        
+        if !address.isEmpty {
+            
+            self.profileAddress = address[0]
+            self.tableView.reloadData()
+        }
+    }
+    
     // MARK: - Table view methods
     
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -259,23 +312,22 @@ internal class DataStoreContactInfoTableViewController: UITableViewController, U
                 
                 cell.setTextToTextField(text: self.profile!.profile.data.contact.mobile)
                 cell.setKeyboardType(.numberPad)
-                // street name
+            // street name
+            } else if indexPath.section == 2 {
+                
+                cell.setTextToTextField(text: self.profileAddress.streetAddress)
+                cell.setKeyboardType(.default)
+            // street number
+            } else if indexPath.section == 3 {
+                
+                cell.setTextToTextField(text: self.profileAddress.houseNumber)
+                cell.setKeyboardType(.default)
+            // address postcode
+            } else if indexPath.section == 4 {
+                
+                cell.setTextToTextField(text: self.profileAddress.postCode)
+                cell.setKeyboardType(.default)
             }
-//            else if indexPath.section == 2 {
-//
-//                cell.setTextToTextField(text: self.profile!.profile.data.addressDetails.street)
-//                cell.setKeyboardType(.default)
-//                // street number
-//            } else if indexPath.section == 3 {
-//
-//                cell.setTextToTextField(text: self.profile!.profile.data.addressDetails.number)
-//                cell.setKeyboardType(.default)
-//                // address postcode
-//            } else if indexPath.section == 4 {
-//
-//                cell.setTextToTextField(text: self.profile!.profile.data.addressDetails.postCode)
-//                cell.setKeyboardType(.default)
-//            }
         }
 
         return cell

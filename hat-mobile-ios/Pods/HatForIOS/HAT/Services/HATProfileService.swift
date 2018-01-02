@@ -503,7 +503,12 @@ public struct HATProfileService {
                 let mutableDictionary = NSMutableDictionary()
                 mutableDictionary.addEntries(from: HATProfileService.notablesStructure)
                 mutableDictionary.addEntries(from: parameters!)
-                parametersToSend = mutableDictionary as! Dictionary<String, Any>
+                guard let tempDict = mutableDictionary as? Dictionary<String, Any> else {
+                    
+                    parametersToSend = [:]
+                    return
+                }
+                parametersToSend = tempDict
             }
             
             Alamofire.request(

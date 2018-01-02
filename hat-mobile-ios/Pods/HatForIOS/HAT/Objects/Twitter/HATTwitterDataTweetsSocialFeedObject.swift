@@ -35,9 +35,9 @@ public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
         static let language: String = "lang"
         static let user: String = "user"
     }
-
+    
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -47,11 +47,11 @@ public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATTwitterDataTweetsSocialFeedObject, rhs: HATTwitterDataTweetsSocialFeedObject) -> Bool {
-
+        
         return (lhs.source == rhs.source && lhs.truncated == rhs.truncated && lhs.retweetCount == rhs.retweetCount
             && lhs.retweeted == rhs.retweeted && lhs.favoriteCount == rhs.favoriteCount && lhs.tweetID == rhs.tweetID && lhs.text == rhs.text && lhs.favorited == rhs.favorited && lhs.lang == rhs.lang)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -63,21 +63,21 @@ public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATTwitterDataTweetsSocialFeedObject, rhs: HATTwitterDataTweetsSocialFeedObject) -> Bool {
-
+        
         if lhs.createdAt != nil && rhs.createdAt != nil {
-
+            
             return lhs.createdAt! < rhs.createdAt!
         } else if lhs.createdAt != nil && rhs.createdAt == nil {
-
+            
             return false
         } else {
-
+            
             return true
         }
     }
-
+    
     // MARK: - Variables
-
+    
     /// The source of the tweet
     public var source: String = ""
     /// Shows if the tweet is truncated or not
@@ -96,20 +96,20 @@ public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
     public var favorited: String = ""
     /// Shows the language of the tweet
     public var lang: String = ""
-
+    
     /// Shows the date that the tweet has been created
     public var createdAt: Date?
-
+    
     /// Shows the user's info
     public var user: HATTwitterDataTweetsUsersSocialFeedObject = HATTwitterDataTweetsUsersSocialFeedObject()
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         source = ""
         truncated = ""
         retweetCount = ""
@@ -122,14 +122,14 @@ public struct HATTwitterDataTweetsSocialFeedObject: HatApiType, Comparable {
         lang = ""
         user = HATTwitterDataTweetsUsersSocialFeedObject()
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(from dictionary: Dictionary<String, JSON>) {
-
+        
         self.init()
-
+        
         self.inititialize(dict: dictionary)
     }
     

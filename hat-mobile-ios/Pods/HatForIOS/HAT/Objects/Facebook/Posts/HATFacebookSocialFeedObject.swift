@@ -16,7 +16,7 @@ import SwiftyJSON
 
 /// A class representing the facebook social feed object
 public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comparable {
-
+    
     // MARK: - Fields
     
     /// The possible Fields of the JSON struct
@@ -31,7 +31,7 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
     }
     
     // MARK: - Comparable protocol
-
+    
     /// Returns a Boolean value indicating whether two values are equal.
     ///
     /// Equality is the inverse of inequality. For any values `a` and `b`,
@@ -41,10 +41,10 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func == (lhs: HATFacebookSocialFeedObject, rhs: HATFacebookSocialFeedObject) -> Bool {
-
+        
         return (lhs.name == rhs.name && lhs.recordIDv1 == rhs.recordIDv1 && lhs.data == rhs.data && lhs.lastUpdated == rhs.lastUpdated)
     }
-
+    
     /// Returns a Boolean value indicating whether the value of the first
     /// argument is less than that of the second argument.
     ///
@@ -56,50 +56,50 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
     ///   - lhs: A value to compare.
     ///   - rhs: Another value to compare.
     public static func < (lhs: HATFacebookSocialFeedObject, rhs: HATFacebookSocialFeedObject) -> Bool {
-
+        
         if lhs.lastUpdated != nil && rhs.lastUpdated != nil {
-
+            
             return lhs.lastUpdated! < rhs.lastUpdated!
         } else if lhs.lastUpdated != nil && rhs.lastUpdated == nil {
-
+            
             return false
         } else {
-
+            
             return true
         }
     }
-
+    
     // MARK: - Protocol's variables
-
+    
     public  var protocolLastUpdate: Date?
-
+    
     // MARK: - Class' variables
-
+    
     /// The name of the record in database
     public var name: String = ""
-
+    
     /// The endPoint of the note, used in v2 API only
     public var endPoint: String = ""
-
+    
     /// The recordID of the note, used in v2 API only
     public var recordID: String = ""
-
+    
     /// The actual data of the record
     public var data: HATFacebookDataSocialFeedObject = HATFacebookDataSocialFeedObject()
-
+    
     /// The id of the record
     public var recordIDv1: Int = -1
-
+    
     /// The last updated field of the record
     public var lastUpdated: Date?
-
+    
     // MARK: - Initialisers
-
+    
     /**
      The default initialiser. Initialises everything to default values.
      */
     public init() {
-
+        
         name = ""
         recordID = ""
         endPoint = ""
@@ -107,14 +107,14 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
         recordIDv1 = -1
         lastUpdated = nil
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(from dict: Dictionary<String, JSON>) {
-
+        
         self.init()
-
+        
         self.inititialize(dict: dict)
     }
     
@@ -143,14 +143,14 @@ public struct HATFacebookSocialFeedObject: HatApiType, HATSocialFeedObject, Comp
             recordIDv1 = tempID
         }
     }
-
+    
     /**
      It initialises everything from the received JSON file from the HAT
      */
     public init(fromV2 dict: Dictionary<String, JSON>) {
-
+        
         self.init()
-
+        
         self.inititialize(dict: dict)
     }
     

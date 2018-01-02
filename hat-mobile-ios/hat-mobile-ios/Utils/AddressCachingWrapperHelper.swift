@@ -29,7 +29,7 @@ internal struct AddressCachingWrapperHelper {
      
      - returns: A function of type (([HATNotesData], String?) -> Void)
      */
-    static func requestSurveyObject(userToken: String, userDomain: String, failRespond: @escaping (HATTableError) -> Void) -> ((@escaping (([SurveyObject], String?) -> Void)) -> Void) {
+    static func requestProfileAddress(userToken: String, userDomain: String, failRespond: @escaping (HATTableError) -> Void) -> ((@escaping (([HATProfileAddress], String?) -> Void)) -> Void) {
         
         return { successRespond in
             
@@ -41,21 +41,18 @@ internal struct AddressCachingWrapperHelper {
                 parameters: ["take": "1", "orderBy": "unixTimeStamp", "ordering": "descending"],
                 successCallback: { json, newToken in
                     
-                    var arrayToReturn: [SurveyObject] = []
+                    var arrayToReturn: [HATProfileAddress] = []
                     
                     if !json.isEmpty {
                         
-                        if let array = json[0].dictionary?["data"]?["array"].array {
+                        if let data = json[0].dictionary?["data"] {
                             
-                            for item in array {
-                                
-                                arrayToReturn.append(SurveyObject(from: item))
-                            }
+                            arrayToReturn.append(HATProfileAddress(from: data))
                         }
                     }
                     
                     successRespond(arrayToReturn, newToken)
-            },
+                },
                 errorCallback: failRespond)
         }
     }
@@ -72,9 +69,9 @@ internal struct AddressCachingWrapperHelper {
      - parameter successRespond: A completion function of type ([HATNotesData], String?) -> Void
      - parameter failRespond: A completion function of type (HATTableError) -> Void
      */
-    static func getSurveyObject(userToken: String, userDomain: String, cacheTypeID: String, successRespond: @escaping ([SurveyObject], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
+    static func getProfileAddress(userToken: String, userDomain: String, cacheTypeID: String, successRespond: @escaping ([HATProfileAddress], String?) -> Void, failRespond: @escaping (HATTableError) -> Void) {
         
-        PhysicalActivityCachingWrapperHelper.checkForUnsyncedSurveyObjectToUpdate(
+        AddressCachingWrapperHelper.checkForUnsyncedProfileAddressToUpdate(
             userDomain: userDomain,
             userToken: userToken)
         
@@ -83,7 +80,7 @@ internal struct AddressCachingWrapperHelper {
             type: cacheTypeID,
             expiresIn: Calendar.Component.day,
             value: 1,
-            networkRequest: PhysicalActivityCachingWrapperHelper.requestSurveyObject(userToken: userToken, userDomain: userDomain, failRespond: failRespond),
+            networkRequest: AddressCachingWrapperHelper.requestProfileAddress(userToken: userToken, userDomain: userDomain, failRespond: failRespond),
             completion: successRespond
         )
     }
@@ -97,17 +94,17 @@ internal struct AddressCachingWrapperHelper {
      - parameter userToken: The user's token
      - parameter userDomain: The user's domain
      */
-    static func postSurveyObject(surveyObjects: [SurveyObject], userToken: String, userDomain: String, successCallback: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
+    static func postProfileAddress(profileAddresses: [HATProfileAddress], userToken: String, userDomain: String, successCallback: @escaping () -> Void, errorCallback: @escaping (HATTableError) -> Void) {
         
         // remove note from notes
-        CachingHelper.deleteFromRealm(type: "physicalActivity")
-        CachingHelper.deleteFromRealm(type: "physicalActivity-Post")
+        CachingHelper.deleteFromRealm(type: "profileAddress")
+        CachingHelper.deleteFromRealm(type: "profileAddress-Post")
         
         // creating note to be posted in cache
         var array: [Dictionary<String, Any>] = []
-        for survey in surveyObjects {
+        for profileAddress in profileAddresses {
             
-            array.append(survey.toJSON())
+            array.append(profileAddress.toJSON())
         }
         
         // adding note to be posted in cache
@@ -120,10 +117,10 @@ internal struct AddressCachingWrapperHelper {
             
             try realm.write {
                 
-                let jsonObject = JSONCacheObject(dictionary: array, type: "physicalActivity", expiresIn: .day, value: 1)
+                let jsonObject = JSONCacheObject(dictionary: array, type: "profileAddress", expiresIn: .day, value: 1)
                 realm.add(jsonObject)
                 
-                let jsonObject2 = JSONCacheObject(dictionary: array, type: "physicalActivity-Post", expiresIn: nil, value: nil)
+                let jsonObject2 = JSONCacheObject(dictionary: array, type: "profileAddress-Post", expiresIn: nil, value: nil)
                 realm.add(jsonObject2)
             }
         } catch {
@@ -131,7 +128,7 @@ internal struct AddressCachingWrapperHelper {
             print("adding to profile to update failed")
         }
         
-        PhysicalActivityCachingWrapperHelper.checkForUnsyncedSurveyObjectToUpdate(
+        AddressCachingWrapperHelper.checkForUnsyncedProfileAddressToUpdate(
             userDomain: userDomain,
             userToken: userToken,
             completion: successCallback,
@@ -144,7 +141,7 @@ internal struct AddressCachingWrapperHelper {
      - parameter userDomain: The user's domain
      - parameter userToken: The user's token
      */
-    static func checkForUnsyncedSurveyObjectToUpdate(userDomain: String, userToken: String, completion: (() -> Void)? = nil, errorCallback: ((HATTableError) -> Void)? = nil) {
+    static func checkForUnsyncedProfileAddressToUpdate(userDomain: String, userToken: String, completion: (() -> Void)? = nil, errorCallback: ((HATTableError) -> Void)? = nil) {
         
         // Try deleting the notes
         func tryUpdating(infoArray: [JSONCacheObject]) {
@@ -155,15 +152,12 @@ internal struct AddressCachingWrapperHelper {
                 if let dictionary = NSKeyedUnarchiver.unarchiveObject(with: tempInfo.jsonData!) as? [Dictionary<String, Any>] {
                     
                     var array: [Dictionary<String, Any>] = []
-                    for survey in dictionary {
-                        
-                        let surveyObject = SurveyObject(fromCache: survey)
-                        array.append(surveyObject.toJSON())
-                    }
+                    let json = JSON(dictionary[0])
+                    let addressObject = HATProfileAddress(from: json)
                     
                     func success(json: JSON, newToken: String?) {
                         
-                        CachingHelper.deleteFromRealm(type: "physicalActivity-Post")
+                        CachingHelper.deleteFromRealm(type: "profileAddress-Post")
                         completion?()
                     }
                     
@@ -176,9 +170,11 @@ internal struct AddressCachingWrapperHelper {
                     HATAccountService.createTableValuev2(
                         token: userToken,
                         userDomain: userDomain,
-                        source: Constants.HATTableName.PhysicalActivityAnswers.source,
-                        dataPath: Constants.HATTableName.PhysicalActivityAnswers.name,
-                        parameters: ["array": array,
+                        source: Constants.HATTableName.ProfileAddress.source,
+                        dataPath: Constants.HATTableName.ProfileAddress.name,
+                        parameters: ["streetAddress": addressObject.streetAddress,
+                                     "houseNumber": addressObject.houseNumber,
+                                     "postCode": addressObject.postCode,
                                      "unixTimeStamp": SurveyObject.createUnixTimeStamp()],
                         successCallback: success,
                         errorCallback: failed)
@@ -189,7 +185,6 @@ internal struct AddressCachingWrapperHelper {
         }
         
         // ask cache for the notes to be deleted
-        CheckCache.searchForUnsyncedCache(type: "physicalActivity-Post", sync: tryUpdating)
+        CheckCache.searchForUnsyncedCache(type: "profileAddress-Post", sync: tryUpdating)
     }
 }
-

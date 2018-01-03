@@ -1,6 +1,0 @@
-framework module HatForIOS {
-  umbrella header "HatForIOS-umbrella.h"
-
-  export *
-  module * { export * }
-}
